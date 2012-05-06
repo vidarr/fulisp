@@ -1,0 +1,44 @@
+CC=gcc
+LN=gcc
+# PROFILER_CC_OPTIONS=-pg
+# PROFILER_LN_OPTIONS=-pg
+DEBUG_OPTIONS=-g $(PROFILER_CC_OPTIONS)
+CFLAGS=-Wstrict-prototypes --pedantic --ansi -Wall $(DEBUG_OPTIONS)
+LDFLAGS=-g $(PROFILER_LN_OPTIONS)
+
+BUILD_DIR=../build
+
+SOURCE_FILES= cons.c error.c  expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c test.c environment.c eval.c
+
+HEADER_FILES= cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h
+
+OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
+
+
+
+all: $(BUILD_DIR)/test-eval
+
+
+.PHONY: clean
+
+$(BUILD_DIR)/%.o:%.c $(HEADER_FILES)
+	@echo "COMPILING $<"; $(CC) $(CFLAGS) -I . -o $@ -c $<
+
+
+$(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o
+	@echo "LINKING $@"; $(LN) -o $(BUILD_DIR)/test-reader  $^ $(LDFLAGS)
+
+
+$(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o
+	@echo "LINKING $@"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
+
+$(BUILD_DIR)/test-stack: $(OBJECT_FILES) $(BUILD_DIR)/test-stack.o
+	@echo "Linking test-stack..."; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
+
+clean:
+	@echo "REMOVING BINARIES..."; rm  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*
+
+
+tags: $(wildcard *.c) $(wildcard *h)
+	ctags -R *.c *.h > tags
+

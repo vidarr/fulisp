@@ -1,0 +1,325 @@
+ADD_NATIVE_FUNCTION_EXPRESSION	environment.c	/^#define ADD_NATIVE_FUNCTION_EXPRESSION(env, string/
+ASSERT_SAFE_ACCESS	print.c	/^#   define ASSERT_SAFE_ACCESS(n) { \\$/
+ASSERT_SAFE_ACCESS	print.c	/^#   define ASSERT_SAFE_ACCESS(n)$/
+ASSERT_SAFE_ACCESS	print.c	177
+BUFFERED_STREAM_BUFFER_STREAM	streams.h	27
+BUFFER_EMPTY	reader.h	/^#define BUFFER_EMPTY(r) (r->buffer == r->current)$/
+BUFFER_IS_EMPTY	reader.h	/^#define BUFFER_IS_EMPTY(r) (r->current == r->buffe/
+BufferedStream	streams.h	109
+CREATE_CHAR_EXPRESSION	expression.h	/^#define CREATE_CHAR_EXPRESSION(env, x) expressionC/
+CREATE_FLOAT_EXPRESSION	expression.h	/^#define CREATE_FLOAT_EXPRESSION(env, x) expression/
+CREATE_INT_EXPRESSION	expression.h	/^#define CREATE_INT_EXPRESSION(env, x) expressionCr/
+CREATE_INVALID_EXPRESSION	expression.h	/^#define CREATE_INVALID_EXPRESSION(env) expressionC/
+CREATE_STRING_EXPRESSION	expression.h	/^#define CREATE_STRING_EXPRESSION(env, x) expressio/
+CREATE_SYMBOL	expression.h	/^#define CREATE_SYMBOL(env, str) createSymbol(env, /
+CStreamCharWriteStream	streams.c	121
+CharBufferedReadStream	streams.h	116
+CharReadStream	streams.h	77
+CharWriteStream	streams.h	158
+Cons	expression.h	179
+DEBUG	config.h	23
+DEBUG	fulispcfg.h	23
+DEBUG_EVAL	config.h	25
+DEBUG_EXPRESSION	config.h	27
+DEBUG_EXPRESSION	fulispcfg.h	26
+DEBUG_PRINT	debugging.h	/^#define DEBUG_PRINT(msg) {fprintf(stderr, "%s: %i:/
+DEBUG_PRINT	no_debugging.h	/^#define DEBUG_PRINT(msg)$/
+DEBUG_PRINT_EXPR	debugging.h	/^#define DEBUG_PRINT_EXPR(env, x, buf) { \\$/
+DEBUG_PRINT_EXPR	no_debugging.h	/^#define DEBUG_PRINT_EXPR(x, buf) $/
+DEBUG_PRINT_MACRO_LOOKUP	reader.h	/^#define DEBUG_PRINT_MACRO_LOOKUP(r) printLookup(r)/
+DEBUG_PRINT_MACRO_LOOKUP	reader.h	/^#define DEBUG_PRINT_MACRO_LOOKUP(r)$/
+DEBUG_PRINT_PARAM	debugging.h	/^#define DEBUG_PRINT_PARAM(msg, param) {fprintf(std/
+DEBUG_PRINT_PARAM	no_debugging.h	/^#define DEBUG_PRINT_PARAM(msg, param)$/
+DEBUG_READER	config.h	24
+DEBUG_READER	fulispcfg.h	24
+DEBUG_SYMBOL_TABLE	config.h	28
+DEBUG_SYMBOL_TABLE	fulispcfg.h	27
+ENVIRONMENT_ADD_STRING	environment.h	/^#define ENVIRONMENT_ADD_STRING(env, string, value)/
+ENVIRONMENT_ADD_SYMBOL	environment.h	/^#define ENVIRONMENT_ADD_SYMBOL(env, sym, value) EN/
+ENVIRONMENT_STRING_LOOKUP	environment.h	/^#define ENVIRONMENT_STRING_LOOKUP(env, sym) (hashT/
+ENVIRONMENT_SYMBOL_LOOKUP	environment.h	/^#define ENVIRONMENT_SYMBOL_LOOKUP(env, sym) (hashT/
+ERROR	error.h	/^#define ERROR(e, m) {lispError = e; lispErrorMessa/
+ERR_BUFFER_OVERFLOW	error.h	44
+ERR_EXPECTED_FUNCTION	error.h	47
+ERR_NIL_VALUE	error.h	42
+ERR_OK	error.h	41
+ERR_SYNTAX_ERROR	error.h	43
+ERR_UNBALANCED_PARENTHESES	error.h	49
+ERR_UNEXPECTED_END_OF_STRING	error.h	48
+ERR_UNEXPECTED_TYPE	error.h	45
+ERR_UNEXPECTED_VAL	error.h	46
+ERR_UNRESOLVABLE	error.h	50
+EXPRESSION_CAR	expression.h	/^#define EXPRESSION_CAR(expr) expr->data.cons->car$/
+EXPRESSION_CDR	expression.h	/^#define EXPRESSION_CDR(expr) expr->data.cons->cdr$/
+EXPRESSION_CHARACTER	expression.h	/^#define EXPRESSION_CHARACTER(expr) (expr->data.cha/
+EXPRESSION_FLOATING	expression.h	/^#define EXPRESSION_FLOATING(expr) (expr->data.floa/
+EXPRESSION_INTEGER	expression.h	/^#define EXPRESSION_INTEGER(expr) (expr->data.integ/
+EXPRESSION_NATIVE_FUNC	expression.h	/^#define EXPRESSION_NATIVE_FUNC(expr) expr->data.na/
+EXPRESSION_STRING	expression.h	/^#define EXPRESSION_STRING(expr) (expr->data.string/
+EXPRESSION_TYPE	expression.h	/^#define EXPRESSION_TYPE(x) (x->type & EXPR_TYPE_AR/
+EXPR_ATOM	expression.h	123
+EXPR_CHARACTER	expression.h	139
+EXPR_CONS	expression.h	159
+EXPR_FLOAT	expression.h	134
+EXPR_FUNCTION	expression.h	164
+EXPR_INTEGER	expression.h	129
+EXPR_IS_CONS	expression.h	/^#define EXPR_IS_CONS(x) EXPR_OF_TYPE(x, EXPR_CONS)/
+EXPR_IS_NIL	expression.h	/^#define EXPR_IS_NIL(x) (x && \\$/
+EXPR_IS_POINTER	expression.h	/^#define EXPR_IS_POINTER(x) (x->type & EXPR_POINTER/
+EXPR_IS_VALID	expression.h	/^#define EXPR_IS_VALID(x) (x && \\$/
+EXPR_NATIVE_FUNC	expression.h	144
+EXPR_NO_TYPE	expression.h	113
+EXPR_OF_TYPE	expression.h	/^#define EXPR_OF_TYPE(x, y) (EXPRESSION_TYPE(x) == /
+EXPR_POINTER	expression.h	118
+EXPR_SET_TYPE	expression.h	/^#define EXPR_SET_TYPE(expr, type) (expr->type = (\\/
+EXPR_STRING	expression.h	149
+EXPR_SYMBOL	expression.h	154
+EXPR_TO_FLOAT	expression.h	/^#define EXPR_TO_FLOAT(expr) \\$/
+EXPR_TYPE_AREAL	expression.h	106
+Environment	environment.h	25
+Expression	expression.h	184
+GENERATE_SAFETY_CODE	config.h	31
+GENERATE_SAFETY_CODE	fulispcfg.h	30
+GET_MEM_FOR_EXPRESSION	expression.h	322
+GET_SYMBOL	reader.h	/^#define GET_SYMBOL(r, x) symbolTableGetSymbol(READ/
+HASHTABLE_STD_SIZE	hash.h	21
+HASH_TABLE_SAFE_KEY	hash.h	23
+HASH_TABLE_SAFE_KEYS	config.h	30
+HASH_TABLE_SAFE_KEYS	fulispcfg.h	29
+HashEntry	hash.h	26
+HashTable	hash.h	32
+IF_DEBUG	debugging.h	/^#define IF_DEBUG(x) x$/
+IF_DEBUG	no_debugging.h	/^#define IF_DEBUG(x)$/
+IF_SAFETY_CODE	safety.h	/^#define IF_SAFETY_CODE(x) {x}$/
+IF_SAFETY_CODE	safety.h	/^#define IF_SAFETY_CODE(x)$/
+IF_SAFETY_HIGH	safety.h	/^#define IF_SAFETY_HIGH(x) { if(safetyLevel == SAFE/
+IF_SAFETY_HIGH	safety.h	/^#define IF_SAFETY_HIGH(x)$/
+InternalCharBufferedStream	streams.c	51
+LOG_TO_LOG10_FACTOR	constants.h	28
+LOOKUP_READ_MACRO	reader.h	/^#define LOOKUP_READ_MACRO(x,r) lookupReadMacro(r, /
+MAX_BYTES_PER_char	constants.h	36
+MAX_BYTES_PER_float	constants.h	35
+MAX_BYTES_PER_int	constants.h	34
+MAX_BYTES_PER_pointer	constants.h	37
+MAX_STR_BUFFER	test-expression.c	26
+MODULE_NAME	cons.c	22
+MODULE_NAME	eval.c	20
+MODULE_NAME	expression.c	25
+MODULE_NAME	fulispreader.c	18
+MODULE_NAME	nativefunctions.c	19
+MODULE_NAME	print.c	28
+MODULE_NAME	reader.c	20
+MODULE_NAME	symboltable.c	23
+Memory	memory.h	25
+Mtest-eval	test-eval.c	/^int main(int argc, char **argv) {$/
+Mtest-expression	test-expression.c	/^int main (int argc, char **argv) {$/
+Mtest-hash	test-hash.c	/^int main(int argc, char **argv) {$/
+Mtest-reader	test-reader.c	/^int main(int argc, char **argv) {$/
+Mtest-streams	test-streams.c	/^int main(int argc, char **argv) {$/
+NIL	expression.h	170
+NO_ERROR	error.h	21
+NativeReadMacro	reader.h	51
+PANIC	error.h	/^#define PANIC(m) {fprintf(stderr, "fuLisp Panic: %/
+PRINT_BUFFER_SIZE	config.h	34
+PRINT_BUFFER_SIZE	fulispcfg.h	33
+PRINT_EXPR	print.c	/^#define PRINT_EXPR(type, strType, data) {\\$/
+PRINT_EXPR	print.c	300
+PRINT_STREAM	print.c	/^#define PRINT_STREAM(x) {char *b = x; for(; *b != /
+PRINT_STREAM	print.c	299
+PUSH_INTO_BUFFER	reader.h	/^#define PUSH_INTO_BUFFER(x, r) { \\$/
+PUSH_INTO_BUFFER	reader.h	/^#define PUSH_INTO_BUFFER(x, r) { \\$/
+PUSH_INTO_BUFFER_X	reader.h	/^#define PUSH_INTO_BUFFER_X(x, r) { \\$/
+READCHARFROMSTREAM	print.h	/^#define READCHARFROMSTREAM(env, stream) (((readCha/
+READER_GET_ENVIRONMENT	reader.h	/^#define READER_GET_ENVIRONMENT(reader) (reader->en/
+READ_BUFFER_SIZE	config.h	33
+READ_BUFFER_SIZE	fulispcfg.h	32
+READ_NEXT_CHAR	reader.h	/^#define READ_NEXT_CHAR(r) STREAM_NEXT(r->stream)$/
+ReadMacroLookUp	reader.h	63
+ReadStream	streams.h	58
+Reader	reader.h	81
+SAFETY_HIGH	safety.h	41
+SAFETY_LOW	safety.h	46
+SAFE_SPRINTF	print.c	/^#      define SAFE_SPRINTF(str, size, fmt, arg) { /
+SAFE_SPRINTF	print.c	/^#       define SAFE_SPRINTF(str, size, fmt, arg) s/
+SAFE_SPRINTF	print.c	/^#   define SAFE_SPRINTF(str, size, fmt, arg) sprin/
+SAFE_SPRINTF	print.c	178
+SAFE_SPRINTF	print.c	/^#      define SAFE_SPRINTF(str, size, fmt, arg) { /
+SAFE_SPRINTF	print.c	/^#       define SAFE_SPRINTF(str, size, fmt, arg) s/
+SAFE_SPRINTF	print.c	/^#   define SAFE_SPRINTF(str, size, fmt, arg) sprin/
+SET_SAFETY_HIGH	safety.h	84
+SET_SAFETY_HIGH	safety.h	99
+SET_SAFETY_LEVEL	safety.h	/^#define SET_SAFETY_LEVEL(x) {safetyLevel = x;}$/
+SET_SAFETY_LEVEL	safety.h	/^#define SET_SAFETY_LEVEL(x)$/
+SET_SAFETY_LOW	safety.h	78
+SET_SAFETY_LOW	safety.h	97
+STREAM_NEXT	streams.h	/^#define STREAM_NEXT(stream) (stream->getNext(strea/
+STREAM_PUSH_BACK	streams.h	/^#define STREAM_PUSH_BACK(s, x) (s->pushBack(s->int/
+STREAM_WRITE	streams.h	/^#define STREAM_WRITE(stream, x)  {stream->write(st/
+STRING_SET_TO_END	print.c	/^#define STRING_SET_TO_END(str) {while(*(str++) != /
+SYMBOL_TABLE_SIZE	config.h	35
+SYMBOL_TABLE_SIZE	fulispcfg.h	34
+TEST_STR	test-expression.c	27
+WARNING	error.h	/^#define WARNING(w, m) {lispWarning = w; lispWarnin/
+WriteStream	streams.h	152
+__CONFIG_H__	config.h	19
+__CONSTANTS_H__	constants.h	20
+__CONS_H__	cons.h	23
+__DEBUGGING_H__	debugging.h	21
+__DEBUGGING_H__	no_debugging.h	21
+__ENVIRONMENT_H__	environment.h	19
+__ERROR_H__	error.h	16
+__EVAL_H__	eval.h	19
+__EXPRESSION_H__	expression.h	26
+__FULISPREADER_H__	fulispreader.h	15
+__HASH_C__	hash.h	19
+__INTERNALS_H__	lisp_internals.h	20
+__MEMORY_H__	memory.h	20
+__NATIVEFUNCTIONS_H__	nativefunctions.h	22
+__PRINT_H__	print.h	22
+__READER_H__	reader.h	15
+__SAFETY_H__	safety.h	23
+__STREAMS_H__	streams.h	20
+__SYMBOLTABLE_H__	symboltable.h	20
+__TEST_H__	test.h	20
+___FULISPCFG_H__	fulispcfg.h	19
+add	nativefunctions.c	/^struct Expression *add(struct Environment *env, st/
+buffer	streams.c	54
+buffer	streams.c	123
+buffer	reader.h	87
+bufferSize	streams.c	125
+cBufStdIn	streams.h	128
+car	cons.c	/^struct Expression *car(struct Environment *env, st/
+car	expression.h	180
+cdr	cons.c	/^struct Expression *cdr(struct Environment *env, st/
+cdr	expression.h	180
+charPushBack	streams.c	/^void charPushBack(void *stream, char c) {$/
+character	expression.h	188
+cons	cons.c	/^struct Expression *cons(struct Environment *env, s/
+cons	expression.h	190
+counter	expression.h	193
+createSymbol	expression.c	/^struct Expression *createSymbol(struct Environment/
+current	streams.c	53
+current	streams.c	124
+current	reader.h	88
+data	expression.h	192
+deleteReader	reader.c	/^void deleteReader(struct Reader *reader) {$/
+disposeCStreamCharWriteStream	streams.c	/^void disposeCStreamCharWriteStream(struct CharWrit/
+disposeCharBufferedReadStream	streams.c	/^void disposeCharBufferedReadStream(struct CharBuff/
+dummy	memory.h	26
+env	reader.h	84
+environmentCreate	environment.c	/^struct Environment *environmentCreate(void) {$/
+environmentCreateStdEnv	environment.c	/^struct Environment *environmentCreateStdEnv(void) /
+environmentDispose	environment.c	/^void environmentDispose(struct Environment *env) {/
+eval	eval.c	/^struct Expression *eval(struct Environment *env, s/
+expr	reader.h	85
+expressionAssign	expression.c	/^struct Expression *expressionAssign(struct Environ/
+expressionCreate	expression.c	/^struct Expression *expressionCreate(struct Environ/
+expressionCreateString	expression.c	/^struct Expression *expressionCreateString(struct E/
+expressionDispose	expression.c	/^void expressionDispose(struct Environment *env, st/
+expressionToString	print.c	/^char *expressionToString(struct Environment *env, /
+fillHash	test-hash.c	/^void fillHash(struct HashTable *hash, int no) {$/
+floating	expression.h	189
+getFileNextChar	print.c	/^struct Expression *getFileNextChar(struct Environm/
+getHashEntry	hash.c	/^static struct HashEntry *getHashEntry(struct HashT/
+getNext	streams.h	/^    struct Expression *(*getNext)(void *);$/
+getNext	streams.h	/^    char (*getNext)(void *);$/
+getNext	streams.h	/^    struct Expression *(*getNext)(void *);$/
+getNext	streams.h	/^    char (*getNext)(void *);$/
+getNextCharFromCFile	streams.c	/^char getNextCharFromCFile(void *stream) {$/
+getNextWrapper	streams.c	/^char getNextWrapper(void *stream) {$/
+getString	test-hash.c	/^char *getString(unsigned int i) {$/
+hash	hash.h	33
+hashFunc	hash.h	/^    unsigned int(* hashFunc)(struct HashTable *, c/
+hashTableCreate	hash.c	/^struct HashTable * hashTableCreate(unsigned int n,/
+hashTableDelete	hash.c	/^void *hashTableDelete(struct HashTable * hashTable/
+hashTableDispose	hash.c	/^void hashTableDispose(struct HashTable *hash) {$/
+hashTableGet	hash.c	/^void *hashTableGet(struct HashTable * hashTable, c/
+hashTableKeys	hash.c	/^char **hashTableKeys(struct HashTable *hash) {$/
+hashTableSet	hash.c	/^void *hashTableSet(struct HashTable * hashTable, c/
+input	test-eval.c	11
+input	test-reader.c	7
+input	test-streams.c	24
+intCar	cons.c	/^struct Expression *intCar(struct Environment *env,/
+intCdr	cons.c	/^struct Expression *intCdr(struct Environment *env,/
+intConfig	streams.h	60
+intConfig	streams.h	79
+intConfig	streams.h	112
+intConfig	streams.h	119
+intConfig	streams.h	154
+intConfig	streams.h	160
+intCons	cons.c	/^struct Cons *intCons(struct Environment *env, stru/
+integer	expression.h	186
+key	hash.h	27
+lispError	error.c	21
+lispErrorMessage	error.c	22
+lispWarning	error.c	23
+lispWarningMessage	error.c	24
+lookup	environment.h	26
+lookup	reader.h	82
+lookupReadMacro	reader.c	/^NativeReadMacro lookupReadMacro(struct Reader *rea/
+macro	reader.h	66
+makeCStreamCharReadStream	streams.c	/^struct CharReadStream *makeCStreamCharReadStream(F/
+makeCStreamCharWriteStream	streams.c	/^struct CharWriteStream *makeCStreamCharWriteStream/
+makeCharBufferedReadStream	streams.c	/^struct CharBufferedReadStream *makeCharBufferedRea/
+nativeFunc	expression.h	/^        struct Expression *(*nativeFunc)(struct En/
+newFuLispReader	fulispreader.c	/^struct Reader *newFuLispReader(struct Environment /
+newReader	reader.c	/^struct Reader *newReader(struct Environment *env, /
+next	hash.h	29
+next	reader.h	64
+print	print.c	/^struct Expression *print(struct Environment *env, /
+printLookup	reader.c	/^void printLookup(struct Reader *reader) {$/
+printToStream	print.c	/^void printToStream(struct Environment *env, struct/
+pushBack	streams.h	/^    void (*pushBack)(void *, struct Expression *);/
+pushBack	streams.h	/^    void (*pushBack)(void *, char); $/
+quote	nativefunctions.c	/^struct Expression *quote(struct Environment *env, /
+read	reader.c	/^struct Expression *read(struct Reader *reader) {$/
+readCharFromInput	test-eval.c	/^char readCharFromInput(void *v) {$/
+readCharFromInput	test-reader.c	/^char readCharFromInput(void *v) {$/
+readStream	streams.c	52
+registerReadMacro	reader.c	/^NativeReadMacro registerReadMacro(struct Reader *r/
+registerStandardReadMacro	reader.c	/^NativeReadMacro registerStandardReadMacro(struct R/
+registerStandardReadMacros	fulispreader.c	/^static void registerStandardReadMacros(struct Read/
+resetReader	reader.c	/^void resetReader(struct Reader *reader) {$/
+rmCharacter	fulispreader.c	/^static void rmCharacter(struct Reader *reader, cha/
+rmClosingBraket	fulispreader.c	/^static void rmClosingBraket(struct Reader *reader,/
+rmClosingBraketWithinCons	fulispreader.c	/^static void rmClosingBraketWithinCons(struct Reade/
+rmFloat	fulispreader.c	/^static void rmFloat(struct Reader *reader, char si/
+rmGetNextAsCharacter	fulispreader.c	/^static void rmGetNextAsCharacter(struct Reader *re/
+rmIdentity	reader.c	/^void rmIdentity(struct Reader *reader, char sigle)/
+rmInteger	fulispreader.c	/^static void rmInteger(struct Reader *reader, char /
+rmOpeningBraket	fulispreader.c	/^static void rmOpeningBraket(struct Reader *reader,/
+rmStandard	fulispreader.c	/^static void rmStandard(struct Reader *reader, char/
+rmString	fulispreader.c	/^static void rmString(struct Reader *reader, char s/
+rmStringEnd	fulispreader.c	/^static void rmStringEnd(struct Reader *reader, cha/
+rmTerminator	reader.c	/^void rmTerminator(struct Reader *reader, char sigl/
+rmUnexpectedEndOfCons	fulispreader.c	/^static void rmUnexpectedEndOfCons(struct Reader *r/
+rmUnexpectedEndOfString	fulispreader.c	/^static void rmUnexpectedEndOfString(struct Reader /
+safetyLevel	safety.c	21
+setCar	cons.c	/^void setCar(struct Environment *env, struct Expres/
+setCdr	cons.c	/^void setCdr(struct Environment * env, struct Expre/
+setExprOfReader	reader.c	/^void setExprOfReader(struct Reader *reader) {$/
+sign	reader.h	65
+sigsegvHandler	test-expression.c	/^void sigsegvHandler(int signal) {$/
+sigsegvOccured	test-expression.c	30
+size	hash.h	34
+stdHashFunction	hash.c	/^unsigned int stdHashFunction(struct HashTable *has/
+stream	streams.c	122
+stream	reader.h	86
+string	expression.h	187
+symbolTable	reader.h	83
+symbolTableCreate	symboltable.c	/^struct HashTable *symbolTableCreate(struct Environ/
+symbolTableDispose	symboltable.c	/^void symbolTableDispose(struct Environment *env, s/
+symbolTableGetSymbol	symboltable.c	/^struct Expression *symbolTableGetSymbol(struct Env/
+test	test.c	/^int test(int cond, char *name) {$/
+testCharBufferedReadStream	test-streams.c	/^int testCharBufferedReadStream(struct CharBuffered/
+testCharReadStream	test-streams.c	/^int testCharReadStream(struct CharReadStream *stre/
+testCharWriteStream	test-streams.c	/^int testCharWriteStream(struct CharWriteStream *st/
+testExpression	test-expression.c	/^int testExpression(struct Expression *expr) {$/
+testHashTable	test-hash.c	/^int testHashTable(int n, int m) {  $/
+type	expression.h	194
+type	reader.h	89
+value	hash.h	28
+write	streams.h	/^    int (*write)(void *, struct Expression *);$/
+write	streams.h	/^    int (*write)(void *, char);$/
+writeBufferedCharToFile	streams.c	/^int writeBufferedCharToFile(void *intConfig, char /
+writeCharToFile	streams.c	/^int writeCharToFile(void *intConfig, char c){$/

@@ -1,0 +1,60 @@
+/**2010 * (C) 2010 Michael J. Beer * This program is free software; you can
+ * redistribute it and/or modify * it under the terms of the GNU General Public
+ * License as published by * the Free Software Foundation; either version 3 of
+ * the License, or * (at your option) any later version.2010 *2010 * This
+ * program is distributed in the hope that it will be useful,2010 * but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of * MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the * GNU General Public License for
+ * more details.2010 2010 * You should have received a copy of the GNU General
+ * Public License * along with this program; if not, write to the Free Software
+ * * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.2010
+ */
+
+
+#ifndef __ERROR_H__
+#define __ERROR_H__
+
+/**
+ * Reset error state
+ */
+#define NO_ERROR (lispError == ERR_OK)
+
+/** 
+ * Signal an error
+ */
+#define ERROR(e, m) {lispError = e; lispErrorMessage = m;}
+
+/**
+ * Signal a warning
+ */
+#define WARNING(w, m) {lispWarning = w; lispWarningMessage = m;}
+
+/**
+ * Signal an unrecoverable error - abort the process
+ */
+#define PANIC(p, m) {fprintf(stderr, "fuLisp Panic %3i: %s\n", p, m); exit(1);}
+
+/**
+ * The error codes 
+ */
+#define ERR_OK 0
+#define ERR_NIL_VALUE 1
+#define ERR_SYNTAX_ERROR 2
+#define ERR_BUFFER_OVERFLOW 100
+#define ERR_UNEXPECTED_TYPE 200
+#define ERR_UNEXPECTED_VAL  300
+#define ERR_EXPECTED_FUNCTION 310
+#define ERR_UNEXPECTED_END_OF_STRING  500
+#define ERR_UNBALANCED_PARENTHESES 600
+#define ERR_UNRESOLVABLE 1100
+#define ERR_STACK_OVERFLOW 1210
+#define ERR_STACK_UNDERFLOW 1211
+
+extern int lispError;
+extern char *lispErrorMessage;
+extern int lispWarning;
+extern char *lispWarningMessage;
+
+#endif
+

@@ -1,0 +1,128 @@
+/**
+ * (C) 2010 Michael J. Beer
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */ 
+
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include "expression.h"
+#include "print.h"
+#include "config.h"
+
+#define MODULE_NAME "expression.c"
+
+#ifdef DEBUG_EXPRESSION
+#include "debugging.h"
+#else
+#include "no_debugging.h"
+#endif
+
+
+void expressionDispose(struct Environment *env, struct Expression *expr) {
+    /* IF_DEBUG(char *buf;) */
+    if(!expr) return;
+    if(!EXPR_IS_VALID(expr)) {
+        free(expr); 
+        return;
+    }
+    /* ALERT: Does not work with non-valid expressions - occur together with
+     * parsing of conses */
+    DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n", expr->counter);
+    DEBUG_PRINT_PARAM("   type %u \n", (int)EXPRESSION_TYPE(expr));
+
+    if(expr->counter-- > 0) return;
+    DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));
+
+    if(EXPR_IS_POINTER(expr)) {
+        if(EXPR_OF_TYPE(expr, EXPR_CONS)) {
+            DEBUG_PRINT("   expr is a cons cell - recursive disposing...\n");
+            if(EXPRESSION_CAR(expr)) expressionDispose(env, EXPRESSION_CAR(expr));
+            if(EXPRESSION_CDR(expr)) expressionDispose(env, EXPRESSION_CDR(expr));
+        }
+        if(EXPRESSION_STRING(expr)) free(EXPRESSION_STRING(expr));
+    }
+    free(expr);
+    expr = 0;
+}
+
+
+
+struct Expression *expressionCreate(struct Environment *env, unsigned char type, void *content) {
+    struct Expression *expr = malloc(sizeof(struct Expression));
+    expr->counter = 0;
+    expr->type = type;
+    if(EXPR_IS_POINTER(expr)) {
+        expr->data.string = (char *)content;
+    } else {
+        switch(type) {
+            case EXPR_INTEGER:
+                expr->data.integer = *((int *)content);
+                break;
+            case EXPR_FLOAT:
+                expr->data.floating = *((float *)content);
+                break;
+            case EXPR_CHARACTER:
+                expr->data.character = *((char *)content);
+                break;
+            case EXPR_NATIVE_FUNC:
+                expr->data.nativeFunc = 
+                    ((struct Expression *(*)(struct Environment *, struct Expression *))content);
+                break;
+            case EXPR_NO_TYPE:
+                expr->data.string = 0;
+        };
+    }
+
+    DEBUG_PRINT("Created new expression\n");
+    return expr;
+}
+
+
+struct Expression *expressionCreateString(struct Environment *env, char *str) {
+    char *buf;
+    assert (str);
+
+    /*TODO: As soon as the global lookup for symbols is installed,
+      look up str in it and assign the data-slot a pointer to the entry in the
+      table */
+    buf = malloc(sizeof(char) * (strlen(str) + 1));
+    strcpy(buf, str);
+    return expressionCreate(env, EXPR_STRING, buf);
+}
+
+
+struct Expression *createSymbol(struct Environment *env, char *str) {
+    char *buf;
+    assert (str);
+
+    DEBUG_PRINT_PARAM("createSymbol(): Got '%s'\n", str);
+
+    /*TODO: As soon as the global lookup for symbols is installed,
+      look up str in it and assign the data-slot a pointer to the entry in the
+      table */
+    buf = malloc(sizeof(char) * (strlen(str) + 1));
+    strcpy(buf, str);
+    DEBUG_PRINT_PARAM("createSymbol(): Copied to  %s\n", buf);
+    return expressionCreate(env, EXPR_SYMBOL, buf);
+}
+
+
+struct Expression *expressionAssign(struct Environment *env, struct Expression *expr) {
+    if(expr) 
+        expr->counter++;
+    return expr;
+}
+
