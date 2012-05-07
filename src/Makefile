@@ -8,9 +8,9 @@ LDFLAGS=-g $(PROFILER_LN_OPTIONS)
 
 BUILD_DIR=../build
 
-SOURCE_FILES= cons.c error.c  expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c test.c environment.c eval.c
+SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c test.c environment.c eval.c stack.c
 
-HEADER_FILES= cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h
+HEADER_FILES= cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h stack.h
 
 OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
 
@@ -19,7 +19,12 @@ OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
 all: $(BUILD_DIR)/test-eval
 
 
-.PHONY: clean
+
+.PHONY: clean tests
+
+
+tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack
+
 
 $(BUILD_DIR)/%.o:%.c $(HEADER_FILES)
 	@echo "COMPILING $<"; $(CC) $(CFLAGS) -I . -o $@ -c $<
@@ -32,13 +37,15 @@ $(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o
 $(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o
 	@echo "LINKING $@"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
 
+
 $(BUILD_DIR)/test-stack: $(OBJECT_FILES) $(BUILD_DIR)/test-stack.o
-	@echo "Linking test-stack..."; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
+	@echo "Linking $@"; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
+
 
 clean:
 	@echo "REMOVING BINARIES..."; rm  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*
 
 
-tags: $(wildcard *.c) $(wildcard *h)
+tags: $(wildcard *.c) $(wildcard *.h)
 	ctags -R *.c *.h > tags
 

@@ -24,7 +24,7 @@
 #include "expression.h"
 
 
-typedef void * StackEntry;
+typedef void *StackEntry;
 
 
 struct Stack {
@@ -71,7 +71,7 @@ void *stackPop(struct Stack *stack);
 /**
  * Returns error state from last stack operation.
  */
-int stackError(struct Stack *stack);;
+int stackError(struct Stack *stack);
 
 
 /**

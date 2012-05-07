@@ -17,14 +17,22 @@
 
 #include "stack.h"
 
+#define MODULE_NAME "stack.c"
+
+#ifdef DEBUG_STACK
+#include "debugging.h"
+#else
+#include "no_debugging.h"
+#endif
 
 
-Stack *stackCreate(int size) {
+struct Stack *stackCreate(int size) {
   struct Stack *stack = (struct Stack *)malloc(sizeof(struct Stack));
-  stack->stack = (StackEntry *)malloc(sizeof(StackEntry * (size + 2)));
-  stack->first = stack->stack;
+  stack->stack = (StackEntry *)malloc(sizeof(StackEntry) * (size + 2));
+  stack->first = stack->next = stack->stack;
   stack->last = stack->stack + size + 1;
   stackResetError(stack);
+  return stack;
 }
 
                                                
@@ -36,20 +44,24 @@ void stackFree(struct Stack *stack) {
 
 void *stackPush(struct Stack *stack, void *el) {
   if(stack->next <= stack->last) {
-    *(stack->next) = el;
-    stack->next++;
-    return el;
+      DEBUG_PRINT("Pushing...\n");
+      *(stack->next) = el;
+      stack->next++;
+      return el;
   }
+  DEBUG_PRINT("Stack would overflow!\n");
   stack->error = ERR_STACK_OVERFLOW;
   return NULL;
 }
 
 
 void *stackPop(struct Stack *stack) {
-  if(stack->next > stack.first) {
-    stack.next--;
-    return stack->next;
+  if(stack->next > stack->first) {
+      DEBUG_PRINT("Popping...\n");
+      stack->next--;
+      return stack->next;
   }
+  DEBUG_PRINT("Stack would underflow!\n");
   stack->error = ERR_STACK_UNDERFLOW;
   return NULL;
 }

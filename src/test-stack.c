@@ -25,7 +25,7 @@ static struct Stack *stack;
 static int size;
 
 
-int createStack() {
+int createStack(void) {
   if((stack = stackCreate(size)))
     return 0;
   return 1;
@@ -71,13 +71,31 @@ int fillEmptyWithinLimits(void) {
 }     
   
 
+int fillEmptyOutOfLimits(void) {
+  if(!fillStack(stack, size + 2))
+    return 1;
+  if(!drainStack(stack, size + 1, size + 1))
+     return 1;
+  if(fillStack(stack, size / 4))
+     return 1;
+  if(drainStack(stack, size / 4, size  - 1 + size / 4))
+     return 1;
+  return 0;
+}     
+
+
+int freeStack(void) {
+  stackFree(stack);
+  return 0;
+}
+
+
 int main(int argc, char **argv) {
   size = 20;
   test(createStack(), "Create stack with 20 elements");
   test(fillEmptyWithinLimits(), "stack ops within limits");
-  printf("Disposing Stack...");
-  stackFree(stack);
-  printf("OK\n");
+  test(fillEmptyOutOfLimits(), "stack ops out of limits");
+  test(freeStack(), "Disposing stack");
   return 0;
 }
   

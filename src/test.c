@@ -19,17 +19,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define ESC 27
+
 
 int test(int cond, char *name) {
-    printf("Checking %40s...", name);
+    printf("Checking %60s...", name);
     if(cond == 0) {
-        printf("Passed\n");
+        printf("%c[0;32;40mPassed%c[0m\n", ESC, ESC);
         return 0;
     } else if (cond > 0) {
-        printf("Failed!\n");
+        printf("%c[0;31;40mFailed!%c[0m\n", ESC, ESC);
         return 1;
     } else {
-        printf("Critical Fail! ABORTING\n");
+        printf("%c[7;31;40mCritical Fail! ABORTING%c[0m\n", ESC, ESC);
         exit(1);
     }
 }
