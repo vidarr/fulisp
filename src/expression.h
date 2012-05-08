@@ -49,10 +49,12 @@
  * one can check whether the expression contains a pointer by providing
  * EXPR_POINTER, one can check whether the expression is particular pointer type
  * like a string by providing EXPR_STRING e.g.
+ * Attention: This macro cannot be used to detect NIL as this could be
+ * represented by 0x0 pointer.
  * @param x a pointer to an expression
  * @param y unsigned integer indicating the type
  */
-#define EXPR_OF_TYPE(x, y) (EXPRESSION_TYPE(x) == y)
+#define EXPR_OF_TYPE(x, y) (x && EXPRESSION_TYPE(x) == y)
 
 /**
  * Checks whether x is a pointer type 

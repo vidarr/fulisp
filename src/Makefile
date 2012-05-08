@@ -23,8 +23,10 @@ all: $(BUILD_DIR)/test-eval
 .PHONY: clean tests
 
 
-tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack
+tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression
 
+perform-tests: tests
+	$(BUILD_DIR)/test-hash && $(BUILD_DIR)/test-stack
 
 $(BUILD_DIR)/%.o:%.c $(HEADER_FILES)
 	@echo "COMPILING $<"; $(CC) $(CFLAGS) -I . -o $@ -c $<
@@ -41,6 +43,11 @@ $(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o
 $(BUILD_DIR)/test-stack: $(OBJECT_FILES) $(BUILD_DIR)/test-stack.o
 	@echo "Linking $@"; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
 
+$(BUILD_DIR)/test-hash: $(OBJECT_FILES)  $(BUILD_DIR)/test-hash.o
+	@echo "LINKING $@"; $(LN) -o $(BUILD_DIR)/test-hash  $^ $(LDFLAGS)
+
+$(BUILD_DIR)/test-expression: $(OBJECT_FILES)  $(BUILD_DIR)/test-expression.o
+	@echo "LINKING $@"; $(LN) -o $(BUILD_DIR)/test-expression  $^ $(LDFLAGS)
 
 clean:
 	@echo "REMOVING BINARIES..."; rm  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*

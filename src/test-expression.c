@@ -21,6 +21,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "expression.h"
+#include "cons.h"
+#include "print.h"
+#include "test.h"
+
 
 
 #define MAX_STR_BUFFER 65000
@@ -33,59 +37,58 @@ static int sigsegvOccured = 1;
 void sigsegvHandler(int signal) {
     sigsegvOccured = 1;
     printf("SIGSEGV occured...ABORTING!\n");
-    exit(1);
+    exit(-1);
 }
 
 
-int testExpression(struct Expression *expr) {
+int testExpression(struct Environment *env, struct Expression *expr) {
     struct Expression *ref1, *ref2, *ref3;
 
     char *str = (char *)malloc(sizeof(char) * MAX_STR_BUFFER);
     
-    ref1 = expressionAssign(expr);
-    ref2 = expressionAssign(expr);
-    ref3 = expressionAssign(expr);
+    ref1 = expressionAssign(env, expr);
+    ref2 = expressionAssign(env, expr);
+    ref3 = expressionAssign(env, expr);
 
-    expressionToString(str, ref1);
+    expressionToString(env, str, MAX_STR_BUFFER, ref1);
     printf("%s\n", str);
-    expressionDispose(ref1);
-    expressionToString(str, ref2);
+    expressionDispose(env, ref1);
+    expressionToString(env, str, MAX_STR_BUFFER, ref2);
     printf("%s\n", str);
-    expressionDispose(ref2);
-    expressionToString(str, ref3);
+    expressionDispose(env, ref2);
+    expressionToString(env, str, MAX_STR_BUFFER, ref3);
     printf("%s\n", str);
-    expressionDispose(ref3);
+    expressionDispose(env, ref3);
     
-    expressionDispose(expr);
+    expressionDispose(env, expr);
 
     /* Should fail */
-    /* expressionToString(str, ref3);
+    /* expressionToString(env, str, ref3);
     printf("%s\n", str); */
     free(str);
-    return -1;
+    return 0;
 }
 
 
 int main (int argc, char **argv) {
-    int res = 0;
-    char *str = malloc((1 + strlen(TEST_STR)) * sizeof(char));
-    struct Expression *cons, *cons2 = expressionCreate(EXPR_STRING, str);
+    int res;
+    char *str;
+    /* Environment is needed to create/assign/dispose expressions for garbage
+     * collection and access to memory */
+    struct Expression *cons, *cons2;
+    struct Environment *env = environmentCreate();
+    res = 0;
+    str = malloc((1 + strlen(TEST_STR)) * sizeof(char));
+    cons2 = expressionCreate(env, EXPR_STRING, str);
     signal(SIGSEGV, sigsegvHandler); 
     memcpy(str, TEST_STR, strlen(TEST_STR) + 1);
-    cons = expressionCreate(EXPR_CONS, intCons(cons2, 0));
-    cons = expressionCreate(EXPR_CONS, intCons(expressionAssign(cons2),
-    expressionAssign(cons)));
-    res = test(testExpression(cons), "Cons cell management");
+    cons = expressionCreate(env, EXPR_CONS, intCons(env, cons2, 0));
+    cons = expressionCreate(env, EXPR_CONS, intCons(env, expressionAssign(env, cons2),
+                expressionAssign(env, cons)));
+    res = test(testExpression(env, cons), "Cons cell management");
     /* usually one should get rid of the cons expression, but this has happened 
        within testExpression */
-    expressionDispose(cons);
+    expressionDispose(env, cons);
     return res;
 }
-
-
-
-
-
-
-
 
