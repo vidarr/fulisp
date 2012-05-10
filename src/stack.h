@@ -57,7 +57,7 @@ void stackFree(struct Stack *stack);
  * @param el Element to be pushed onto the stack
  * @return Element that has been pushed onto the stack or NULL if stack is full.
  */
-void *stackPush(struct Stack *stack, void *el);
+void *stackPush(struct Stack *stack, StackEntry el);
 
 
 /**
@@ -65,7 +65,7 @@ void *stackPush(struct Stack *stack, void *el);
  * @param stack the stack to be popped from
  * @return pointer to StackEntry or NULL if the stack is empty.
  */
-void *stackPop(struct Stack *stack);
+StackEntry stackPop(struct Stack *stack);
 
 
 /**

@@ -28,9 +28,9 @@
 
 struct Stack *stackCreate(int size) {
   struct Stack *stack = (struct Stack *)malloc(sizeof(struct Stack));
-  stack->stack = (StackEntry *)malloc(sizeof(StackEntry) * (size + 2));
+  stack->stack = (StackEntry *)malloc(sizeof(StackEntry) * (size + 1));
   stack->first = stack->next = stack->stack;
-  stack->last = stack->stack + size + 1;
+  stack->last = stack->stack + size; /* - 1; */
   stackResetError(stack);
   return stack;
 }
@@ -42,7 +42,7 @@ void stackFree(struct Stack *stack) {
 }
 
 
-void *stackPush(struct Stack *stack, void *el) {
+void *stackPush(struct Stack *stack, StackEntry el) {
   if(stack->next <= stack->last) {
       DEBUG_PRINT("Pushing...\n");
       *(stack->next) = el;
@@ -55,11 +55,11 @@ void *stackPush(struct Stack *stack, void *el) {
 }
 
 
-void *stackPop(struct Stack *stack) {
+StackEntry stackPop(struct Stack *stack) {
   if(stack->next > stack->first) {
       DEBUG_PRINT("Popping...\n");
       stack->next--;
-      return stack->next;
+      return *(stack->next);
   }
   DEBUG_PRINT("Stack would underflow!\n");
   stack->error = ERR_STACK_UNDERFLOW;
@@ -75,3 +75,4 @@ int stackError(struct Stack *stack) {
 void stackResetError(struct Stack *stack) {
   stack->error = ERR_OK;
 }
+
