@@ -70,12 +70,12 @@
  * Checks whether x is NIL
  */
 #define EXPR_IS_NIL(x) (!(x) ||         \
-                        EXPR_OF_TYPE((x), EXPR_SYMBOL) &&       \
-                        (x)->data.string &&                     \
-                        ((x)->data.string)[0] == 'N' &&         \
-                        ((x)->data.string)[1] == 'I' &&         \
-                        ((x)->data.string)[2] == 'L' &&         \
-                        ((x)->data.string)[3] == 0 )  
+                        (EXPR_OF_TYPE((x), EXPR_SYMBOL) &&       \
+                         (x)->data.string &&                     \
+                         ((x)->data.string)[0] == 'N' &&         \
+                         ((x)->data.string)[1] == 'I' &&         \
+                         ((x)->data.string)[2] == 'L' &&         \
+                         ((x)->data.string)[3] == 0 ))
 
 
 /**
@@ -178,6 +178,12 @@
  *******************************************************************************/
 
 
+struct Expression;
+
+
+typedef struct Expression *(NativeFunction)(struct Environment *env, struct Expression *);
+
+
 struct Cons{
     struct Expression *car, *cdr;
 };
@@ -213,13 +219,24 @@ void expressionDispose(struct Environment *env, struct Expression *expr);
 
 
 /**
- * Creates an expression
+ * Creates an expression. To create an expression containing a native function,
+ * usage of {@code expressionCreateNativeFunc} is recommended.
  * @param type type of the content
  * @param content 
  * @return the new expression
  *         or null in case of an error
  */
 struct Expression *expressionCreate(struct Environment *env, unsigned char type, void *content);
+
+
+/**
+ * Creates an expression
+ * @param type type of the content
+ * @param content 
+ * @return the new expression
+ *         or null in case of an error
+ */
+struct Expression *expressionCreateNativeFunc(struct Environment *env, NativeFunction *content);
 
 
 /** 

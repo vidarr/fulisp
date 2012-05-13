@@ -29,7 +29,7 @@ perform-tests: tests
 	$(BUILD_DIR)/test-hash && $(BUILD_DIR)/test-stack
 
 $(BUILD_DIR)/%.o:%.c $(HEADER_FILES)
-	@echo -ne "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -o $@ -c $<
+	@echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -o $@ -c $<
 
 
 $(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o

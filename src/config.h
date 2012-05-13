@@ -36,6 +36,14 @@
 #define SYMBOL_TABLE_SIZE 20
 #define CALL_STACK_SIZE 200
 
+/**
+ * Should native functions be handled strictly? 
+ * Strictly spoken, this is only necessary on architectures where
+ * sizeof(void *) != sizeof(NativeFunc *) holds.
+ */
+#define STRICT_NATIVE_FUNCTIONS
+
+
 
 #endif
 

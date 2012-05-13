@@ -78,8 +78,15 @@ struct Expression *expressionCreate(struct Environment *env, unsigned char type,
                 expr->data.character = *((char *)content);
                 break;
             case EXPR_NATIVE_FUNC:
+#ifndef STRICT_NATIVE_FUNCTIONS
                 expr->data.nativeFunc = 
                     ((struct Expression *(*)(struct Environment *, struct Expression *))content);
+#else 
+                ERROR(ERR_UNEXPECTED_TYPE,
+                        "Cannot create native function expression via expressionCreate. Use expressionCreateNativeFunc instead!");
+                return NIL;
+                
+#endif
                 break;
             case EXPR_NO_TYPE:
                 expr->data.string = 0;
@@ -87,6 +94,16 @@ struct Expression *expressionCreate(struct Environment *env, unsigned char type,
     }
 
     DEBUG_PRINT("Created new expression\n");
+    return expr;
+}
+
+
+struct Expression *expressionCreateNativeFunc(struct Environment *env, NativeFunction *content) {
+    struct Expression *expr = malloc(sizeof(struct Expression));
+    expr->counter = 0;
+    expr->type = EXPR_NATIVE_FUNC;
+    expr->data.nativeFunc = content;
+    DEBUG_PRINT("Created new expression containing native function.\n");
     return expr;
 }
 

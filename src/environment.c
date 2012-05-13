@@ -29,7 +29,7 @@
  * @param func the function to add
  */
 #define ADD_NATIVE_FUNCTION_EXPRESSION(env, string, func) \
-    ENVIRONMENT_ADD_STRING((env), (string), expressionCreate((env), EXPR_NATIVE_FUNC, (void *)(func)))
+    ENVIRONMENT_ADD_STRING((env), (string), expressionCreateNativeFunc((env), (func)))
 
 
 

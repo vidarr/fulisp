@@ -91,7 +91,6 @@ int freeStack(void) {
 
 
 int main(int argc, char **argv) {
-    long l = 0;
     size = 20;
     test(createStack(), "Create stack with 20 elements");
     test(fillStack(stack, 10), "Fill stack with 10 elements");
@@ -104,7 +103,7 @@ int main(int argc, char **argv) {
     test(!stackPop(stack) && !(stackError(stack) != ERR_OK) && !stackPop(stack) && !(stackError(stack) != ERR_OK), "Pop beyond limits");
     stackResetError(stack);
     test(stackPush(stack, (StackEntry) 15l) != (StackEntry)15l && !(stackError(stack) != ERR_OK) &&
-            (l = (StackEntry)stackPop(stack)) != (StackEntry)15, "Push onto potentially tainted stack");
+            stackPop(stack) != (StackEntry)15, "Push onto potentially tainted stack");
 
     test(freeStack(), "Disposing stack"); 
     return 0;
