@@ -78,7 +78,7 @@ struct Expression *expressionCreate(struct Environment *env, unsigned char type,
                 expr->data.character = *((char *)content);
                 break;
             case EXPR_NATIVE_FUNC:
-#ifndef STRICT_NATIVE_FUNCTIONS
+#ifndef STRICT_NATIVE_FUNCS
                 expr->data.nativeFunc = 
                     ((struct Expression *(*)(struct Environment *, struct Expression *))content);
 #else 
