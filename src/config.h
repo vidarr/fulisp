@@ -41,7 +41,7 @@
  * Strictly spoken, this is only necessary on architectures where
  * sizeof(void *) != sizeof(NativeFunc *) holds.
  */
-#define STRICT_NATIVE_FUNCTIONS
+#define STRICT_NATIVE_FUNCS
 
 
 

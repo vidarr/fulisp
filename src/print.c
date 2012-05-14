@@ -1,5 +1,5 @@
 /* 
- * (C) 2010 Michael J. Beer
+ * (C) 2010, 2012 Michael J. Beer
  * This program is free software; you can redistribute it and/or modify 
  * it under the terms of the GNU General Public License as published by 
  * the Free Software Foundation; either version 3 of the License, or 
@@ -62,11 +62,11 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
 /* Should be used internally to this function ONLY! */
 #ifdef GENERATE_SAFETY_CODE
 
-#   define ASSERT_SAFE_ACCESS(n) { \
-           if(sizeOfBuffer < n) { \
+#   define ASSERT_SAFE_ACCESS(n, size) { \
+           if((size) < n) { \
                ERROR(ERR_BUFFER_OVERFLOW, "expressionToString(): Buffer exceeded"); \
                *buf = 0; \
-               return str; \
+               return buf; \
            } \
     };
 
@@ -75,22 +75,50 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
 #      warn Using C99 functionality
 #      define SAFE_SPRINTF(str, size, fmt, arg) { \
           size -= snprintf(str, size, fmt, arg); \
-          if(size <= 0) { \
-              ERROR(ERR_BUFFER_OVERFLOW, "expressionToString(): Buffer exceeded"); \
-              *buf = 0; \
-              return buf; \
-          }; \
-    }
+          ASSERT_SAFE_ACCESS(size, 0); \
+       };
+  
 
 #   else 
 #       define SAFE_SPRINTF(str, size, fmt, arg) sprintf(str, fmt, arg)
 #   endif
 
 #else
-#   define ASSERT_SAFE_ACCESS(n)
+
+#   define ASSERT_SAFE_ACCESS(n, size)
 #   define SAFE_SPRINTF(str, size, fmt, arg) sprintf(str, fmt, arg)
+
 #endif
 
+
+    /*   Native function printing */
+  
+#   ifdef  STRICT_NATIVE_FUNCS  
+ 
+#   define SAFE_SPRINTF_NATIVE_FUNC(str, size, func) { \
+        int i, len; \
+        unsigned char *fp; \
+        char *label = "NATIVE FUNC: "; \
+        len = strlen(label); \
+        for(i = 0; i < len; i++) { \
+            ASSERT_SAFE_ACCESS(i, size); \
+            str[i] = label[i]; \
+        }; \
+        fp = (unsigned char *)&func; \
+        for(i = 0; i < sizeof(NativeFunction *); i++) { \
+            ASSERT_SAFE_ACCESS(i, size); \
+            str[i + len] = fp[i]; \
+        }; \
+        ASSERT_SAFE_ACCESS(i + len, size); \
+        str[i + len + 1] = '\0'; \
+    };
+  
+#    else   
+
+#    define SAFE_SPRINTF_NATIVE_FUNC(str, size, func) SAFE_SPRINTF(str, size, "NATIVE FUNC: %p", func)
+
+#    endif
+          
     char *buf;
     struct Expression *e1, *e2;
     if(!expr || !EXPR_IS_VALID(expr)) {
@@ -128,11 +156,11 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
         case EXPR_NATIVE_FUNC:
             DEBUG_PRINT_PARAM("expressionToString(): FNC: %p\n",
                     EXPRESSION_NATIVE_FUNC(expr));
-            SAFE_SPRINTF(str, sizeOfBuffer, "NATIVE FUNC: %p", (void *)EXPRESSION_NATIVE_FUNC(expr));
+            SAFE_SPRINTF_NATIVE_FUNC(str, sizeOfBuffer, EXPRESSION_NATIVE_FUNC(expr));
             break;
         case EXPR_CONS:
             DEBUG_PRINT("expressionToString(): CONS");
-            ASSERT_SAFE_ACCESS(1);
+            ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
             str[0] = '(';
             buf = str + 1;
             e1 = car(env, expr);
@@ -148,7 +176,7 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
             e1 = cdr(env, expr);
             while(EXPR_IS_CONS(e1)) {
                 e2 = car(env, e1);
-                ASSERT_SAFE_ACCESS(1);
+                ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
                 *(buf++) = ' ';
                 IF_SAFETY_CODE( sizeOfBuffer--;);
                 expressionToString(env, buf, sizeOfBuffer, e2);
@@ -160,7 +188,7 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
                 e1 = e2;
             }
             if(!EXPR_IS_NIL(e1)) {
-                ASSERT_SAFE_ACCESS(1);
+                ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
                 *(buf++) = ' ';
                 sizeOfBuffer--;
                 expressionToString(env, buf, sizeOfBuffer, e1);
@@ -168,7 +196,7 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
                 STRING_SET_TO_END(buf);
             };
             expressionDispose(env, e1);
-            ASSERT_SAFE_ACCESS(2);
+            ASSERT_SAFE_ACCESS(2, sizeOfBuffer);
             buf[0] = ')';
             buf[1] = 0;
     };
@@ -176,6 +204,8 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
 
 #undef ASSERT_SAFE_ACCESS
 #undef SAFE_SPRINTF
+#undef SAFE_SPRINTF_N
+
 
 }
 
