@@ -253,6 +253,36 @@ void printToStream(struct Environment *env, struct CharWriteStream *stream, stru
     free(buf); \
 }
 
+#ifdef STRICT_NATIVE_FUNCS
+
+    unsigned char *fp;
+    int i;
+    unsigned char low, high;
+
+#   define TO_HEX(x) ((x) < 10 ? '0' + (x) : 'A' + (x) - 10)
+
+#   define PRINT_NATIVE_FUNC(x) { \
+        fp = (unsigned char *) &(x); \
+        for(i = 0; i < sizeof(NativeFunction *); i++) { \
+            /* Convert char to hex representation */ \
+            low = fp[i] & (16 | 8 | 4 | 2 | 1); \
+            high = fp[i] >> 4; \
+            low = TO_HEX(low); \
+            high = TO_HEX(high); \
+            STREAM_WRITE(stream, ' '); \
+            STREAM_WRITE(stream, high); \
+            STREAM_WRITE(stream, low); \
+        }; \
+        STREAM_WRITE(stream, '\0'); \
+    }
+
+#else 
+
+#   define PRINT_NATIVE_FUNC(x)  PRINT_EXPR(pointer, %p, (void *) (x))
+
+#endif 
+
+
     char *buf;
     struct Expression *e1, *e2;
 
@@ -295,7 +325,7 @@ void printToStream(struct Environment *env, struct CharWriteStream *stream, stru
                     expr->data.nativeFunc);
             buf = "FNC: ";
             PRINT_STREAM(buf);
-            PRINT_EXPR(pointer, %p, (void *)expr->data.nativeFunc);
+            PRINT_NATIVE_FUNC(expr->data.nativeFunc);
             break;
         case EXPR_CONS:
             DEBUG_PRINT("expressionToString(): CONS");
