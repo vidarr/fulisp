@@ -29,5 +29,7 @@
 
 #define DEBUG_PRINT_EXPR(x, buf) 
 
+#define DEBUG_PRINT_NATIVE_FUNC(x)
+
 
 #endif

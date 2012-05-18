@@ -96,7 +96,7 @@ struct Expression *read(struct Reader *reader) {
     while(!reader->expr && (readChar = READ_NEXT_CHAR(reader))) {
         printf(" Got '%c'\n", readChar);
         macro = LOOKUP_READ_MACRO((char)readChar, reader);
-        DEBUG_PRINT_PARAM("DEBUG: Found macro %p\n", (void *)macro);
+        DEBUG_PRINT_NATIVE_FUNC(macro);
         if(macro) {
             macro(reader, readChar);
             /* if the macro returned an expression, we are done  */
@@ -123,7 +123,7 @@ struct Expression *read(struct Reader *reader) {
     } else 
         rmTerminator(reader, 0); /* If none registered, take the standard
                                     terminating macro */
-    DEBUG_PRINT(" reached end of function - returns expr   "); 
+    DEBUG_PRINT(" reached end of function\n"); 
     DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr, outBuffer);
 
     return reader->expr;

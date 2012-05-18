@@ -34,6 +34,10 @@
 #endif
 
 
+#ifdef STRICT_NATIVE_FUNCS
+#   include "printnativefunctions.h"
+#endif
+
 
 #define STRING_SET_TO_END(str) {while(*(str++) != 0); str--;}
 
@@ -93,31 +97,31 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
 
     /*   Native function printing */
   
-#   ifdef  STRICT_NATIVE_FUNCS  
+#ifdef  STRICT_NATIVE_FUNCS  
+
+    int i, len;
+    char *label;
  
 #   define SAFE_SPRINTF_NATIVE_FUNC(str, size, func) { \
-        int i, len; \
-        unsigned char *fp; \
-        char *label = "NATIVE FUNC: "; \
+        label = "FCT: "; \
         len = strlen(label); \
         for(i = 0; i < len; i++) { \
             ASSERT_SAFE_ACCESS(i, size); \
             str[i] = label[i]; \
         }; \
-        fp = (unsigned char *)&func; \
-        for(i = 0; i < sizeof(NativeFunction *); i++) { \
-            ASSERT_SAFE_ACCESS(i, size); \
-            str[i + len] = fp[i]; \
-        }; \
-        ASSERT_SAFE_ACCESS(i + len, size); \
-        str[i + len + 1] = '\0'; \
+        label = str + len + 1; \
+        i = sizeof(NativeFunction *); \
+        ASSERT_SAFE_ACCESS(i + 1 + len, size); \
+        NATIVE_FUNC_TO_STR(func, label) \
+        ASSERT_SAFE_ACCESS(i + len + 2, size); \
+        str[i + len + 2] = '\0'; \
     };
   
-#    else   
+#else   
 
 #    define SAFE_SPRINTF_NATIVE_FUNC(str, size, func) SAFE_SPRINTF(str, size, "NATIVE FUNC: %p", func)
 
-#    endif
+#endif
           
     char *buf;
     struct Expression *e1, *e2;
@@ -205,7 +209,7 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
 #undef ASSERT_SAFE_ACCESS
 #undef SAFE_SPRINTF
 #undef SAFE_SPRINTF_N
-
+#undef SAFE_SPRINTF_NATIVE_FUNC
 
 }
 
@@ -258,8 +262,6 @@ void printToStream(struct Environment *env, struct CharWriteStream *stream, stru
     unsigned char *fp;
     int i;
     unsigned char low, high;
-
-#   define TO_HEX(x) ((x) < 10 ? '0' + (x) : 'A' + (x) - 10)
 
 #   define PRINT_NATIVE_FUNC(x) { \
         fp = (unsigned char *) &(x); \
@@ -353,8 +355,10 @@ void printToStream(struct Environment *env, struct CharWriteStream *stream, stru
             STREAM_WRITE(stream, ')');
     };
 
-}
-
 /* Prevent to use macros 'internal' to printToStream() elsewhere, would probably not be intented! */
 #undef PRINT_STREAM
 #undef PRINT_EXPR
+#undef PRINT_NATIVE_FUNC
+
+}
+

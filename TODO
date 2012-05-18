@@ -1,3 +1,6 @@
+* Work out reader test: Read in expressions, compare string print of reader
+  result to expected strings
+
 * Print out function pointers correctly
 
 * Reader should parse '+' and '-' into symbol '+' resp. '-' and not int:0
