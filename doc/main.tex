@@ -1,0 +1,80 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\title{\LaTeX}
+\date{}
+\begin{document}
+
+\section{Introduction}
+
+\section{Goals}
+
+\subsection{Principles}
+
+\begin{itemize}
+    \item Adhere to standards: Use Standard C, Posix
+    \item Try to provide standardized tests for each bit 
+    \item Simple design. Optimize only if benefits can be proven.
+\end{itemize}
+
+
+\section{Basic Data Structures}
+
+\subsection{Linked Lists}
+
+\subsection{Last In - First Out - The Stack}
+
+\subsection{Dictionaries - The Hash Table}
+
+
+\section{Symbols}
+
+\subsection{\texttt{NIL}}
+
+\texttt{NIL} is general identified with the NULL-pointer. Whenever a
+NULL-Pointer is encountered, it is interpreted to represent \texttt{NIL}.
+
+
+\section{\texttt{lambda}}
+
+\texttt{lambda} is represented by a structure that contains 
+
+\begin{enumerate}
+\item A list of symbols. These symbols will be inserted into the current symbol
+table with the parameters of the lambda call as values. 
+\item A pointer to a Block of code to be executed when being called.
+\end{enumerate}
+
+Whenever a lambda expression is called with parameters, the following steps will
+be performed:
+
+\begin{enumerate}
+\item  the parameters' values are inserted into the current lookup table  with the 
+symbols of the lambda function. If the symbols already exist within the table,
+the symbols original values have to be saved.
+\item The lambda values code block is executed.
+\item The symbols original values are restored.
+\end{enumerate}
+
+
+\section{Symbol Tables}
+
+\begin{enumerate}
+\item There is one global Symbol table. This table contains \texttt{NIL} etc.
+\item Other symbol tables can be created on demand, for example by package.
+These symbol tables are inserted into the current symbol table.
+\item If a package is entered, the current package is pushed onto a stack and
+the symbol table of the package becomes the new one.
+\end{enumerate}
+
+Lookups are performed via
+
+\begin{enumerate}
+\item the symbol is looked up in the current lookup table.
+\item If not found, the symbol table stack is searched for.
+\item A name like \texttt{part1::part2::part3...} is split up into its parts. Then,
+\texttt{part1} is looked up just as a normal symbol. If it does not resolve to a symbol
+table, an error is produced. If it resolves to a symbol table, the other parts
+\texttt{part2}, \texttt{part3} etc are looked up within this lookup table.
+\end{enumerate}
+
+\end{document}

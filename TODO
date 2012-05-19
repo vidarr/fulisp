@@ -1,0 +1,17 @@
+* Work out reader test: Read in expressions, compare string print of reader
+  result to expected strings
+
+* Print out function pointers correctly
+
+* Reader should parse '+' and '-' into symbol '+' resp. '-' and not int:0
+
+* Error: Introduce error-handling function to be called by pointer.
+         Allow setting custom error function
+
+* Environment: Make all functions take an Environment struct
+               Introduce Environment into reader
+
+
+* Merge sub structures of Reader directly into Reader to save resolution of
+        pointer
+
