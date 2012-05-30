@@ -49,7 +49,7 @@ struct Expression *getFileNextChar(struct Environment *env, FILE *stream);
  * @param expr the expression to be described
  * @return en expression containing an string describing the expression
  */
-struct Expression *print(struct Environment *env, struct Expression *expr);
+struct Expression *fuPrint(struct Environment *env, struct Expression *expr);
 
 
 /**

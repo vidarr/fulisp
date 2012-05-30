@@ -97,7 +97,7 @@ struct Reader {
 
 
 
-struct Expression *read(struct Reader *reader);
+struct Expression *fuRead(struct Reader *reader);
 
 
 /**

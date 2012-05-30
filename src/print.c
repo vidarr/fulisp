@@ -43,12 +43,12 @@
 
 
 struct Expression *getFileNextChar(struct Environment *env, FILE *stream) {
-        int readChar;
-        return READCHARFROMSTREAM(env, stream);
+    int readChar;
+    return READCHARFROMSTREAM(env, stream);
 }
 
 
-struct Expression *print(struct Environment *env, struct Expression *expr) {
+struct Expression *fuPrint(struct Environment *env, struct Expression *expr) {
     char *retStr, *buf = malloc(sizeof(char) * READ_BUFFER_SIZE);
     struct Expression *res = expressionCreate(env, EXPR_STRING,
             expressionToString(env, buf, READ_BUFFER_SIZE, expr));
@@ -63,25 +63,25 @@ struct Expression *print(struct Environment *env, struct Expression *expr) {
 /* TODO: Replace by an apropriate invocation of printToStream() */
 char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, struct Expression *expr) {
 
-/* Should be used internally to this function ONLY! */
+    /* Should be used internally to this function ONLY! */
 #ifdef GENERATE_SAFETY_CODE
 
 #   define ASSERT_SAFE_ACCESS(n, size) { \
-           if((size) < n) { \
-               ERROR(ERR_BUFFER_OVERFLOW, "expressionToString(): Buffer exceeded"); \
-               *buf = 0; \
-               return buf; \
-           } \
-    };
+    if((size) < n) { \
+        ERROR(ERR_BUFFER_OVERFLOW, "expressionToString(): Buffer exceeded"); \
+        *buf = 0; \
+        return buf; \
+    } \
+};
 
 #   if __STDC_VERSION__ >= 199901L
 
 #      warn Using C99 functionality
 #      define SAFE_SPRINTF(str, size, fmt, arg) { \
-          size -= snprintf(str, size, fmt, arg); \
-          ASSERT_SAFE_ACCESS(size, 0); \
-       };
-  
+    size -= snprintf(str, size, fmt, arg); \
+    ASSERT_SAFE_ACCESS(size, 0); \
+};
+
 
 #   else 
 #       define SAFE_SPRINTF(str, size, fmt, arg) sprintf(str, fmt, arg)
@@ -95,116 +95,116 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
 #endif
 
 
-    /*   Native function printing */
-  
+/*   Native function printing */
+
 #ifdef  STRICT_NATIVE_FUNCS  
 
-    int i, len;
-    char *label;
- 
+int i, len;
+char *label;
+
 #   define SAFE_SPRINTF_NATIVE_FUNC(str, size, func) { \
-        label = "FCT: "; \
-        len = strlen(label); \
-        for(i = 0; i < len; i++) { \
-            ASSERT_SAFE_ACCESS(i, size); \
-            str[i] = label[i]; \
-        }; \
-        label = str + len + 1; \
-        i = sizeof(NativeFunction *); \
-        ASSERT_SAFE_ACCESS(i + 1 + len, size); \
-        NATIVE_FUNC_TO_STR(func, label) \
-        ASSERT_SAFE_ACCESS(i + len + 2, size); \
-        str[i + len + 2] = '\0'; \
-    };
-  
+    label = "FCT: "; \
+    len = strlen(label); \
+    for(i = 0; i < len; i++) { \
+        ASSERT_SAFE_ACCESS(i, size); \
+        str[i] = label[i]; \
+    }; \
+    label = str + len + 1; \
+    i = sizeof(NativeFunction *); \
+    ASSERT_SAFE_ACCESS(i + 1 + len, size); \
+    NATIVE_FUNC_TO_STR(func, label) \
+    ASSERT_SAFE_ACCESS(i + len + 2, size); \
+    str[i + len + 2] = '\0'; \
+};
+
 #else   
 
 #    define SAFE_SPRINTF_NATIVE_FUNC(str, size, func) SAFE_SPRINTF(str, size, "NATIVE FUNC: %p", func)
 
 #endif
-          
-    char *buf;
-    struct Expression *e1, *e2;
-    if(!expr || !EXPR_IS_VALID(expr)) {
-        sprintf(str, "**INVALID**");
-        return str;
-    };
-    IF_SAFETY_CODE(buf = str;);
-    DEBUG_PRINT_PARAM("expressionToString(): Counter is %i:", expr->counter);
-    switch(EXPRESSION_TYPE(expr)) {
-        case EXPR_INTEGER:
-            DEBUG_PRINT_PARAM("expressionToString(): INT: %i\n",
-                    EXPRESSION_INTEGER(expr));
-            SAFE_SPRINTF(str, sizeOfBuffer, "INT: %i", EXPRESSION_INTEGER(expr));
-            break;
-        case EXPR_FLOAT:
-            DEBUG_PRINT_PARAM("expressionToString(): FLT: %f\n",
-                    EXPRESSION_FLOATING(expr));
-            SAFE_SPRINTF(str, sizeOfBuffer, "FLOAT: %f", EXPRESSION_FLOATING(expr));
-            break;
-        case EXPR_CHARACTER:
-            DEBUG_PRINT_PARAM("expressionToString(): CHR: %ci\n",
-                    EXPRESSION_CHARACTER(expr));
-            SAFE_SPRINTF(str, sizeOfBuffer, "CHAR: %i", EXPRESSION_CHARACTER(expr));
-            break;
-        case EXPR_STRING:
-            DEBUG_PRINT_PARAM("expressionToString(): STR: %s\n",
-                    EXPRESSION_STRING(expr));
-            SAFE_SPRINTF(str, sizeOfBuffer, "STR: %s", EXPRESSION_STRING(expr));
-            break;
-        case EXPR_SYMBOL:
-            DEBUG_PRINT_PARAM("expressionToString(): SYM: %s\n",
-                    EXPRESSION_STRING(expr));
-            SAFE_SPRINTF(str, sizeOfBuffer, "SYM: %s", EXPRESSION_STRING(expr));
-            break;
-        case EXPR_NATIVE_FUNC:
-            DEBUG_PRINT_PARAM("expressionToString(): FNC: %p\n",
-                    EXPRESSION_NATIVE_FUNC(expr));
-            SAFE_SPRINTF_NATIVE_FUNC(str, sizeOfBuffer, EXPRESSION_NATIVE_FUNC(expr));
-            break;
-        case EXPR_CONS:
-            DEBUG_PRINT("expressionToString(): CONS");
-            ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
-            str[0] = '(';
-            buf = str + 1;
-            e1 = car(env, expr);
-            IF_DEBUG(if (!e1) { \
+
+char *buf;
+struct Expression *e1, *e2;
+if(!expr || !EXPR_IS_VALID(expr)) {
+    sprintf(str, "**INVALID**");
+    return str;
+};
+IF_SAFETY_CODE(buf = str;);
+DEBUG_PRINT_PARAM("expressionToString(): Counter is %i:", expr->counter);
+switch(EXPRESSION_TYPE(expr)) {
+    case EXPR_INTEGER:
+        DEBUG_PRINT_PARAM("expressionToString(): INT: %i\n",
+                EXPRESSION_INTEGER(expr));
+        SAFE_SPRINTF(str, sizeOfBuffer, "INT: %i", EXPRESSION_INTEGER(expr));
+        break;
+    case EXPR_FLOAT:
+        DEBUG_PRINT_PARAM("expressionToString(): FLT: %f\n",
+                EXPRESSION_FLOATING(expr));
+        SAFE_SPRINTF(str, sizeOfBuffer, "FLOAT: %f", EXPRESSION_FLOATING(expr));
+        break;
+    case EXPR_CHARACTER:
+        DEBUG_PRINT_PARAM("expressionToString(): CHR: %ci\n",
+                EXPRESSION_CHARACTER(expr));
+        SAFE_SPRINTF(str, sizeOfBuffer, "CHAR: %i", EXPRESSION_CHARACTER(expr));
+        break;
+    case EXPR_STRING:
+        DEBUG_PRINT_PARAM("expressionToString(): STR: %s\n",
+                EXPRESSION_STRING(expr));
+        SAFE_SPRINTF(str, sizeOfBuffer, "STR: %s", EXPRESSION_STRING(expr));
+        break;
+    case EXPR_SYMBOL:
+        DEBUG_PRINT_PARAM("expressionToString(): SYM: %s\n",
+                EXPRESSION_STRING(expr));
+        SAFE_SPRINTF(str, sizeOfBuffer, "SYM: %s", EXPRESSION_STRING(expr));
+        break;
+    case EXPR_NATIVE_FUNC:
+        DEBUG_PRINT_PARAM("expressionToString(): FNC: %p\n",
+                EXPRESSION_NATIVE_FUNC(expr));
+        SAFE_SPRINTF_NATIVE_FUNC(str, sizeOfBuffer, EXPRESSION_NATIVE_FUNC(expr));
+        break;
+    case EXPR_CONS:
+        DEBUG_PRINT("expressionToString(): CONS");
+        ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
+        str[0] = '(';
+        buf = str + 1;
+        e1 = car(env, expr);
+        IF_DEBUG(if (!e1) { \
                 DEBUG_PRINT("expressionToString(): car is 0!"); \
-            });
-            IF_SAFETY_CODE(sizeOfBuffer--;);
-            expressionToString(env, buf, sizeOfBuffer, e1);
-            expressionDispose(env, e1);
-            /* Remember the leading '(' */
+                });
+        IF_SAFETY_CODE(sizeOfBuffer--;);
+        expressionToString(env, buf, sizeOfBuffer, e1);
+        expressionDispose(env, e1);
+        /* Remember the leading '(' */
+        IF_SAFETY_CODE(sizeOfBuffer -= strlen(buf););
+        STRING_SET_TO_END(buf);
+        e1 = cdr(env, expr);
+        while(EXPR_IS_CONS(e1)) {
+            e2 = car(env, e1);
+            ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
+            *(buf++) = ' ';
+            IF_SAFETY_CODE( sizeOfBuffer--;);
+            expressionToString(env, buf, sizeOfBuffer, e2);
             IF_SAFETY_CODE(sizeOfBuffer -= strlen(buf););
             STRING_SET_TO_END(buf);
-            e1 = cdr(env, expr);
-            while(EXPR_IS_CONS(e1)) {
-                e2 = car(env, e1);
-                ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
-                *(buf++) = ' ';
-                IF_SAFETY_CODE( sizeOfBuffer--;);
-                expressionToString(env, buf, sizeOfBuffer, e2);
-                IF_SAFETY_CODE(sizeOfBuffer -= strlen(buf););
-                STRING_SET_TO_END(buf);
-                expressionDispose(env, e2);
-                e2 = cdr(env, e1);
-                expressionDispose(env, e1);
-                e1 = e2;
-            }
-            if(!EXPR_IS_NIL(e1)) {
-                ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
-                *(buf++) = ' ';
-                sizeOfBuffer--;
-                expressionToString(env, buf, sizeOfBuffer, e1);
-                IF_SAFETY_CODE(sizeOfBuffer -= strlen(buf););
-                STRING_SET_TO_END(buf);
-            };
+            expressionDispose(env, e2);
+            e2 = cdr(env, e1);
             expressionDispose(env, e1);
-            ASSERT_SAFE_ACCESS(2, sizeOfBuffer);
-            buf[0] = ')';
-            buf[1] = 0;
-    };
-    return str;
+            e1 = e2;
+        }
+        if(!EXPR_IS_NIL(e1)) {
+            ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
+            *(buf++) = ' ';
+            sizeOfBuffer--;
+            expressionToString(env, buf, sizeOfBuffer, e1);
+            IF_SAFETY_CODE(sizeOfBuffer -= strlen(buf););
+            STRING_SET_TO_END(buf);
+        };
+        expressionDispose(env, e1);
+        ASSERT_SAFE_ACCESS(2, sizeOfBuffer);
+        buf[0] = ')';
+        buf[1] = 0;
+};
+return str;
 
 #undef ASSERT_SAFE_ACCESS
 #undef SAFE_SPRINTF
@@ -216,22 +216,22 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
 
 
 void printToStream(struct Environment *env, struct CharWriteStream *stream, struct Expression *expr) {
-/* Macros for printToStream()
-   These macros rely on some variables to exist & be initialized properly!
-   Should be used internally to printToStream() ONLY! */
+    /* Macros for printToStream()
+       These macros rely on some variables to exist & be initialized properly!
+       Should be used internally to printToStream() ONLY! */
 #ifdef GENERATE_SAFETY_CODE
 
 #   if __STDC_VERSION__ >= 199901L
 
-       int noBytes;
+    int noBytes;
 #      define SAFE_SPRINTF(str, size, fmt, arg) { \
-          noBytes = snprintf(str, size, fmt, arg); \
-          if(noBytes <= 0) { \
-              ERROR(ERR_BUFFER_OVERFLOW, "expressionToString(): Buffer exceeded"); \
-              free(buf); \
-              return; \
-          }; \
-       }
+    noBytes = snprintf(str, size, fmt, arg); \
+    if(noBytes <= 0) { \
+        ERROR(ERR_BUFFER_OVERFLOW, "expressionToString(): Buffer exceeded"); \
+        free(buf); \
+        return; \
+    }; \
+}
 
 
 #    else
@@ -264,19 +264,19 @@ void printToStream(struct Environment *env, struct CharWriteStream *stream, stru
     unsigned char low, high;
 
 #   define PRINT_NATIVE_FUNC(x) { \
-        fp = (unsigned char *) &(x); \
-        for(i = 0; i < sizeof(NativeFunction *); i++) { \
-            /* Convert char to hex representation */ \
-            low = fp[i] & (16 | 8 | 4 | 2 | 1); \
-            high = fp[i] >> 4; \
-            low = TO_HEX(low); \
-            high = TO_HEX(high); \
-            STREAM_WRITE(stream, ' '); \
-            STREAM_WRITE(stream, high); \
-            STREAM_WRITE(stream, low); \
-        }; \
-        STREAM_WRITE(stream, '\0'); \
-    }
+    fp = (unsigned char *) &(x); \
+    for(i = 0; i < sizeof(NativeFunction *); i++) { \
+        /* Convert char to hex representation */ \
+        low = fp[i] & (16 | 8 | 4 | 2 | 1); \
+        high = fp[i] >> 4; \
+        low = TO_HEX(low); \
+        high = TO_HEX(high); \
+        STREAM_WRITE(stream, ' '); \
+        STREAM_WRITE(stream, high); \
+        STREAM_WRITE(stream, low); \
+    }; \
+    STREAM_WRITE(stream, '\0'); \
+}
 
 #else 
 
@@ -334,8 +334,8 @@ void printToStream(struct Environment *env, struct CharWriteStream *stream, stru
             STREAM_WRITE(stream, '(');
             e1 = car(env, expr);
             IF_DEBUG(if (!e1) { \
-                DEBUG_PRINT("expressionToString(): car is 0!"); \
-            });
+                    DEBUG_PRINT("expressionToString(): car is 0!"); \
+                    });
             printToStream(env, stream, e1);
             expressionDispose(env, e1);
             e1 = cdr(env, expr);
