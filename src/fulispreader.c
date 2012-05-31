@@ -207,7 +207,7 @@ static void rmString(struct Reader *reader, char sigle) {
     registerStandardReadMacro(nestedReader, rmIdentity);
     registerReadMacro(nestedReader, sigle, rmStringEnd);
     registerReadMacro(nestedReader, '\0', rmUnexpectedEndOfString);
-    reader->expr = read(nestedReader);
+    reader->expr = fuRead(nestedReader);
     deleteReader(nestedReader);
 }
 
@@ -246,7 +246,7 @@ static void rmGetNextAsCharacter(struct Reader *reader, char sigle) {
     oldStdMacro = registerStandardReadMacro(reader, rmCharacter);
     oldTable = reader->lookup->next;
     reader->lookup->next = 0;
-    reader->expr = read(reader);
+    reader->expr = fuRead(reader);
     registerStandardReadMacro(reader, oldStdMacro);
     reader->lookup->next = oldTable;
 }
@@ -313,7 +313,7 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
     DEBUG_PRINT_MACRO_LOOKUP(reader);
 
     resetReader(reader);
-    expr = read(reader);
+    expr = fuRead(reader);
     if(!EXPR_IS_VALID(expr) || !NO_ERROR) {
         expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
         /* counter of nil has already the correct value */
@@ -325,7 +325,7 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
     expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
     
     resetReader(reader);
-    while((expr = read(reader)) && EXPR_IS_VALID(expr)) {
+    while((expr = fuRead(reader)) && EXPR_IS_VALID(expr)) {
         /* Here, the counter of nil is raised. It has been one too much already,
          * so remember to perform one expressionDispose on it after the loop or
          * recycle nil somehow without raising the counter */

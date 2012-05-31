@@ -84,7 +84,7 @@ void resetReader(struct Reader *reader) {
 }
 
 
-struct Expression *read(struct Reader *reader) {
+struct Expression *fuRead(struct Reader *reader) {
 
     char readChar;
     NativeReadMacro macro;
@@ -101,7 +101,7 @@ struct Expression *read(struct Reader *reader) {
             macro(reader, readChar);
             /* if the macro returned an expression, we are done  */
             if(reader->expr) {
-                DEBUG_PRINT("read() returns expr : ");
+                DEBUG_PRINT("fuRead() returns expr : ");
                 DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr, outBuffer);
                 expr = reader->expr;
                 reader->expr = 0;

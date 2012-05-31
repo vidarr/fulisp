@@ -161,7 +161,6 @@ int writeCharToFile(void *intConfig, char c){
 }
 
 
-
 struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file) {
     struct CStreamCharWriteStream *cfg;
     struct CharWriteStream *stream = 
@@ -198,3 +197,52 @@ void disposeCStreamCharWriteStream(struct CharWriteStream *stream) {
     }
     free(stream);
 }
+
+
+
+/******************************************************************************
+ *       Write to a string
+ ******************************************************************************/
+
+
+struct intStringWriteStream {
+    int index;
+    int strLength;
+    char *strBuffer;
+};
+
+
+int writeCharToString(void *intConfig, char c) {
+    struct intStringWriteStream *cfg = (struct intStringWriteStream *)intConfig;
+    if(cfg->index < cfg->strLength - 1) {
+        cfg->strBuffer[cfg->index] = c;
+        cfg->index++;
+        cfg->strBuffer[cfg->index] = '\0';
+    } else {
+        ERROR(ERR_BUFFER_OVERFLOW, "writeCharToString: string size exceeded");
+        return 0;
+    }
+    return 1;
+}
+        
+
+struct CharWriteStream *makeStringCharWriteStream(int stringLength, char
+        *string) {
+    struct CharWriteStream *stream = (struct CharWriteStream
+            *)malloc(sizeof(struct CharWriteStream));
+    struct intStringWriteStream *intStream = (struct intStringWriteStream
+            *)malloc(sizeof(struct intStringWriteStream));
+    stream->intConfig = intStream;
+    stream->write = writeCharToString;
+    intStream->index = 0;
+    intStream->strLength = stringLength;
+    intStream->strBuffer = string;
+    return stream;
+}
+
+
+void disposeStringCharWriteStream(struct CharWriteStream *stream) {
+    free(stream->intConfig);
+    free(stream);
+}
+

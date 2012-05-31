@@ -148,14 +148,27 @@ void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream);
 
 /**
  * a write stream basically takes one item and writes it whereever the stream
- * aims at */
+ * aims at 
+ */
 struct WriteStream {
+    /**
+     * writes an expression to this stream
+     * @param intConfig 
+     * @param expr
+     * @return number of written bytes
+     */
     int (*write)(void *, struct Expression *);
     void *intConfig;
 };
 
 
 struct CharWriteStream{
+    /**
+     * Writes a character to this stream
+     * @param intConfig 
+     * @param c character to write
+     * @return number of written characters
+     */
     int (*write)(void *, char);
     void *intConfig;
 };
@@ -178,7 +191,20 @@ struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file);
 void disposeCStreamCharWriteStream(struct CharWriteStream *stream);
 
 
+/**
+ * Creates a stream that writes into a string buffer
+ * @param stringLength maximum length of the string 
+ * @param string buffer to write to
+ * @return pointer to CharWriteStream 
+ */ 
+struct CharWriteStream *makeStringCharWriteStream(int stringLength, char *string);
 
+
+/**
+ * Disposes a StringCharWriteStream 
+ * @param  stream pointer to CharWriteStream to dispose
+ */
+void disposeStringCharWriteStream(struct CharWriteStream *stream);
 
 
 /******************************************************************************
