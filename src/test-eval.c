@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
     reader = newFuLispReader(env, stream);
 
-    expr = read(reader);
+    expr = fuRead(reader);
     deleteReader(reader);
     disposeCharBufferedReadStream(stream);
     free(readStream); 

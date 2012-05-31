@@ -60,7 +60,8 @@ struct Expression *fuPrint(struct Environment *env, struct Expression *expr) {
 }
 
 
-/* TODO: Replace by an apropriate invocation of printToStream() */
+#ifdef USE_CUSTOM_EXPRESSION_TO_STRING
+
 char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, struct Expression *expr) {
 
     /* Should be used internally to this function ONLY! */
@@ -213,6 +214,18 @@ return str;
 
 }
 
+#else
+
+char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, struct Expression *expr) {
+    
+   struct CharWriteStream *stream = makeStringCharWriteStream(sizeOfBuffer,
+           str);
+   printToStream(env, stream, expr);
+   disposeStringCharWriteStream(stream);
+  return str; 
+}
+
+#endif
 
 
 void printToStream(struct Environment *env, struct CharWriteStream *stream, struct Expression *expr) {
