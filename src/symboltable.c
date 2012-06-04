@@ -28,12 +28,12 @@
 #include "no_debugging.h"
 #endif
 
-struct HashTable *symbolTableCreate(struct Environment *env) {
+struct HashTable *symbolTableCreate(struct Expression *env) {
     return hashTableCreate(SYMBOL_TABLE_SIZE, stdHashFunction);
 }
 
 
-void symbolTableDispose(struct Environment *env, struct HashTable *hash) {
+void symbolTableDispose(struct Expression *env, struct HashTable *hash) {
     int i;
     char *sym;
     char **symbols = hashTableKeys(hash);
@@ -45,7 +45,7 @@ void symbolTableDispose(struct Environment *env, struct HashTable *hash) {
 }
 
 
-struct Expression *symbolTableGetSymbol(struct Environment *env, struct HashTable *hash, char *name) {
+struct Expression *symbolTableGetSymbol(struct Expression *env, struct HashTable *hash, char *name) {
     struct Expression *retVal;
     char *newName;
     assert(hash && name);

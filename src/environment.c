@@ -17,7 +17,7 @@
 
 #include "environment.h"
 #include "nativefunctions.h"
-#include "stdio.h"
+/* #include "stdio.h" */
 
 
 
@@ -33,16 +33,23 @@
 
 
 
-struct Environment *environmentCreate(void) {
+struct Expression *environmentCreate(struct Expression *parent) {
     struct Environment *env = (struct Environment *)malloc(sizeof(struct Environment));
     env->lookup = hashTableCreate(SYMBOL_TABLE_SIZE, stdHashFunction);
-    return env;
+    if(parent) {
+        if(EXPR_OF_TYPE(parent, EXPR_ENVIRONMENT)) {
+            ERROR(ERR_UNEXPECTED_TYPE, "Expected environment");
+            return NIL;
+        };
+        expressionAssign(parent, parent);
+    }
+    env->parent = parent;
+    return expressionCreate(parent, EXPR_ENVIRONMENT, env);
 }
 
 
-
-struct Environment *environmentCreateStdEnv(void) {
-    struct Environment *env = environmentCreate();
+struct Expression *environmentCreateStdEnv(void) {
+    struct Expression *env = environmentCreate(0);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
     ENVIRONMENT_ADD_STRING(env, "NIL", 0); 
@@ -52,19 +59,37 @@ struct Environment *environmentCreateStdEnv(void) {
 }
 
 
-
-void environmentDispose(struct Environment *env) {
+void environmentDispose(struct Expression *surrEnv, struct Environment *env) {
     /* Dispose symbol table */
     /* TODO: Dispose all expressions within the symboltable */
     int i = 0;
     char **keys = hashTableKeys(env->lookup);
     while(keys[i] != 0) {
         fprintf(stderr, "Key going to be disposed: %s", keys[i]);
-        expressionDispose(env, hashTableDelete(env->lookup, keys[i++]));
+        expressionDispose(surrEnv, hashTableDelete(env->lookup, keys[i++]));
     };
     free(keys);
-
+    if(env->parent) 
+        expressionDispose(surrEnv,  env->parent);
     hashTableDispose(env->lookup);
     free(env);
 }
 
+
+struct Expression *environmentLookup(struct Expression *env, struct Expression *sym) {
+    struct Expression *expr;
+    ENSURE_ENVIRONMENT(env);
+    expr = hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, EXPRESSION_STRING(sym));
+    if(!expr && EXPRESSION_ENVIRONMENT(env)->parent) {
+        return
+            environmentLookup((EXPRESSION_ENVIRONMENT(env))->parent, sym);
+    }
+    return expr;
+}
+
+
+/* struct Expression *environmentExpressionLookup(struct Expression *env, struct
+        Expression *sym) {
+    ENSURE_ENVIRONMENT(env);
+    return environmentLookup(EXPRESSION_ENVIRONMENT(env), sym);
+} */

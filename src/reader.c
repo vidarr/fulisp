@@ -33,7 +33,7 @@
 
 
 
-struct Reader *newReader(struct Environment *env, struct CharBufferedReadStream *stream) { 
+struct Reader *newReader(struct Expression *env, struct CharBufferedReadStream *stream) { 
     struct Reader *reader = malloc(sizeof(struct Reader));
     assert(stream);
     reader->type = EXPR_SYMBOL;

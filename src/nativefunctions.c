@@ -25,12 +25,12 @@
 
 
 
-struct Expression *quote(struct Environment *env, struct Expression *expr) {
+struct Expression *quote(struct Expression *env, struct Expression *expr) {
     return expressionAssign(env, expr);
 }
 
 
-struct Expression *add(struct Environment *env, struct Expression *expr) {
+struct Expression *add(struct Expression *env, struct Expression *expr) {
     struct Expression *car = 0;
     float res = 0;
 /*    IF_SAFETY_CODE(float buf;); */

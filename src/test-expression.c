@@ -41,7 +41,7 @@ void sigsegvHandler(int signal) {
 }
 
 
-int testExpression(struct Environment *env, struct Expression *expr) {
+int testExpression(struct Expression *env, struct Expression *expr) {
     struct Expression *ref1, *ref2, *ref3;
 
     char *str = (char *)malloc(sizeof(char) * MAX_STR_BUFFER);
@@ -76,7 +76,7 @@ int main (int argc, char **argv) {
     /* Environment is needed to create/assign/dispose expressions for garbage
      * collection and access to memory */
     struct Expression *cons, *cons2;
-    struct Environment *env = environmentCreate();
+    struct Expression *env = environmentCreate(0);
     res = 0;
     str = malloc((1 + strlen(TEST_STR)) * sizeof(char));
     cons2 = expressionCreate(env, EXPR_STRING, str);
@@ -89,6 +89,7 @@ int main (int argc, char **argv) {
     /* usually one should get rid of the cons expression, but this has happened 
        within testExpression */
     expressionDispose(env, cons);
+    expressionDispose(env, env);
     return res;
 }
 

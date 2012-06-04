@@ -21,6 +21,7 @@
 #include "expression.h"
 #include "print.h"
 #include "config.h"
+#include "environment.h"
 
 #define MODULE_NAME "expression.c"
 
@@ -31,7 +32,7 @@
 #endif
 
 
-void expressionDispose(struct Environment *env, struct Expression *expr) {
+void expressionDispose(struct Expression *env, struct Expression *expr) {
     /* IF_DEBUG(char *buf;) */
     if(!expr) return;
     if(!EXPR_IS_VALID(expr)) {
@@ -51,7 +52,10 @@ void expressionDispose(struct Environment *env, struct Expression *expr) {
             DEBUG_PRINT("   expr is a cons cell - recursive disposing...\n");
             if(EXPRESSION_CAR(expr)) expressionDispose(env, EXPRESSION_CAR(expr));
             if(EXPRESSION_CDR(expr)) expressionDispose(env, EXPRESSION_CDR(expr));
-        }
+        } else
+        if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
+            environmentDispose(env, EXPRESSION_ENVIRONMENT(expr));
+        } else 
         if(EXPRESSION_STRING(expr)) free(EXPRESSION_STRING(expr));
     }
     free(expr);
@@ -60,7 +64,7 @@ void expressionDispose(struct Environment *env, struct Expression *expr) {
 
 
 
-struct Expression *expressionCreate(struct Environment *env, unsigned char type, void *content) {
+struct Expression *expressionCreate(struct Expression *env, unsigned char type, void *content) {
     struct Expression *expr = malloc(sizeof(struct Expression));
     expr->counter = 0;
     expr->type = type;
@@ -80,7 +84,7 @@ struct Expression *expressionCreate(struct Environment *env, unsigned char type,
             case EXPR_NATIVE_FUNC:
 #ifndef STRICT_NATIVE_FUNCS
                 expr->data.nativeFunc = 
-                    ((struct Expression *(*)(struct Environment *, struct Expression *))content);
+                    ((struct Expression *(*)(struct Expression *, struct Expression *))content);
 #else 
                 ERROR(ERR_UNEXPECTED_TYPE,
                         "Cannot create native function expression via expressionCreate. Use expressionCreateNativeFunc instead!");
@@ -98,7 +102,7 @@ struct Expression *expressionCreate(struct Environment *env, unsigned char type,
 }
 
 
-struct Expression *expressionCreateNativeFunc(struct Environment *env, NativeFunction *content) {
+struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunction *content) {
     struct Expression *expr = malloc(sizeof(struct Expression));
     expr->counter = 0;
     expr->type = EXPR_NATIVE_FUNC;
@@ -108,7 +112,7 @@ struct Expression *expressionCreateNativeFunc(struct Environment *env, NativeFun
 }
 
 
-struct Expression *expressionCreateString(struct Environment *env, char *str) {
+struct Expression *expressionCreateString(struct Expression *env, char *str) {
     char *buf;
     assert (str);
 
@@ -121,7 +125,7 @@ struct Expression *expressionCreateString(struct Environment *env, char *str) {
 }
 
 
-struct Expression *createSymbol(struct Environment *env, char *str) {
+struct Expression *createSymbol(struct Expression *env, char *str) {
     char *buf;
     assert (str);
 
@@ -137,7 +141,7 @@ struct Expression *createSymbol(struct Environment *env, char *str) {
 }
 
 
-struct Expression *expressionAssign(struct Environment *env, struct Expression *expr) {
+struct Expression *expressionAssign(struct Expression *env, struct Expression *expr) {
     if(expr) 
         expr->counter++;
     return expr;

@@ -40,7 +40,7 @@
  * @param expr
  * @returns expr
  */
-struct Expression *quote(struct Environment *env, struct Expression *expr);
+struct Expression *quote(struct Expression *env, struct Expression *expr);
 
 
 /**
@@ -49,7 +49,7 @@ struct Expression *quote(struct Environment *env, struct Expression *expr);
  * @param a list of numbers 
  * @returnes sum of the arguments
  */
-struct Expression *add(struct Environment *env, struct Expression *expr);
+struct Expression *add(struct Expression *env, struct Expression *expr);
 
 
 /**
@@ -58,7 +58,7 @@ struct Expression *add(struct Environment *env, struct Expression *expr);
  * @param expr an expression to print
  * @returns T
  */
-struct Expression *print(struct Environment *env, struct Expression *expr);
+struct Expression *print(struct Expression *env, struct Expression *expr);
 
 
 #endif

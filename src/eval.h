@@ -29,7 +29,7 @@
  *******************************************************************************/
 
 
-struct Expression *eval(struct Environment *env, struct Expression *expr);
+struct Expression *eval(struct Expression *env, struct Expression *expr);
 
 
 #endif

@@ -38,7 +38,7 @@
  * @param cdr the car to asign to the cell
  * @return a new expression resembling the cons cell
  */
-struct Expression *cons(struct Environment *env, struct Expression *car, struct Expression *cons);
+struct Expression *cons(struct Expression *env, struct Expression *car, struct Expression *cons);
 
 /**
  * Returnes the CAR of a Cons cell or NIL if something goes wrong
@@ -46,14 +46,14 @@ struct Expression *cons(struct Environment *env, struct Expression *car, struct 
  * @param args a cons cell
  * @return the CAR of args or NIL
  */
-struct Expression *intCar(struct Environment *env, struct Expression *args);
+struct Expression *intCar(struct Expression *env, struct Expression *args);
 
 /**
  * Returnes the CAR of a Cons cell or NIL if something goes wrong
  * @param args a cons cell
  * @return the CAR of args or NIL
  */
-struct Expression *car(struct Environment *env, struct Expression *args);
+struct Expression *car(struct Expression *env, struct Expression *args);
 
 /**
  * Returnes the CDR of a Cons cell or NIL if something goes wrong
@@ -61,23 +61,23 @@ struct Expression *car(struct Environment *env, struct Expression *args);
  * @param args a cons cell
  * @return the CDR of args or NIL
  */
-struct Expression *intCdr(struct Environment *env, struct Expression *args);
+struct Expression *intCdr(struct Expression *env, struct Expression *args);
 
 /**
  * Returnes the CDR of a Cons cell or NIL if something goes wrong
  * @param args a cons cell
  * @return the CDR of args or NIL
  */
-struct Expression *cdr(struct Environment *env, struct Expression *args);
+struct Expression *cdr(struct Expression *env, struct Expression *args);
 
 
-void setCar(struct Environment *env, struct Expression *cons, struct Expression *car);
+void setCar(struct Expression *env, struct Expression *cons, struct Expression *car);
 
 
-void setCdr(struct Environment *env, struct Expression *cons, struct Expression *cdr);
+void setCdr(struct Expression *env, struct Expression *cons, struct Expression *cdr);
 
 
-struct Cons *intCons(struct Environment *env, struct Expression *car, struct Expression *cdr);
+struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expression *cdr);
 
 
 #endif

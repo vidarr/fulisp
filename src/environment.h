@@ -22,16 +22,20 @@
  *                                 DATA TYPE
  *******************************************************************************/
  
-struct Environment {
-  struct HashTable *lookup;
-};
-
+struct Environment;
 
 #include "lisp_internals.h"
 #include "hash.h"
-#include "symboltable.h"
+/* #include "symboltable.h" */
 #include "error.h"
 #include "expression.h"
+
+
+
+struct Environment {
+  struct HashTable *lookup;
+  struct Expression *parent;
+};
 
 
 
@@ -41,12 +45,23 @@ struct Environment {
 
 
 /**
+ * Check if expr is of type environment and if not, set error appropriately and
+ * return NIL
+ */
+#define ENSURE_ENVIRONMENT(expr) \
+    IF_SAFETY_CODE(if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) { \
+        ERROR(ERR_UNEXPECTED_TYPE, "Expected Environment"); \
+        return NIL; \
+        })
+
+
+/**
  * Try to resolve a symbol within an environment
- * @param env the environment to use
+ * @param env expression containing the environment to use
  * @param sym the symbol to look up
  * @return whatever sym resolves to 
  */
-#define ENVIRONMENT_SYMBOL_LOOKUP(env, sym) (hashTableGet((env)->lookup, EXPRESSION_STRING(sym)))
+#define ENVIRONMENT_SYMBOL_LOOKUP(env, sym) environmentLookup(env, sym)
 
 
 
@@ -56,7 +71,8 @@ struct Environment {
  * @param sym the string to look up
  * @return whatever sym resolves to 
  */
-#define ENVIRONMENT_STRING_LOOKUP(env, sym) (hashTableGet((env)->lookup, sym))
+#define ENVIRONMENT_STRING_LOOKUP(env, sym) \
+    (hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, sym))
 
 
 
@@ -68,8 +84,8 @@ struct Environment {
  * @param value the value to set the symbol to
  * @return old value of the symbol or NULL if previously not set
  */
-#define ENVIRONMENT_ADD_STRING(env, string, value) hashTableSet((env)->lookup, string, (value))
-
+#define ENVIRONMENT_ADD_STRING(env, string, value) \
+    hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, string, (value)) 
 
 
 /**
@@ -92,25 +108,46 @@ struct Environment {
 
 /**
  * Create new empty environment
+ * @param parent either expression containing parent environment or 0
  * @return the new environment
  */
-struct Environment *environmentCreate(void);
-
+struct Expression *environmentCreate(struct Expression *parent);
 
 
 /**
  * Create new environment with standard symbols defined
  * @return the new environment
  */
-struct Environment *environmentCreateStdEnv(void);
-
+struct Expression *environmentCreateStdEnv(void);
 
 
 /**
- * Disposes of an environment
+ * Disposes of an environment. <b>If you want to get rid of a environment, use
+ * expressionDispose. This function is to be used internally/by
+ * expressionDispose only!</b>
+ * @param surrEnv surrounding environment
  * @param env the environment to dispose
  */
-void environmentDispose(struct Environment *env);
+void environmentDispose(struct Expression *surrEnv, struct Environment *env);
+
+
+/**
+ * Look up the binding of a symbol within the current environment
+ * @param env the environment to look up symbol
+ * @param sym the symbol to look up
+ * @return expression bound to the symbol or NIL if not found
+ */
+struct Expression *environmentLookup(struct Expression *env, struct Expression *sym);
+
+
+/**
+ * Look up the binding of a symbol within the current environment
+ * @param env expression containing the environment to look up symbol in
+ * @param sym expression containing the symbol to look up 
+ * @return the expression bound to sym or NIL
+ *
+struct Expression *environmentExpressionLookup(struct Expression *env, struct
+        Expression *sym); */
 
 
 #endif

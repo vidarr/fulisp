@@ -42,13 +42,13 @@
 #define STRING_SET_TO_END(str) {while(*(str++) != 0); str--;}
 
 
-struct Expression *getFileNextChar(struct Environment *env, FILE *stream) {
+struct Expression *getFileNextChar(struct Expression *env, FILE *stream) {
     int readChar;
     return READCHARFROMSTREAM(env, stream);
 }
 
 
-struct Expression *fuPrint(struct Environment *env, struct Expression *expr) {
+struct Expression *fuPrint(struct Expression *env, struct Expression *expr) {
     char *retStr, *buf = malloc(sizeof(char) * READ_BUFFER_SIZE);
     struct Expression *res = expressionCreate(env, EXPR_STRING,
             expressionToString(env, buf, READ_BUFFER_SIZE, expr));
@@ -62,7 +62,7 @@ struct Expression *fuPrint(struct Environment *env, struct Expression *expr) {
 
 #ifdef USE_CUSTOM_EXPRESSION_TO_STRING
 
-char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, struct Expression *expr) {
+char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer, struct Expression *expr) {
 
     /* Should be used internally to this function ONLY! */
 #ifdef GENERATE_SAFETY_CODE
@@ -216,7 +216,7 @@ return str;
 
 #else
 
-char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, struct Expression *expr) {
+char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer, struct Expression *expr) {
     
    struct CharWriteStream *stream = makeStringCharWriteStream(sizeOfBuffer,
            str);
@@ -228,7 +228,7 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
 #endif
 
 
-void printToStream(struct Environment *env, struct CharWriteStream *stream, struct Expression *expr) {
+void printToStream(struct Expression *env, struct CharWriteStream *stream, struct Expression *expr) {
     /* Macros for printToStream()
        These macros rely on some variables to exist & be initialized properly!
        Should be used internally to printToStream() ONLY! */

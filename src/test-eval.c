@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     char *buf;
     struct Expression *expr = 0, *result = 0;
 
-    struct Environment *env = environmentCreateStdEnv();
+    struct Expression *env = environmentCreateStdEnv();
 
     if(argc < 2) { 
         return 1;
@@ -59,7 +59,8 @@ int main(int argc, char **argv) {
 
     expressionDispose(env, result);
     expressionDispose(env, expr);
-    environmentDispose(env);
+    expressionDispose(env, env);
+    /* environmentDispose(env); */
     disposeCStreamCharWriteStream(writeStream);
 
     fprintf(stderr, "TYPE_AREAL is %i\n", EXPR_TYPE_AREAL);

@@ -16,6 +16,7 @@
  */
 
 #include "stack.h"
+#include <stdlib.h>
 
 #define MODULE_NAME "stack.c"
 

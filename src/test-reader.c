@@ -28,7 +28,7 @@ char *input;
 char *inputBuffer;
 struct CharReadStream *readStream;
 struct Reader *reader;
-struct Environment *env;
+struct Expression *env;
 
 
 char readCharFromInput(void *v) {

@@ -42,14 +42,14 @@
  * Reads one char from a stream and returns it as an expression - or NIL if
  * something went wrong
  */
-struct Expression *getFileNextChar(struct Environment *env, FILE *stream);
+struct Expression *getFileNextChar(struct Expression *env, FILE *stream);
 
 /**
  * Gives a string representation of an expression
  * @param expr the expression to be described
  * @return en expression containing an string describing the expression
  */
-struct Expression *fuPrint(struct Environment *env, struct Expression *expr);
+struct Expression *fuPrint(struct Expression *env, struct Expression *expr);
 
 
 /**
@@ -63,7 +63,7 @@ struct Expression *fuPrint(struct Environment *env, struct Expression *expr);
  * @return pointer to the string representation (should be the pointer given as
  *         'str'
  */
-char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, struct Expression *expr);
+char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer, struct Expression *expr);
 
 
 /**
@@ -71,7 +71,7 @@ char *expressionToString(struct Environment *env, char *str, int sizeOfBuffer, s
  * @param stream the stream to write to
  * @param expr the expr to be printed
  */
-void printToStream(struct Environment *env, struct CharWriteStream *stream, struct Expression *expr);
+void printToStream(struct Expression *env, struct CharWriteStream *stream, struct Expression *expr);
 
 
 

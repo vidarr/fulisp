@@ -81,7 +81,7 @@ struct ReadMacroLookUp {
 struct Reader {
     struct ReadMacroLookUp *lookup;
     struct HashTable *symbolTable;
-    struct Environment *env;
+    struct Expression *env;
     struct Expression *expr;
     struct CharBufferedReadStream *stream;
     char *buffer;
@@ -104,7 +104,7 @@ struct Expression *fuRead(struct Reader *reader);
  * Create a new reader environment 
  * @param getNextChar function that wraps the stream to be read from
  */
-struct Reader *newReader(struct Environment *env, struct CharBufferedReadStream *stream); 
+struct Reader *newReader(struct Expression *env, struct CharBufferedReadStream *stream); 
 
 /**
  * Frees Reader structure

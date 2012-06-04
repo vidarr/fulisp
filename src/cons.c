@@ -30,7 +30,7 @@
 
 /**
  * Creates the structure covering the two expr pointers */
-struct Cons *intCons(struct Environment *env, struct Expression *car, struct Expression *cdr) {
+struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expression *cdr) {
     struct Cons *cons = (struct Cons *)malloc(sizeof(struct Cons));
     cons->car = expressionAssign(env, car);
     cons->cdr = expressionAssign(env, cdr);
@@ -38,12 +38,12 @@ struct Cons *intCons(struct Environment *env, struct Expression *car, struct Exp
 }
 
 
-struct Expression *cons(struct Environment *env, struct Expression *car, struct Expression *cdr) {
+struct Expression *cons(struct Expression *env, struct Expression *car, struct Expression *cdr) {
     return expressionCreate(env, EXPR_CONS, intCons(env, car, cdr));
 }
 
 
-struct Expression *intCar(struct Environment *env, struct Expression *args) {
+struct Expression *intCar(struct Expression *env, struct Expression *args) {
     if(EXPR_OF_TYPE(args, EXPR_CONS)) {
         return EXPRESSION_CAR(args);
     } else {
@@ -53,12 +53,12 @@ struct Expression *intCar(struct Environment *env, struct Expression *args) {
 }
 
 
-struct Expression *car(struct Environment *env, struct Expression *args) {
+struct Expression *car(struct Expression *env, struct Expression *args) {
   return expressionAssign(env, intCar(env, args));
 }
 
 
-struct Expression *intCdr(struct Environment *env, struct Expression *args) {
+struct Expression *intCdr(struct Expression *env, struct Expression *args) {
     if(EXPR_OF_TYPE(args, EXPR_CONS)) {
         return EXPRESSION_CDR(args);
     } else {
@@ -67,12 +67,12 @@ struct Expression *intCdr(struct Environment *env, struct Expression *args) {
     };
 }
 
-struct Expression *cdr(struct Environment *env, struct Expression *args) {
+struct Expression *cdr(struct Expression *env, struct Expression *args) {
   return expressionAssign(env, intCdr(env, args));
 }
 
 
-void setCar(struct Environment *env, struct Expression *cons, struct Expression *car) {
+void setCar(struct Expression *env, struct Expression *cons, struct Expression *car) {
     assert(cons);
     if(!EXPR_OF_TYPE(cons, EXPR_CONS)) {
         ERROR(ERR_UNEXPECTED_VAL, "setCar: Expected Cons, got other");
@@ -83,7 +83,7 @@ void setCar(struct Environment *env, struct Expression *cons, struct Expression 
 }
 
 
-void setCdr(struct Environment * env, struct Expression *cons, struct Expression *cdr) {
+void setCdr(struct Expression * env, struct Expression *cons, struct Expression *cdr) {
     assert(cons);
     if(!EXPR_OF_TYPE(cons, EXPR_CONS)) {
         ERROR(ERR_UNEXPECTED_VAL, "setCdr: Expected Cons, got other");

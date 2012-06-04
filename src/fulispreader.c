@@ -83,7 +83,7 @@ static void registerStandardReadMacros(struct Reader *reader);
 
 
 
-struct Reader *newFuLispReader(struct Environment *env, struct CharBufferedReadStream *stream) { 
+struct Reader *newFuLispReader(struct Expression *env, struct CharBufferedReadStream *stream) { 
     struct Reader *reader = newReader(env, stream);
     assert(stream);
     /* Now register all the specific read macros and sign handlers */

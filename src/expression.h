@@ -165,6 +165,10 @@
  */
 #define EXPR_FUNCTION (EXPR_POINTER | 5)
 
+/**
+ * Expression is an hash table
+ */
+#define EXPR_ENVIRONMENT (EXPR_POINTER | 6)
 
 /** 
  * The NIL atom
@@ -181,7 +185,7 @@
 struct Expression;
 
 
-typedef struct Expression *(NativeFunction)(struct Environment *env, struct Expression *);
+typedef struct Expression *(NativeFunction)(struct Expression *env, struct Expression *);
 
 
 struct Cons{
@@ -196,7 +200,8 @@ struct Expression {
         char character;
         double floating;
         struct Cons *cons;
-        struct Expression *(*nativeFunc)(struct Environment *env, struct Expression *);
+        struct Expression *(*nativeFunc)(struct Expression *env, struct Expression *);
+        struct Environment *env;
     } data;
     unsigned int counter;
     unsigned char type;
@@ -215,7 +220,7 @@ struct Expression {
  * Takes care of the reference count
  * @param expr the expression to dispose
  */
-void expressionDispose(struct Environment *env, struct Expression *expr); 
+void expressionDispose(struct Expression *env, struct Expression *expr); 
 
 
 /**
@@ -226,7 +231,7 @@ void expressionDispose(struct Environment *env, struct Expression *expr);
  * @return the new expression
  *         or null in case of an error
  */
-struct Expression *expressionCreate(struct Environment *env, unsigned char type, void *content);
+struct Expression *expressionCreate(struct Expression *env, unsigned char type, void *content);
 
 
 /**
@@ -236,7 +241,7 @@ struct Expression *expressionCreate(struct Environment *env, unsigned char type,
  * @return the new expression
  *         or null in case of an error
  */
-struct Expression *expressionCreateNativeFunc(struct Environment *env, NativeFunction *content);
+struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunction *content);
 
 
 /** 
@@ -311,19 +316,25 @@ struct Expression *expressionCreateNativeFunc(struct Environment *env, NativeFun
  * Get the pointer to native function
  * @param expr pointer to an expression
  */
-#define EXPRESSION_NATIVE_FUNC(expr) expr->data.nativeFunc
+#define EXPRESSION_NATIVE_FUNC(expr) ((expr)->data.nativeFunc)
+
+/**
+  * Get the pointer to an environment
+  * @param expr pointer to an expression
+  */
+#define EXPRESSION_ENVIRONMENT(expr) ((expr)->data.env)
 
 
 /**
  * Get the car of a cons cell
  */
-#define EXPRESSION_CAR(expr) expr->data.cons->car
+#define EXPRESSION_CAR(expr) ((expr)->data.cons->car)
 
 
 /**
  * Get the cdr of a cons cell 
  */
-#define EXPRESSION_CDR(expr) expr->data.cons->cdr
+#define EXPRESSION_CDR(expr) ((expr)->data.cons->cdr)
 
 
 /** 
@@ -332,7 +343,7 @@ struct Expression *expressionCreateNativeFunc(struct Environment *env, NativeFun
  * @param expr the expression that should be assigned
  * @return a pointer to the expression that is ready to be assigned to whatever
  */
-struct Expression *expressionAssign(struct Environment *env, struct Expression *expr); 
+struct Expression *expressionAssign(struct Expression *env, struct Expression *expr); 
 
 
 /**
@@ -370,14 +381,14 @@ struct Expression *expressionAssign(struct Environment *env, struct Expression *
  * Creates a expression containing a string
  * @param str the string 
  */
-struct Expression *expressionCreateString(struct Environment *env, char *str);
+struct Expression *expressionCreateString(struct Expression *env, char *str);
 
 
 /**
  * Creates a symbol
  * @param str the string resembling the symbol
  */
-struct Expression *createSymbol(struct Environment *env, char *str);
+struct Expression *createSymbol(struct Expression *env, char *str);
 
 
 #endif

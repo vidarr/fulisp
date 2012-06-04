@@ -27,10 +27,11 @@
 #include "environment.h"
 
 
+
 /**
  * Creates a new clean symbol table
  */
-struct HashTable *symbolTableCreate(struct Environment *env);
+struct HashTable *symbolTableCreate(struct Expression *env);
 
 
 /**
@@ -38,7 +39,7 @@ struct HashTable *symbolTableCreate(struct Environment *env);
  * Gets rid of every symbol contained within the table
  * @param hash the symbol table to dispose
  */
-void symbolTableDispose(struct Environment *env, struct HashTable *hash); 
+void symbolTableDispose(struct Expression *env, struct HashTable *hash); 
 
 
 /**
@@ -47,7 +48,7 @@ void symbolTableDispose(struct Environment *env, struct HashTable *hash);
  * @param name the name of the symbol
  * @return the expression repr. the symbol
  */
-struct Expression *symbolTableGetSymbol(struct Environment *env, struct HashTable *hash,
+struct Expression *symbolTableGetSymbol(struct Expression *env, struct HashTable *hash,
         char *name);
 
 
