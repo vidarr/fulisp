@@ -49,7 +49,7 @@ struct Environment {
  * return NIL
  */
 #define ENSURE_ENVIRONMENT(expr) \
-    IF_SAFETY_CODE(if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) { \
+    IF_SAFETY_CODE(if(!EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) { \
         ERROR(ERR_UNEXPECTED_TYPE, "Expected Environment"); \
         return NIL; \
         })

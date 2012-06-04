@@ -44,6 +44,7 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
         } else {
             DEBUG_PRINT("EVAL: Symbol - resolving it...\n");
             res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
+            fprintf(stderr, "res %s was %s\n", EXPRESSION_STRING(expr), res ? " found " : " not found");
             if(!res) {
                 ERROR(ERR_UNRESOLVABLE, "Could not resolve symbol");
                 res = ENVIRONMENT_STRING_LOOKUP(env, "NIL");
