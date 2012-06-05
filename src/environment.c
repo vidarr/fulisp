@@ -83,13 +83,12 @@ struct Expression *environmentLookup(struct Expression *env, struct Expression *
     struct Expression *expr;
     ENSURE_ENVIRONMENT(env);
     expr = hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, EXPRESSION_STRING(sym));
-    fprintf(stderr, "Symbol was %s\n", expr ? " found " : " not found");
     DEBUG_PRINT_PARAM("Symbol was %s\n", expr ? " found" : " not found");
     if(!expr && EXPRESSION_ENVIRONMENT(env)->parent) {
         return
             environmentLookup((EXPRESSION_ENVIRONMENT(env))->parent, sym);
     }
-    return expr;
+    return expressionAssign(env, expr);
 }
 
 

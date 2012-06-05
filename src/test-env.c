@@ -66,6 +66,24 @@ void createStrings(int no) {
 }
 
 
+void deleteStrings(int no) {
+    int i, level = 0;
+    for(level = 0; level < 3; level++) {
+        for(i = 0; i < no; i++) {
+            free(idStrings[level][i]);
+            free(symNames[level][i]);
+            free(symNamesLvl[level][i]);
+        }
+        free(idStrings[level]);
+        free(symNames[level]);
+        free(symNamesLvl[level]);
+    }
+    free(idStrings);
+    free(symNames);
+    free(symNamesLvl);
+}
+
+
 void printStrings(void) { 
     int level, i;
     createStrings(15);
@@ -79,20 +97,21 @@ void printStrings(void) {
 }
 
 
-
 int fillEnvironment(struct Expression *env, int level, int no) { 
- 
     int i;
+    char *cp, *str;
     struct Expression *expr;
     for(i = 0; i < no; i++) {
-        expr = expressionCreate(env, EXPR_STRING, symNamesLvl[level][i]);
+        str = symNamesLvl[level][i];
+        cp = (char *)malloc(sizeof(char) * (strlen(str) + 1));
+        strcpy(cp, str);
+        expr = expressionCreate(env, EXPR_STRING, cp);
         ENVIRONMENT_ADD_STRING(env, symNamesLvl[level][i], expr); 
         ENVIRONMENT_ADD_STRING(env, symNames[level][i], expr); 
         expressionDispose(env, expr);
     }
     return 0;
 }
-
 
 
 int fillEnvironment0(void) {
@@ -112,13 +131,19 @@ int fillEnvironment2(void) {
 
 int lookup(struct Expression *env, char *str, char *reference) {
     struct Expression *res;
-    struct Expression *expr = expressionCreate(env, EXPR_STRING, str);
+    char *cp;
+    struct Expression *expr;
+    cp = (char *)malloc(sizeof(char) * (strlen(str) + 1));
+    strcpy(cp, str);
+    expr = expressionCreate(env, EXPR_STRING, cp);
     res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
     expressionDispose(env, expr);
     if(!res) return 1;
     if(!strcmp(EXPRESSION_STRING(res), reference)) {
+        expressionDispose(env, res);
         return 1;
     } else {
+        expressionDispose(env, res);
         return 0;
     }
 }
@@ -152,6 +177,7 @@ int main(int argc, char **argv) {
     result += test(fillEnvironment2(), "stacked environment (level 3)"); 
     test(testLookup(), "look ups in stacked environment"); 
     expressionDispose(env, env2); 
+    deleteStrings(NO_ENTRIES);
     return result;
 } 
 

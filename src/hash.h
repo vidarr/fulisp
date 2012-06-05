@@ -18,7 +18,7 @@
 #ifndef __HASH_C__
 #define __HASH_C__
 
-#define HASHTABLE_STD_SIZE 256
+#define HASHTABLE_STD_SIZE 15
 
 #define HASH_TABLE_SAFE_KEY
 
@@ -55,7 +55,6 @@ struct HashTable * hashTableCreate(unsigned int n, unsigned int(* hashFunc)(stru
 void hashTableDispose(struct HashTable *hash);
 
 
-
 /**
  * Associates a key eith a value
  * If existent, the old value will be deleted
@@ -81,7 +80,6 @@ void *hashTableSet(struct HashTable * hashTable, char *key, void *val);
 void *hashTableDelete(struct HashTable *hashTable, char *key);
 
 
-
 /**
  * Returns the value associated to a key 
  * @param hashTable the hash to be used
@@ -90,7 +88,6 @@ void *hashTableDelete(struct HashTable *hashTable, char *key);
  * @return pointer to the value ass. to the key, or 0 if not found
  */
 void *hashTableGet(struct HashTable * hashTable, char *key);
-
 
 
 /**
