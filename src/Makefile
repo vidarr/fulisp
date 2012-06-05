@@ -22,15 +22,17 @@ all: $(BUILD_DIR)/test-eval
 
 
 
-.PHONY: clean tests
+.PHONY: clean tests exec-tests
 
 
-tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression
+tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env 
+
+exec-tests: tests
 	@$(BUILD_DIR)/test-stack && \
-	$(BUILD_DIR)/test-hash && \
-	$(BUILD_DIR)/test-expression
+	 $(BUILD_DIR)/test-hash && \
+	 $(BUILD_DIR)/test-expression && \
+     $(BUILD_DIR)/test-reader 
 # $(BUILD_DIR)/test-eval && \
-# $(BUILD_DIR)/test-reader && \
 
 
 perform-tests: tests
@@ -59,6 +61,10 @@ $(BUILD_DIR)/test-hash: $(OBJECT_FILES)  $(BUILD_DIR)/test-hash.o
 
 $(BUILD_DIR)/test-expression: $(OBJECT_FILES)  $(BUILD_DIR)/test-expression.o
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-expression  $^ $(LDFLAGS)
+
+
+$(BUILD_DIR)/test-env: $(OBJECT_FILES)  $(BUILD_DIR)/test-env.o
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-env  $^ $(LDFLAGS)
 
 
 clean:

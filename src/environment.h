@@ -81,11 +81,13 @@ struct Environment {
  * Does not check whether the symbol already exists
  * @param env the environment to define the symbol in
  * @param string the name of the new symbol
- * @param value the value to set the symbol to
+ * @param expr the expression to set the symbol to
  * @return old value of the symbol or NULL if previously not set
  */
-#define ENVIRONMENT_ADD_STRING(env, string, value) \
-    hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, string, (value)) 
+#define ENVIRONMENT_ADD_STRING(env, string, expr) {\
+    hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, string, (expr)); \
+    expressionAssign(env, expr);};
+
 
 
 /**
@@ -93,10 +95,10 @@ struct Environment {
  * Does not check whether the symbol already exists
  * @param env the environment to define the symbol in
  * @param sym the symbol
- * @param value the value to set the symbol to
+ * @param expression the epxression to set the symbol to
  * @return old value of the symbol or NULL if previously not set
  */
-#define ENVIRONMENT_ADD_SYMBOL(env, sym, value) ENVIRONMENT_ADD_STRING(env, EXPRESSION_STRING(sym), (value))
+#define ENVIRONMENT_ADD_SYMBOL(env, sym, expr) ENVIRONMENT_ADD_STRING(env, EXPRESSION_STRING(sym), expr)
 
 
 

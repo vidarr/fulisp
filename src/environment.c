@@ -37,11 +37,13 @@ struct Expression *environmentCreate(struct Expression *parent) {
     struct Environment *env = (struct Environment *)malloc(sizeof(struct Environment));
     env->lookup = hashTableCreate(SYMBOL_TABLE_SIZE, stdHashFunction);
     if(parent) {
-        if(EXPR_OF_TYPE(parent, EXPR_ENVIRONMENT)) {
+        DEBUG_PRINT_PARAM("Counter of parent before expressionAssign: %i\n", parent->counter);
+        if(!EXPR_OF_TYPE(parent, EXPR_ENVIRONMENT)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Expected environment");
             return NIL;
-        };
+        }
         expressionAssign(parent, parent);
+        DEBUG_PRINT_PARAM("Counter of parent after expressionAssign: %i\n", parent->counter);
     }
     env->parent = parent;
     return expressionCreate(parent, EXPR_ENVIRONMENT, env);
@@ -64,8 +66,9 @@ void environmentDispose(struct Expression *surrEnv, struct Environment *env) {
     /* TODO: Dispose all expressions within the symboltable */
     int i = 0;
     char **keys = hashTableKeys(env->lookup);
+    DEBUG_PRINT("Disposing environment...\n");
     while(keys[i] != 0) {
-        fprintf(stderr, "Key going to be disposed: %s", keys[i]);
+        DEBUG_PRINT_PARAM("Key going to be disposed: %s", keys[i]);
         expressionDispose(surrEnv, hashTableDelete(env->lookup, keys[i++]));
     };
     free(keys);
