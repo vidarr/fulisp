@@ -355,8 +355,6 @@ void printToStream(struct Expression *env, struct CharWriteStream *stream, struc
             PRINT_STREAM(buf);
             PRINT_EXPR(pointer, %p, ((void *)expr->data.lambda));
             break;
-=======
->>>>>>> 9f0e42d0abf2f8555c99c4a7e711bc8f92cf0731
         case EXPR_CONS:
             DEBUG_PRINT("expressionToString(): CONS");
             STREAM_WRITE(stream, '(');
