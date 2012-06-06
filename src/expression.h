@@ -30,6 +30,7 @@
 
 #include "lisp_internals.h"
 #include "environment.h"
+#include "lambda.h"
 
 
 /*******************************************************************************
@@ -170,6 +171,11 @@
  */
 #define EXPR_ENVIRONMENT (EXPR_POINTER | 6)
 
+/**
+ * Expression is an hash table
+ */
+#define EXPR_LAMBDA (EXPR_POINTER | 7)
+
 /** 
  * The NIL atom
  */
@@ -202,6 +208,7 @@ struct Expression {
         struct Cons *cons;
         struct Expression *(*nativeFunc)(struct Expression *env, struct Expression *);
         struct Environment *env;
+        struct Lambda *lambda;
     } data;
     unsigned int counter;
     unsigned char type;
@@ -324,6 +331,10 @@ struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunc
   */
 #define EXPRESSION_ENVIRONMENT(expr) ((expr)->data.env)
 
+/**
+ * Get the pointer to a lambda form
+ */
+#define EXPRESSION_LAMBDA(expr) ((expr)->data.lambda)
 
 /**
  * Get the car of a cons cell

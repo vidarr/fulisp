@@ -47,9 +47,9 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
             fprintf(stderr, "res %s was %s\n", EXPRESSION_STRING(expr), res ? " found " : " not found");
             if(!res) {
                 ERROR(ERR_UNRESOLVABLE, "Could not resolve symbol");
-                res = ENVIRONMENT_STRING_LOOKUP(env, "NIL");
+                res = NIL; /* ENVIRONMENT_STRING_LOOKUP(env, "NIL"); */
             }  
-            return expressionAssign(env, res);
+            return res;
         } 
     }
     else {
@@ -62,16 +62,19 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
         if(!first) {
             /* Should be unreachable code ... */
             ERROR(ERR_UNRESOLVABLE, "Could not resolve symbol");
-            first = ENVIRONMENT_STRING_LOOKUP(env, "NIL");
+            first = NIL; /* ENVIRONMENT_STRING_LOOKUP(env, "NIL"); */
             return expressionAssign(env, first);
         };
         switch(EXPRESSION_TYPE(first)) {
             case EXPR_NATIVE_FUNC:
                 res = EXPRESSION_NATIVE_FUNC(first)(env, intCdr(env, expr));
                 break;
+            case EXPR_LAMBDA:
+                res = lambdaInvoke(EXPRESSION_LAMBDA(first), intCdr(env, expr));
+                break;
             default:
                 ERROR(ERR_UNEXPECTED_VAL, "eval(): First element in list is not a function!");
-                res = expressionAssign(env, ENVIRONMENT_STRING_LOOKUP (env, "NIL"));
+                res = NIL; /* ENVIRONMENT_STRING_LOOKUP (env, "NIL"); */
         };
         expressionDispose(env, first);
         return res;

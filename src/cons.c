@@ -63,7 +63,7 @@ struct Expression *intCdr(struct Expression *env, struct Expression *args) {
         return EXPRESSION_CDR(args);
     } else {
         ERROR(ERR_UNEXPECTED_VAL, "cdr: Expected Cons, got other");
-        return CREATE_SYMBOL(env, "NIL");
+        return NIL;
     };
 }
 

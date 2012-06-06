@@ -25,6 +25,7 @@
 #include "debugging.h"
 #include "environment.h"
 #include "eval.h"
+#include "lambda.h"
 
 
 /******************************************************************************

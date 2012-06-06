@@ -293,7 +293,7 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
         STREAM_PUSH_BACK(reader->stream, sigle);
         return;
     }
-    nil = GET_SYMBOL(reader, "NIL");
+    nil = NIL;
 
     if(reader->type != EXPR_NO_TYPE) {
         ERROR(ERR_SYNTAX_ERROR, "Unexpected opening braket");

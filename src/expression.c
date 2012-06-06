@@ -52,11 +52,14 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
             DEBUG_PRINT("   expr is a cons cell - recursive disposing...\n");
             if(EXPRESSION_CAR(expr)) expressionDispose(env, EXPRESSION_CAR(expr));
             if(EXPRESSION_CDR(expr)) expressionDispose(env, EXPRESSION_CDR(expr));
-        } else
-        if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
+            free(expr->data.cons);
+        } else if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
             environmentDispose(env, EXPRESSION_ENVIRONMENT(expr));
-        } else 
-        if(EXPRESSION_STRING(expr)) free(EXPRESSION_STRING(expr));
+        } else if(EXPRESSION_STRING(expr)) {
+            free(EXPRESSION_STRING(expr));
+        } else if (EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
+            lambdaDispose(EXPRESSION_LAMBDA(expr));
+        }
     }
     free(expr);
     expr = 0;

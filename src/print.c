@@ -301,7 +301,13 @@ void printToStream(struct Expression *env, struct CharWriteStream *stream, struc
     char *buf;
     struct Expression *e1, *e2;
 
-    assert(stream && expr);
+    assert(stream);
+
+    if(!expr) {
+        DEBUG_PRINT("expressionToString(): NIL");
+        PRINT_STREAM("NIL");
+        return;
+    }
 
     switch(EXPRESSION_TYPE(expr)) {
         case EXPR_INTEGER:

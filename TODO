@@ -1,3 +1,7 @@
+* Bind lambdaCreate to 'lambda' aymbol
+
+Done
+
 * Work out reader test: Read in expressions, compare string print of reader
   result to expected strings
 

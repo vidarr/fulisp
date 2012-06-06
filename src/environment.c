@@ -17,8 +17,14 @@
 
 #include "environment.h"
 #include "nativefunctions.h"
-/* #include "stdio.h" */
 
+#define MODULE_NAME "environment.c"
+
+#ifdef DEBUG_ENVIRONMENT
+#include "debugging.h"
+#else
+#include "no_debugging.h"
+#endif
 
 
 /**
@@ -28,8 +34,9 @@
  * @param string name of the function 
  * @param func the function to add
  */
-#define ADD_NATIVE_FUNCTION_EXPRESSION(env, string, func) \
-    ENVIRONMENT_ADD_STRING((env), (string), expressionCreateNativeFunc((env), (func)))
+#define ADD_NATIVE_FUNCTION_EXPRESSION(env, string, func) {\
+    struct Expression *f = expressionCreateNativeFunc((env), (func)); \
+    ENVIRONMENT_ADD_STRING((env), (string), f); expressionDispose((env), f); }
 
 
 
@@ -54,6 +61,7 @@ struct Expression *environmentCreateStdEnv(void) {
     struct Expression *env = environmentCreate(0);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
     ENVIRONMENT_ADD_STRING(env, "NIL", 0); 
 /*    expr = expressionCreate(env, EXPR_NATIVE_FUNC, (void *)quote);
     ENVIRONMENT_ADD_STRING(env, "QUOTE", expr); */
