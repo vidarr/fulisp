@@ -74,5 +74,4 @@ char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer, st
 void printToStream(struct Expression *env, struct CharWriteStream *stream, struct Expression *expr);
 
 
-
 #endif

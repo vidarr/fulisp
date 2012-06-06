@@ -64,7 +64,6 @@ struct Environment {
 #define ENVIRONMENT_SYMBOL_LOOKUP(env, sym) environmentLookup(env, sym)
 
 
-
 /**
  * Try to resolve a string within an environment
  * @param env the environment to use
@@ -73,7 +72,6 @@ struct Environment {
  */
 #define ENVIRONMENT_STRING_LOOKUP(env, sym) \
     (hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, sym))
-
 
 
 /**
@@ -87,7 +85,6 @@ struct Environment {
 #define ENVIRONMENT_ADD_STRING(env, string, expr) {\
     hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, string, (expr)); \
     expressionAssign(env, expr);};
-
 
 
 /**
@@ -150,6 +147,5 @@ struct Expression *environmentLookup(struct Expression *env, struct Expression *
  *
 struct Expression *environmentExpressionLookup(struct Expression *env, struct
         Expression *sym); */
-
 
 #endif

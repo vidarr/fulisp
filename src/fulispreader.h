@@ -27,5 +27,4 @@
 struct Reader *newFuLispReader(struct Expression *env, struct CharBufferedReadStream *stream); 
 
 
-
 #endif

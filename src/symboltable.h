@@ -48,8 +48,7 @@ void symbolTableDispose(struct Expression *env, struct HashTable *hash);
  * @param name the name of the symbol
  * @return the expression repr. the symbol
  */
-struct Expression *symbolTableGetSymbol(struct Expression *env, struct HashTable *hash,
-        char *name);
+struct Expression *symbolTableGetSymbol(struct Expression *env, struct HashTable *hash, char *name);
 
 
 #endif
