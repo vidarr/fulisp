@@ -33,7 +33,7 @@
 
 
 void expressionDispose(struct Expression *env, struct Expression *expr) {
-    /* IF_DEBUG(char *buf;) */
+    IF_DEBUG(char *buf;) 
     if(!expr) return;
     if(!EXPR_IS_VALID(expr)) {
         free(expr); 
@@ -43,6 +43,7 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
      * parsing of conses */
     DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n", expr->counter);
     DEBUG_PRINT_PARAM("   type %u \n", (int)EXPRESSION_TYPE(expr));
+    DEBUG_PRINT_EXPR(env, expr, buf);
 
     if(expr->counter-- > 0) return;
     DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));
@@ -55,7 +56,8 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
             free(expr->data.cons);
         } else if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
             environmentDispose(env, EXPRESSION_ENVIRONMENT(expr));
-        } else if(EXPRESSION_STRING(expr)) {
+        } else if(EXPR_OF_TYPE(expr, EXPR_STRING) || 
+                EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
             free(EXPRESSION_STRING(expr));
         } else if (EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
             lambdaDispose(EXPRESSION_LAMBDA(expr));
@@ -64,7 +66,6 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     free(expr);
     expr = 0;
 }
-
 
 
 struct Expression *expressionCreate(struct Expression *env, unsigned char type, void *content) {

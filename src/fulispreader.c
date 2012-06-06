@@ -196,7 +196,7 @@ static void rmString(struct Reader *reader, char sigle) {
 
     if(!BUFFER_IS_EMPTY(reader)) {
         ERROR(ERR_SYNTAX_ERROR, "rmString(): Leading characters before String - Missing ' '?");
-        reader->expr = GET_SYMBOL(reader, "NIL");
+        reader->expr = NIL; /* GET_SYMBOL(reader, "NIL"); */
         return;
     }
     /* We need a new, 'clean' reader to prevent any char to trigger anything
@@ -221,7 +221,7 @@ static void rmStringEnd(struct Reader *reader, char sigle) {
 }
 static void rmUnexpectedEndOfString(struct Reader *reader, char sigle) {
     ERROR(ERR_UNEXPECTED_END_OF_STRING, "String terminated without ending \"");
-    reader->expr = GET_SYMBOL(reader, "NIL");
+    reader->expr = NIL; /* GET_SYMBOL(reader, "NIL"); */
 }
 
 
@@ -256,7 +256,7 @@ static void rmClosingBraket(struct Reader *reader, char sigle) {
     assert(reader);
 
     ERROR(ERR_UNBALANCED_PARENTHESES,"Closing braket without opening braket found");
-    reader->expr = GET_SYMBOL(reader, "NIL");
+    reader->expr = NIL; /* GET_SYMBOL(reader, "NIL"); */
 }
 
 

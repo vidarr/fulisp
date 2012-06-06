@@ -73,7 +73,12 @@ void environmentDispose(struct Expression *surrEnv, struct Environment *env) {
     /* Dispose symbol table */
     /* TODO: Dispose all expressions within the symboltable */
     int i = 0;
-    char **keys = hashTableKeys(env->lookup);
+    char **keys;
+    if(!env) {
+        DEBUG_PRINT("environmentDispose: env is NIL");
+        return;
+    }
+    keys  = hashTableKeys(env->lookup);
     DEBUG_PRINT("Disposing environment...\n");
     while(keys[i] != 0) {
         DEBUG_PRINT_PARAM("Key going to be disposed: %s", keys[i]);

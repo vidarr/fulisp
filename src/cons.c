@@ -48,7 +48,7 @@ struct Expression *intCar(struct Expression *env, struct Expression *args) {
         return EXPRESSION_CAR(args);
     } else {
         ERROR(ERR_UNEXPECTED_VAL, "car: Expected Cons, got other");
-        return CREATE_SYMBOL(env, "NIL");
+        return NIL;
     };
 }
 

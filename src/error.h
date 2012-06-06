@@ -14,6 +14,7 @@
 
 #ifndef __ERROR_H__
 #define __ERROR_H__
+#include <stdlib.h>
 
 /**
  * Reset error state
@@ -23,12 +24,13 @@
 /** 
  * Signal an error
  */
-#define ERROR(e, m) {lispError = e; lispErrorMessage = m;}
+#define ERROR(e, m) {lispFile = __FILE__; lispLine = __LINE__; lispError = e; \
+    lispErrorMessage = m; abort();}
 
 /**
  * Signal a warning
  */
-#define WARNING(w, m) {lispWarning = w; lispWarningMessage = m;}
+#define WARNING(w, m) {lispFile = __FILE__; lispLine = __LINE__; lispWarning = w; lispWarningMessage = m;}
 
 /**
  * Signal an unrecoverable error - abort the process
@@ -56,6 +58,10 @@ extern int lispError;
 extern char *lispErrorMessage;
 extern int lispWarning;
 extern char *lispWarningMessage;
+
+extern char *lispFile;
+extern int lispLine;
+ 
 
 #endif
 

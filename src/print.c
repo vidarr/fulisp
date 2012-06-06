@@ -348,6 +348,13 @@ void printToStream(struct Expression *env, struct CharWriteStream *stream, struc
             PRINT_STREAM(buf);
             PRINT_NATIVE_FUNC(expr->data.nativeFunc);
             break;
+        case EXPR_LAMBDA:
+            DEBUG_PRINT_PARAM("expressionToString(): LAMBDA Expression: %p\n",
+                    expr->data.lambda);
+            buf = "LMB: ";
+            PRINT_STREAM(buf);
+            PRINT_EXPR(pointer, %p, ((void *)expr->data.lambda));
+            break;
         case EXPR_CONS:
             DEBUG_PRINT("expressionToString(): CONS");
             STREAM_WRITE(stream, '(');

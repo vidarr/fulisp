@@ -37,6 +37,9 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
     IF_DEBUG(char *buf;)
     assert(env && expr);
 
+    DEBUG_PRINT("Evaluating ");
+    DEBUG_PRINT_EXPR(env, expr, buf);
+
     if(!EXPR_IS_CONS(expr)) {
         if(!EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
             DEBUG_PRINT("EVAL: No symbol - evaluate to itself\n");

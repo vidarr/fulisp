@@ -18,8 +18,11 @@
 
 #include "error.h"
   
- int lispError = ERR_OK;
- char *lispErrorMessage = 0;
- int lispWarning = ERR_OK;
- char *lispWarningMessage = 0;
-   
+int lispError = ERR_OK;
+char *lispErrorMessage = 0;
+int lispWarning = ERR_OK;
+char *lispWarningMessage = 0;
+
+char *lispFile = 0;
+int lispLine = 0;
+ 
