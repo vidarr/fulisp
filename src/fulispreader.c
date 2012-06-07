@@ -268,7 +268,7 @@ static void rmUnexpectedEndOfCons(struct Reader *reader, char sigle) {
 
 static void rmClosingBraketWithinCons(struct Reader *reader, char sigle) {
     DEBUG_PRINT("rmClosingBraketWithinCons called!\n");
-    if(!BUFFER_EMPTY(reader)) {
+    if(!BUFFER_IS_EMPTY(reader)) {
         rmFuLispTerminator(reader, 0);
         STREAM_PUSH_BACK(reader->stream, sigle);
         return;
@@ -284,11 +284,10 @@ static void rmClosingBraketWithinCons(struct Reader *reader, char sigle) {
 
 static void rmOpeningBraket(struct Reader *reader, char sigle) {
     struct Expression *retVal, *current, *next, *expr, *nil;
-    char *buf;
     NativeReadMacro oldMacro, oldClosingBraket;
     assert(reader);
 
-    if(!BUFFER_EMPTY(reader)) {
+    if(!BUFFER_IS_EMPTY(reader)) {
         rmFuLispTerminator(reader, 0);
         STREAM_PUSH_BACK(reader->stream, sigle);
         return;
@@ -335,7 +334,7 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
         current = next;
         expressionDispose(READER_GET_ENVIRONMENT(reader), next);
         resetReader(reader);
-        DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), retVal, buf);
+        DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), retVal);
    }
 
     /* Prevent nested brakets to get confused, e.g. if '))' is encountered */

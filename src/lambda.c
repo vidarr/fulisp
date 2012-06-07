@@ -25,22 +25,22 @@
 #define MODULE_NAME "lambda.c"
 
 #ifdef DEBUG_LAMBDA
-#include "debugging.h"
+#    include "debugging.h"
 #else
-#include "no_debugging.h"
+#    include "no_debugging.h"
 #endif
-
 
 
 struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr) {
     struct Lambda *lambda;
-    IF_DEBUG(char *buf;);
+
     assert(env);
+
     if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) {
         return 0;
     }
     /* TODO: Check if all arguments are symbols */
-    DEBUG_PRINT_EXPR(env, expr, buf);
+    DEBUG_PRINT_EXPR(env, expr);
     lambda = (struct Lambda *)malloc(sizeof(struct Lambda));
     lambda->argList = expressionAssign(env, intCar(env, expr));
     lambda->body = expressionAssign(env, intCar(env, intCdr(env, expr)));
@@ -52,7 +52,7 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
 
 struct Expression *lambdaInvoke(struct Lambda *lambda, struct Expression *args) {
     struct Expression *sym, *val, *exprBuf;
-    IF_DEBUG(char *buf;)
+
     /* 1st step: create new environment with old environment as parent */
     struct Expression *env = environmentCreate(lambda->env);
     assert(lambda);
@@ -60,16 +60,22 @@ struct Expression *lambdaInvoke(struct Lambda *lambda, struct Expression *args) 
     sym = lambda->argList;
     val = args;
     DEBUG_PRINT("sym ");
-    DEBUG_PRINT_EXPR(env, sym, buf);
-    DEBUG_PRINT_EXPR(env, val, buf);
+    DEBUG_PRINT_EXPR(env, sym);
+    DEBUG_PRINT_EXPR(env, val);
     while(sym != NIL && args != NIL) {
         if(!EXPR_OF_TYPE(sym, EXPR_CONS) || !EXPR_OF_TYPE(val, EXPR_CONS)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Argument list is flawed");
             expressionDispose(lambda->env, env);
             return NIL;
         }
-        ENVIRONMENT_ADD_SYMBOL(env, intCar(env, sym), 
-                exprBuf = eval(env, intCar(env, val)));
+        /* exprBuf = intCar(env, val); */
+        /* DEBUG_PRINT_PARAM("Counter of exprBuf before eval: %i\n",
+         * exprBuf->counter); */
+        /* exprBuf = eval(env, exprBuf);  
+           DEBUG_PRINT_PARAM("Counter of exprBuf after eval: %i\n",
+         * exprBuf->counter); */
+        exprBuf = eval(env, intCar(env, val)); 
+        ENVIRONMENT_ADD_SYMBOL(env, intCar(env, sym), exprBuf);
         expressionDispose(env, exprBuf);
         sym = intCdr(env, sym);
         val = intCdr(env, val);

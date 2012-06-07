@@ -182,7 +182,6 @@ void rmTerminator(struct Reader *reader, char sigle);
     *(r->current) = x; (r->current)++; \
 }
 
-#define BUFFER_EMPTY(r) (r->buffer == r->current)
 
 
 #define DEBUG_PRINT_MACRO_LOOKUP(r) printLookup(r)

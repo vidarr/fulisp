@@ -84,7 +84,7 @@ struct Environment {
  */
 #define ENVIRONMENT_ADD_STRING(env, string, expr) {\
     hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, string, (expr)); \
-    expressionAssign(env, expr);};
+    expressionAssign(env, (expr));};
 
 
 /**

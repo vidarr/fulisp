@@ -88,7 +88,6 @@ struct Expression *fuRead(struct Reader *reader) {
 
     char readChar;
     NativeReadMacro macro;
-    IF_DEBUG(char *outBuffer;)
     struct Expression *expr = 0;
 
     assert(reader != 0);
@@ -102,7 +101,7 @@ struct Expression *fuRead(struct Reader *reader) {
             /* if the macro returned an expression, we are done  */
             if(reader->expr) {
                 DEBUG_PRINT("fuRead() returns expr : ");
-                DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr, outBuffer);
+                DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr);
                 expr = reader->expr;
                 reader->expr = 0;
                 return expr;
@@ -124,7 +123,7 @@ struct Expression *fuRead(struct Reader *reader) {
         rmTerminator(reader, 0); /* If none registered, take the standard
                                     terminating macro */
     DEBUG_PRINT(" reached end of function\n"); 
-    DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr, outBuffer);
+    DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr);
 
     return reader->expr;
 }

@@ -34,11 +34,10 @@
 struct Expression *eval(struct Expression *env, struct Expression *expr) {
     struct Expression *res;
 
-    IF_DEBUG(char *buf;)
     assert(env && expr);
 
     DEBUG_PRINT("Evaluating ");
-    DEBUG_PRINT_EXPR(env, expr, buf);
+    DEBUG_PRINT_EXPR(env, expr);
 
     if(!EXPR_IS_CONS(expr)) {
         if(!EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
@@ -47,7 +46,6 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
         } else {
             DEBUG_PRINT("EVAL: Symbol - resolving it...\n");
             res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
-            fprintf(stderr, "res %s was %s\n", EXPRESSION_STRING(expr), res ? " found " : " not found");
             if(!res) {
                 ERROR(ERR_UNRESOLVABLE, "Could not resolve symbol");
                 res = NIL; /* ENVIRONMENT_STRING_LOOKUP(env, "NIL"); */
@@ -59,7 +57,7 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
         /* All lists are function calls - argument lists are quoted and thus
          * given to the native function 'quote' returning the list */
         struct Expression *first = intCar(env, expr);
-        DEBUG_PRINT_EXPR(env, first, buf);
+        DEBUG_PRINT_EXPR(env, first);
         /* In case of being a or something returning a function it should be resolved before being applied */
         first = eval(env, first);
         if(!first) {

@@ -21,7 +21,6 @@ int main(int argc, char **argv) {
     struct CharReadStream *readStream;
     struct CharWriteStream *writeStream;
     struct CharBufferedReadStream *stream;
-    char *buf;
     struct Expression *expr = 0, *result = 0;
 
     struct Expression *env = environmentCreateStdEnv();
@@ -49,7 +48,7 @@ int main(int argc, char **argv) {
     printf(" Error: %i\n", lispError); 
     result = eval(env, expr);
     DEBUG_PRINT("main():   result = ");
-    DEBUG_PRINT_EXPR(env, result, buf);
+    DEBUG_PRINT_EXPR(env, result);
     DEBUG_PRINT("\n");
     printToStream(env, writeStream, result);
     STREAM_WRITE(writeStream, '\n');

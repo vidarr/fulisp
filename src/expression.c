@@ -33,7 +33,6 @@
 
 
 void expressionDispose(struct Expression *env, struct Expression *expr) {
-    IF_DEBUG(char *buf;) 
     if(!expr) return;
     if(!EXPR_IS_VALID(expr)) {
         free(expr); 
@@ -43,7 +42,7 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
      * parsing of conses */
     DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n", expr->counter);
     DEBUG_PRINT_PARAM("   type %u \n", (int)EXPRESSION_TYPE(expr));
-    DEBUG_PRINT_EXPR(env, expr, buf);
+    DEBUG_PRINT_EXPR(env, expr);
 
     if(expr->counter-- > 0) return;
     DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));

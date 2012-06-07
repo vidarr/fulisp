@@ -23,30 +23,46 @@
 #include "stdio.h"
 #include "printnativefunctions.h"
 
-#define IF_DEBUG(x) x
+#ifdef DEBUG
 
-#define DEBUG_PRINT(msg) {fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
-    fprintf(stderr, msg); \
-}
+#    define IF_DEBUG(x) x
 
-#define DEBUG_PRINT_PARAM(msg, param) {fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
-    fprintf(stderr, msg, param); \
-}
+#    define DEBUG_PRINT(msg) {fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
+        fprintf(stderr, msg); \
+}    
 
-#define DEBUG_PRINT_EXPR(env, x, buf) { \
-                buf = malloc(sizeof(char) * 3200); \
-                fprintf(stderr, "%s: %i: Expr is %s\n", __FILE__, __LINE__, \
-                        expressionToString(env, buf, 3200, x)); \
-                free(buf); \
-}
+#    define DEBUG_PRINT_PARAM(msg, param) {fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
+        fprintf(stderr, msg, param); \
+}    
 
-#define DEBUG_PRINT_NATIVE_FUNC(x) { \
-    char *str = malloc(sizeof(NativeFunction *) + 1); \
-    NATIVE_FUNC_TO_STR(x, str); \
-    str[sizeof(NativeFunction *)] = '\0'; \
-    DEBUG_PRINT_PARAM("FCT: %s\n", str); \
-    free(str); \
-};
+#    define DEBUG_PRINT_EXPR(env, x) { \
+                    char *buf = malloc(sizeof(char) * 3200); \
+                    fprintf(stderr, "%s: %i: Expr is %s\n", __FILE__, __LINE__, \
+                            expressionToString(env, buf, 3200, x)); \
+                    free(buf); \
+}    
+
+#    define DEBUG_PRINT_NATIVE_FUNC(x) { \
+        char *str = malloc(sizeof(NativeFunction *) + 1); \
+        NATIVE_FUNC_TO_STR(x, str); \
+        str[sizeof(NativeFunction *)] = '\0'; \
+        DEBUG_PRINT_PARAM("FCT: %s\n", str); \
+        free(str); \
+}    ;
+
+#else 
+
+#    define IF_DEBUG(x)
+
+#    define DEBUG_PRINT(msg)
+
+#    define DEBUG_PRINT_PARAM(msg, param)
+
+#    define DEBUG_PRINT_EXPR(env, x)
+
+#    define DEBUG_PRINT_NATIVE_FUNC(x)
+
+#endif
 
 
 #endif
