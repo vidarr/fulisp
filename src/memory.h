@@ -19,7 +19,7 @@
 #ifndef __MEMORY_H__
 #define __MEMORY_H__
 
-#include "fulispcfg.h"
+#include "config.h"
 
 
 struct Memory {
