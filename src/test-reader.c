@@ -21,6 +21,17 @@
 #include "fulispreader.h"
 #include "test.h"
 
+#ifdef DEBUG
+
+#    include "debugging.h"
+
+#else 
+
+#    include "no_debugging.h"
+
+#endif
+
+
 #define INPUT_BUFFER_SIZE 200
 #define INPUT_FILE "../tests/test-reader.txt"
 
@@ -32,7 +43,7 @@ struct Expression *env;
 
 
 char readCharFromInput(void *v) {
-    printf("readCharFromInput(): %s\n", input);
+    DEBUG_PRINT_PARAM("readCharFromInput(): %s\n", input);
     return *input ? *(input++) : 0;
 }
 
@@ -45,13 +56,13 @@ void iOError(void) {
 
 char *chomp(char *str) {
     int i = 0;
-    printf("Chomping %s\n", str);
+    DEBUG_PRINT_PARAM("Chomping %s\n", str);
     while(str[i] != '\0') i++;
     if(i > 1) {
         if((str[--i] == '\n') || (str[i] == '\r'))  str[i] = '\0';
         if((str[--i] == '\n') || (str[i] == '\r'))  str[i] = '\0';
     };
-    printf("Chomped %s\n", str);
+    DEBUG_PRINT_PARAM("Chomped %s\n", str);
     return str;
 }
 
@@ -67,7 +78,7 @@ int checkInput(char *str, char *reference) {
     deleteReader(reader);
     disposeCharBufferedReadStream(bufStream);
 
-    if(!expr) { fprintf(stderr, "expr is 0!\n");
+    if(!expr) { DEBUG_PRINT("expr is 0!\n");
         return 1;
     }
 
@@ -75,7 +86,7 @@ int checkInput(char *str, char *reference) {
     /* printed = fuPrint(env, expr); */
     expressionDispose(env, expr);
     /* printf("read: %s| reference: %s|\n", EXPRESSION_STRING(printed), reference); */
-    printf("read: %s| reference: %s|\n", inputBuffer, reference);
+    IF_DEBUG(fprintf(stderr, "read: %s| reference: %s|\n", inputBuffer, reference););
     if(strcmp(inputBuffer, reference) == 0)  {
         /* expressionDispose(env, printed); */
         return 0;
@@ -98,7 +109,7 @@ int main(int argc, char **argv) {
 
     inFile = fopen(INPUT_FILE, "r");
     if(inFile == NULL) iOError();
-    printf("File open\n");
+    DEBUG_PRINT("File open\n");
     while(!feof(inFile)) {
         if(NULL == fgets((void *)inBuffer, INPUT_BUFFER_SIZE, inFile)) iOError();
         if(NULL == fgets((void *)refBuffer, INPUT_BUFFER_SIZE, inFile)) iOError();

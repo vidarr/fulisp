@@ -24,8 +24,26 @@
 /** 
  * Signal an error
  */
-#define ERROR(e, m) {lispFile = __FILE__; lispLine = __LINE__; lispError = e; \
-    lispErrorMessage = m; abort();}
+#ifdef NO_MASK_ERROR 
+
+#    define ERROR_BASIC(e, m) {if(NO_ERROR) { \
+        lispFile = __FILE__; lispLine = __LINE__; lispError = e; \
+        lispErrorMessage = m; \
+     }}
+
+#else 
+
+#    define ERROR_BASIC(e, m) {lispFile = __FILE__; lispLine = __LINE__; lispError = e; \
+        lispErrorMessage = m;}
+
+#endif
+
+#ifdef EXIT_ON_ERROR
+#    define ERROR(e, m) {ERROR_BASIC(e, m); abort();}
+#else
+#    define ERROR(e, m) ERROR_BASIC(e, m)
+#endif
+
 
 /**
  * Signal a warning

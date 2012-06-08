@@ -32,6 +32,49 @@
 #include "lisp_internals.h"
 #include "streams.h"
 
+
+
+/*****************************************************************************
+ *                                   MACROS
+ *****************************************************************************/
+
+
+
+/**
+ * Iterate over list of cons cells and execute code on every single car (eqv. of
+ * Common Lisp's "mapcar").
+ * Iterates over the list, assigns first car to runVar, then executes "code",
+ * then assigns next car to runVar and goes on like this until the end of the
+ * list has been reached. "code" can use "runVar" to subsequently access every
+ * car.
+ * @param env current environment
+ * @param list consed list 
+ * @param runVar variable to use as running variable. Must be of type "struct Expression *"
+ * @param code the code to map onto the list's entries
+ */
+#define ITERATE_LIST(env, list, runVar, code) { \
+    struct Expression *next; \
+    runVar = list; \
+    while(runVar != NIL) { \
+        if(!EXPR_OF_TYPE(runVar, EXPR_CONS)) { \
+            ERROR(ERR_UNEXPECTED_TYPE, "Argument list is flawed"); \
+            return NIL; \
+        } \
+        next = intCdr(env, runVar); \
+        runVar = intCar(env, runVar); \
+        code; \
+        runVar = next; \
+    } \
+}
+
+
+
+/*****************************************************************************
+ *                                   MACROS
+ *****************************************************************************/
+
+
+
 /**
  * Creates a cons cell 
  * @param car the car to asign to the cell

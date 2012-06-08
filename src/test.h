@@ -19,6 +19,8 @@
 #ifndef __TEST_H__
 #define __TEST_H__
 
+#include "config.h"
+
 int test(int cond, char *name);
 
 #endif

@@ -93,7 +93,7 @@ struct Expression *fuRead(struct Reader *reader) {
     assert(reader != 0);
 
     while(!reader->expr && (readChar = READ_NEXT_CHAR(reader))) {
-        printf(" Got '%c'\n", readChar);
+        DEBUG_PRINT_PARAM(" Got '%c'\n", readChar);
         macro = LOOKUP_READ_MACRO((char)readChar, reader);
         DEBUG_PRINT_NATIVE_FUNC(macro);
         if(macro) {

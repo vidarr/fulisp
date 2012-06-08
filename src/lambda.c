@@ -18,6 +18,7 @@
     
 
 #include "lambda.h"
+#include "cons.h"
 #include <assert.h>
 
 
@@ -33,6 +34,8 @@
 
 struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr) {
     struct Lambda *lambda;
+    struct Expression *iter;
+    struct Expression *args;
 
     assert(env);
 
@@ -40,9 +43,20 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
         return 0;
     }
     /* TODO: Check if all arguments are symbols */
+    args = intCar(env, expr);
+    if(!args || !EXPR_OF_TYPE(args, EXPR_CONS)) {
+        ERROR(ERR_UNEXPECTED_TYPE, "Argument list of Lambda expression is malformed");
+        return NIL;
+    }
+    ITERATE_LIST(env, args, iter, \
+            if(!iter || !EXPR_OF_TYPE(iter, EXPR_SYMBOL)) { \
+            ERROR(ERR_UNEXPECTED_TYPE, "Argument list of lambda expression " \
+                "does not contain symbols only");
+            return NIL; \
+            });
     DEBUG_PRINT_EXPR(env, expr);
     lambda = (struct Lambda *)malloc(sizeof(struct Lambda));
-    lambda->argList = expressionAssign(env, intCar(env, expr));
+    lambda->argList = expressionAssign(env, args); /* intCar(env, expr)); */
     lambda->body = expressionAssign(env, intCar(env, intCdr(env, expr)));
     lambda->env =  expressionAssign(env, env);
     DEBUG_PRINT("Created lambda ...");

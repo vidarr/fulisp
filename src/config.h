@@ -20,7 +20,7 @@
 
 #include <limits.h>
 
-#define DEBUG
+/* #define DEBUG */
 #define DEBUG_READER 
 #define DEBUG_EVAL
 #define DEVUG_ENVIRONMENT
@@ -30,8 +30,34 @@
 #define DEBUG_STACK
 #define DEBUG_LAMBDA
 
+/**
+ * Should hash tables place strings or copies of strings as keys?
+ */
 #define HASH_TABLE_SAFE_KEYS
+
+/**
+ * Should additional error-checking code be generated?
+ */
 #define GENERATE_SAFETY_CODE
+
+/**
+ * Should test use ANSI Escapes to color output?
+ */
+#define TEST_OUTPUT_ANSI_COLOR
+
+/**
+ * Should lisp abort on lisp error?
+ */
+/* #define EXIT_ON_ERROR  */
+
+
+/**
+ * Should subsequent errors mask older errors? I.e. if one error occured, thus
+ * "lispError != ERR_OK", should another error overwrite error reporting
+ * variables? If set, this won't happen.
+ */
+#define NO_MASK_ERROR
+
 
 #define READ_BUFFER_SIZE (int)(16000)
 #define PRINT_BUFFER_SIZE 100
@@ -44,7 +70,6 @@
  * sizeof(void *) != sizeof(NativeFunc *) holds.
  */
 #define STRICT_NATIVE_FUNCS
-
 
 
 #endif
