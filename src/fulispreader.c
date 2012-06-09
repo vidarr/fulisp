@@ -103,6 +103,8 @@ static void registerStandardReadMacros(struct Reader *reader) {
 
     /* Register all the macros */
     registerReadMacro(reader, (unsigned char)' ', rmFuLispTerminator);
+    registerReadMacro(reader, (unsigned char)'\r', rmFuLispTerminator);
+    registerReadMacro(reader, (unsigned char)'\n', rmFuLispTerminator);
     registerReadMacro(reader, (unsigned char)'1', rmInteger);
     registerReadMacro(reader, (unsigned char)'2', rmInteger);
     registerReadMacro(reader, (unsigned char)'3', rmInteger);

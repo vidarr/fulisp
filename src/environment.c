@@ -27,16 +27,6 @@
 #endif
 
 
-/**
- * Create a new expression containing a native function and insert it into the
- * lookup table of an environment
- * @param env the environment to instert to
- * @param string name of the function 
- * @param func the function to add
- */
-#define ADD_NATIVE_FUNCTION_EXPRESSION(env, string, func) {\
-    struct Expression *f = expressionCreateNativeFunc((env), (func)); \
-    ENVIRONMENT_ADD_STRING((env), (string), f); expressionDispose((env), f); }
 
 
 
@@ -62,6 +52,7 @@ struct Expression *environmentCreateStdEnv(void) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!", set);
     ENVIRONMENT_ADD_STRING(env, "NIL", 0); 
 /*    expr = expressionCreate(env, EXPR_NATIVE_FUNC, (void *)quote);
     ENVIRONMENT_ADD_STRING(env, "QUOTE", expr); */

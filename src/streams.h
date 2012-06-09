@@ -72,7 +72,7 @@ struct ReadStream {
 /** 
  * The stdin stream - will return char Expressions
  */
-extern struct ReadStream cStdIn;
+/* extern struct ReadStream cStdIn; */
 
 struct CharReadStream {
     char (*getNext)(void *);
@@ -120,7 +120,22 @@ struct CharBufferedReadStream {
 };
 
 
+/**
+ * Push back a char onto a buffered stream
+ * @param s buffered read stream
+ * @param x entity to push back (in case of CharBufferedReadStream, a char)
+ */
 #define STREAM_PUSH_BACK(s, x) (s->pushBack(s->intConfig, x))
+
+
+/**
+ * Reset CharBufferedReadStream. Next read will start from beginning of buffer
+ * again.
+ * @param str stream to reset
+ * @return the stream that has been reset
+ */
+struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedReadStream *stream);
+
 
 /**
  * This is the StdIn stream buffered

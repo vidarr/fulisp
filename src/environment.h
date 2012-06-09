@@ -26,7 +26,6 @@ struct Environment;
 
 #include "lisp_internals.h"
 #include "hash.h"
-/* #include "symboltable.h" */
 #include "error.h"
 #include "expression.h"
 
@@ -49,7 +48,7 @@ struct Environment {
  * return NIL
  */
 #define ENSURE_ENVIRONMENT(expr) \
-    IF_SAFETY_CODE(if(!EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) { \
+    IF_SAFETY_CODE(if(!EXPR_OF_TYPE((expr), EXPR_ENVIRONMENT)) { \
         ERROR(ERR_UNEXPECTED_TYPE, "Expected Environment"); \
         return NIL; \
         })
@@ -61,7 +60,7 @@ struct Environment {
  * @param sym the symbol to look up
  * @return whatever sym resolves to 
  */
-#define ENVIRONMENT_SYMBOL_LOOKUP(env, sym) environmentLookup(env, sym)
+#define ENVIRONMENT_SYMBOL_LOOKUP(env, sym) environmentLookup((env), (sym))
 
 
 /**
@@ -71,7 +70,7 @@ struct Environment {
  * @return whatever sym resolves to 
  */
 #define ENVIRONMENT_STRING_LOOKUP(env, sym) \
-    (hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, sym))
+    (hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, (sym)))
 
 
 /**
@@ -83,8 +82,8 @@ struct Environment {
  * @return old value of the symbol or NULL if previously not set
  */
 #define ENVIRONMENT_ADD_STRING(env, string, expr) {\
-    hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, string, (expr)); \
-    expressionAssign(env, (expr));};
+    hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, (string), (expr)); \
+    expressionAssign((env), (expr));};
 
 
 /**
@@ -95,7 +94,20 @@ struct Environment {
  * @param expression the epxression to set the symbol to
  * @return old value of the symbol or NULL if previously not set
  */
-#define ENVIRONMENT_ADD_SYMBOL(env, sym, expr) ENVIRONMENT_ADD_STRING(env, EXPRESSION_STRING(sym), expr)
+#define ENVIRONMENT_ADD_SYMBOL(env, sym, expr) \
+    ENVIRONMENT_ADD_STRING(env, EXPRESSION_STRING(sym), (expr))
+
+
+/**
+ * Create a new expression containing a native function and insert it into the
+ * lookup table of an environment
+ * @param env the environment to instert to
+ * @param string name of the function 
+ * @param func the function to add
+ */
+#define ADD_NATIVE_FUNCTION_EXPRESSION(env, string, func) {\
+    struct Expression *f = expressionCreateNativeFunc((env), (func)); \
+    ENVIRONMENT_ADD_STRING((env), (string), f); expressionDispose((env), f); }
 
 
 
@@ -138,14 +150,5 @@ void environmentDispose(struct Expression *surrEnv, struct Environment *env);
  */
 struct Expression *environmentLookup(struct Expression *env, struct Expression *sym);
 
-
-/**
- * Look up the binding of a symbol within the current environment
- * @param env expression containing the environment to look up symbol in
- * @param sym expression containing the symbol to look up 
- * @return the expression bound to sym or NIL
- *
-struct Expression *environmentExpressionLookup(struct Expression *env, struct
-        Expression *sym); */
 
 #endif

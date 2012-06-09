@@ -20,11 +20,11 @@
 
 #include <limits.h>
 
-/* #define DEBUG */
+/* #define DEBUG  */
 #define DEBUG_READER 
 #define DEBUG_EVAL
 #define DEVUG_ENVIRONMENT
-/* #define DEBUG_FUNCTIONS */
+#define DEBUG_NATIVE_FUNCTIONS
 #define DEBUG_EXPRESSION
 #define DEBUG_SYMBOL_TABLE
 #define DEBUG_STACK

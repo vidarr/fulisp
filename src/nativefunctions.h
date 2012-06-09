@@ -22,7 +22,6 @@
 #define __NATIVEFUNCTIONS_H__
 
 
-#include "debugging.h"
 #include "environment.h"
 #include "eval.h"
 #include "lambda.h"
@@ -61,5 +60,16 @@ struct Expression *add(struct Expression *env, struct Expression *expr);
  */
 struct Expression *print(struct Expression *env, struct Expression *expr);
 
+
+/**
+ * Bind symbol to a value. Currently, if there is no binding for this symbol
+ * yet, a new binding is created, thus explicit call to "define" or something is
+ * unneccessary. 
+ * @param env the environment to be used
+ * @param expr a cons list with two entries: first one should be the symbol to
+ * bind, second the value to be bound to the symbol.
+ * @returns new value bound to the symbol
+ */
+struct Expression *set(struct Expression *env, struct Expression *expr) ;
 
 #endif

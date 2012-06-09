@@ -48,6 +48,12 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s) {
 }
 
 
+/*****************************************************************************
+ *                             charBufferedStream
+ *****************************************************************************/
+
+
+
 struct InternalCharBufferedStream {
     struct CharReadStream *readStream;
     char *current;
@@ -82,6 +88,15 @@ void charPushBack(void *stream, char c) {
     *(internalStruct->current++) = c;
 }
 
+
+struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedReadStream
+        *stream) {
+    struct InternalCharBufferedStream *internal;
+    assert(stream);
+    internal = stream->intConfig;
+    internal->current = internal->buffer;
+    return stream;
+}
 
 
 struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream

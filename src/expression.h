@@ -179,7 +179,7 @@
 /** 
  * The NIL atom
  */
-#define NIL 0
+#define NIL ((struct Expression *)0)
 
 
 

@@ -45,6 +45,9 @@
 #endif
 
 
+#define ERROR_RESET { \
+    lispError = 0; lispErrorMessage = 0;};
+
 /**
  * Signal a warning
  */

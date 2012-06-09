@@ -1,3 +1,4 @@
+* Merge config.h and fulispcfg.h
 * Bind lambdaCreate to 'lambda' aymbol
 
 Done

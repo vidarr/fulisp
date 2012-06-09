@@ -16,12 +16,20 @@
  * USA.
  */
 
-#define MODULE_NAME "nativefunctions.c"
 
 #include "nativefunctions.h"
 #include "expression.h"
 #include "error.h"
 #include "safety.h"
+
+
+#define MODULE_NAME "nativefunctions.c"
+
+#ifdef DEBUG_NATIVE_FUNCTIONS
+#include "debugging.h"
+#else
+#include "no_debugging.h"
+#endif
 
 
 
@@ -57,3 +65,43 @@ struct Expression *add(struct Expression *env, struct Expression *expr) {
 
     return expressionCreate(env, EXPR_FLOAT, (void *)&res);
 }
+
+
+struct Expression *set(struct Expression *env, struct Expression *expr) {
+    struct Expression *sym, *val;
+    assert(env && expr);
+
+    DEBUG_PRINT("Entering set");
+
+    if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) {
+        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument");
+        return NIL;
+    };
+    sym = intCar(env, expr);
+    if(!sym || !EXPR_OF_TYPE(sym, EXPR_SYMBOL)) {
+        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument");
+        return NIL;
+    };
+    val = intCdr(env, expr);
+    if(!val || !EXPR_OF_TYPE(val, EXPR_CONS)) {
+        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument");
+        return NIL;
+    };
+    IF_SAFETY_CODE( \
+            if(!EXPR_IS_NIL(intCdr(env, val))) { \
+            ERROR(ERR_UNEXPECTED_VAL, "set expects exactly 2" \
+                " arguments"); \
+            return NIL; \
+            });
+    val = intCar(env, val);
+    val = eval(env, val);
+/*    printf("Got sym: %s\n", EXPRESSION_STRING(sym));
+    printf("Got val: %s\n", EXPRESSION_STRING(fuPrint(env, val))); */
+    DEBUG_PRINT("Setting \n");
+    DEBUG_PRINT_EXPR(env, sym);
+    DEBUG_PRINT_EXPR(env, val);
+
+    ENVIRONMENT_ADD_SYMBOL(env, sym, val);
+    return expressionAssign(env, val);
+}
+

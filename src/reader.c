@@ -76,7 +76,7 @@ void deleteReader(struct Reader *reader) {
 void resetReader(struct Reader *reader) {
     assert(reader != 0);
     if(reader->expr) {
-        expressionDispose(READER_GET_ENVIRONMENT(reader), reader->expr);
+        expressionDispose(READER_GET_ENVIRONMENT(reader), reader->expr); 
         reader->expr = (void *)0;
     };
     reader->type = EXPR_NO_TYPE;
@@ -125,7 +125,7 @@ struct Expression *fuRead(struct Reader *reader) {
     DEBUG_PRINT(" reached end of function\n"); 
     DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr);
 
-    return reader->expr;
+    return expressionAssign(READER_GET_ENVIRONMENT(reader), reader->expr);
 }
 
 
@@ -287,6 +287,10 @@ void printLookup(struct Reader *reader) {
     };
 
     fprintf(stderr, "\n");
+}
+
+
+void rmIgnore(struct Reader *reader, char sigle) {
 }
 
 

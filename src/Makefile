@@ -22,10 +22,15 @@ all: $(BUILD_DIR)/test-eval
 
 
 
-.PHONY: clean tests exec-tests
+.PHONY: clean tests exec-tests fulisp
+
+
+
+fulisp: $(BUILD_DIR)/fulisp
 
 
 tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env 
+
 
 exec-tests: tests
 	@$(BUILD_DIR)/test-stack && \
@@ -67,6 +72,10 @@ $(BUILD_DIR)/test-env: $(OBJECT_FILES)  $(BUILD_DIR)/test-env.o
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-env  $^ $(LDFLAGS)
 
 
+$(BUILD_DIR)/fulisp: $(OBJECT_FILES) $(BUILD_DIR)/repl.o
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/fulisp $^ $(LDFLAGS)
+
+    
 clean:
 	@echo "REMOVING BINARIES..."; rm  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*
 

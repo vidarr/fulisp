@@ -156,6 +156,11 @@ void printLookup(struct Reader *reader);
 
 void setExprOfReader(struct Reader *reader);
 
+/** 
+ * ReadMacro that ignores read character
+ */
+void rmIgnore(struct Reader *reader, char sigle);
+
 /**
  * Standard ReadMacro
  * just push read char to buffer 
