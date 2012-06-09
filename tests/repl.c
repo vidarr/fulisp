@@ -59,8 +59,9 @@ int main(int argc, char **argv) {
     struct Expression *expr, *res;
     struct CharWriteStream *outStream;
     struct CharBufferedReadStream *bufStream;
+    int lastError = ERR_OK;
     env = environmentCreateStdEnv();
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "quit", quit);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUIT", quit);
     
     readStream = (struct CharReadStream *)malloc(sizeof(struct CharReadStream));
     readStream->getNext = readCharFromInput;
@@ -71,22 +72,28 @@ int main(int argc, char **argv) {
     bufStream = makeCharBufferedReadStream(readStream);
     reader = newFuLispReader(env, bufStream);
     while(1) { /* Loop until "quit" is called */
-        printf("\nfuLisp:%i$ ", lispError);
+        printf("\nfuLisp:%i$ ", lastError);
         while(NULL ==  fgets(input, INPUT_BUFFER_LEN, stdin)) {
         };
+        resetCharBufferedReadStream(bufStream);
         expr = fuRead(reader);
         if(!NO_ERROR) {
             fprintf(stderr, "    FOOBAR: %s\n\n", lispErrorMessage);
+            lastError = lispError;
+            ERROR_RESET;
         } else {
-
             res = eval(env, expr);
             expressionDispose(env, expr);
-            
+            if(!NO_ERROR) {
+                fprintf(stderr, "    FOOBAR: %s\n\n", lispErrorMessage);
+                lastError = lispError;
+                ERROR_RESET;
+            }
             outStream = makeCStreamCharWriteStream(1024, stdout);
             printToStream(env, outStream, res);
+            expressionDispose(env, res);
         }
         printf("\n");
-        expressionDispose(env, res);
     }
     deleteReader(reader);
     disposeCharBufferedReadStream(bufStream);
