@@ -60,7 +60,7 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
  * @param args list of values for the arguments to use 
  * @return expression being the result of the evaluation 
  */
-struct Expression *lambdaInvoke(struct Lambda *lambda, struct Expression *args);
+struct Expression *lambdaInvoke(struct Expression *oldEnv, struct Lambda *lambda, struct Expression *args);
 
 
 /**

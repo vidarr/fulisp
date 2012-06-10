@@ -71,7 +71,7 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
                 res = EXPRESSION_NATIVE_FUNC(first)(env, intCdr(env, expr));
                 break;
             case EXPR_LAMBDA:
-                res = lambdaInvoke(EXPRESSION_LAMBDA(first), intCdr(env, expr));
+                res = lambdaInvoke(env, EXPRESSION_LAMBDA(first), intCdr(env, expr));
                 break;
             default:
                 ERROR(ERR_UNEXPECTED_VAL, "eval(): First element in list is not a function!");

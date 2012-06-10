@@ -45,6 +45,11 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, expr);
 
     if(expr->counter-- > 0) return;
+    expressionForceDispose(env, expr);
+}
+
+
+void expressionForceDispose(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));
 
     if(EXPR_IS_POINTER(expr)) {

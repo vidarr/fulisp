@@ -64,7 +64,7 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
 }
 
 
-struct Expression *lambdaInvoke(struct Lambda *lambda, struct Expression *args) {
+struct Expression *lambdaInvoke(struct Expression *oldEnv, struct Lambda *lambda, struct Expression *args) {
     struct Expression *sym, *val, *exprBuf;
 
     /* 1st step: create new environment with old environment as parent */
@@ -88,7 +88,8 @@ struct Expression *lambdaInvoke(struct Lambda *lambda, struct Expression *args) 
         /* exprBuf = eval(env, exprBuf);  
            DEBUG_PRINT_PARAM("Counter of exprBuf after eval: %i\n",
          * exprBuf->counter); */
-        exprBuf = eval(env, intCar(env, val)); 
+        /* Arguments have to be evaluated within old environment! */
+        exprBuf = eval(oldEnv, intCar(env, val)); 
         ENVIRONMENT_ADD_SYMBOL(env, intCar(env, sym), exprBuf);
         expressionDispose(env, exprBuf);
         sym = intCdr(env, sym);
