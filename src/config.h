@@ -71,6 +71,13 @@
  */
 #define STRICT_NATIVE_FUNCS
 
+#define GC_REFERENCE_COUNTING 1
+
+/** 
+ * Which kind of garbage collection to use. 
+ * This constant could be set to any of the values GC_*.
+ */
+#define GARBAGE_COLLECTOR GC_REFERNCE_COUNTING
 
 #endif
 

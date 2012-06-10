@@ -225,9 +225,18 @@ struct Expression {
 /**
  * disposes an expression
  * Takes care of the reference count
+ * @param env the environment currently valid
  * @param expr the expression to dispose
  */
 void expressionDispose(struct Expression *env, struct Expression *expr); 
+
+
+/**
+ * Dispose an expression, bypass any kind of garbage collector.
+ * @param env the environment currently valid
+ * @param expr the expression to dispose
+ */
+void expressionForceDispose(struct Expression *env, struct Expression *expr);
 
 
 /**

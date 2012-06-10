@@ -43,6 +43,8 @@ struct Expression *environmentCreate(struct Expression *parent) {
         DEBUG_PRINT_PARAM("Counter of parent after expressionAssign: %i\n", parent->counter);
     }
     env->parent = parent;
+    /* TODO: As soon as Memory structure will be used, replace by different call to a
+     * functon using only Memory, not Environment */
     return expressionCreate(parent, EXPR_ENVIRONMENT, env);
 }
 
@@ -54,8 +56,6 @@ struct Expression *environmentCreateStdEnv(void) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!", set);
     ENVIRONMENT_ADD_STRING(env, "NIL", 0); 
-/*    expr = expressionCreate(env, EXPR_NATIVE_FUNC, (void *)quote);
-    ENVIRONMENT_ADD_STRING(env, "QUOTE", expr); */
     return env;
 }
 
