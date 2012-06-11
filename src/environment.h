@@ -82,7 +82,8 @@ struct Environment {
  * @return old value of the symbol or NULL if previously not set
  */
 #define ENVIRONMENT_ADD_STRING(env, string, expr) {\
-    hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, (string), (expr)); \
+    void *old = hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, (string), (expr)); \
+    if(old != NULL) expressionDispose(env, (struct Expression *)old); \
     expressionAssign((env), (expr));};
 
 

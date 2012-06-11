@@ -1,7 +1,21 @@
-* Merge config.h and fulispcfg.h
-* Bind lambdaCreate to 'lambda' aymbol
+* Make NIL a constant variable within expression.c, distinguish NIL from (struct
+  Expression *)
+
+* Implement type cast functions within types.h/.c
+
+* Make set! to define and introduce set! that modifies existing variables only
+  (currently, there is no possibility to alter variable on surrounding env, even
+  if symbol is unbound in current env, because set! will just create it
+
+* Introduce "default function" in environment that will be called if symbol
+  could not be resolved
+
 
 Done
+
+* Merge config.h and fulispcfg.h
+
+* Bind lambdaCreate to 'lambda' aymbol
 
 * Work out reader test: Read in expressions, compare string print of reader
   result to expected strings
@@ -15,7 +29,6 @@ Done
 
 * Environment: Make all functions take an Environment struct
                Introduce Environment into reader
-
 
 * Merge sub structures of Reader directly into Reader to save resolution of
         pointer
