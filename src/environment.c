@@ -28,8 +28,6 @@
 
 
 
-
-
 struct Expression *environmentCreate(struct Expression *parent) {
     struct Environment *env = (struct Environment *)malloc(sizeof(struct Environment));
     env->lookup = hashTableCreate(SYMBOL_TABLE_SIZE, stdHashFunction);
@@ -55,6 +53,7 @@ struct Expression *environmentCreateStdEnv(void) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!", set);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "DEFINE", define);
     ENVIRONMENT_ADD_STRING(env, "NIL", 0); 
     return env;
 }
@@ -96,9 +95,21 @@ struct Expression *environmentLookup(struct Expression *env, struct Expression *
 }
 
 
-/* struct Expression *environmentExpressionLookup(struct Expression *env, struct
-        Expression *sym) {
+struct Expression *environmentUpdate(struct Expression *env, struct Expression *sym, struct Expression *expr) {
+    struct Expression *oldVal;
     ENSURE_ENVIRONMENT(env);
-    return environmentLookup(EXPRESSION_ENVIRONMENT(env), sym);
-} */
+    oldVal = hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, EXPRESSION_STRING(sym));
+    DEBUG_PRINT_PARAM("Symbol was %s\n", expr ? " found" : " not found");
+    if(!oldVal) {
+        if(EXPRESSION_ENVIRONMENT(env)->parent) {
+            return
+                environmentUpdate((EXPRESSION_ENVIRONMENT(env))->parent, sym, expr);
+        } else {
+            return NULL;
+        }
+    }
+    ENVIRONMENT_ADD_SYMBOL(env, sym, expr);
+    return expr;
+
+}
 

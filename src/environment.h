@@ -152,4 +152,15 @@ void environmentDispose(struct Expression *surrEnv, struct Environment *env);
 struct Expression *environmentLookup(struct Expression *env, struct Expression *sym);
 
 
+/**
+ * Look up the binding of a symbol within the current environment. if found,
+ * bind expr to that symbol. If not found, return NULL.
+ * @param env the environment to look up symbol
+ * @param sym the symbol to look up
+ * @param expr Expression to bind to sym
+ * @return expression bound to the symbol or NULL if not found
+ */
+struct Expression *environmentUpdate(struct Expression *env, struct Expression *sym, struct Expression *expr);
+
+
 #endif

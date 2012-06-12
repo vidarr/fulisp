@@ -32,6 +32,35 @@
 #endif
 
 
+/*****************************************************************************
+ *                                  MACROS
+ *****************************************************************************/
+
+
+#define ASSIGN_2_PARAMS(env, expr, sym, val) { \
+    if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) { \
+        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); \
+        return NULL; \
+    }; \
+    sym = intCar(env, expr); \
+    if(!sym || !EXPR_OF_TYPE(sym, EXPR_SYMBOL)) { \
+        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); \
+        return NULL; \
+    }; \
+    val = intCdr(env, expr); \
+    if(!val || !EXPR_OF_TYPE(val, EXPR_CONS)) { \
+        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); \
+        return NULL; \
+    }; \
+    IF_SAFETY_CODE(  \
+            if(!EXPR_IS_NIL(intCdr(env, val))) {  \
+            ERROR(ERR_UNEXPECTED_VAL, "set expects exactly 2"  \
+                " arguments"); \
+            return NULL; \
+            }); \
+    val = intCar(env, val); \
+}
+
 
 struct Expression *quote(struct Expression *env, struct Expression *expr) {
     return expressionAssign(env, expr);
@@ -73,6 +102,23 @@ struct Expression *set(struct Expression *env, struct Expression *expr) {
 
     DEBUG_PRINT("Entering set");
 
+    ASSIGN_2_PARAMS(env, expr, sym, val);
+    val = eval(env, val);
+    DEBUG_PRINT("Setting \n");
+    DEBUG_PRINT_EXPR(env, sym);
+    DEBUG_PRINT_EXPR(env, val);
+
+    environmentUpdate(env, sym, val);
+    return expressionAssign(env, val);
+}
+
+
+struct Expression *define(struct Expression *env, struct Expression *expr) {
+    struct Expression *sym, *val;
+    assert(env && expr);
+
+    DEBUG_PRINT("Entering define");
+
     if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) {
         ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument");
         return NIL;
@@ -104,4 +150,5 @@ struct Expression *set(struct Expression *env, struct Expression *expr) {
     ENVIRONMENT_ADD_SYMBOL(env, sym, val);
     return expressionAssign(env, val);
 }
+
 

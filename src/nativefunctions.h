@@ -72,4 +72,16 @@ struct Expression *print(struct Expression *env, struct Expression *expr);
  */
 struct Expression *set(struct Expression *env, struct Expression *expr) ;
 
+
+/** 
+ * Bind a symbol to a value within current environment, if it exists already,
+ * create new binding.
+ * @param  env environment create binding within
+ * @param  sym symbol to bind 
+ * @param  expr expr to bind to symbol
+ * @return new value 
+ */
+struct Expression *define(struct Expression *env, struct Expression *expr);
+
+
 #endif
