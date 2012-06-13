@@ -88,6 +88,8 @@ struct Reader *newFuLispReader(struct Expression *env, struct CharBufferedReadSt
     assert(stream);
     /* Now register all the specific read macros and sign handlers */
     registerStandardReadMacros(reader);
+    /* Register NIL symbol */
+    hashTableSet(reader->symbolTable, ((NIL)->data.string), NIL);
     return reader;
 }
 

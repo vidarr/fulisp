@@ -70,13 +70,7 @@
 /** 
  * Checks whether x is NIL
  */
-#define EXPR_IS_NIL(x) (!(x) ||         \
-                        (EXPR_OF_TYPE((x), EXPR_SYMBOL) &&       \
-                         (x)->data.string &&                     \
-                         ((x)->data.string)[0] == 'N' &&         \
-                         ((x)->data.string)[1] == 'I' &&         \
-                         ((x)->data.string)[2] == 'L' &&         \
-                         ((x)->data.string)[3] == 0 ))
+#define EXPR_IS_NIL(x) (x == NIL)
 
 
 /**
@@ -176,10 +170,11 @@
  */
 #define EXPR_LAMBDA (EXPR_POINTER | 7)
 
+extern struct Expression expressionNil;
 /** 
  * The NIL atom
  */
-#define NIL ((struct Expression *)0)
+#define NIL (&expressionNil)
 
 
 
@@ -201,8 +196,8 @@ struct Cons{
 
 struct Expression {
     union {
-        int integer;
         char *string;
+        int integer;
         char character;
         double floating;
         struct Cons *cons;

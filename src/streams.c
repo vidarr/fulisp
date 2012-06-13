@@ -156,7 +156,7 @@ int writeBufferedCharToFile(void *intConfig, char c) {
     *(cfg->current++) = c;
     if(cfg->current - cfg->buffer <= cfg->bufferSize) {
         *cfg->current = 0;
-        length = fprintf(cfg->stream, cfg->buffer);
+        length = fprintf(cfg->stream,"%s", cfg->buffer);
         fflush(cfg->stream);
         cfg->current = cfg->buffer;
     }
@@ -206,7 +206,7 @@ void disposeCStreamCharWriteStream(struct CharWriteStream *stream) {
        cfg = (struct CStreamCharWriteStream *)stream->intConfig; 
        if(cfg->buffer < cfg->current) 
            *cfg->current = 0;
-           fprintf(cfg->stream, cfg->buffer);
+           fprintf(cfg->stream,"%s", cfg->buffer);
            free(cfg->buffer);
            free(cfg);
     }

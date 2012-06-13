@@ -32,6 +32,21 @@
 #endif
 
 
+char nil[] = "NIL";
+struct Expression expressionNil = {
+    {nil},
+    0,
+    EXPR_SYMBOL
+};
+
+
+/* void expressionInitialize(void) { */
+/*     expressionNil.data.string = nil; */
+/*     expressionNil.counter = 0; */
+/*     expressionNil.type = EXPR_SYMBOL; */
+/* } */
+
+
 void expressionDispose(struct Expression *env, struct Expression *expr) {
     if(!expr) return;
     if(!EXPR_IS_VALID(expr)) {
@@ -45,6 +60,8 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, expr);
 
     if(expr->counter-- > 0) return;
+    /* Do not dispose NIL! */
+    if(expr == NIL) return;
     expressionForceDispose(env, expr);
 }
 

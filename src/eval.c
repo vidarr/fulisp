@@ -40,7 +40,7 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, expr);
 
     if(!EXPR_IS_CONS(expr)) {
-        if(!EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
+        if(!EXPR_OF_TYPE(expr, EXPR_SYMBOL) || EXPR_IS_NIL(expr)) {
             DEBUG_PRINT("EVAL: No symbol - evaluate to itself\n");
             return expressionAssign(env, expr);
         } else {
