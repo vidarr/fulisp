@@ -100,6 +100,8 @@ static void registerStandardReadMacros(struct Reader *reader) {
     struct ReadMacroLookUp *next;
 #endif
 
+    assert(reader);
+
     /* This is the standard read macro */
     registerStandardReadMacro(reader, rmStandard);
 
@@ -223,6 +225,8 @@ static void rmStringEnd(struct Reader *reader, char sigle) {
     registerReadMacro(reader, sigle, rmString);
     rmFuLispTerminator(reader, sigle);
 }
+
+
 static void rmUnexpectedEndOfString(struct Reader *reader, char sigle) {
     ERROR(ERR_UNEXPECTED_END_OF_STRING, "String terminated without ending \"");
     reader->expr = NIL; /* GET_SYMBOL(reader, "NIL"); */

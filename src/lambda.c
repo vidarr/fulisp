@@ -40,7 +40,7 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
     assert(env);
 
     if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) {
-        return 0;
+        return NIL;
     }
     /* TODO: Check if all arguments are symbols */
     args = intCar(env, expr);

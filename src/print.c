@@ -305,7 +305,7 @@ void printToStream(struct Expression *env, struct CharWriteStream *stream, struc
 
     if(!expr) {
         DEBUG_PRINT("expressionToString(): NIL");
-        PRINT_STREAM("NIL");
+        PRINT_STREAM("INVALID");
         return;
     }
 

@@ -35,7 +35,7 @@
 
 struct Reader *newReader(struct Expression *env, struct CharBufferedReadStream *stream) { 
     struct Reader *reader = malloc(sizeof(struct Reader));
-    assert(stream);
+    assert(env && stream);
     reader->type = EXPR_SYMBOL;
     reader->expr = (void *)0;
     reader->env = env;
@@ -53,6 +53,8 @@ struct Reader *newReader(struct Expression *env, struct CharBufferedReadStream *
 
 void deleteReader(struct Reader *reader) {
     struct ReadMacroLookUp * entry, *nextEntry;
+
+    assert(reader);
 
     entry = reader->lookup;
 
@@ -74,7 +76,7 @@ void deleteReader(struct Reader *reader) {
 
 
 void resetReader(struct Reader *reader) {
-    assert(reader != 0);
+    assert(reader);
     if(reader->expr) {
         expressionDispose(READER_GET_ENVIRONMENT(reader), reader->expr); 
         reader->expr = (void *)0;
@@ -90,7 +92,7 @@ struct Expression *fuRead(struct Reader *reader) {
     NativeReadMacro macro;
     struct Expression *expr = 0;
 
-    assert(reader != 0);
+    assert(reader);
 
     while(!reader->expr && (readChar = READ_NEXT_CHAR(reader))) {
         DEBUG_PRINT_PARAM(" Got '%c'\n", readChar);
@@ -169,7 +171,7 @@ NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c,
 
     NativeReadMacro old;
     struct ReadMacroLookUp *before, *entry = reader->lookup; 
-    assert(reader != 0);
+    assert(reader);
 
     before = reader->lookup;
 
@@ -214,7 +216,7 @@ void setExprOfReader(struct Reader *reader) {
     int i;
     float f;
 
-    assert(reader != 0);
+    assert(reader);
 
     DEBUG_PRINT("setExprOfReader() invoked\n");
 
@@ -291,6 +293,7 @@ void printLookup(struct Reader *reader) {
 
 
 void rmIgnore(struct Reader *reader, char sigle) {
+    /* well, yes, thats exactly what it does - nothing */
 }
 
 

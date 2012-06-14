@@ -3,6 +3,16 @@
 
 * Implement type cast functions within types.h/.c
 
+* Implement functions:
+  - -
+  - <
+  - =  (numeric comparison)
+  - eq (pointer equality)
+  - cond
+  - cons
+  - car
+  - cdr
+
 * Make set! to define and introduce set! that modifies existing variables only
   (currently, there is no possibility to alter variable on surrounding env, even
   if symbol is unbound in current env, because set! will just create it

@@ -48,7 +48,7 @@ struct Expression expressionNil = {
 
 
 void expressionDispose(struct Expression *env, struct Expression *expr) {
-    if(!expr) return;
+    if(!expr || EXPR_IS_NIL(expr)) return;
     if(!EXPR_IS_VALID(expr)) {
         free(expr); 
         return;
@@ -60,8 +60,6 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, expr);
 
     if(expr->counter-- > 0) return;
-    /* Do not dispose NIL! */
-    if(expr == NIL) return;
     expressionForceDispose(env, expr);
 }
 
