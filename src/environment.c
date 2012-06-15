@@ -54,7 +54,8 @@ struct Expression *environmentCreateStdEnv(void) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!", set);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "DEFINE", define);
-    ENVIRONMENT_ADD_STRING(env, "NIL", 0); 
+    ENVIRONMENT_ADD_STRING(env, ((NIL)->data.string), NIL); 
+    ENVIRONMENT_ADD_STRING(env, ((T)->data.string), T); 
     return env;
 }
 

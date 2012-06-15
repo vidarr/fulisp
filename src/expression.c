@@ -39,6 +39,13 @@ struct Expression expressionNil = {
     EXPR_SYMBOL
 };
 
+char true[] = "T";
+struct Expression expressionT = {
+    {true},
+    0,
+    EXPR_SYMBOL
+};
+
 
 /* void expressionInitialize(void) { */
 /*     expressionNil.data.string = nil; */
@@ -48,7 +55,7 @@ struct Expression expressionNil = {
 
 
 void expressionDispose(struct Expression *env, struct Expression *expr) {
-    if(!expr || EXPR_IS_NIL(expr)) return;
+    if(!expr || EXPR_IS_NIL(expr) || expr == T) return;
     if(!EXPR_IS_VALID(expr)) {
         free(expr); 
         return;

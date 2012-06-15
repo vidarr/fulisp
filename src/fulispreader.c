@@ -90,6 +90,7 @@ struct Reader *newFuLispReader(struct Expression *env, struct CharBufferedReadSt
     registerStandardReadMacros(reader);
     /* Register NIL symbol */
     hashTableSet(reader->symbolTable, ((NIL)->data.string), NIL);
+    hashTableSet(reader->symbolTable, ((T)->data.string), T);
     return reader;
 }
 

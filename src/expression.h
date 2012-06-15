@@ -177,10 +177,18 @@ extern struct Expression expressionNil;
 #define NIL (&expressionNil)
 
 
+extern struct Expression expressionT ;
+/**
+ * The T atom
+ */
+#define T (&expressionT)
+
+
 
 /*******************************************************************************
   E X R E S S I O N   S T R U C T U R E
  *******************************************************************************/
+
 
 
 struct Expression;
