@@ -57,7 +57,7 @@
     runVar = list; \
     while(runVar != NIL) { \
         if(!EXPR_OF_TYPE(runVar, EXPR_CONS)) { \
-            ERROR(ERR_UNEXPECTED_TYPE, "Argument list is flawed"); \
+            ERROR(ERR_UNEXPECTED_TYPE, "list is not regular"); \
             return NIL; \
         } \
         next = intCdr(env, runVar); \

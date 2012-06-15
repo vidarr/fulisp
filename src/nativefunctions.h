@@ -77,11 +77,22 @@ struct Expression *set(struct Expression *env, struct Expression *expr) ;
  * Bind a symbol to a value within current environment, if it exists already,
  * create new binding.
  * @param  env environment create binding within
- * @param  sym symbol to bind 
- * @param  expr expr to bind to symbol
+ * @param  expr list of two elements. Car is the symbol to bind to, cadr is the
+ *              value to be bound.
  * @return new value 
  */
 struct Expression *define(struct Expression *env, struct Expression *expr);
+
+
+/**
+ * Takes lists of two elements. Iterates over the lists in the order given. If
+ * one list's car evaluates to something not equal to NIL, the cadr is evaluated
+ * and returned.
+ * @param env Current environment
+ * @param expr list of lists of two elements.
+ */
+struct Expression *cond(struct Expression *env, struct Expression *expr);
+
 
 
 #endif

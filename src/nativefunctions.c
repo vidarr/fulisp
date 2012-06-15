@@ -37,6 +37,12 @@
  *****************************************************************************/
 
 
+/**
+ * Checks wether expr is a list. Assigns sym the first and val the second
+ * element of the list.
+ * If SAFETY_CODE is set, then it is checked if expr is a list of exactly two
+ * elements.
+ */
 #define ASSIGN_2_PARAMS(env, expr, sym, val) { \
     if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) { \
         ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); \
@@ -62,37 +68,9 @@
 }
 
 
+
 struct Expression *quote(struct Expression *env, struct Expression *expr) {
     return expressionAssign(env, expr);
-}
-
-
-struct Expression *add(struct Expression *env, struct Expression *expr) {
-    struct Expression *car = 0;
-    float res = 0;
-/*    IF_SAFETY_CODE(float buf;); */
-
-    DEBUG_PRINT("Entering add\n");
-
-
-    while(EXPR_IS_CONS(expr)) {
-        /* TODO: Check for conversion errors */
-        car = intCar(env, expr);
-        car = eval(env, car);
-        res += EXPR_TO_FLOAT(car); 
-        expressionDispose(env, car);
-        DEBUG_PRINT_PARAM("add():   IN while: res = %f\n", res);
-        expr = intCdr(env, expr);
-    };
-
-    /* expr now should be NIL */
-    /* expr = eval(env, expr);  
-       res += EXPR_TO_FLOAT(expr);  
-       expressionDispose(env, expr);  */
-
-    DEBUG_PRINT_PARAM("ADD: %f\n", res);
-
-    return expressionCreate(env, EXPR_FLOAT, (void *)&res);
 }
 
 
@@ -119,30 +97,9 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
 
     DEBUG_PRINT("Entering define");
 
-    if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) {
-        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument");
-        return NIL;
-    };
-    sym = intCar(env, expr);
-    if(!sym || !EXPR_OF_TYPE(sym, EXPR_SYMBOL)) {
-        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument");
-        return NIL;
-    };
-    val = intCdr(env, expr);
-    if(!val || !EXPR_OF_TYPE(val, EXPR_CONS)) {
-        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument");
-        return NIL;
-    };
-    IF_SAFETY_CODE( \
-            if(!EXPR_IS_NIL(intCdr(env, val))) { \
-            ERROR(ERR_UNEXPECTED_VAL, "set expects exactly 2" \
-                " arguments"); \
-            return NIL; \
-            });
-    val = intCar(env, val);
+    ASSIGN_2_PARAMS(env, expr, sym, val);
     val = eval(env, val);
-/*    printf("Got sym: %s\n", EXPRESSION_STRING(sym));
-    printf("Got val: %s\n", EXPRESSION_STRING(fuPrint(env, val))); */
+
     DEBUG_PRINT("Setting \n");
     DEBUG_PRINT_EXPR(env, sym);
     DEBUG_PRINT_EXPR(env, val);
@@ -152,3 +109,40 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
 }
 
 
+struct Expression *cond(struct Expression *env, struct Expression *expr) {
+    struct Expression *iter, *condition, *body;
+
+    assert(env && expr);
+
+    ITERATE_LIST(env, expr, iter, { \
+            ASSIGN_2_PARAMS(env, iter, condition, body); \
+            condition = eval(env, condition); \
+            IF_SAFETY_CODE(if(!condition) return NIL;) \
+            if(!EXPR_IS_NIL(condition)) { \
+                body = eval(env, body); \
+                IF_SAFETY_CODE(if(!body) return NIL;); \
+                return expressionAssign(env, body); \
+            };
+        };); 
+    return NIL;
+}
+
+
+struct Expression *add(struct Expression *env, struct Expression *expr) {
+    struct Expression *car = 0;
+    float res = 0;
+
+    DEBUG_PRINT("Entering add\n");
+
+    ITERATE_LIST(env, expr, car, { \
+        /* TODO: Check for conversion errors */ \
+        car = eval(env, car); \
+        res += EXPR_TO_FLOAT(car);  \
+        expressionDispose(env, car); \
+        DEBUG_PRINT_PARAM("add():   IN while: res = %f\n", res); \
+    });
+
+    DEBUG_PRINT_PARAM("ADD: %f\n", res);
+
+    return expressionCreate(env, EXPR_FLOAT, (void *)&res);
+}
