@@ -44,7 +44,7 @@ hashFunc)(struct HashTable *hash, char *)) {
     for( i = 0; i < hash->size; i++) {
         hash->hash[i] = (struct HashEntry *)malloc(sizeof(struct HashEntry));
         hash->hash[i]->key = 0;
-        hash->hash[i]->next = 0;
+        hash->hash[i]->next = NULL;
     };
     return hash;
 }
@@ -56,8 +56,8 @@ void hashTableDispose(struct HashTable *hash) {
         struct HashEntry *entry = hash->hash[i];
         struct HashEntry *next;
         while((entry)) {
-#ifdef HASH_TABLE_SAFE_KEY
             next = entry->next;
+#ifdef HASH_TABLE_SAFE_KEY
             if(entry->key) free(entry->key);
 #endif
             free(entry);
@@ -76,13 +76,14 @@ void *hashTableSet(struct HashTable * hashTable, char *key, void *val) {
     void *old = NULL;
     if(!found->next) {
         found->next =  malloc(sizeof(struct HashEntry));
-        found->next->next = 0;
+        found->next->next = NULL;
 #ifdef HASH_TABLE_SAFE_KEY
         found->next->key = malloc(sizeof(char) * (1 + strlen(key)));
         strcpy(found->next->key, key);
 #else
         found->next->key = key;
 #endif
+    } else {
         old = found->next->value;
     }
     found->next->value = val;
