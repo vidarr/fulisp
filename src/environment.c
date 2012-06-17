@@ -50,11 +50,13 @@ struct Expression *environmentCreate(struct Expression *parent) {
 struct Expression *environmentCreateStdEnv(void) {
     struct Expression *env = environmentCreate(0);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!", set);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "DEFINE", define);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "COND", cond);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "*", mul);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "=", numEqual);
 
     ENVIRONMENT_ADD_STRING(env, ((NIL)->data.string), NIL); 
     ENVIRONMENT_ADD_STRING(env, ((T)->data.string), T); 

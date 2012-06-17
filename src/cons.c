@@ -22,16 +22,19 @@
 #define MODULE_NAME "cons.c"
 
 #ifdef DEBUG_CONS
-#include "debugging.h"
+#    include "debugging.h"
 #else
-#include "no_debugging.h"
+#    include "no_debugging.h"
 #endif
 
 
 /**
- * Creates the structure covering the two expr pointers */
+ * Creates the structure covering the two expr pointers 
+ */
 struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expression *cdr) {
-    struct Cons *cons = (struct Cons *)malloc(sizeof(struct Cons));
+    struct Cons *cons;
+    assert(env && car && cdr);
+    cons = (struct Cons *)malloc(sizeof(struct Cons));
     cons->car = expressionAssign(env, car);
     cons->cdr = expressionAssign(env, cdr);
     return cons;
@@ -39,11 +42,13 @@ struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expr
 
 
 struct Expression *cons(struct Expression *env, struct Expression *car, struct Expression *cdr) {
+    assert(env && car && cdr);
     return expressionCreate(env, EXPR_CONS, intCons(env, car, cdr));
 }
 
 
 struct Expression *intCar(struct Expression *env, struct Expression *args) {
+    assert(env && args);
     if(EXPR_OF_TYPE(args, EXPR_CONS)) {
         return EXPRESSION_CAR(args);
     } else {
@@ -54,11 +59,13 @@ struct Expression *intCar(struct Expression *env, struct Expression *args) {
 
 
 struct Expression *car(struct Expression *env, struct Expression *args) {
-  return expressionAssign(env, intCar(env, args));
+    assert(env && args);
+    return expressionAssign(env, intCar(env, args));
 }
 
 
 struct Expression *intCdr(struct Expression *env, struct Expression *args) {
+    assert(env && args);
     if(EXPR_OF_TYPE(args, EXPR_CONS)) {
         return EXPRESSION_CDR(args);
     } else {
@@ -67,8 +74,10 @@ struct Expression *intCdr(struct Expression *env, struct Expression *args) {
     };
 }
 
+
 struct Expression *cdr(struct Expression *env, struct Expression *args) {
-  return expressionAssign(env, intCdr(env, args));
+    assert(env && args);
+    return expressionAssign(env, intCdr(env, args));
 }
 
 

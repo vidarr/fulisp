@@ -44,15 +44,6 @@ struct Expression *quote(struct Expression *env, struct Expression *expr);
 
 
 /**
- * Returns the sum of the arguments given
- * @param env the environment to be used
- * @param a list of numbers 
- * @returnes sum of the arguments
- */
-struct Expression *add(struct Expression *env, struct Expression *expr);
-
-
-/**
  * Prints out a String representation of the expression given as parameter
  * @param env the environment to be used
  * @param expr an expression to print
@@ -94,5 +85,44 @@ struct Expression *define(struct Expression *env, struct Expression *expr);
 struct Expression *cond(struct Expression *env, struct Expression *expr);
 
 
+
+/*****************************************************************************
+ *                           MATHEMATICAL FUNCTIONS
+ *****************************************************************************/
+
+
+
+/**
+ * Returns the sum of the arguments given
+ * @param env the environment to be used
+ * @param a list of numbers 
+ * @returnes sum of the arguments
+ */
+struct Expression *add(struct Expression *env, struct Expression *expr);
+
+
+/**
+ * Returnes the product of the arguments given
+ * @param env environment to be used
+ * @param expr list of numbers to be multiplied together
+ * @returns product of the arguments
+ */
+struct Expression *mul(struct Expression *env, struct Expression *expr);
+
+
+
+/*****************************************************************************
+ *                            COMPARISON OPERATORS
+ *****************************************************************************/
+
+
+
+/**
+ * Returns T if and only if all numbers given to this function are equal.
+ * @param env the environment to be used
+ * @param expr list of numbers
+ * @returns T if all given arguments are numbers and equal, NIL otherwise
+ */
+struct Expression *numEqual(struct Expression *env, struct Expression *expr);
 
 #endif

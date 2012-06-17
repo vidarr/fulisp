@@ -25,13 +25,9 @@
 
 
 #ifdef DEBUG
-
 #    include "debugging.h"
-
 #else 
-
 #    include "no_debugging.h"
-
 #endif
 
 
@@ -90,7 +86,7 @@ int main(int argc, char **argv) {
     /* Actually, if lambda expressions have been bound to variables, the
      * environment wont be disposed as it will have some cicular structure:
      * The env contains a reference to a lambda, this lambda contains a
-     * reference to the env, its env it has been created in
+     * reference to the env it has been created in
      */
     expressionForceDispose(env,env);
     free(readStream); 
