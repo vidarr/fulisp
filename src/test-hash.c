@@ -12,15 +12,21 @@ char *getString(unsigned int i) {
 }
 
 
+void *getVal(unsigned int i) {
+        int *val = (int *)malloc(sizeof(int));
+        *(val) = i;
+        return (void *)val;
+}
+
+
 void fillHash(struct HashTable *hash, int no) {
     int i = 0;
-    int *val;
+    void *val;
     char *str;
     for(i = 0; i < no; i++) {
-        val = (int *)malloc(sizeof(int));
-        *(val) = i;
+        val = getVal(i);
         str = getString(i);
-        hashTableSet(hash, str, (void *)val);
+        hashTableSet(hash, str, val);
         free(str);
     };
 }
@@ -69,7 +75,7 @@ int testHashTable(int n, int m) {
         str = getString(i);
         val = hashTableGet(hash, str);
         result = result || !(val == NULL);
-        val = hashTableSet(hash, str, str);
+        val = hashTableSet(hash, str, getVal(i));
         result = result || !(val == NULL);
     };
 
