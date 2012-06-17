@@ -168,28 +168,25 @@ switch(EXPRESSION_TYPE(expr)) {
         ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
         str[0] = '(';
         buf = str + 1;
-        e1 = car(env, expr);
+        e1 = intCar(env, expr);
         IF_DEBUG(if (!e1) { \
                 DEBUG_PRINT("expressionToString(): car is 0!"); \
                 });
         IF_SAFETY_CODE(sizeOfBuffer--;);
         expressionToString(env, buf, sizeOfBuffer, e1);
-        expressionDispose(env, e1);
         /* Remember the leading '(' */
         IF_SAFETY_CODE(sizeOfBuffer -= strlen(buf););
         STRING_SET_TO_END(buf);
-        e1 = cdr(env, expr);
+        e1 = intCdr(env, expr);
         while(EXPR_IS_CONS(e1)) {
-            e2 = car(env, e1);
+            e2 = intCar(env, e1);
             ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
             *(buf++) = ' ';
             IF_SAFETY_CODE( sizeOfBuffer--;);
             expressionToString(env, buf, sizeOfBuffer, e2);
             IF_SAFETY_CODE(sizeOfBuffer -= strlen(buf););
             STRING_SET_TO_END(buf);
-            expressionDispose(env, e2);
-            e2 = cdr(env, e1);
-            expressionDispose(env, e1);
+            e2 = intCdr(env, e1);
             e1 = e2;
         }
         if(!EXPR_IS_NIL(e1)) {
@@ -358,20 +355,17 @@ void printToStream(struct Expression *env, struct CharWriteStream *stream, struc
         case EXPR_CONS:
             DEBUG_PRINT("expressionToString(): CONS");
             STREAM_WRITE(stream, '(');
-            e1 = car(env, expr);
+            e1 = intCar(env, expr);
             IF_DEBUG(if (!e1) { \
-                    DEBUG_PRINT("expressionToString(): car is 0!"); \
-                    });
+                DEBUG_PRINT("expressionToString(): car is 0!"); \
+            });
             printToStream(env, stream, e1);
-            expressionDispose(env, e1);
-            e1 = cdr(env, expr);
+            e1 = intCdr(env, expr);
             while(EXPR_IS_CONS(e1)) {
-                e2 = car(env, e1);
+                e2 = intCar(env, e1);
                 STREAM_WRITE(stream, ' ');
                 printToStream(env, stream, e2);
-                expressionDispose(env, e2);
-                e2 = cdr(env, e1);
-                expressionDispose(env, e1);
+                e2 = intCdr(env, e1);
                 e1 = e2;
             }
             if(!EXPR_IS_NIL(e1)) {

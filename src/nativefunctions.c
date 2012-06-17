@@ -32,9 +32,12 @@
 #endif
 
 
+
+
 /*****************************************************************************
  *                                  MACROS
  *****************************************************************************/
+
 
 
 /**
@@ -44,21 +47,14 @@
  * @param expr list to split
  * @param car 
  * @param cdr
+ * @param emsg Error string if operation fails
  */
-#define SECURE_CAR(env, expr, car, cdr) { \
-    if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) {  \
-        ERROR(ERR_UNEXPECTED_TYPE, "Flawed argument list");  \
-        return NULL;  \
-    };  \
-    car = intCar(env, expr);  \
-    if(!car) {  \
-        ERROR(ERR_UNEXPECTED_TYPE, "Flawed argument list");  \
-        return NULL;  \
-    };  \
+#define SECURE_CARCDR(env, expr, car, cdr, emsg) { \
+    SECURE_CAR(env, expr, car, emsg); \
     cdr = intCdr(env, expr);  \
     if(!cdr || !EXPR_OF_TYPE(cdr, EXPR_CONS)) {  \
-        ERROR(ERR_UNEXPECTED_TYPE, "Flawed argument list");  \
-        return NULL;  \
+        ERROR(ERR_UNEXPECTED_TYPE, emsg);  \
+        return NIL;  \
     };  \
 }
 
@@ -68,43 +64,24 @@
  * element of the list.
  * If SAFETY_CODE is set, then it is checked if expr is a list of exactly two
  * elements.
+ * @param emsg Error string if operation fails
  */
-#define ASSIGN_2_PARAMS(env, expr, sym, val) { \
-    SECURE_CAR(env, expr, sym, val); \
+#define ASSIGN_2_PARAMS(env, expr, sym, val, emsg) { \
+    SECURE_CARCDR(env, expr, sym, val, emsg); \
     IF_SAFETY_CODE(  \
             if(!EXPR_IS_NIL(intCdr(env, val))) {  \
-            ERROR(ERR_UNEXPECTED_VAL, "2  parameters expected"); \
+            ERROR(ERR_UNEXPECTED_VAL, emsg); \
             return NULL; \
             }); \
     val = intCar(env, val); \
 }
 
-/* #define ASSIGN_2_PARAMS(env, expr, sym, val) { \ */
-/*     if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) { \ */
-/*         ERROR(ERR_UNEXPECTED_TYPE, "Flawed argument list"); \ */
-/*         return NULL; \ */
-/*     }; \ */
-/*     sym = intCar(env, expr); \ */
-/*     if(!sym) { \ */
-/*         ERROR(ERR_UNEXPECTED_TYPE, "Flawed argument list"); \ */
-/*         return NULL; \ */
-/*     }; \ */
-/*     val = intCdr(env, expr); \ */
-/*     if(!val || !EXPR_OF_TYPE(val, EXPR_CONS)) { \ */
-/*         ERROR(ERR_UNEXPECTED_TYPE, "Flawed argument list"); \ */
-/*         return NULL; \ */
-/*     }; \ */
-/*     IF_SAFETY_CODE(  \ */
-/*             if(!EXPR_IS_NIL(intCdr(env, val))) {  \ */
-/*             ERROR(ERR_UNEXPECTED_VAL, "2  parameters expected"); \ */
-/*             return NULL; \ */
-/*             }); \ */
-/*     val = intCar(env, val); \ */
-/* } */
-/*  */
 
 struct Expression *quote(struct Expression *env, struct Expression *expr) {
-    return expressionAssign(env, expr);
+    assert(env && expr);
+    DEBUG_PRINT_EXPR(env, expr);
+    if(EXPR_IS_NIL(expr)) return NIL;
+    return expressionAssign(env, intCar(env, expr));
 }
 
 
@@ -114,7 +91,7 @@ struct Expression *set(struct Expression *env, struct Expression *expr) {
 
     DEBUG_PRINT("Entering set");
 
-    ASSIGN_2_PARAMS(env, expr, sym, val);
+    ASSIGN_2_PARAMS(env, expr, sym, val, "2 arguments expected");
     if(!EXPR_OF_TYPE(sym, EXPR_SYMBOL)) { 
         ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); 
         return NULL; 
@@ -135,7 +112,7 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
 
     DEBUG_PRINT("Entering define");
 
-    ASSIGN_2_PARAMS(env, expr, sym, val);
+    ASSIGN_2_PARAMS(env, expr, sym, val, "2 arguments expected");
     if(!EXPR_OF_TYPE(sym, EXPR_SYMBOL)) { 
         ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); 
         return NULL; 
@@ -157,7 +134,7 @@ struct Expression *cond(struct Expression *env, struct Expression *expr) {
     assert(env && expr);
 
     ITERATE_LIST(env, expr, iter, { \
-            ASSIGN_2_PARAMS(env, iter, condition, body); \
+            ASSIGN_2_PARAMS(env, iter, condition, body, "2 arguments expected"); \
             condition = eval(env, condition); \
             IF_SAFETY_CODE(if(!condition) return NIL;) \
             if(!EXPR_IS_NIL(condition)) { \
@@ -231,7 +208,7 @@ struct Expression *numEqual(struct Expression *env, struct Expression *expr) {
 
     DEBUG_PRINT("Entering numEqual\n");
 
-    SECURE_CAR(env, expr, first, expr);
+    SECURE_CARCDR(env, expr, first, expr, "Flawed argument list");
     first = eval(env, first);
     if(first == NIL) {
         return first;

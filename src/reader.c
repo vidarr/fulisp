@@ -141,8 +141,10 @@ NativeReadMacro lookupReadMacro(struct Reader *reader, char c) {
     if(!reader->lookup->next) return reader->lookup->macro;
     entry = reader->lookup->next;
     while(entry->next && entry->sign != c) {
+#ifdef DEBUG_READER
 #ifdef DEBUG
         fprintf(stderr, "Search %c for %c\n", entry->sign, c);
+#endif
 #endif
         entry = entry->next;
     }
@@ -151,7 +153,9 @@ NativeReadMacro lookupReadMacro(struct Reader *reader, char c) {
      * */
     if(entry->sign != c) entry = reader->lookup;
 #ifdef DEBUG
+#ifdef DEBUG_READER
     fprintf(stderr, "lookupReadMacro(): %c is '%c'\n", c, entry->sign);
+#endif
 #endif
     return entry->macro;
 }

@@ -58,10 +58,22 @@ struct Expression *intCar(struct Expression *env, struct Expression *args) {
 }
 
 
-struct Expression *car(struct Expression *env, struct Expression *args) {
-    assert(env && args);
-    return expressionAssign(env, intCar(env, args));
-}
+/* struct Expression *car(struct Expression *env, struct Expression *args) { */
+/*     assert(env && args); */
+/*     return expressionAssign(env, intCar(env, args));  */
+/* } */
+
+
+struct Expression *car(struct Expression *env, struct Expression *expr) { 
+    struct Expression *car; 
+    DEBUG_PRINT("Entering car()\n");
+    assert(env && expr); 
+    expr = eval(env, expr);
+    SECURE_CAR(env, expr, car, "Flawed argument list"); 
+    expressionDispose(env, expr); 
+    DEBUG_PRINT("Leaving car()\n");
+    return expressionAssign(env, car); 
+} 
 
 
 struct Expression *intCdr(struct Expression *env, struct Expression *args) {
@@ -75,10 +87,21 @@ struct Expression *intCdr(struct Expression *env, struct Expression *args) {
 }
 
 
-struct Expression *cdr(struct Expression *env, struct Expression *args) {
-    assert(env && args);
-    return expressionAssign(env, intCdr(env, args));
-}
+/* struct Expression *cdr(struct Expression *env, struct Expression *args) { */
+/*     assert(env && args);   */
+/*     return expressionAssign(env, intCdr(env, args));   */
+/* }   */
+
+struct Expression *cdr(struct Expression *env, struct Expression *expr) { 
+    struct Expression *cdr; 
+    DEBUG_PRINT("Entering cdr\n");
+    assert(env && expr); 
+    expr = eval(env, expr);  
+    SECURE_CDR(env, expr, cdr, "Flawed argument list");
+    expressionDispose(env, expr); 
+    DEBUG_PRINT("Leaving cdr\n");
+    return expressionAssign(env, cdr);
+} 
 
 
 void setCar(struct Expression *env, struct Expression *cons, struct Expression *car) {

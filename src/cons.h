@@ -31,6 +31,7 @@
 #include "error.h"
 #include "lisp_internals.h"
 #include "streams.h"
+#include "nativefunctions.h"
 
 
 
@@ -96,7 +97,7 @@ struct Expression *intCar(struct Expression *env, struct Expression *args);
  * @param args a cons cell
  * @return the CAR of args or NIL
  */
-struct Expression *car(struct Expression *env, struct Expression *args);
+struct Expression *car(struct Expression *env, struct Expression *args); 
 
 /**
  * Returnes the CDR of a Cons cell or NIL if something goes wrong

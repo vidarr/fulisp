@@ -27,6 +27,53 @@
 #include "lambda.h"
 
 
+
+/*****************************************************************************
+ *                                  MACROS
+ *****************************************************************************/
+
+
+/**
+ * Takes expr, checks wether its a list, then assigns car the car  of the list
+ * @param env environment to use
+ * @param expr list to split
+ * @param car 
+ * @param emsg Error string if operation fails
+ */
+#define SECURE_CAR(env, expr, car, emsg) { \
+    if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) {  \
+        ERROR(ERR_UNEXPECTED_TYPE, emsg);  \
+        return NIL;  \
+    };  \
+    car = intCar(env, expr);  \
+    if(!car) {  \
+        ERROR(ERR_UNEXPECTED_TYPE, emsg);  \
+        return NIL;  \
+    };  \
+}
+
+
+/**
+ * Takes expr, checks wether its a list, then assigns cdr the cdr of the list
+ * @param env environment to use
+ * @param expr list to split
+ * @param cdr
+ * @param emsg Error string if operation fails
+ */
+#define SECURE_CDR(env, expr, cdr, emsg) { \
+    if(!expr || !EXPR_OF_TYPE(expr, EXPR_CONS)) {  \
+        ERROR(ERR_UNEXPECTED_TYPE, emsg);  \
+        return NIL;  \
+    };  \
+    cdr = intCdr(env, expr);  \
+    if(!cdr) {  \
+        ERROR(ERR_UNEXPECTED_TYPE, emsg);  \
+        return NIL;  \
+    };  \
+}
+
+
+
 /******************************************************************************
                                    FUNCTIONS
  ******************************************************************************/
@@ -42,6 +89,7 @@
  */
 struct Expression *quote(struct Expression *env, struct Expression *expr);
 
+struct Expression *quoteAlter(struct Expression *env, struct Expression *expr);
 
 /**
  * Prints out a String representation of the expression given as parameter
