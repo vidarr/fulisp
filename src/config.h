@@ -20,7 +20,7 @@
 
 #include <limits.h>
 
-#define DEBUG  
+/* #define DEBUG */
 /* #define DEBUG_READER */
 /* #define DEBUG_EVAL*/
 /* #define DEVUG_ENVIRONMENT*/

@@ -181,6 +181,7 @@ void rmTerminator(struct Reader *reader, char sigle);
 
 #define LOOKUP_READ_MACRO(x,r) lookupReadMacro(r, x)
 
+#ifdef DEBUG_READER
 #ifdef DEBUG
 #define PUSH_INTO_BUFFER(x, r) { \
     fprintf(stderr, "Pushed %c into buffer\n", x); \
@@ -190,6 +191,7 @@ void rmTerminator(struct Reader *reader, char sigle);
 
 
 #define DEBUG_PRINT_MACRO_LOOKUP(r) printLookup(r)
+#endif
 
 #else 
 
