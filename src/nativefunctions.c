@@ -230,7 +230,6 @@ struct Expression *numEqual(struct Expression *env, struct Expression *expr) {
     float res = 0;
 
     DEBUG_PRINT("Entering numEqual\n");
-    fprintf(stderr, "Entering numEqual...\n");
 
     SECURE_CAR(env, expr, first, expr);
     first = eval(env, first);
