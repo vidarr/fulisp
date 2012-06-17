@@ -38,13 +38,13 @@ int testHashTable(int n, int m) {
         str = getString(i);
         val = hashTableGet(hash, str);
         free(str);
-        result = result || ((val && *val == i) ? 0 : -1);
+        result = result || ((val && *val == i) ? 0 : 1);
     };
 
     for(i = m - 1; i > 0; i -= 2) {
         str = getString(i);
         val = hashTableDelete(hash, str);
-        result = result || ((hashTableGet(hash, str)) ? -1 : 0);
+        result = result || ((hashTableGet(hash, str)) ? 1 : 0);
         if(val) free(val);
         free(str);
     };
@@ -61,6 +61,16 @@ int testHashTable(int n, int m) {
         val = hashTableGet(hash, str);
         result = result || ((val && *val == i) ? 0 : -1);
         free(str);
+    };
+
+    /* Check whether requests on keys that are not present are answered with
+     * NULL as expected */
+    for(i = m + 2; i < m + 10; i += 1) {
+        str = getString(i);
+        val = hashTableGet(hash, str);
+        result = result || !(val == NULL);
+        val = hashTableSet(hash, str, str);
+        result = result || !(val == NULL);
     };
 
     keys = hashTableKeys(hash);
