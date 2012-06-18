@@ -23,6 +23,7 @@
 #define __CONS_H__
 
 #include "config.h"
+#include "safety.h"
 
 #include "stdlib.h"
 #include <stdio.h>
@@ -113,6 +114,15 @@ struct Expression *intCdr(struct Expression *env, struct Expression *args);
  * @return the CDR of args or NIL
  */
 struct Expression *cdr(struct Expression *env, struct Expression *args);
+
+
+/**
+ * Takes one argument. Checks wether this argument is a list.
+ * @param env Current environment
+ * @param expr parameter list
+ * @return T if first parameter is a list, NIL else
+ */
+struct Expression *consP(struct Expression *env, struct Expression *expr);
 
 
 void setCar(struct Expression *env, struct Expression *cons, struct Expression *car);

@@ -32,6 +32,18 @@
  *                                  MACROS
  *****************************************************************************/
 
+/**
+ * Performs basic checks on the argument list
+ */
+#define INIT_NATIVE_FUNCTION(env, expr) { \
+    assert(env && expr); \
+    IF_SAFETY_CODE( { \
+        if(!EXPR_IS_NIL(expr) && !EXPR_IS_CONS(expr)) { \
+            ERROR(ERR_UNEXPECTED_VAL, "Severe internal error: Argument list is not a list!"); \
+            return NIL; \
+        }; \
+    }); \
+}
 
 /**
  * Takes expr, checks wether its a list, then assigns car the car  of the list
@@ -156,6 +168,42 @@ struct Expression *add(struct Expression *env, struct Expression *expr);
  * @returns product of the arguments
  */
 struct Expression *mul(struct Expression *env, struct Expression *expr);
+
+
+
+/*****************************************************************************
+ *                              LOGIC FUNCTIONS 
+ *****************************************************************************/
+
+
+
+/**
+ * Returnes true if one of the parameters evaluates to !NIL.
+ * Does not guarantee to evaluate all of the parameters!
+ * @param env Current environment
+ * @param list of expressions that are evaluated 
+ * @return T if one of the parameters is not NIL. NIL else.
+ */
+struct Expression *or(struct Expression *env, struct Expression *expr);
+
+
+/**
+ * Returnes true if all the parameters evaluates to not NIL.
+ * Does not guarantee to evaluate all of the parameters!
+ * @param env Current environment
+ * @param list of expressions that are evaluated 
+ * @return T if one of the parameters is not NIL. NIL else.
+ */
+struct Expression *and(struct Expression *env, struct Expression *expr);
+
+
+/**
+ * Returnes T only if sole argument evaluates not to NIL;
+ * @param env Current environment
+ * @param expr argument list
+ * @return T exactly if sole argument evaluates not to NIL
+ */
+struct Expression *not(struct Expression *env, struct Expression *expr);
 
 
 

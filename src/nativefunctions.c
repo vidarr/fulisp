@@ -196,6 +196,43 @@ struct Expression *mul(struct Expression *env, struct Expression *expr) {
 
 
 /*****************************************************************************
+ *                              LOGIC FUNCTIONS 
+ *****************************************************************************/
+
+
+
+struct Expression *and(struct Expression *env, struct Expression *expr) {
+    struct Expression *car;
+    INIT_NATIVE_FUNCTION(env, expr);
+    ITERATE_LIST(env, expr, car, { \
+       car = eval(env, car); \
+       if(EXPR_IS_NIL(car)) return NIL; \
+    });
+    return T;
+}
+
+
+struct Expression *or(struct Expression *env, struct Expression *expr) {
+    struct Expression *car;
+    INIT_NATIVE_FUNCTION(env, expr);
+    ITERATE_LIST(env, expr, car, { \
+       car = eval(env, car); \
+       if(!EXPR_IS_NIL(car)) return T; \
+    });
+    return NIL;
+}
+
+struct Expression *not(struct Expression *env, struct Expression *expr) {
+    struct Expression *car;
+    INIT_NATIVE_FUNCTION(env, expr);
+    if(EXPR_IS_NIL(expr)) return T;
+    car = eval(env, intCar(env, expr));
+    return EXPR_IS_NIL(car) ? T : NIL;
+}
+
+
+
+/*****************************************************************************
  *                            COMPARISON OPERATORS
  *****************************************************************************/
 

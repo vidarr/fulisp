@@ -99,8 +99,19 @@ struct Expression *cdr(struct Expression *env, struct Expression *expr) {
 } 
 
 
+struct Expression *consP(struct Expression *env, struct Expression *expr) {
+    DEBUG_PRINT("Entering cdr\n");
+    INIT_NATIVE_FUNCTION(env, expr);
+    if(EXPR_IS_NIL(expr)) return T;
+    expr = intCar(env, expr);
+    expr = eval(env, expr);
+    DEBUG_PRINT("Leaving cdr\n");
+    return EXPR_IS_CONS(expr) ? T : NIL;
+}
+
+
 void setCar(struct Expression *env, struct Expression *cons, struct Expression *car) {
-    assert(cons);
+    assert(env && cons && car);
     if(!EXPR_OF_TYPE(cons, EXPR_CONS)) {
         ERROR(ERR_UNEXPECTED_VAL, "setCar: Expected Cons, got other");
         return;
