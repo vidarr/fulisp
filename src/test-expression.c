@@ -77,12 +77,13 @@ int main (int argc, char **argv) {
      * collection and access to memory */
     struct Expression *cons, *cons2;
     struct Expression *env = environmentCreate(0);
+    printf("Testing expression.c\n");
     res = 0;
     str = malloc((1 + strlen(TEST_STR)) * sizeof(char));
     cons2 = expressionCreate(env, EXPR_STRING, str);
     signal(SIGSEGV, sigsegvHandler); 
     memcpy(str, TEST_STR, strlen(TEST_STR) + 1);
-    cons = expressionCreate(env, EXPR_CONS, intCons(env, cons2, 0));
+    cons = expressionCreate(env, EXPR_CONS, intCons(env, cons2, NIL));
     cons = expressionCreate(env, EXPR_CONS, intCons(env, expressionAssign(env, cons2),
                 expressionAssign(env, cons)));
     res = test(testExpression(env, cons), "Cons cell management");

@@ -32,6 +32,7 @@ int main(int argc, char **argv) {
     int result;
 
     struct Expression *env;
+    printf("Testing reader.c\n");
     env = environmentCreateStdEnv();
     result = checkFromFiles(env, INPUT_FILE, INPUT_REF_FILE, getNextExpression);
     expressionDispose(env, env);

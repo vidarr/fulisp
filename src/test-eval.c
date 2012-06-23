@@ -1,71 +1,46 @@
+/**
+ * (C) 2012 Michael J. Beer
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
 
-#include "config.h"
+#include "testfileinput.h"
 #include "fulispreader.h"
-#include "print.h"
-#include "error.h"
 #include "eval.h"
 
-#include "debugging.h"
+#define INPUT_FILE     "../tests/test-eval.in"
+#define INPUT_REF_FILE "../tests/test-eval.ref"
 
 
-char *input;
+static struct Expression *env;
 
-char readCharFromInput(void *v) {
-    return *input ? *(input++) : 0;
+
+static struct Expression *getNextExpression(struct Reader *reader) {
+    struct Expression *expr, *readExpr = fuRead(reader);
+    expr = eval(env, readExpr);
+    expressionDispose(env, readExpr);
+    return expr;
 }
 
 
-
 int main(int argc, char **argv) {
-    struct Reader *reader;
-    struct CharReadStream *readStream;
-    struct CharWriteStream *writeStream;
-    struct CharBufferedReadStream *stream;
-    struct Expression *expr = 0, *result = 0;
-
-    struct Expression *env = environmentCreateStdEnv();
-
-    if(argc < 2) { 
-        return 1;
-    };
-
-    input = argv[1];
-
-    readStream = (struct CharReadStream *)malloc(sizeof(struct CharReadStream));
-    readStream->getNext = readCharFromInput;
-    readStream->intConfig = 0;
-    stream = makeCharBufferedReadStream(readStream);
-    reader = newFuLispReader(env, stream);
-
-    expr = fuRead(reader);
-
-    deleteReader(reader);
-    disposeCharBufferedReadStream(stream);
-    free(readStream); 
-
-    writeStream = makeCStreamCharWriteStream(0, stdout); 
-    printToStream(env, writeStream, expr); 
-    printf(" Error: %i\n", lispError); 
-    result = eval(env, expr);
-    DEBUG_PRINT("main():   result = ");
-    DEBUG_PRINT_EXPR(env, result);
-    DEBUG_PRINT("\n");
-    printToStream(env, writeStream, result);
-    STREAM_WRITE(writeStream, '\n');
-    disposeCStreamCharWriteStream(writeStream);
-    printf(" Error: %i\n", lispError); 
-    if(lispError != ERR_OK) {
-        printf("Error occured within: %s:%i\n", lispFile, lispLine);
-    }
-
-    printf("Disposing result...\n");
-    expressionDispose(env, result);
-    printf("Disposing expr...\n");
-    expressionDispose(env, expr);
-    printf("Disposing env...\n");
+    int result;
+    printf("Testing eval.c\n");
+    env = environmentCreateStdEnv();
+    result = checkFromFiles(env, INPUT_FILE, INPUT_REF_FILE, getNextExpression);
     expressionDispose(env, env);
-    /* environmentDispose(env); */
-
-    return 0;
+    return result;
 }
 

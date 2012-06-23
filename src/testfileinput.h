@@ -19,6 +19,8 @@
 #ifndef __TEST_FILE_INPUT_H__
 #define __TEST_FILE_INPUT_H__
 
+#include "reader.h"
+
 
 int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, struct Expression *(* getNextExpr)(struct Reader *reader)); 
 

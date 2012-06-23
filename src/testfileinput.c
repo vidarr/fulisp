@@ -42,6 +42,7 @@ static char *inputBuffer;
 
 
 static void iOError(void) {
+    perror("Something went wrong: ");
     perror(strerror(errno));
     exit(1);
 }
@@ -104,10 +105,16 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
     reader = newFuLispReader(env, bufStream);
 
     while(!feof(refFile)) {
-        if(NULL == fgets((void *)refBuffer, INPUT_BUFFER_SIZE, refFile)) iOError();
+        if(NULL == fgets((void *)refBuffer, INPUT_BUFFER_SIZE, refFile)) {
+            if(errno != 0) 
+                iOError();
+            else 
+                break;
+        }
+        errno = 0;
         chomp(refBuffer);
         expr = getNextExpr(reader);
-        result = result || test(checkInput(env, expr, refBuffer), refBuffer);
+        result = result ? 1 : test(checkInput(env, expr, refBuffer), refBuffer);
         expressionDispose(env, expr);
         ERROR_RESET;
         resetReader(reader);
@@ -121,7 +128,7 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
 
     free(refBuffer); 
     free(inputBuffer);
-    return 0;
+    return result;
 }
 
 

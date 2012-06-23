@@ -36,8 +36,8 @@ exec-tests: tests
 	@$(BUILD_DIR)/test-stack && \
 	 $(BUILD_DIR)/test-hash && \
 	 $(BUILD_DIR)/test-expression && \
-     $(BUILD_DIR)/test-reader 
-# $(BUILD_DIR)/test-eval && \
+	 $(BUILD_DIR)/test-reader && \
+	 $(BUILD_DIR)/test-eval 
 
 
 perform-tests: tests
@@ -48,11 +48,11 @@ $(BUILD_DIR)/%.o:%.c $(HEADER_FILES)
 	@echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -o $@ -c $<
 
 
-$(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o
+$(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o  $(BUILD_DIR)/testfileinput.o 
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-reader  $^ $(LDFLAGS)
 
 
-$(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o
+$(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o $(BUILD_DIR)/testfileinput.o
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
 
 
