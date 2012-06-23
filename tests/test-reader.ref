@@ -1,47 +1,23 @@
-a
 SYM: A
-1
 int: 1
--1
 int: -1
-1.0
 float: 1.000000
--1.0
 float: -1.000000
-"abc"
 STR: abc
--
 SYM: -
-(a)
 (SYM: A)
-( a)
 (SYM: A)
-(a )
 (SYM: A)
-( a )
 (SYM: A)
-(-)
 (SYM: -)
-(a b)
 (SYM: A SYM: B)
-( a b)
 (SYM: A SYM: B)
-(a b )
 (SYM: A SYM: B)
-( a b )
 (SYM: A SYM: B)
-(a (b))
 (SYM: A (SYM: B))
-(a b c)
 (SYM: A SYM: B SYM: C)
-(a (b c))
 (SYM: A (SYM: B SYM: C))
-((a) b c)
 ((SYM: A) SYM: B SYM: C)
-((a b) c)
 ((SYM: A SYM: B) SYM: C)
-((a b c))
 ((SYM: A SYM: B SYM: C))
-((a) (b) (c))
 ((SYM: A) (SYM: B) (SYM: C))
-(a b

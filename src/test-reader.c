@@ -13,117 +13,28 @@
  * USA.2010
  */
 
-#include <stdio.h>
-#include <errno.h>
 #include "config.h"
-#include "print.h"
-#include "error.h"
 #include "fulispreader.h"
-#include "test.h"
-
-#ifdef DEBUG
-
-#    include "debugging.h"
-
-#else 
-
-#    include "no_debugging.h"
-
-#endif
+#include "testfileinput.h"
 
 
-#define INPUT_BUFFER_SIZE 200
-#define INPUT_FILE "../tests/test-reader.txt"
-
-char *input;
-char *inputBuffer;
-struct CharReadStream *readStream;
-struct Reader *reader;
-struct Expression *env;
+#define INPUT_FILE     "../tests/test-reader.in"
+#define INPUT_REF_FILE "../tests/test-reader.ref"
 
 
-char readCharFromInput(void *v) {
-    DEBUG_PRINT_PARAM("readCharFromInput(): %s\n", input);
-    return *input ? *(input++) : 0;
-}
-
-
-void iOError(void) {
-    perror(strerror(errno));
-    exit(1);
-}
-
-
-char *chomp(char *str) {
-    int i = 0;
-    DEBUG_PRINT_PARAM("Chomping %s\n", str);
-    while(str[i] != '\0') i++;
-    if(i > 1) {
-        if((str[--i] == '\n') || (str[i] == '\r'))  str[i] = '\0';
-        if((str[--i] == '\n') || (str[i] == '\r'))  str[i] = '\0';
-    };
-    DEBUG_PRINT_PARAM("Chomped %s\n", str);
-    return str;
-}
-
-
-int checkInput(char *str, char *reference) {
-    struct Expression *expr = 0;
-    struct CharBufferedReadStream *bufStream;
-    input = inputBuffer;
-    memcpy(inputBuffer, str, INPUT_BUFFER_SIZE);
-    bufStream = makeCharBufferedReadStream(readStream);
-    reader = newFuLispReader(env, bufStream);
-    expr = fuRead(reader);
-    deleteReader(reader);
-    disposeCharBufferedReadStream(bufStream);
-
-    if(!expr) { DEBUG_PRINT("expr is 0!\n");
-        return 1;
-    }
-
-    expressionToString(env, inputBuffer, INPUT_BUFFER_SIZE, expr);
-    /* printed = fuPrint(env, expr); */
-    expressionDispose(env, expr);
-    /* printf("read: %s| reference: %s|\n", EXPRESSION_STRING(printed), reference); */
-    IF_DEBUG(fprintf(stderr, "read: %s| reference: %s|\n", inputBuffer, reference););
-    if(strcmp(inputBuffer, reference) == 0)  {
-        /* expressionDispose(env, printed); */
-        return 0;
-    }
-    /* expressionDispose(env, printed); */
-    return 1;
+struct Expression *getNextExpression(struct Reader *reader) {
+    struct Expression *expr = fuRead(reader);
+    return expr;
 }
 
 
 int main(int argc, char **argv) {
-    FILE *inFile;
-    char *inBuffer, *refBuffer;
-    struct Environment *env = malloc(sizeof(struct Environment));
-    readStream = (struct CharReadStream *)malloc(sizeof(struct CharReadStream));
-    readStream->getNext = readCharFromInput;
-    readStream->intConfig = 0;
-    inputBuffer = (char *)malloc(sizeof(char) * INPUT_BUFFER_SIZE);
-    inBuffer = (char *)malloc(sizeof(char) * INPUT_BUFFER_SIZE);
-    refBuffer = (char *)malloc(sizeof(char) * INPUT_BUFFER_SIZE);
+    int result;
 
-    inFile = fopen(INPUT_FILE, "r");
-    if(inFile == NULL) iOError();
-    DEBUG_PRINT("File open\n");
-    while(!feof(inFile)) {
-        if(NULL == fgets((void *)inBuffer, INPUT_BUFFER_SIZE, inFile)) iOError();
-        if(NULL == fgets((void *)refBuffer, INPUT_BUFFER_SIZE, inFile)) iOError();
-        chomp(inBuffer);
-        chomp(refBuffer);
-        test(checkInput(inBuffer, refBuffer), inBuffer);
-    }
-    fclose(inFile);
-
-    free(inputBuffer);
-    free(readStream); 
-    free(env);
-    free(inBuffer);
-    free(refBuffer);
-    return 0;
+    struct Expression *env;
+    env = environmentCreateStdEnv();
+    result = checkFromFiles(env, INPUT_FILE, INPUT_REF_FILE, getNextExpression);
+    expressionDispose(env, env);
+    return result;
 }
 
