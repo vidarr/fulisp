@@ -32,12 +32,27 @@
 #endif
 
 
-char nil[] = "NIL";
-struct Expression expressionNil = {
-    {nil},
-    0,
-    EXPR_SYMBOL
-};
+char nil[] = "NIL"; 
+
+struct Expression expressionNil = { 
+    {nil}, 
+    0, 
+    EXPR_SYMBOL 
+}; 
+
+
+/* struct Cons *nilCons; */
+/*  */
+/* struct Expression expressionNil = { */
+/*     {nilCons}, */
+/*     0, */
+/*     EXPR_CONS */
+/* }; */
+/*  */
+/* struct Cons *nilCons = { */
+/*     &expressionNil, &expressionNil */
+/* }; */
+
 
 char true[] = "T";
 struct Expression expressionT = {

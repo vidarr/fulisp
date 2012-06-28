@@ -49,6 +49,7 @@ struct Expression *cons(struct Expression *env, struct Expression *car, struct E
 
 struct Expression *intCar(struct Expression *env, struct Expression *args) {
     assert(env && args);
+    if(EXPR_IS_NIL(args)) return NIL;
     if(EXPR_OF_TYPE(args, EXPR_CONS)) {
         return EXPRESSION_CAR(args);
     } else {
@@ -65,6 +66,7 @@ struct Expression *car(struct Expression *env, struct Expression *expr) {
     if(EXPR_IS_NIL(expr)) return NIL;
     expr = intCar(env, expr);
     expr = eval(env, expr);
+    if(EXPR_IS_NIL(expr)) return NIL;
     SECURE_CAR(env, expr, car, "Flawed argument list");  
     expressionAssign(env, car); 
     expressionDispose(env, expr); 
@@ -91,6 +93,7 @@ struct Expression *cdr(struct Expression *env, struct Expression *expr) {
     if(EXPR_IS_NIL(expr)) return NIL;
     expr = intCar(env, expr);
     expr = eval(env, expr);  
+    if(EXPR_IS_NIL(expr)) return NIL;
     SECURE_CDR(env, expr, cdr, "Flawed argument list"); 
     expressionAssign(env, cdr);
     expressionDispose(env, expr); 
@@ -102,9 +105,9 @@ struct Expression *cdr(struct Expression *env, struct Expression *expr) {
 struct Expression *consP(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT("Entering cdr\n");
     INIT_NATIVE_FUNCTION(env, expr);
-    if(EXPR_IS_NIL(expr)) return T;
     expr = intCar(env, expr);
     expr = eval(env, expr);
+    if(EXPR_IS_NIL(expr)) return T;
     DEBUG_PRINT("Leaving cdr\n");
     return EXPR_IS_CONS(expr) ? T : NIL;
 }
