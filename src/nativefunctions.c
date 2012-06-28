@@ -268,3 +268,35 @@ struct Expression *numEqual(struct Expression *env, struct Expression *expr) {
     return T;
 }
 
+
+struct Expression *numSmaller(struct Expression *env, struct Expression *expr) {
+    struct Expression *car = NULL;
+    struct Expression *first = NULL;
+    float res = 0, nextRes = 0;
+
+    DEBUG_PRINT("Entering numSmaller\n");
+
+    SECURE_CARCDR(env, expr, first, expr, "Flawed argument list");
+    first = eval(env, first);
+    if(first == NIL) {
+        return first;
+    }
+    res = EXPR_TO_FLOAT(first);
+    expressionDispose(env, first);
+    if(!NO_ERROR) return NIL;
+
+    ITERATE_LIST(env, expr, car, { \
+        car = eval(env, car); \
+        nextRes = EXPR_TO_FLOAT(car); \
+        expressionDispose(env, car); \
+        if((res >= nextRes) || !NO_ERROR) { \
+            return NIL;  \
+        } \
+        res = nextRes; \
+        DEBUG_PRINT_PARAM("numSmaller:   IN while: res = %f\n", res); \
+    });
+
+    DEBUG_PRINT("numSmaller: returning T\n");
+
+    return T;
+}

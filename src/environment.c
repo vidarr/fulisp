@@ -64,6 +64,7 @@ struct Expression *environmentCreateStdEnv(void) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "*", mul);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "=", numEqual);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "<", numSmaller);
 
     ENVIRONMENT_ADD_STRING(env, ((NIL)->data.string), NIL); 
     ENVIRONMENT_ADD_STRING(env, ((T)->data.string), T); 

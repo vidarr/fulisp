@@ -221,4 +221,15 @@ struct Expression *not(struct Expression *env, struct Expression *expr);
  */
 struct Expression *numEqual(struct Expression *env, struct Expression *expr);
 
+
+/**
+ * Returns T if and only if all numbers given to this function are ordered in a
+ * strictly descending manner, i.e. if for (< a b c ...) holds a < b < c < ...
+ * @pararm env environment to be used
+ * @param expr list of numbers
+ * @return T if if numbers are ordered strictly ascending
+ */
+struct Expression *numSmaller(struct Expression *env, struct Expression *expr);
+
+
 #endif
