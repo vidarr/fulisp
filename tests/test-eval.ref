@@ -1,5 +1,64 @@
 int: 1
-float: 0.100000
-float: 0.100000
+SYM: NIL
 int: 1
 int: 1
+int: 2
+int: 2
+int: 1
+int: 1
+int: 2
+float: 3.000000
+float: 3.000000
+float: 2.000000
+float: 3.000000
+int: 2
+int: 1
+float: 10.000000
+float: 20.000000
+SYM: T
+SYM: T
+SYM: NIL
+SYM: NIL
+SYM: NIL
+;   *IGNORE*   ;
+float: 2.000000
+float: 3.000000
+float: 4.000000
+;   *IGNORE*   ;
+float: 3.000000
+float: 5.000000
+;   *IGNORE*   ;
+;   *IGNORE*   ;
+float: 20.000000
+float: 23.000000
+SYM: NIL
+SYM: A
+(int: 1 int: 2)
+SYM: T
+;   *IGNORE*   ;
+;   *IGNORE*   ;
+float: 16.000000
+float: 20.000000
+int: 0
+float: 1.000000
+;   *IGNORE*   ;
+;   *IGNORE*   ;
+;   *IGNORE*   ;
+;   *IGNORE*   ;
+;   *IGNORE*   ;
+;   *IGNORE*   ;
+float: 101.000000
+float: 201.000000
+float: 102.000000
+float: 202.000000
+int: 24
+float: 25.000000
+float: 103.000000
+;   *IGNORE*   ;
+float: 902.000000
+float: 26.000000
+float: 104.000000
+float: 105.000000
+float: 106.000000
+int: 24
+float: 904.000000

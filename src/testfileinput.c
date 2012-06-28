@@ -36,6 +36,7 @@
 
 
 #define INPUT_BUFFER_SIZE 200
+#define IGNORE_SIGLE ";   *IGNORE*   ;"
 
 
 static char *inputBuffer;
@@ -67,6 +68,7 @@ static int checkInput(struct Expression *env, struct Expression *expr, char *ref
         return 1;
     }
 
+    if(strcmp(reference, IGNORE_SIGLE) == 0) return 0;
     expressionToString(env, inputBuffer, INPUT_BUFFER_SIZE, expr);
     if(strcmp(inputBuffer, reference) == 0)  {
         /* expressionDispose(env, printed); */
