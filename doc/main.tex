@@ -11,10 +11,46 @@
 \subsection{Principles}
 
 \begin{itemize}
-    \item Adhere to standards: Use Standard C, Posix
+    \item Adhere to standards: Use Standard C, POSIX
     \item Try to provide standardized tests for each bit 
     \item Simple design. Optimize only if benefits can be proven.
 \end{itemize}
+
+\section{Language Core}
+
+\subsection{Reference}
+
+The very core of the language that is actually dealt with by the \texttt{eval}
+function consists of the functions shown in table \ref{tbl:CoreFunctions}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|l}
+        \texttt{QUOTE} & Prevents its argument from being evaluated \\
+        \texttt{CONS} & \\
+        \texttt{CAR} & \\
+        \texttt{CDR} & \\
+        \texttt{COND} & \\
+        \texttt{CONS?} & \\
+        \texttt{DEFINE} & Expects exactly two arguments. First argument is a
+        symvol, second argument is any kind of expression. Creates a binding in
+        the global environment, returns the expression bound.\\
+        \texttt{SET!} & \\
+        \texttt{=} & \\
+        \texttt{<} & \\
+        \texttt{OR} & \\
+        \texttt{AND} & \\
+        \texttt{NOT} & \\
+        \texttt{LAMBDA} & Creates a new unnamed closure. Expects exactly two
+        arguments: First argument is a list of symbols, the second argument is a
+        expression. If the returned closure is evaluated, these symbols will be
+        bound to the arguments the closure is called with. The closure can be
+        bound to a symbol and thus become a function as it is common.\\
+        \texttt{+} & \\
+        \texttt{*} & 
+    \end{tabular}
+    \caption{\label{tbl:CoreFunctions}}
+\end{table}
 
 
 \section{Basic Data Structures}

@@ -41,9 +41,24 @@ struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expr
 }
 
 
-struct Expression *cons(struct Expression *env, struct Expression *car, struct Expression *cdr) {
-    assert(env && car && cdr);
-    return expressionCreate(env, EXPR_CONS, intCons(env, car, cdr));
+struct Expression *cons(struct Expression *env, struct Expression *expr) {
+    struct Expression *car, *cdr;
+    DEBUG_PRINT("Entering cons\n");
+    INIT_NATIVE_FUNCTION(env, expr);
+    SECURE_CAR(env, expr, car, "First argument of CONS is flawed");
+    SECURE_CDR(env, expr, cdr, "Second argument of CONS is flawed");
+    SECURE_CAR(env, cdr, expr, "First argument of CONS is flawed");
+    IF_SAFETY_CODE( \
+            struct Expression *cddr;
+            SECURE_CDR(env, cdr, cddr, "Second argument of CONS is flawed"); \
+            if(!EXPR_IS_NIL(cddr)) { \
+               ERROR(ERR_SYNTAX_ERROR, "CONS takes exactly 2 arguments"); \
+               return NIL; \
+            } \
+            );
+    car = eval(env, car);
+    expr = eval(env, expr);
+    return expressionCreate(env, EXPR_CONS, intCons(env, car, expr));
 }
 
 
@@ -113,25 +128,37 @@ struct Expression *consP(struct Expression *env, struct Expression *expr) {
 }
 
 
-void setCar(struct Expression *env, struct Expression *cons, struct Expression *car) {
-    assert(env && cons && car);
-    if(!EXPR_OF_TYPE(cons, EXPR_CONS)) {
-        ERROR(ERR_UNEXPECTED_VAL, "setCar: Expected Cons, got other");
-        return;
+struct Expression *setCar(struct Expression *env, struct Expression *consCell, struct Expression *car) {
+    assert(env && consCell && car);
+    if(!EXPR_OF_TYPE(consCell, EXPR_CONS)) {
+        /* if(EXPR_IS_NIL(consCell)) {
+            consCell = cons(env, expressionAssign(env, car), NIL);
+            return consCell;
+        } else { */
+            ERROR(ERR_UNEXPECTED_VAL, "setCar: Expected Cons, got other");
+            return NIL;
+        /* } */
     }
-    if(EXPRESSION_CAR(cons)) expressionDispose(env, EXPRESSION_CAR(cons));
-    cons->data.cons->car = expressionAssign(env, car);
+    if(EXPRESSION_CAR(consCell)) expressionDispose(env, EXPRESSION_CAR(consCell));
+    consCell->data.cons->car = expressionAssign(env, car);
+    return consCell;
 }
 
 
-void setCdr(struct Expression * env, struct Expression *cons, struct Expression *cdr) {
-    assert(cons);
-    if(!EXPR_OF_TYPE(cons, EXPR_CONS)) {
-        ERROR(ERR_UNEXPECTED_VAL, "setCdr: Expected Cons, got other");
-        return;
+struct Expression *setCdr(struct Expression * env, struct Expression *consCell, struct Expression *cdr) {
+    assert(consCell);
+    if(!EXPR_OF_TYPE(consCell, EXPR_CONS)) {
+        /* if(EXPR_IS_NIL(consCell)) {
+            consCell = cons(env, NIL, expressionAssign(env, cdr));
+            return consCell;
+        } else { */
+            ERROR(ERR_UNEXPECTED_VAL, "setCdr: Expected Cons, got other");
+            return NIL;
+        /* } */
     }
-    if(EXPRESSION_CDR(cons)) expressionDispose(env, EXPRESSION_CDR(cons));
-    cons->data.cons->cdr = expressionAssign(env, cdr);
+    if(EXPRESSION_CDR(consCell)) expressionDispose(env, EXPRESSION_CDR(consCell));
+    consCell->data.cons->cdr = expressionAssign(env, cdr);
+    return consCell;
 }
 
 

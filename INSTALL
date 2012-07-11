@@ -1,0 +1,59 @@
+this software is quite compact, hence a sophisticated installation routine is
+not needed. 
+Currently, an interactive interpreter only is provided, which consists of one
+single binary executable.
+
+1. Prerequesites
+----------------
+
+You will need:
+
+1. An ANSI C compiler. If it conforms to ANSI C99, there should not be any
+    problem in building fuLisp.
+
+2. (Currently not needed yet) Future versions might use the POSIX interface.
+    It is recommended to rely on a system providing an implementation of POSIX,
+    even if the current version of fuLisp will compile on other systems as well.
+
+3.  For building, a GNU make compatible make system should be available.
+
+Even though this software has been written for maximum compatibility, it has
+been proven to compile and execute on GNU/Linux systems (Debian/Gentoo) only. 
+(Mostly due to lack of availability of other systems).
+
+That is it! Neat, isn't it?
+
+
+2. Compiling the interpreter executable
+---------------------------------------
+
+To build the code, be sure to meet the requirements as stated in the chapter 1.
+Prerequesites.
+You should be in the possession of a tarball containing fulisp. If not, go to 
+
+    https://code.google.com/p/fulisp/
+
+and download the latest version of fuLisp.
+
+Extract the tarball at some place you consider suitable by copying the tarball
+to there, open a shell and type
+
+    tar -xf fulip-WHICHEVER_VERSION_YOU_GOT.tar.gz
+
+Be aware that WHICHEVER_VERSION_YOU_GOT might be different for your
+tarball!
+A directory "fulisp" should be created. If there is none, something went wrong.
+Now, build the executable by invoking
+
+    cd fulisp/src && make fulisp; cd ../..
+
+If everything worked, you should now be provided a file fulisp/build/fulisp.
+You can now fire up the interpreter with 
+
+    fulisp/build/fulisp
+
+Have fun!
+
+
+
+

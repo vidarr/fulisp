@@ -1,5 +1,5 @@
 /**
- * (C) 2010 Michael J. Beer
+ * (C) 2010, 2012 Michael J. Beer
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
@@ -19,6 +19,9 @@
 #define __CONFIG_H__
 
 #include <limits.h>
+
+#define VERSION "0.1.0"
+#define COPYRIGHT "Copyright (C) 2010, 2012  Michael J. Beer <michael.josef.beer@googlemail.com>"
 
 /* #define DEBUG */
 /* #define DEBUG_READER */

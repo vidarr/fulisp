@@ -76,14 +76,12 @@
  *****************************************************************************/
 
 
-
 /**
  * Creates a cons cell 
- * @param car the car to asign to the cell
- * @param cdr the car to asign to the cell
+ * @param expr list containing two elements: car and cdr of new cons cell
  * @return a new expression resembling the cons cell
  */
-struct Expression *cons(struct Expression *env, struct Expression *car, struct Expression *cons);
+struct Expression *cons(struct Expression *env, struct Expression *expr);
 
 /**
  * Returnes the CAR of a Cons cell or NIL if something goes wrong
@@ -125,10 +123,10 @@ struct Expression *cdr(struct Expression *env, struct Expression *args);
 struct Expression *consP(struct Expression *env, struct Expression *expr);
 
 
-void setCar(struct Expression *env, struct Expression *cons, struct Expression *car);
+struct Expression *setCar(struct Expression *env, struct Expression *cons, struct Expression *car);
 
 
-void setCdr(struct Expression *env, struct Expression *cons, struct Expression *cdr);
+struct Expression *setCdr(struct Expression *env, struct Expression *cons, struct Expression *cdr);
 
 
 struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expression *cdr);

@@ -33,6 +33,41 @@
 
 int dontExit;
 
+void welcome(FILE *out) {
+    fprintf(out, "       _\n"
+                 "      /      /     __  ___\n"
+                 "     /  / / /   / /_  /  /\n"
+                 "   _/  /_/ /__ / __/ /  /\n"
+                 "   /                /\n"
+                 "  /                /\n\n\n"
+                 "    fuLisp " VERSION "  " COPYRIGHT "\n"
+                 "    This program comes with ABSOLUTELY NO WARRANTY; for details type `(license)'.\n"
+                 "    This is free software, and you are welcome to redistribute it\n"
+                 "    under certain conditions; type `(license)' for details.\n");
+}
+
+
+struct Expression *license(struct Expression *env, struct Expression *expr) {
+    printf("\n"
+           "   fuLisp " VERSION " - A minimalistic Lisp interpreter\n"
+           "   " COPYRIGHT "\n"
+           "\n"
+           "   This program is free software: you can redistribute it and/or modify\n"
+           "   it under the terms of the GNU General Public License as published by\n"
+           "   Free Software Foundation, either version 3 of the License, or\n"
+           "   your option) any later version.\n");
+    printf("\n"
+           "   This program is distributed in the hope that it will be useful,\n"
+           "   WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+           "   HANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+           "   General Public License for more details.\n"
+           "\n"
+           "   should have received a copy of the GNU General Public License\n"
+           "   along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
+           "\n");
+    return T;
+}
+
 
 struct Expression *quit(struct Expression *env, struct Expression *expr) {
     printf("Exiting...\n");
@@ -49,8 +84,12 @@ int main(int argc, char **argv) {
     struct CharReadStream *readStream;
     struct Reader *reader;
     int lastError = ERR_OK;
+
+    welcome(stdout);
+
     env = environmentCreateStdEnv();
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUIT", quit);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "LICENSE", license);
     
     readStream = makeCStreamCharReadStream(stdin);
     expr = 0;

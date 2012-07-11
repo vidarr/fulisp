@@ -1,17 +1,8 @@
-* Make NIL a constant variable within expression.c, distinguish NIL from (struct
-  Expression *)
-
 * Implement type cast functions within types.h/.c
 
 * Implement functions:
-  - -
-  - <
-  - =  (numeric comparison)
+  - /
   - eq (pointer equality)
-  - cond
-  - cons
-  - car
-  - cdr
 
 * Make set! to define and introduce set! that modifies existing variables only
   (currently, there is no possibility to alter variable on surrounding env, even
@@ -20,8 +11,12 @@
 * Introduce "default function" in environment that will be called if symbol
   could not be resolved
 
+* Distinguish (1 . 2) and (1 2) when printing expression.expression
 
 Done
+
+* Make NIL a constant variable within expression.c, distinguish NIL from (struct
+  Expression *)
 
 * Merge config.h and fulispcfg.h
 

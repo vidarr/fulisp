@@ -329,7 +329,9 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
         return;
     }
     DEBUG_PRINT(" Create first cons...");
-    retVal = current = cons(READER_GET_ENVIRONMENT(reader), expr, nil);
+    retVal = current = expressionCreate(READER_GET_ENVIRONMENT(reader), EXPR_CONS, 
+                intCons(READER_GET_ENVIRONMENT(reader), expr, NIL));
+        /* intCons(READER_GET_ENVIRONMENT(reader), expr, nil); */
     expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
     
     resetReader(reader);
@@ -337,7 +339,9 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
         /* Here, the counter of nil is raised. It has been one too much already,
          * so remember to perform one expressionDispose on it after the loop or
          * recycle nil somehow without raising the counter */
-        next = cons(READER_GET_ENVIRONMENT(reader), expr, nil);
+        next = expressionCreate(READER_GET_ENVIRONMENT(reader), EXPR_CONS, 
+                intCons(READER_GET_ENVIRONMENT(reader), expr, NIL));
+        /* intCons(READER_GET_ENVIRONMENT(reader), expr, nil); */
         expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
         setCdr(READER_GET_ENVIRONMENT(reader), current, next);
         current = next;

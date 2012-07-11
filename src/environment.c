@@ -53,6 +53,7 @@ struct Expression *environmentCreateStdEnv(void) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CAR", car);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CDR", cdr);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CONS", cons); 
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CONS?", consP);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!", set);
