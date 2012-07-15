@@ -21,6 +21,7 @@
 #include "fulispreader.h"
 #include "environment.h"
 #include "eval.h"
+#include "benchmarking.h"
 
 
 
@@ -83,7 +84,13 @@ int main(int argc, char **argv) {
     struct CharBufferedReadStream *bufStream;
     struct CharReadStream *readStream;
     struct Reader *reader;
-    int lastError = ERR_OK;
+    int lastError; 
+
+    BENCHMARK_DECLARE_VAR(bmTime, bmTemp, bmTimeSt);
+
+    lastError = ERR_OK;
+
+    BENCHMARK_INIT(bmTime, bmTemp, bmTimeSt);
 
     welcome(stdout);
 
@@ -107,7 +114,13 @@ int main(int argc, char **argv) {
             lastError = lispError;
             ERROR_RESET;
         } else {
+
+            BENCHMARK_CONTINUE(bmTime, bmTemp, bmTimeSt);
+
             res = eval(env, expr);
+
+            BENCHMARK_INTERRUPT(bmTime, bmTemp, bmTimeSt);
+
             expressionDispose(env, expr);
             if(!NO_ERROR) {
                 fprintf(stderr, "    FUBAR: %s\n\n", lispErrorMessage);
@@ -119,6 +132,11 @@ int main(int argc, char **argv) {
         }
         printf("\n");
     }
+
+    BENCHMARK_DO( \
+            fprintf(stderr, "Benchmark: Total time measured: %li \n", bmTime) \
+            );
+
     deleteReader(reader);
     disposeCharBufferedReadStream(bufStream);
     disposeCStreamCharWriteStream(outStream);
