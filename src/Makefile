@@ -1,18 +1,20 @@
 CC=gcc
 LN=gcc
+
 # PROFILER_CC_OPTIONS=-pg
 # PROFILER_LN_OPTIONS=-pg
 DEBUG_OPTIONS=-g $(PROFILER_CC_OPTIONS)
-CFLAGS=-Wstrict-prototypes --pedantic --ansi -Wall $(DEBUG_OPTIONS)
-LDFLAGS=-g $(PROFILER_LN_OPTIONS)
+CFLAGS_NO_ANSI=-Wstrict-prototypes --pedantic -Wall $(DEBUG_OPTIONS)
+CFLAGS= $(CFLAGS_NO_ANSI) --ansi
+LDFLAGS= -g $(PROFILER_LN_OPTIONS) #-lrt
 
 BUILD_DIR=../build
 
 TAGS_FILE=tags
 
-SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c  test.c environment.c eval.c stack.c lambda.c
+SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c  test.c environment.c eval.c stack.c lambda.c benchmarking.c
 
-HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h stack.h lambda.h
+HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h stack.h lambda.h benchmarking.h
 
 OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
 
@@ -44,9 +46,11 @@ perform-tests: tests
 	$(BUILD_DIR)/test-hash && $(BUILD_DIR)/test-stack
 
 
+$(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES)
+	@echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
+
 $(BUILD_DIR)/%.o:%.c $(HEADER_FILES)
 	@echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -o $@ -c $<
-
 
 $(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o  $(BUILD_DIR)/testfileinput.o 
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-reader  $^ $(LDFLAGS)

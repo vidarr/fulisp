@@ -54,6 +54,10 @@
  */
 /* #define EXIT_ON_ERROR  */
 
+/**
+  * Should be benchmarked?
+  */
+#define BENCHMARK
 
 /**
  * Should subsequent errors mask older errors? I.e. if one error occured, thus
