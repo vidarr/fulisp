@@ -6,7 +6,7 @@ LN=gcc
 DEBUG_OPTIONS=-g $(PROFILER_CC_OPTIONS)
 CFLAGS_NO_ANSI=-Wstrict-prototypes --pedantic -Wall $(DEBUG_OPTIONS)
 CFLAGS= $(CFLAGS_NO_ANSI) --ansi
-LDFLAGS= -g $(PROFILER_LN_OPTIONS) #-lrt
+LDFLAGS= -g $(PROFILER_LN_OPTIONS) -lrt -lm
 
 BUILD_DIR=../build
 
