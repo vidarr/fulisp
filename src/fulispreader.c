@@ -322,11 +322,18 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
 
     resetReader(reader);
     expr = fuRead(reader);
-    if(!EXPR_IS_VALID(expr) || !NO_ERROR) {
+    if(!NO_ERROR) {
         expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
         /* counter of nil has already the correct value */
-        reader->expr = nil;
-        return;
+        reader->expr = nil; 
+        return; 
+    }
+    if(!EXPR_IS_VALID(expr)) {
+        expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
+        /* counter of nil has already the correct value */
+        reader->expr = expressionCreate(READER_GET_ENVIRONMENT(reader), EXPR_CONS, 
+                intCons(READER_GET_ENVIRONMENT(reader), NIL, NIL));
+        return; 
     }
     DEBUG_PRINT(" Create first cons...");
     retVal = current = expressionCreate(READER_GET_ENVIRONMENT(reader), EXPR_CONS, 

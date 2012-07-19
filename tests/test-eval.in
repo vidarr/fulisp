@@ -1,5 +1,7 @@
 1
 x
+(quote ())
+(quote (nil 1))
 (define x 1)
 x
 (set! x 2)

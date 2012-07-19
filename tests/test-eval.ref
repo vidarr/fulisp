@@ -1,5 +1,7 @@
 int: 1
 SYM: NIL
+(SYM: NIL)
+(SYM: NIL int: 1)
 int: 1
 int: 1
 int: 2
@@ -33,7 +35,7 @@ float: 5.000000
 ;   *IGNORE*   ;
 float: 20.000000
 float: 23.000000
-SYM: T
+SYM: NIL
 SYM: A
 (int: 1 int: 2)
 SYM: T

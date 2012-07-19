@@ -122,7 +122,6 @@ struct Expression *consP(struct Expression *env, struct Expression *expr) {
     INIT_NATIVE_FUNCTION(env, expr);
     expr = intCar(env, expr);
     expr = eval(env, expr);
-    if(EXPR_IS_NIL(expr)) return T;
     DEBUG_PRINT("Leaving cdr\n");
     return EXPR_IS_CONS(expr) ? T : NIL;
 }

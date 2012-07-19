@@ -5,6 +5,8 @@ float: 1.000000
 float: -1.000000
 STR: abc
 SYM: -
+(SYM: NIL)
+(SYM: NIL int: 1)
 (SYM: A)
 (SYM: A)
 (SYM: A)
