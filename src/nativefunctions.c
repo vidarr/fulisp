@@ -78,7 +78,7 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
     ASSIGN_2_PARAMS(env, expr, sym, val, "2 arguments expected");
     if(!EXPR_OF_TYPE(sym, EXPR_SYMBOL)) { 
         ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); 
-        return NULL; 
+        return NIL; 
     }; 
     val = eval(env, val);
 

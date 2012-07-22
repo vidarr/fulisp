@@ -11,9 +11,25 @@
 * Introduce "default function" in environment that will be called if symbol
   could not be resolved
 
-* Distinguish (1 . 2) and (1 2) when printing expression.expression
+General Roadmap
+===============
+
+
+0.1.0   Initial version (done): Language core without side effects
+0.2.0   Finish core language: 
+        Basic functions with side effects implemented: set-car!, set-cdr!, begin
+0.3.0   Optimizations: Cons cell data structure, preallocation of memory,
+        activation records
+0.4.0   Memory allocation rework: Replace ref counting by stop-and-copy
+0.5.0   Introduce analysation phase: Implement head tail recursion,
+        precalculation, etc...
+0.6.0   Introduce macros
+0.7.0   Introduce read macros
+
 
 Done
+
+* Distinguish (1 . 2) and (1 2) when printing expression.expression
 
 * Make NIL a constant variable within expression.c, distinguish NIL from (struct
   Expression *)
