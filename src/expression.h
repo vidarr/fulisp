@@ -375,6 +375,22 @@ struct Expression *expressionAssign(struct Expression *env, struct Expression *e
 #define GET_MEM_FOR_EXPRESSION (struct Expression *)malloc(sizeof(struct Expression)) 
 
 
+/**
+ * Set the car of a cons cell
+ * @param expr cons cell whose car should be set 
+ * @param expr2 any expression that should be set as the car of the cons cell
+ */
+#define EXPRESSION_SET_CAR(expr, expr2) (expr)->data.cons->car = expr2;
+
+
+/**
+ * Set the cdr of a cons cell
+ * @param expr cons cell whose cdr should be set 
+ * @param expr2 any expression that should be set as the cdr of the cons cell
+ */
+#define EXPRESSION_SET_CDR(expr, expr2) (expr)->data.cons->cdr = expr2;
+
+
 
 /*******************************************************************************
  * CASTS

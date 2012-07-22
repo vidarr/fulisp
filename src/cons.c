@@ -118,46 +118,79 @@ struct Expression *cdr(struct Expression *env, struct Expression *expr) {
 
 
 struct Expression *consP(struct Expression *env, struct Expression *expr) {
-    DEBUG_PRINT("Entering cdr\n");
+    DEBUG_PRINT("Entering consP\n");
     INIT_NATIVE_FUNCTION(env, expr);
     expr = intCar(env, expr);
     expr = eval(env, expr);
-    DEBUG_PRINT("Leaving cdr\n");
+    DEBUG_PRINT("Leaving consP\n");
     return EXPR_IS_CONS(expr) ? T : NIL;
 }
 
 
-struct Expression *setCar(struct Expression *env, struct Expression *consCell, struct Expression *car) {
-    assert(env && consCell && car);
+struct Expression *setCar(struct Expression *env, struct Expression *expr) {
+    struct Expression *consCell, *carExpr;
+
+    DEBUG_PRINT("Entering setCar\n");
+
+    INIT_NATIVE_FUNCTION(env, expr);
+    ASSIGN_2_PARAMS(env, expr, consCell, carExpr, "Argument list of CONS is flawed");
+
+    DEBUG_PRINT("consCell is ");
+    DEBUG_PRINT_EXPR(env, consCell);
+    DEBUG_PRINT("\ncarExpr is ");
+    DEBUG_PRINT_EXPR(env, carExpr);
+
+    consCell = eval(env, consCell);
     if(!EXPR_OF_TYPE(consCell, EXPR_CONS)) {
-        /* if(EXPR_IS_NIL(consCell)) {
-            consCell = cons(env, expressionAssign(env, car), NIL);
-            return consCell;
-        } else { */
             ERROR(ERR_UNEXPECTED_VAL, "setCar: Expected Cons, got other");
+            expressionDispose(env, consCell);
             return NIL;
-        /* } */
     }
+
+    DEBUG_PRINT("\ncarExpr is ");
+    DEBUG_PRINT_EXPR(env, carExpr);
+
+    carExpr = eval(env, carExpr);
     if(EXPRESSION_CAR(consCell)) expressionDispose(env, EXPRESSION_CAR(consCell));
-    consCell->data.cons->car = expressionAssign(env, car);
+    EXPRESSION_SET_CAR(consCell, carExpr);
+
+    DEBUG_PRINT("\nconsCell is ");
+    DEBUG_PRINT_EXPR(env, consCell);
+
     return consCell;
 }
 
 
-struct Expression *setCdr(struct Expression * env, struct Expression *consCell, struct Expression *cdr) {
-    assert(consCell);
+struct Expression *setCdr(struct Expression * env, struct Expression *expr) {
+    struct Expression *consCell, *carExpr;
+
+    DEBUG_PRINT("Entering setCar\n");
+
+    INIT_NATIVE_FUNCTION(env, expr);
+    ASSIGN_2_PARAMS(env, expr, consCell, carExpr, "Argument list of CONS is flawed");
+
+    DEBUG_PRINT("consCell is ");
+    DEBUG_PRINT_EXPR(env, consCell);
+    DEBUG_PRINT("\ncarExpr is ");
+    DEBUG_PRINT_EXPR(env, carExpr);
+
+    consCell = eval(env, consCell);
     if(!EXPR_OF_TYPE(consCell, EXPR_CONS)) {
-        /* if(EXPR_IS_NIL(consCell)) {
-            consCell = cons(env, NIL, expressionAssign(env, cdr));
-            return consCell;
-        } else { */
-            ERROR(ERR_UNEXPECTED_VAL, "setCdr: Expected Cons, got other");
+            ERROR(ERR_UNEXPECTED_VAL, "setCar: Expected Cons, got other");
+            expressionDispose(env, consCell);
             return NIL;
-        /* } */
     }
-    if(EXPRESSION_CDR(consCell)) expressionDispose(env, EXPRESSION_CDR(consCell));
-    consCell->data.cons->cdr = expressionAssign(env, cdr);
+
+    DEBUG_PRINT("\ncarExpr is ");
+    DEBUG_PRINT_EXPR(env, carExpr);
+
+    carExpr = eval(env, carExpr);
+    if(EXPRESSION_CAR(consCell)) expressionDispose(env, EXPRESSION_CAR(consCell));
+    EXPRESSION_SET_CDR(consCell, carExpr);
+
+    DEBUG_PRINT("\nconsCell is ");
+    DEBUG_PRINT_EXPR(env, consCell);
+
     return consCell;
 }
-
 

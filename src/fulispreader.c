@@ -97,9 +97,7 @@ struct Reader *newFuLispReader(struct Expression *env, struct CharBufferedReadSt
 
 static void registerStandardReadMacros(struct Reader *reader) {
 
-#ifdef DEBUG
-    struct ReadMacroLookUp *next;
-#endif
+    IF_DEBUG( struct ReadMacroLookUp *next;);
 
     assert(reader);
 
@@ -129,13 +127,13 @@ static void registerStandardReadMacros(struct Reader *reader) {
     registerReadMacro(reader, (unsigned char)')', rmClosingBraket);
     registerReadMacro(reader, (unsigned char)'\\', rmGetNextAsCharacter);
 
-#ifdef DEBUG
-    fprintf(stderr, "Lookup looks like:\n");
-    next = reader->lookup;
-    while((next = next->next)) {
-        fprintf(stderr, "Entry for %c\n", (next->sign) ? next->sign : '`');
-    };
-#endif
+    IF_DEBUG( 
+            fprintf(stderr, "Lookup looks like:\n");
+            next = reader->lookup;
+            while((next = next->next)) {
+            fprintf(stderr, "Entry for %c\n", (next->sign) ? next->sign : '`');
+            };
+    );
 
 }
 
@@ -350,7 +348,8 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
                 intCons(READER_GET_ENVIRONMENT(reader), expr, NIL));
         /* intCons(READER_GET_ENVIRONMENT(reader), expr, nil); */
         expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
-        setCdr(READER_GET_ENVIRONMENT(reader), current, next);
+        expressionAssign(READER_GET_ENVIRONMENT(reader), next);
+        EXPRESSION_SET_CDR(current, next);
         current = next;
         expressionDispose(READER_GET_ENVIRONMENT(reader), next);
         resetReader(reader);

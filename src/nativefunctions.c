@@ -40,43 +40,6 @@
 
 
 
-/**
- * Takes expr, checks wether its a list, then assigns car the car and cdr the
- * cdr of the list
- * @param env environment to use
- * @param expr list to split
- * @param car 
- * @param cdr
- * @param emsg Error string if operation fails
- */
-#define SECURE_CARCDR(env, expr, car, cdr, emsg) { \
-    SECURE_CAR(env, expr, car, emsg); \
-    cdr = intCdr(env, expr);  \
-    if(!cdr || !EXPR_OF_TYPE(cdr, EXPR_CONS)) {  \
-        ERROR(ERR_UNEXPECTED_TYPE, emsg);  \
-        return NIL;  \
-    };  \
-}
-
-
-/**
- * Checks wether expr is a list. Assigns sym the first and val the second
- * element of the list.
- * If SAFETY_CODE is set, then it is checked if expr is a list of exactly two
- * elements.
- * @param emsg Error string if operation fails
- */
-#define ASSIGN_2_PARAMS(env, expr, sym, val, emsg) { \
-    SECURE_CARCDR(env, expr, sym, val, emsg); \
-    IF_SAFETY_CODE(  \
-            if(!EXPR_IS_NIL(intCdr(env, val))) {  \
-            ERROR(ERR_UNEXPECTED_VAL, emsg); \
-            return NULL; \
-            }); \
-    val = intCar(env, val); \
-}
-
-
 struct Expression *quote(struct Expression *env, struct Expression *expr) {
     assert(env && expr);
     DEBUG_PRINT_EXPR(env, expr);

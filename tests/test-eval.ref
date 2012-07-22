@@ -9,8 +9,8 @@ int: 2
 int: 1
 int: 1
 int: 2
-(int: 1int: 2)
-(float: 3.000000int: 5)
+(int: 1 int: 2)
+(float: 3.000000 int: 5)
 float: 3.000000
 float: 3.000000
 float: 2.000000

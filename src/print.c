@@ -369,9 +369,12 @@ void printToStream(struct Expression *env, struct CharWriteStream *stream, struc
                 e1 = e2;
             }
             if(!EXPR_IS_NIL(e1)) {
+                STREAM_WRITE(stream, ' ');
+                STREAM_WRITE(stream, '.');
+                STREAM_WRITE(stream, ' ');
                 printToStream(env, stream, e1);
             };
-            expressionDispose(env, e1);
+            /* expressionDispose(env, e1); */
             STREAM_WRITE(stream, ')');
     };
 

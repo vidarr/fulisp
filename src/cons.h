@@ -123,10 +123,26 @@ struct Expression *cdr(struct Expression *env, struct Expression *args);
 struct Expression *consP(struct Expression *env, struct Expression *expr);
 
 
-struct Expression *setCar(struct Expression *env, struct Expression *cons, struct Expression *car);
+/**
+ * Takes two arguments. Second argument needs to be a list with two elements.
+ * First element  needs to be a cons cell. Second one can
+ * be of any kind. Tries to set the car of the first element to the second
+ * argument. 
+ * @param env Current environment
+ * @param expr list with two elements. 
+ */
+struct Expression *setCar(struct Expression *env, struct Expression *expr);
 
 
-struct Expression *setCdr(struct Expression *env, struct Expression *cons, struct Expression *cdr);
+/**
+ * Takes two arguments. Second argument needs to be a list with two elements.
+ * First element  needs to be a cons cell. Second one can
+ * be of any kind. Tries to set the cdr of the first element to the second
+ * argument. 
+ * @param env Current environment
+ * @param expr list with two elements. 
+ */
+struct Expression *setCdr(struct Expression *env, struct Expression *expr);
 
 
 struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expression *cdr);
