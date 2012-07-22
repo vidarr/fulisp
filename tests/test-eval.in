@@ -11,6 +11,11 @@ y
 x
 (cons 1 2)
 (cons (+ 1 2) 5)
+(define cons-test (cons 1 2))
+(set-car! cons-test 3)
+cons-test
+(set-cdr! cons-test 4)
+cons-test
 (+ 1 2) 
 (+ 1 x)
 (+ 1 y)
