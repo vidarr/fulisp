@@ -190,19 +190,20 @@ switch(EXPRESSION_TYPE(expr)) {
             e1 = e2;
         }
         if(!EXPR_IS_NIL(e1)) {
-            ASSERT_SAFE_ACCESS(1, sizeOfBuffer);
+            ASSERT_SAFE_ACCESS(3, sizeOfBuffer);
             *(buf++) = ' ';
-            sizeOfBuffer--;
+            *(buf++) = '.';
+            *(buf++) = ' ';
+            sizeOfBuffer -= 3;
             expressionToString(env, buf, sizeOfBuffer, e1);
             IF_SAFETY_CODE(sizeOfBuffer -= strlen(buf););
             STRING_SET_TO_END(buf);
         };
-        expressionDispose(env, e1);
         ASSERT_SAFE_ACCESS(2, sizeOfBuffer);
         buf[0] = ')';
         buf[1] = 0;
-};
-return str;
+    };
+    return str;
 
 #undef ASSERT_SAFE_ACCESS
 #undef SAFE_SPRINTF
