@@ -219,7 +219,7 @@ char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer, st
    struct CharWriteStream *stream = makeStringCharWriteStream(sizeOfBuffer,
            str);
    printToStream(env, stream, expr);
-   disposeStringCharWriteStream(stream);
+   STREAM_DISPOSE(stream);
   return str; 
 }
 
@@ -375,7 +375,6 @@ void printToStream(struct Expression *env, struct CharWriteStream *stream, struc
                 STREAM_WRITE(stream, ' ');
                 printToStream(env, stream, e1);
             };
-            /* expressionDispose(env, e1); */
             STREAM_WRITE(stream, ')');
     };
 

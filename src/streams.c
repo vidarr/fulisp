@@ -37,15 +37,23 @@ char getNextCharFromCFile(void *stream) {
 }
 
 
+void disposeCStreamCharReadStream(struct CharReadStream *stream) {
+    assert(stream);
+    free(stream);
+}
+
+
 struct CharReadStream *makeCStreamCharReadStream(FILE *s) {
     struct CharReadStream *stream;
      assert(s);
 
     stream = malloc(sizeof(struct CharReadStream));
     stream->getNext = getNextCharFromCFile;
+    stream->dispose = disposeCStreamCharReadStream;
     stream->intConfig = (void *)s;
     return stream;
 }
+
 
 
 /*****************************************************************************
@@ -59,6 +67,7 @@ struct InternalCharBufferedStream {
     char *current;
     char *buffer;
 };
+
 
 char getNextWrapper(void *stream) {
     struct InternalCharBufferedStream *internalStruct;
@@ -99,6 +108,16 @@ struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedRe
 }
 
 
+void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream) {
+    struct InternalCharBufferedStream *internalStruct;
+    internalStruct = (struct InternalCharBufferedStream *)stream->intConfig;
+    free(internalStruct->buffer);
+    free(internalStruct);
+    free(stream);
+    stream = 0;
+}
+
+
 struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream
         *stream) {
     struct CharBufferedReadStream *bufStream = (struct CharBufferedReadStream *)
@@ -113,18 +132,9 @@ struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream
     bufStream->intConfig = (void *)intStream;
     bufStream->pushBack = charPushBack;
     bufStream->getNext = getNextWrapper;
+    bufStream->dispose = disposeCharBufferedReadStream;
     return bufStream;
 } 
-
-
-void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream) {
-    struct InternalCharBufferedStream *internalStruct;
-    internalStruct = (struct InternalCharBufferedStream *)stream->intConfig;
-    free(internalStruct->buffer);
-    free(internalStruct);
-    free(stream);
-    stream = 0;
-}
 
 
 
@@ -176,28 +186,6 @@ int writeCharToFile(void *intConfig, char c){
 }
 
 
-struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file) {
-    struct CStreamCharWriteStream *cfg;
-    struct CharWriteStream *stream = 
-        (struct CharWriteStream *)malloc(sizeof(struct CharWriteStream));
-    assert(file);
-
-    if(bufferSize == 0) {
-        stream->intConfig = (void *)file;
-        stream->write = writeCharToFile;
-    } else {
-        stream->intConfig = cfg = (void *)malloc(
-                sizeof(struct CStreamCharWriteStream));
-        cfg->stream =(FILE *)file;
-        cfg->buffer = cfg->current = 
-        (char *)malloc(sizeof(char) * (bufferSize + 1));
-        stream->write = writeBufferedCharToFile;
-        cfg->bufferSize = bufferSize;
-    }
-    return stream;
-}
-
-
 void disposeCStreamCharWriteStream(struct CharWriteStream *stream) {
     struct CStreamCharWriteStream *cfg;
     assert(stream);
@@ -211,6 +199,30 @@ void disposeCStreamCharWriteStream(struct CharWriteStream *stream) {
            free(cfg);
     }
     free(stream);
+}
+
+
+struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file) {
+    struct CStreamCharWriteStream *cfg;
+    struct CharWriteStream *stream = 
+        (struct CharWriteStream *)malloc(sizeof(struct CharWriteStream));
+    assert(file);
+
+    if(bufferSize == 0) {
+        stream->intConfig = (void *)file;
+        stream->write = writeCharToFile;
+        stream->dispose = disposeCStreamCharWriteStream;
+    } else {
+        stream->intConfig = cfg = (void *)malloc(
+                sizeof(struct CStreamCharWriteStream));
+        cfg->stream =(FILE *)file;
+        cfg->buffer = cfg->current = 
+        (char *)malloc(sizeof(char) * (bufferSize + 1));
+        stream->write = writeBufferedCharToFile;
+        stream->dispose = disposeCStreamCharWriteStream;
+        cfg->bufferSize = bufferSize;
+    }
+    return stream;
 }
 
 
@@ -239,6 +251,12 @@ int writeCharToString(void *intConfig, char c) {
     }
     return 1;
 }
+
+
+void disposeStringCharWriteStream(struct CharWriteStream *stream) {
+    free(stream->intConfig);
+    free(stream);
+}
         
 
 struct CharWriteStream *makeStringCharWriteStream(int stringLength, char
@@ -249,15 +267,10 @@ struct CharWriteStream *makeStringCharWriteStream(int stringLength, char
             *)malloc(sizeof(struct intStringWriteStream));
     stream->intConfig = intStream;
     stream->write = writeCharToString;
+    stream->dispose = disposeStringCharWriteStream;
     intStream->index = 0;
     intStream->strLength = stringLength;
     intStream->strBuffer = string;
     return stream;
-}
-
-
-void disposeStringCharWriteStream(struct CharWriteStream *stream) {
-    free(stream->intConfig);
-    free(stream);
 }
 

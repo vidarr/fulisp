@@ -57,6 +57,8 @@
  */
 struct ReadStream {
     struct Expression *(*getNext)(void *);
+    void (*dispose)(struct ReadStream *);
+    int (*status)(struct ReadStream *);
     void *intConfig;
 };
 
@@ -66,7 +68,14 @@ struct ReadStream {
  * @param stream pointer to  the Stream to be read from
  * @return anything the stream got as return type
  */
-#define STREAM_NEXT(stream) (stream->getNext(stream->intConfig))
+#define STREAM_NEXT(stream) ((stream)->getNext((stream)->intConfig))
+
+
+/**
+ * Get rid of a stream.
+ * @param stream Pointer to a stream to dispose
+ */
+#define STREAM_DISPOSE(stream) ((stream)->dispose(stream))
 
 
 /** 
@@ -76,6 +85,8 @@ struct ReadStream {
 
 struct CharReadStream {
     char (*getNext)(void *);
+    void (*dispose)(struct CharReadStream *);
+    int (*status)(struct CharReadStream *);
     void *intConfig;
 };
 
@@ -108,6 +119,8 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s);
  */
 struct BufferedStream {
     struct Expression *(*getNext)(void *);
+    void (*dispose)(struct BufferedStream *);
+    int (*status)(struct BufferedStream *);
     void (*pushBack)(void *, struct Expression *);
     void *intConfig;
 };
@@ -115,6 +128,8 @@ struct BufferedStream {
 
 struct CharBufferedReadStream {
     char (*getNext)(void *);
+    void (*dispose)(struct CharBufferedReadStream *);
+    int (*status)(struct CharBufferedReadStream *);
     void (*pushBack)(void *, char); 
     void *intConfig;
 };
@@ -143,10 +158,12 @@ struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedRe
 struct CharBufferedReadStream *cBufStdIn;
 
 
+/**
+ * Create a buffered stream that wraps around a charReadStream.
+ * @param stream Pointer to a CharReadStream to be wrapped within a buffered
+ * stream
+ */
 struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream *stream);
-
-
-void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream);
 
 
 
@@ -166,6 +183,8 @@ void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream);
  * aims at 
  */
 struct WriteStream {
+    int (*status)(struct WriteStream *);
+    void (*dispose)(struct WriteStream *);
     /**
      * writes an expression to this stream
      * @param intConfig 
@@ -178,6 +197,8 @@ struct WriteStream {
 
 
 struct CharWriteStream{
+    int (*status)(struct CharWriteStream *);
+    void (*dispose)(struct CharWriteStream *);
     /**
      * Writes a character to this stream
      * @param intConfig 
@@ -198,28 +219,12 @@ struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file);
 
 
 /**
- * Disposes a CharWriteStream that was created with makeCStreamCharWriteStream
- * Remember: The FILE object wont be closed or even freed - you have to care for
- * this!
- * @param stream the stream to dispose
- */
-void disposeCStreamCharWriteStream(struct CharWriteStream *stream);
-
-
-/**
  * Creates a stream that writes into a string buffer
  * @param stringLength maximum length of the string 
  * @param string buffer to write to
  * @return pointer to CharWriteStream 
  */ 
 struct CharWriteStream *makeStringCharWriteStream(int stringLength, char *string);
-
-
-/**
- * Disposes a StringCharWriteStream 
- * @param  stream pointer to CharWriteStream to dispose
- */
-void disposeStringCharWriteStream(struct CharWriteStream *stream);
 
 
 /******************************************************************************

@@ -7,7 +7,7 @@ MKDIR=mkdir
 DEBUG_OPTIONS=-g $(PROFILER_CC_OPTIONS)
 CFLAGS_NO_ANSI=-Wstrict-prototypes --pedantic -Wall $(DEBUG_OPTIONS)
 CFLAGS= $(CFLAGS_NO_ANSI) --ansi
-LDFLAGS= -g $(PROFILER_LN_OPTIONS) -lrt -lm
+LDFLAGS= $(DEBUG_OPTIONS) -lrt -lm
 
 BUILD_DIR=../build
 
@@ -21,7 +21,7 @@ OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
 
 
 
-all: $(BUILD_DIR)/test-eval
+all: $(BUILD_DIR)/fulisp
 
 
 
@@ -32,7 +32,11 @@ all: $(BUILD_DIR)/test-eval
 fulisp: $(BUILD_DIR)/fulisp
 
 
-tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env 
+$(BUILD_DIR): 
+	$(MKDIR) $(BUILD_DIR)
+
+
+tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env  $(BUILD_DIR)/test-streams
 
 
 exec-tests: tests
@@ -43,45 +47,43 @@ exec-tests: tests
 	 $(BUILD_DIR)/test-eval 
 
 
-perform-tests: tests
-	$(BUILD_DIR)/test-hash && $(BUILD_DIR)/test-stack
+$(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES)
+	@echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
 
-
-$(BUILD_DIR)/benchmarking.o: benchmarking.c $(HEADER_FILES) $(BUILD_DIR)
-	@echo "COMPILING \033[01;32m$<\033[00m"; $(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
-
-$(BUILD_DIR)/%.o:%.c  $(BUILD_DIR) $(HEADER_FILES)
-	@echo "COMPILING \033[01;32m$<\033[00m"; $(CC) $(CFLAGS) -I . -o $@ -c $<
+$(BUILD_DIR)/%.o:%.c $(HEADER_FILES) $(BUILD_DIR)
+	@echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -o $@ -c $<
 
 $(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o  $(BUILD_DIR)/testfileinput.o 
-	@echo "LINKING \033[01;32m$@\033[00m"; $(LN) -o $(BUILD_DIR)/test-reader  $^ $(LDFLAGS)
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-reader  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o $(BUILD_DIR)/testfileinput.o
-	@echo "LINKING \033[01;32m$@\033[00m"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-stack: $(OBJECT_FILES) $(BUILD_DIR)/test-stack.o
-	@echo "Linking \033[01;32m$@\033[00m"; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
+	@echo "Linking \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-hash: $(OBJECT_FILES)  $(BUILD_DIR)/test-hash.o
-	@echo "LINKING \033[01;32m$@\033[00m"; $(LN) -o $(BUILD_DIR)/test-hash  $^ $(LDFLAGS)
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-hash  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-expression: $(OBJECT_FILES)  $(BUILD_DIR)/test-expression.o
-	@echo "LINKING \033[01;32m$@\033[00m"; $(LN) -o $(BUILD_DIR)/test-expression  $^ $(LDFLAGS)
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-expression  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-env: $(OBJECT_FILES)  $(BUILD_DIR)/test-env.o
-	@echo "LINKING \033[01;32m$@\033[00m"; $(LN) -o $(BUILD_DIR)/test-env  $^ $(LDFLAGS)
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-env  $^ $(LDFLAGS)
+
+
+$(BUILD_DIR)/test-streams: $(OBJECT_FILES)  $(BUILD_DIR)/test-streams.o
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-streams  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/fulisp: $(OBJECT_FILES) $(BUILD_DIR)/repl.o
-	@echo "LINKING \033[01;32m$@\033[00m"; $(LN) -o $(BUILD_DIR)/fulisp $^ $(LDFLAGS)
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/fulisp $^ $(LDFLAGS)
 
-$(BUILD_DIR): 
-	@echo "CREATING $(BUILD_DIR)"; $(MKDIR) $(BUILD_DIR)
     
 clean:
 	@echo "REMOVING BINARIES..."; rm  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*

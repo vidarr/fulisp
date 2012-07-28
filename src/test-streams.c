@@ -1,5 +1,5 @@
 /**
- * (C) 2010 Michael J. Beer
+ * (C) 2010, 2012 Michael J. Beer
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
@@ -17,75 +17,116 @@
  */
   
 #include "streams.h"
-#include "stdlib.h"
-#include "stdio.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "test.h"
 
 
-char *input;
-
-int testCharReadStream(struct CharReadStream *stream) {
-   char *current = input;
-   *(current++) = STREAM_NEXT(stream);
-   while(*(current - 1) != 'q') {
-       *(current++) = STREAM_NEXT(stream);
-   };
-   *current = 0;
-   printf("Read: %s\n", input);
-   return 1;
-}
+char *testText =  
+" /** \n" \
+"  * (C) 2010,2012 Michael J. Beer \n" \
+"  * This program is free software; you can redistribute it and/or modify \n" \
+"  * it under the terms of the GNU General Public License as published by \n" \
+"  * the Free Software Foundation; either version 3 of the License, or \n" \
+"  * (at your option) any later version. \n" \
+"  * \n" \
+"  * This program is distributed in the hope that it will be useful, |";
 
 
-int testCharBufferedReadStream(struct CharBufferedReadStream *stream) {
-   int flag;
-   char *current = input;
-   flag = 1;
-   *(current++) = STREAM_NEXT(stream);
-   while(*(current - 1) != 'q') {
-       *(current++) = STREAM_NEXT(stream);
-       if(flag) stream->pushBack(stream->intConfig, *(current - 1));
-       flag = 1 - flag;
-   };
-   *current = 0;
-   printf("Read: %s\n", input);
-   return 1;
-}
+char *copyText = NULL;
 
+int testStringCharWriteStream(char *target, char *origin, int len) {
+    struct CharWriteStream *stream;
+    char *lOrigin = origin;
 
-int testCharWriteStream(struct CharWriteStream *stream) {
-    char *current = input;
-    while(*current) {
-        STREAM_WRITE(stream, *current++);
-    }
-    return 1;
-}
+    stream = makeStringCharWriteStream(len, target);
 
+    while(*lOrigin != '\0') {
+        STREAM_WRITE(stream, *lOrigin);
+        lOrigin++;
+    };
+    STREAM_DISPOSE(stream);
+    /* TODO: Check whether this is actually right */
+    target[len - 1] = '\0';
 
-
-int main(int argc, char **argv) {
-    struct CharWriteStream *writeStream;
-    struct CharBufferedReadStream *bufStream;
-    struct CharReadStream *readStream = makeCStreamCharReadStream(stdin);
-    input = (char *)malloc(sizeof(char) * 2000);
-    testCharReadStream(readStream);
-    
-    bufStream =
-    makeCharBufferedReadStream(readStream);
-    testCharBufferedReadStream(bufStream);
-    
-    disposeCharBufferedReadStream(bufStream);
-    free(readStream);
-
-    writeStream = makeCStreamCharWriteStream(0, stdout);
-    testCharWriteStream(writeStream);
-    disposeCStreamCharWriteStream(writeStream);
-    writeStream = makeCStreamCharWriteStream(10, stdout);
-    testCharWriteStream(writeStream);
-    STREAM_WRITE(writeStream, 0);
-    disposeCStreamCharWriteStream(writeStream);
-
-    free(input);
+    if(strcmp(origin, target)) return 1;
 
     return 0;
 }
-   
-        
+
+
+int testCStreamCharWriteStream(FILE *file, char *text, int len) {
+    struct CharWriteStream *stream = makeCStreamCharWriteStream(len, file);
+
+    while(*text != '\0') {
+        STREAM_WRITE(stream, *text);
+        text++;
+    };
+    STREAM_DISPOSE(stream);
+    return 0;
+}
+
+
+int testCStreamCharReadStream(FILE *file, char *text, int len) {
+    char next;
+    char *reference = testText;
+    struct CharReadStream *stream = makeCStreamCharReadStream(file);
+
+    while((next = STREAM_NEXT(stream)) != 0) {
+       /* fputc(*reference, stdout); */
+       if(next != *reference++) return 1;
+       /* fputc(next, stdout); */
+    };
+    STREAM_DISPOSE(stream);
+    return 0;
+}
+
+
+int main(int argc, char **argv) {
+    FILE *ioFile = NULL;
+    int result = 0;
+    int len = strlen(testText);
+    copyText = (char *)malloc(sizeof(char) * (len + 1));
+
+    /* Testing writing to/reading from a string */
+    
+    result  = test(testStringCharWriteStream(copyText, testText, strlen(testText) + 1), 
+            "CStreamCharWriteStream / buffer large enough");;
+    result |= test(testStringCharWriteStream(copyText, testText, strlen(testText) - 1), 
+            "CStreamCharWriteStream / buffer too small");
+
+    free(copyText);
+
+    if((ioFile = tmpfile()) == NULL) {
+        fprintf(stderr, "Could not retrieve temporary file - aborting");
+        exit(1);
+    } 
+
+    /* Testing writing chars to FILE objects */
+
+    result  = test(testCStreamCharWriteStream(ioFile, testText, 0), 
+            "CStreamCharWriteStream / without buffering");
+
+    rewind(ioFile);
+
+    result |= test(testCStreamCharReadStream(ioFile, testText, 0), 
+            "CStreamCharReadStream / without buffering");
+
+    /* The same with buffering turned on */
+
+    rewind(ioFile);
+
+    result |= test(testCStreamCharWriteStream(ioFile, testText,20), 
+            "CStreamCharWriteStream / with buffering");
+
+    rewind(ioFile);
+
+    result |= test(testCStreamCharReadStream(ioFile, testText, 20), 
+            "CStreamCharReadStream / with buffering");
+
+    fclose(ioFile);
+
+    return result;
+}
+

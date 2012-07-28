@@ -21,6 +21,12 @@
 
 #include "config.h"
 
+/**
+ * Tests condition, outputs a message according to result of test and returns
+ * result.
+ * @param cond Condition, i.e. an integer value where == 1 ( = failed) or == 0 (succeeded)
+ * @param name Name of the test, used in output message
+ */
 int test(int cond, char *name);
 
 #endif
