@@ -138,8 +138,8 @@ int main(int argc, char **argv) {
             );
 
     deleteReader(reader);
-    disposeCharBufferedReadStream(bufStream);
-    disposeCStreamCharWriteStream(outStream);
+    STREAM_DISPOSE(bufStream);
+    STREAM_DISPOSE(outStream);
     /* Actually, if lambda expressions have been bound to variables, the
      * environment wont be disposed as it will have some cicular structure:
      * The env contains a reference to a lambda, this lambda contains a

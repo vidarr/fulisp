@@ -43,6 +43,7 @@ exec-tests: tests
 	@$(BUILD_DIR)/test-stack && \
 	 $(BUILD_DIR)/test-hash && \
 	 $(BUILD_DIR)/test-expression && \
+     $(BUILD_DIR)/test-streams && \
 	 $(BUILD_DIR)/test-reader && \
 	 $(BUILD_DIR)/test-eval 
 
