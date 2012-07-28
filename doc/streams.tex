@@ -1,0 +1,44 @@
+\section(Streams}
+
+\subsection{Introduction}
+
+Input needed. Input needed as characters/lines/other kind of chunks. Usually
+origin does not matter. 
+Abstraction: Rely on a function that returns whatever wanted no matter where
+from => "Closures".
+
+\subsection{Simple Kickoff}
+
+\subsection{Refining the design}
+
+\subsubsection{The Multiple stream approach}
+
+Advantages: Compiler will handle parts of type checks. 
+
+Problem: Got ReadWriteStream, function needs Readstream.
+
+Solution: Use wrappers: 
+ReadStream reader = makeReadWriteStreamWrapper(readWriter)
+But: See next section
+
+
+\subsubsection{The One for all approach}
+
+Advantages: Highly simplifies interface.
+            Gets around need for using wrappers.
+
+Providing different kind of streams:
+Set unsupported functions to generic error function ("Method not supported")
+
+Problem: Compiler cannot check types any more.
+
+But: When using wrappers, compiler's checking facility is bypassed anyhow. So
+drawback not really that big.
+
+\subsubsection{Implementation}
+
+
+            
+
+
+
