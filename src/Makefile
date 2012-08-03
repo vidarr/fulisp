@@ -1,3 +1,4 @@
+# CC=clang
 CC=gcc
 LN=gcc
 MKDIR=mkdir
