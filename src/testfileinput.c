@@ -124,7 +124,7 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
     }
 
     deleteReader(reader);
-    disposeCharBufferedReadStream(bufStream);
+    STREAM_DISPOSE(bufStream);
     fclose(inFile);
     free(readStream); 
 
