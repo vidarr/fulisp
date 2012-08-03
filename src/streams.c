@@ -26,13 +26,18 @@
 
 char getNextCharFromCFile(struct CharReadStream *stream) {
     int got;
+
     assert(stream);
 
     if(!stream->intConfig) return 0;
-    got = getc((FILE *)(stream->intConfig));
-    if(got == EOF) {
-        got = 0;
-    };
+    if(feof((FILE *)stream->intConfig)) {
+        got = STREAM_STATUS_EOS;
+    } else {
+        got = getc((FILE *)(stream->intConfig));
+        if(got == EOF) {
+            got = STREAM_STATUS_EOS;
+        };
+    }
     return (char)got;
 }
 
@@ -43,13 +48,27 @@ void disposeCStreamCharReadStream(struct CharReadStream *stream) {
 }
 
 
+int statusCStream(struct CharReadStream *stream) {
+    FILE *file = stream->intConfig;
+
+    assert(stream);
+
+    if(!file)         return STREAM_STATUS_INTERNAL_ERROR;
+    if(ferror(file))  return STREAM_STATUS_GENERAL_ERROR;
+    if(feof(file))    return STREAM_STATUS_EOS;
+    return STREAM_STATUS_OK;
+}
+
+
 struct CharReadStream *makeCStreamCharReadStream(FILE *s) {
     struct CharReadStream *stream;
-     assert(s);
 
-    stream = malloc(sizeof(struct CharReadStream));
-    stream->getNext = getNextCharFromCFile;
-    stream->dispose = disposeCStreamCharReadStream;
+    assert(s);
+
+    stream            = malloc(sizeof(struct CharReadStream));
+    stream->getNext   = getNextCharFromCFile;
+    stream->dispose   = disposeCStreamCharReadStream;
+    stream->status    = statusCStream;
     stream->intConfig = (void *)s;
     return stream;
 }
@@ -72,6 +91,7 @@ struct InternalCharBufferedStream {
 char getNextWrapper(struct CharBufferedReadStream *stream) {
     struct InternalCharBufferedStream *internalStruct;
     struct CharReadStream *readStream;
+
     assert(stream && stream->intConfig);
 
     internalStruct = (struct InternalCharBufferedStream *)(stream->intConfig);
@@ -80,7 +100,23 @@ char getNextWrapper(struct CharBufferedReadStream *stream) {
         return *((--internalStruct->current));
 
     readStream = internalStruct->readStream; 
-    return readStream->getNext(internalStruct->readStream->intConfig);
+
+    assert(readStream);
+
+    return STREAM_NEXT(readStream);
+}
+
+
+int statusReadStreamWrapper(struct CharBufferedReadStream *stream) {
+    struct InternalCharBufferedStream *intStruct;
+
+    assert(stream);
+
+    intStruct = (struct InternalCharBufferedStream *)stream->intConfig;
+     
+    assert(intStruct && intStruct->readStream);
+
+    return STREAM_STATUS(intStruct->readStream);
 }
 
 
@@ -122,7 +158,6 @@ void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream) {
     free(internalStruct->buffer);
     free(internalStruct);
     free(stream);
-    stream = 0;
 }
 
 
@@ -137,10 +172,10 @@ struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream
         (char *)malloc(
             sizeof(char) * BUFFERED_STREAM_BUFFER_STREAM);
     intStream->readStream = stream;
-    bufStream->intConfig = (void *)intStream;
-    bufStream->pushBack = charPushBack;
-    bufStream->getNext = getNextWrapper;
-    bufStream->dispose = disposeCharBufferedReadStream;
+    bufStream->intConfig  = (void *)intStream;
+    bufStream->pushBack   = charPushBack;
+    bufStream->getNext    = getNextWrapper;
+    bufStream->dispose    = disposeCharBufferedReadStream;
     return bufStream;
 } 
 

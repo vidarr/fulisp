@@ -16,6 +16,10 @@
  * USA.
  */
   
+#include "expression.h"
+
+
+
 #ifndef __STREAMS_H__
 #define __STREAMS_H__
 
@@ -25,6 +29,8 @@
 
 
 #define BUFFERED_STREAM_BUFFER_STREAM READ_BUFFER_SIZE
+
+
 
 /**
  * In here, streams are considered streams of some data
@@ -51,16 +57,11 @@
  */
 
 
-/** 
- * This represents an ordinary stream to be read from
- * Stream.getNext() will deliver another item from the stream
- */
-struct ReadStream {
-    struct Expression *(*getNext)(struct ReadStream *);
-    void (*dispose)(struct ReadStream *);
-    int (*status)(struct ReadStream *);
-    void *intConfig;
-};
+
+/*****************************************************************************
+                             GENERAL STREAM MACROS
+ *****************************************************************************/
+
 
 
 /**
@@ -78,10 +79,20 @@ struct ReadStream {
 #define STREAM_DISPOSE(stream) ((stream)->dispose(stream))
 
 
-/** 
- * The stdin stream - will return char Expressions
+/**
+ * Get status of stream.
+ * @param stream Pointer to a stream to dispose
+ * @return int value being the status of the stream.
  */
-/* extern struct ReadStream cStdIn; */
+#define STREAM_STATUS(stream) ((stream)->status(stream))
+
+
+
+/*****************************************************************************
+ *                                 ReadStream
+ *****************************************************************************/
+
+
 
 struct CharReadStream {
     char (*getNext)(struct CharReadStream *);
@@ -89,14 +100,6 @@ struct CharReadStream {
     int (*status)(struct CharReadStream *);
     void *intConfig;
 };
-
-
-/**
- * Convert a charReadStream into an ordinary Stream
- * @param cStream the char stream to convert
- * @return a ReadStream wrapping the charStream
- */
-struct ReadStream *charReadStreamToReadStream(struct CharReadStream *cStream);
 
 
 /**
@@ -114,18 +117,16 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s);
 
 
 /**
- * A buffered stream is a stream that is able to push back signs to reread them
- * later on
+ * Push back a char onto a buffered stream
+ * @param s buffered read stream
+ * @param x entity to push back (in case of CharBufferedReadStream, a char)
  */
-struct BufferedReadStream {
-    struct Expression *(*getNext)(struct BufferedReadStream *);
-    void (*dispose)(struct BufferedReadStream *);
-    int (*status)(struct BufferedReadStream *);
-    void (*pushBack)(struct BufferedReadStream *, struct Expression *);
-    void *intConfig;
-};
+#define STREAM_PUSH_BACK(s, x) ((s)->pushBack((s), x))
 
 
+/**
+ * A CharReadStream with the ability to push back chars onto the streams.
+ */
 struct CharBufferedReadStream {
     char (*getNext)(struct CharBufferedReadStream *);
     void (*dispose)(struct CharBufferedReadStream *);
@@ -133,14 +134,6 @@ struct CharBufferedReadStream {
     void (*pushBack)(struct CharBufferedReadStream *, char); 
     void *intConfig;
 };
-
-
-/**
- * Push back a char onto a buffered stream
- * @param s buffered read stream
- * @param x entity to push back (in case of CharBufferedReadStream, a char)
- */
-#define STREAM_PUSH_BACK(s, x) ((s)->pushBack((s), x))
 
 
 /**
@@ -178,33 +171,9 @@ struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream 
 #define STREAM_WRITE(stream, x)  {stream->write(stream->intConfig, x);}
 
 
-/**
- * a write stream basically takes one item and writes it whereever the stream
- * aims at 
- */
-struct WriteStream {
-    int (*status)(struct WriteStream *);
-    void (*dispose)(struct WriteStream *);
-    /**
-     * writes an expression to this stream
-     * @param intConfig 
-     * @param expr
-     * @return number of written bytes
-     */
-    int (*write)(void *, struct Expression *);
-    void *intConfig;
-};
-
-
 struct CharWriteStream{
     int (*status)(struct CharWriteStream *);
     void (*dispose)(struct CharWriteStream *);
-    /**
-     * Writes a character to this stream
-     * @param intConfig 
-     * @param c character to write
-     * @return number of written characters
-     */
     int (*write)(void *, char);
     void *intConfig;
 };
@@ -227,9 +196,80 @@ struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file);
 struct CharWriteStream *makeStringCharWriteStream(int stringLength, char *string);
 
 
+
 /******************************************************************************
- *                             INTERNAL FUNCTIONS
+ *                              STATUS CONSTANTS
  ******************************************************************************/
+
+
+/**
+ * Stream is ready to be used.
+ */
+#define STREAM_STATUS_OK ((int)0)
+
+/** 
+ * Stream has reached end of stream (EOS).
+ */
+#define STREAM_STATUS_EOS ((int)100)
+
+/**
+ * Stream has encountered an internal error. 
+ */
+#define STREAM_STATUS_INTERNAL_ERROR ((int)-1)
+
+/** 
+ * Stream has encountered an error that is not further specified.
+ */
+#define STREAM_STATUS_GENERAL_ERROR ((int)1)
+
+
+
+/******************************************************************************
+ *                            Unimplemented stuff
+ ******************************************************************************/
+
+
+
+/** 
+ * This represents an ordinary stream to be read from
+ * Stream.getNext() will deliver another item from the stream
+ */
+/* struct ReadStream { */
+/*     struct Expression *(*getNext)(struct ReadStream *); */
+/*     void (*dispose)(struct ReadStream *); */
+/*     int (*status)(struct ReadStream *); */
+/*     void *intConfig; */
+/* }; */
+
+
+/**
+ * Convert a charReadStream into an ordinary Stream
+ * @param cStream the char stream to convert
+ * @return a ReadStream wrapping the charStream
+ */
+/* struct ReadStream *charReadStreamToReadStream(struct CharReadStream *cStream); */
+
+
+/* struct BufferedReadStream { */
+/*     struct Expression *(*getNext)(struct BufferedReadStream *); */
+/*     void (*dispose)(struct BufferedReadStream *); */
+/*     int (*status)(struct BufferedReadStream *); */
+/*     void (*pushBack)(struct BufferedReadStream *, struct Expression *); */
+/*     void *intConfig; */
+/* }; */
+
+
+/**
+ * a write stream basically takes one item and writes it whereever the stream
+ * aims at 
+ */
+/* struct WriteStream { */
+/*     int (*status)(struct WriteStream *); */
+/*     void (*dispose)(struct WriteStream *); */
+/*     int (*write)(void *, struct Expression *); */
+/*     void *intConfig; */
+/* }; */
+
 
 
 #endif
