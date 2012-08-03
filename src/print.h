@@ -31,18 +31,7 @@
 #include "streams.h"
 #include "environment.h"
 
-/* Read chars from C streams */
-/* This macro is potentially dangerous - be sure to have the variable int
- * readChar defined ! */
-#define READCHARFROMSTREAM(env, stream) (((readChar = fgetc(stream)) == EOF) ? \
-                                       NIL : expressionCreate(env, EXPR_CHARACTER, \
-                                       (void *)&readChar))
 
-/**
- * Reads one char from a stream and returns it as an expression - or NIL if
- * something went wrong
- */
-struct Expression *getFileNextChar(struct Expression *env, FILE *stream);
 
 /**
  * Gives a string representation of an expression

@@ -42,11 +42,6 @@
 #define STRING_SET_TO_END(str) {while(*(str++) != 0); str--;}
 
 
-struct Expression *getFileNextChar(struct Expression *env, FILE *stream) {
-    int readChar;
-    return READCHARFROMSTREAM(env, stream);
-}
-
 
 struct Expression *fuPrint(struct Expression *env, struct Expression *expr) {
     char *retStr, *buf = malloc(sizeof(char) * READ_BUFFER_SIZE);
