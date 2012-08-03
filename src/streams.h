@@ -56,7 +56,7 @@
  * Stream.getNext() will deliver another item from the stream
  */
 struct ReadStream {
-    struct Expression *(*getNext)(void *);
+    struct Expression *(*getNext)(struct ReadStream *);
     void (*dispose)(struct ReadStream *);
     int (*status)(struct ReadStream *);
     void *intConfig;
@@ -68,7 +68,7 @@ struct ReadStream {
  * @param stream pointer to  the Stream to be read from
  * @return anything the stream got as return type
  */
-#define STREAM_NEXT(stream) ((stream)->getNext((stream)->intConfig))
+#define STREAM_NEXT(stream) ((stream)->getNext((stream)))
 
 
 /**
@@ -84,7 +84,7 @@ struct ReadStream {
 /* extern struct ReadStream cStdIn; */
 
 struct CharReadStream {
-    char (*getNext)(void *);
+    char (*getNext)(struct CharReadStream *);
     void (*dispose)(struct CharReadStream *);
     int (*status)(struct CharReadStream *);
     void *intConfig;
@@ -117,20 +117,20 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s);
  * A buffered stream is a stream that is able to push back signs to reread them
  * later on
  */
-struct BufferedStream {
-    struct Expression *(*getNext)(void *);
-    void (*dispose)(struct BufferedStream *);
-    int (*status)(struct BufferedStream *);
-    void (*pushBack)(void *, struct Expression *);
+struct BufferedReadStream {
+    struct Expression *(*getNext)(struct BufferedReadStream *);
+    void (*dispose)(struct BufferedReadStream *);
+    int (*status)(struct BufferedReadStream *);
+    void (*pushBack)(struct BufferedReadStream *, struct Expression *);
     void *intConfig;
 };
 
 
 struct CharBufferedReadStream {
-    char (*getNext)(void *);
+    char (*getNext)(struct CharBufferedReadStream *);
     void (*dispose)(struct CharBufferedReadStream *);
     int (*status)(struct CharBufferedReadStream *);
-    void (*pushBack)(void *, char); 
+    void (*pushBack)(struct CharBufferedReadStream *, char); 
     void *intConfig;
 };
 
@@ -140,7 +140,7 @@ struct CharBufferedReadStream {
  * @param s buffered read stream
  * @param x entity to push back (in case of CharBufferedReadStream, a char)
  */
-#define STREAM_PUSH_BACK(s, x) (s->pushBack(s->intConfig, x))
+#define STREAM_PUSH_BACK(s, x) ((s)->pushBack((s), x))
 
 
 /**

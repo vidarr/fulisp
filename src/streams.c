@@ -24,12 +24,12 @@
 
 
 
-char getNextCharFromCFile(void *stream) {
+char getNextCharFromCFile(struct CharReadStream *stream) {
     int got;
     assert(stream);
 
-    if(!stream) return 0;
-    got = getc((FILE *)(stream));
+    if(!stream->intConfig) return 0;
+    got = getc((FILE *)(stream->intConfig));
     if(got == EOF) {
         got = 0;
     };
@@ -69,12 +69,12 @@ struct InternalCharBufferedStream {
 };
 
 
-char getNextWrapper(void *stream) {
+char getNextWrapper(struct CharBufferedReadStream *stream) {
     struct InternalCharBufferedStream *internalStruct;
     struct CharReadStream *readStream;
-    assert(stream);
+    assert(stream && stream->intConfig);
 
-    internalStruct = (struct InternalCharBufferedStream *)(stream);
+    internalStruct = (struct InternalCharBufferedStream *)(stream->intConfig);
 
     if(internalStruct->current != internalStruct->buffer) 
         return *((--internalStruct->current));
@@ -84,9 +84,12 @@ char getNextWrapper(void *stream) {
 }
 
 
-void charPushBack(void *stream, char c) {
+void charPushBack(struct CharBufferedReadStream *stream, char c) {
     struct InternalCharBufferedStream *internalStruct;
-    internalStruct = (struct InternalCharBufferedStream *)stream;
+
+    assert(stream && stream->intConfig);
+
+    internalStruct = (struct InternalCharBufferedStream *)(stream->intConfig);
     IF_SAFETY_HIGH( \
         if(internalStruct->current - internalStruct->buffer >= \
             BUFFERED_STREAM_BUFFER_STREAM) { \
@@ -101,7 +104,9 @@ void charPushBack(void *stream, char c) {
 struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedReadStream
         *stream) {
     struct InternalCharBufferedStream *internal;
-    assert(stream);
+
+    assert(stream && stream->intConfig);
+
     internal = stream->intConfig;
     internal->current = internal->buffer;
     return stream;
@@ -110,6 +115,9 @@ struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedRe
 
 void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream) {
     struct InternalCharBufferedStream *internalStruct;
+
+    assert(stream && stream->intConfig);
+
     internalStruct = (struct InternalCharBufferedStream *)stream->intConfig;
     free(internalStruct->buffer);
     free(internalStruct);

@@ -93,6 +93,7 @@ int main(int argc, char **argv) {
     
     result  = test(testStringCharWriteStream(copyText, testText, strlen(testText) + 1), 
             "CStreamCharWriteStream / buffer large enough");;
+
     result |= test(testStringCharWriteStream(copyText, testText, strlen(testText) - 1), 
             "CStreamCharWriteStream / buffer too small");
 
