@@ -24,6 +24,10 @@
 #include "test.h"
 
 
+
+#define MAX_RANDOM_RUNS 14
+
+
 char *testText =  
 " /** \n" \
 "  * (C) 2010,2012 Michael J. Beer \n" \
@@ -60,6 +64,9 @@ int compareStrings(char *a, char *b, int len) {
 }
 
 
+/* Still the Write tests are no real tests but rather a preparation for the
+   Read tests */
+
 int testStringCharWriteStream(char *target, char *origin, int len) {
     struct CharWriteStream *stream;
     char *lOrigin = origin;
@@ -71,7 +78,6 @@ int testStringCharWriteStream(char *target, char *origin, int len) {
         lOrigin++;
     };
     STREAM_DISPOSE(stream);
-    /* TODO: Check whether this is actually right */
     target[len - 1] = '\0';
 
     if(compareStrings(origin, target, strlen(target)) != 0) return 1;
@@ -97,46 +103,87 @@ int testCStreamCharWriteStream(FILE *file, char *text, int len) {
 
 int testCStreamCharReadStream(FILE *file, char *text, int len) {
     char next;
-    char *reference = text;
+    int readChars, textLen;
+    char *reference               = text;
     struct CharReadStream *stream = makeCStreamCharReadStream(file);
 
-    while((next = STREAM_NEXT(stream)) != 0) {
-        if(next != *reference++) {
-            STREAM_DISPOSE(stream);
-            return 1;
-        }
+    textLen = strlen(text) + 1;
+
+    next = STREAM_NEXT(stream);
+    readChars = 0;
+    while(STREAM_STATUS(stream) == STREAM_STATUS_OK) {
+        if(next != *reference++) { 
+            STREAM_DISPOSE(stream); 
+            return 1; 
+        } 
+        next = STREAM_NEXT(stream);
+        readChars++;
     };
+
+    if(next != 0 || STREAM_STATUS(stream) != STREAM_STATUS_EOS) {
+        STREAM_DISPOSE(stream);
+        return 1;
+    }
+
     STREAM_DISPOSE(stream);
+
+    if(readChars != textLen)
+        return 1;
+
     return 0;
 }
 
 
 int testCharBufferedReadStream(FILE *file, char *text, int len) {
     char next;
-    int count, countOrig;
+    int readChars, textLen;
+    int charsToNextPushBack, noToPushBack, maxPushBackRuns;
     struct CharReadStream *intStream;
-    char *reference = text;
     struct CharBufferedReadStream *stream;
-    count = countOrig = randomMax(len);
-    intStream = makeCStreamCharReadStream(file);
-    stream =  makeCharBufferedReadStream(intStream);
-    while((next = STREAM_NEXT(stream)) != 0) {
+    char *reference     = text;
+    charsToNextPushBack = randomMax(MAX_RANDOM_RUNS);
+    maxPushBackRuns     = randomMax(MAX_RANDOM_RUNS);
+    intStream           = makeCStreamCharReadStream(file);
+    stream              =  makeCharBufferedReadStream(intStream);
+
+    textLen             = strlen(text) + 1;
+
+    next                = STREAM_NEXT(stream);
+    readChars           = 0;
+
+
+    while(STREAM_STATUS(stream) == STREAM_STATUS_OK) {
         if(next != *reference++) {
             STREAM_DISPOSE(intStream);
             STREAM_DISPOSE(stream);
             return 1;
         }
-        if(!count--) {
-            count = randomMax(countOrig);
-            while(count--) {
+        if(maxPushBackRuns && !charsToNextPushBack--) {
+            noToPushBack = randomMax(reference - text);
+            while(noToPushBack--) {
                 STREAM_PUSH_BACK(stream, *(reference - 1));
                 reference--;
+                readChars--;
             }
-            count = randomMax(text - reference);
+            charsToNextPushBack = randomMax(MAX_RANDOM_RUNS);
+            maxPushBackRuns--;
         }
+        next = STREAM_NEXT(stream);
+        readChars++;
     };
-    STREAM_DISPOSE(intStream);
+
+    if(next != 0 || STREAM_STATUS(stream) != STREAM_STATUS_EOS) {
+        STREAM_DISPOSE(stream);
+        STREAM_DISPOSE(intStream);
+        return 1;
+    }
+
     STREAM_DISPOSE(stream);
+    STREAM_DISPOSE(intStream);
+
+    if(readChars != textLen) 
+        return 1;
+
     return 0;
 }
 

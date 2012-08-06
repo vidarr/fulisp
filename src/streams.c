@@ -31,11 +31,11 @@ char getNextCharFromCFile(struct CharReadStream *stream) {
 
     if(!stream->intConfig) return 0;
     if(feof((FILE *)stream->intConfig)) {
-        got = STREAM_STATUS_EOS;
+        got = 0;
     } else {
         got = getc((FILE *)(stream->intConfig));
         if(got == EOF) {
-            got = STREAM_STATUS_EOS;
+            got = 0;
         };
     }
     return (char)got;
@@ -109,6 +109,7 @@ char getNextWrapper(struct CharBufferedReadStream *stream) {
 
 int statusReadStreamWrapper(struct CharBufferedReadStream *stream) {
     struct InternalCharBufferedStream *intStruct;
+    int status;
 
     assert(stream);
 
@@ -116,7 +117,12 @@ int statusReadStreamWrapper(struct CharBufferedReadStream *stream) {
      
     assert(intStruct && intStruct->readStream);
 
-    return STREAM_STATUS(intStruct->readStream);
+    status = STREAM_STATUS(intStruct->readStream);
+    if(status == STREAM_STATUS_OK && 
+            intStruct->current != intStruct->buffer) 
+        return STREAM_STATUS_OK;
+
+    return status;
 }
 
 
@@ -176,6 +182,7 @@ struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream
     bufStream->pushBack   = charPushBack;
     bufStream->getNext    = getNextWrapper;
     bufStream->dispose    = disposeCharBufferedReadStream;
+    bufStream->status     = statusReadStreamWrapper;
     return bufStream;
 } 
 
