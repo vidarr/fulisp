@@ -78,6 +78,7 @@
 #define ERR_UNRESOLVABLE 1100
 #define ERR_STACK_OVERFLOW 1210
 #define ERR_STACK_UNDERFLOW 1211
+#define ERR_UNIMPLEMENTED 2000
 
 extern int lispError;
 extern char *lispErrorMessage;

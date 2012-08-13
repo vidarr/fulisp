@@ -37,8 +37,7 @@
  * they are represented by a function returning subsequent bits of this data
  * flow
  * You could also call them 'iterators' 
- * All of them feature
- * and contain a field intConfig, a void pointer
+ * All of them contain a field intConfig, a void pointer.
  * In it, the streams internal data should be stored
  * For example, the stream reading from a FILE object keeps a pointer to its
  * FILE in it
@@ -53,6 +52,10 @@
  * pushBack(el, intConfig)
  * They shovel back one element into the stream to be returned as the next
  * element
+ *
+ * If streams do not support buffering, i.e. do not provide the pushBack() -
+ * function, they should instead install a dummy function that signals the error
+ * ERR_UNIMPLEMENTED.
  *
  */
 
@@ -70,6 +73,14 @@
  * @return anything the stream got as return type
  */
 #define STREAM_NEXT(stream) ((stream)->getNext((stream)))
+
+
+/**
+ * Push back a char onto a buffered stream
+ * @param s buffered read stream
+ * @param x entity to push back (in case of CharReadStream, a char)
+ */
+#define STREAM_PUSH_BACK(s, x) ((s)->pushBack((s), x))
 
 
 /**
@@ -95,11 +106,19 @@
 
 
 struct CharReadStream {
-    char (*getNext)(struct CharReadStream *);
-    void (*dispose)(struct CharReadStream *);
-    int (*status)(struct CharReadStream *);
+    char (*getNext) (struct CharReadStream *);
+    void (*dispose) (struct CharReadStream *);
+    int  (*status)  (struct CharReadStream *);
+    void (*pushBack)(struct CharReadStream *, char); 
     void *intConfig;
 };
+
+
+/**
+ * Character to return in case of some exceptional behaviour, i.e. an error or
+ * end of stream...
+ */
+#define STREAM_RETURN_CHAR_ON_ERROR ((char)0)
 
 
 /**
@@ -110,45 +129,13 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s);
 
 
 
-/******************************************************************************
- *                              Buffered Readers
- ******************************************************************************/
-
-
-
 /**
- * Push back a char onto a buffered stream
- * @param s buffered read stream
- * @param x entity to push back (in case of CharBufferedReadStream, a char)
- */
-#define STREAM_PUSH_BACK(s, x) ((s)->pushBack((s), x))
-
-
-/**
- * A CharReadStream with the ability to push back chars onto the streams.
- */
-struct CharBufferedReadStream {
-    char (*getNext)(struct CharBufferedReadStream *);
-    void (*dispose)(struct CharBufferedReadStream *);
-    int (*status)(struct CharBufferedReadStream *);
-    void (*pushBack)(struct CharBufferedReadStream *, char); 
-    void *intConfig;
-};
-
-
-/**
- * Reset CharBufferedReadStream. Next read will start from beginning of buffer
+ * Reset CharReadStream. Next read will start from beginning of buffer
  * again.
  * @param str stream to reset
  * @return the stream that has been reset
  */
-struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedReadStream *stream);
-
-
-/**
- * This is the StdIn stream buffered
- */
-struct CharBufferedReadStream *cBufStdIn;
+struct CharReadStream *resetCharReadStream(struct CharReadStream *stream);
 
 
 /**
@@ -156,7 +143,7 @@ struct CharBufferedReadStream *cBufStdIn;
  * @param stream Pointer to a CharReadStream to be wrapped within a buffered
  * stream
  */
-struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream *stream);
+struct CharReadStream *makeCharReadStream(struct CharReadStream *stream);
 
 
 

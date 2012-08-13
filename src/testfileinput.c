@@ -85,7 +85,7 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
     FILE *refFile;
     int result = 0;
     struct CharReadStream *readStream;
-    struct CharBufferedReadStream *bufStream;
+    struct CharReadStream *bufStream;
     struct Reader *reader;
     struct Expression *expr = 0;
 
@@ -103,7 +103,7 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
     DEBUG_PRINT("File open\n");
 
     readStream = makeCStreamCharReadStream(inFile);
-    bufStream = makeCharBufferedReadStream(readStream);
+    bufStream = makeCharReadStream(readStream);
     reader = newFuLispReader(env, bufStream);
 
     while(!feof(refFile)) {
@@ -120,7 +120,7 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
         expressionDispose(env, expr);
         ERROR_RESET;
         resetReader(reader);
-        resetCharBufferedReadStream(bufStream);
+        resetCharReadStream(bufStream);
     }
 
     deleteReader(reader);

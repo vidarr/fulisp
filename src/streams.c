@@ -24,6 +24,17 @@
 
 
 
+/*****************************************************************************
+ *                         Unbuffered CharReadStream
+ *****************************************************************************/ 
+
+
+
+void reportPushBackUnimplemented(struct CharReadStream *stream, char c) {
+    ERROR(ERR_UNIMPLEMENTED, "Push back not implemented by this reader!");
+}
+
+
 char getNextCharFromCFile(struct CharReadStream *stream) {
     int got;
 
@@ -31,11 +42,11 @@ char getNextCharFromCFile(struct CharReadStream *stream) {
 
     if(!stream->intConfig) return 0;
     if(feof((FILE *)stream->intConfig)) {
-        got = 0;
+        got = STREAM_RETURN_CHAR_ON_ERROR;
     } else {
         got = getc((FILE *)(stream->intConfig));
         if(got == EOF) {
-            got = 0;
+            got = STREAM_RETURN_CHAR_ON_ERROR;
         };
     }
     return (char)got;
@@ -49,9 +60,11 @@ void disposeCStreamCharReadStream(struct CharReadStream *stream) {
 
 
 int statusCStream(struct CharReadStream *stream) {
-    FILE *file = stream->intConfig;
+    FILE *file;
 
     assert(stream);
+
+    file = stream->intConfig;
 
     if(!file)         return STREAM_STATUS_INTERNAL_ERROR;
     if(ferror(file))  return STREAM_STATUS_GENERAL_ERROR;
@@ -69,6 +82,7 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s) {
     stream->getNext   = getNextCharFromCFile;
     stream->dispose   = disposeCStreamCharReadStream;
     stream->status    = statusCStream;
+    stream->pushBack  = reportPushBackUnimplemented;
     stream->intConfig = (void *)s;
     return stream;
 }
@@ -76,7 +90,7 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s) {
 
 
 /*****************************************************************************
- *                             charBufferedStream
+ *                             Buffered CharReadStream
  *****************************************************************************/
 
 
@@ -88,7 +102,7 @@ struct InternalCharBufferedStream {
 };
 
 
-char getNextWrapper(struct CharBufferedReadStream *stream) {
+char getNextWrapper(struct CharReadStream *stream) {
     struct InternalCharBufferedStream *internalStruct;
     struct CharReadStream *readStream;
 
@@ -107,7 +121,7 @@ char getNextWrapper(struct CharBufferedReadStream *stream) {
 }
 
 
-int statusReadStreamWrapper(struct CharBufferedReadStream *stream) {
+int statusReadStreamWrapper(struct CharReadStream *stream) {
     struct InternalCharBufferedStream *intStruct;
     int status;
 
@@ -126,7 +140,7 @@ int statusReadStreamWrapper(struct CharBufferedReadStream *stream) {
 }
 
 
-void charPushBack(struct CharBufferedReadStream *stream, char c) {
+void charPushBack(struct CharReadStream *stream, char c) {
     struct InternalCharBufferedStream *internalStruct;
 
     assert(stream && stream->intConfig);
@@ -143,7 +157,7 @@ void charPushBack(struct CharBufferedReadStream *stream, char c) {
 }
 
 
-struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedReadStream
+struct CharReadStream *resetCharReadStream(struct CharReadStream
         *stream) {
     struct InternalCharBufferedStream *internal;
 
@@ -155,7 +169,7 @@ struct CharBufferedReadStream *resetCharBufferedReadStream(struct CharBufferedRe
 }
 
 
-void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream) {
+void disposeCharReadStream(struct CharReadStream *stream) {
     struct InternalCharBufferedStream *internalStruct;
 
     assert(stream && stream->intConfig);
@@ -167,10 +181,10 @@ void disposeCharBufferedReadStream(struct CharBufferedReadStream *stream) {
 }
 
 
-struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream
+struct CharReadStream *makeCharReadStream(struct CharReadStream
         *stream) {
-    struct CharBufferedReadStream *bufStream = (struct CharBufferedReadStream *)
-        malloc(sizeof(struct CharBufferedReadStream));
+    struct CharReadStream *bufStream = (struct CharReadStream *)
+        malloc(sizeof(struct CharReadStream));
     struct InternalCharBufferedStream *intStream = 
         (struct InternalCharBufferedStream *) 
         malloc(sizeof(struct InternalCharBufferedStream));
@@ -181,7 +195,7 @@ struct CharBufferedReadStream *makeCharBufferedReadStream(struct CharReadStream
     bufStream->intConfig  = (void *)intStream;
     bufStream->pushBack   = charPushBack;
     bufStream->getNext    = getNextWrapper;
-    bufStream->dispose    = disposeCharBufferedReadStream;
+    bufStream->dispose    = disposeCharReadStream;
     bufStream->status     = statusReadStreamWrapper;
     return bufStream;
 } 

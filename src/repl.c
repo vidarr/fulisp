@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
     struct Expression *env;
     struct Expression *expr, *res;
     struct CharWriteStream *outStream;
-    struct CharBufferedReadStream *bufStream;
+    struct CharReadStream *bufStream;
     struct CharReadStream *readStream;
     struct Reader *reader;
     int lastError; 
@@ -100,14 +100,14 @@ int main(int argc, char **argv) {
     
     readStream = makeCStreamCharReadStream(stdin);
     expr = 0;
-    bufStream = makeCharBufferedReadStream(readStream);
+    bufStream = makeCharReadStream(readStream);
     outStream = makeCStreamCharWriteStream(1024, stdout);
     reader = newFuLispReader(env, bufStream);
     dontExit = 1;
     while(dontExit) { /* Loop until "quit" is called */
         printf("\nfuLisp:%i$ ", lastError);
         expr = fuRead(reader);
-        resetCharBufferedReadStream(bufStream);
+        resetCharReadStream(bufStream);
         resetReader(reader);
         if(!NO_ERROR) {
             fprintf(stderr, "    FUBAR: %s\n\n", lispErrorMessage);

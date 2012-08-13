@@ -88,7 +88,7 @@ struct Reader {
     struct HashTable *symbolTable;
     struct Expression *env;
     struct Expression *expr;
-    struct CharBufferedReadStream *stream;
+    struct CharReadStream *stream;
     char *buffer;
     char *current;
     int type;
@@ -109,7 +109,7 @@ struct Expression *fuRead(struct Reader *reader);
  * Create a new reader environment 
  * @param getNextChar function that wraps the stream to be read from
  */
-struct Reader *newReader(struct Expression *env, struct CharBufferedReadStream *stream); 
+struct Reader *newReader(struct Expression *env, struct CharReadStream *stream); 
 
 /**
  * Frees Reader structure

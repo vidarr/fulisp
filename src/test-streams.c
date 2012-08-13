@@ -134,17 +134,17 @@ int testCStreamCharReadStream(FILE *file, char *text, int len) {
 }
 
 
-int testCharBufferedReadStream(FILE *file, char *text, int len) {
+int testCharReadStream(FILE *file, char *text, int len) {
     char next;
     int readChars, textLen;
     int charsToNextPushBack, noToPushBack, maxPushBackRuns;
     struct CharReadStream *intStream;
-    struct CharBufferedReadStream *stream;
+    struct CharReadStream *stream;
     char *reference     = text;
     charsToNextPushBack = randomMax(MAX_RANDOM_RUNS);
     maxPushBackRuns     = randomMax(MAX_RANDOM_RUNS);
     intStream           = makeCStreamCharReadStream(file);
-    stream              =  makeCharBufferedReadStream(intStream);
+    stream              =  makeCharReadStream(intStream);
 
     textLen             = strlen(text) + 1;
 
@@ -236,8 +236,8 @@ int main(int argc, char **argv) {
 
     rewind(ioFile);
 
-    result |=  test(testCharBufferedReadStream(ioFile, testText, 25),
-            "CharBufferedReadStream");
+    result |=  test(testCharReadStream(ioFile, testText, 25),
+            "CharReadStream");
 
     fclose(ioFile);
 
