@@ -70,7 +70,7 @@ struct Expression *set(struct Expression *env, struct Expression *expr) {
 
 
 struct Expression *define(struct Expression *env, struct Expression *expr) {
-    struct Expression *sym, *val;
+    struct Expression *sym, *val, *pEnv = env;
     assert(env && expr);
 
     DEBUG_PRINT("Entering define");
@@ -85,6 +85,11 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT("Setting \n");
     DEBUG_PRINT_EXPR(env, sym);
     DEBUG_PRINT_EXPR(env, val);
+
+    /* Get global environment */
+    while((pEnv = ENVIRONMENT_GET_PARENT(EXPRESSION_ENVIRONMENT(env))) && 
+          EXPR_OF_TYPE(pEnv, EXPR_ENVIRONMENT))
+            env = pEnv;
 
     ENVIRONMENT_ADD_SYMBOL(env, sym, val);
     return expressionAssign(env, val);
@@ -159,7 +164,7 @@ struct Expression *mul(struct Expression *env, struct Expression *expr) {
 
 
 /*****************************************************************************
- *                              LOGIC FUNCTIONS 
+ *                              LOGICAL FUNCTIONS 
  *****************************************************************************/
 
 
@@ -263,3 +268,4 @@ struct Expression *numSmaller(struct Expression *env, struct Expression *expr) {
 
     return T;
 }
+

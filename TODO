@@ -6,6 +6,10 @@
       argument list. If no more values given, assign the empty list
    (- OPTIONAL: If no more arguments given, assign the following variables NIL)
 
+* Implement begin (using macros)
+
+* Implement Dot-Notation in Reader ( '(A . B) ) 
+
 * Introduce 2 new types: Reader/Writer
 
 * Implement type cast functions within types.h/.c
@@ -13,10 +17,6 @@
 * Implement functions:
   - /
   - eq (pointer equality)
-
-* Make set! to define and introduce set! that modifies existing variables only
-  (currently, there is no possibility to alter variable on surrounding env, even
-  if symbol is unbound in current env, because set! will just create it
 
 * Introduce "default function" in environment that will be called if symbol
   could not be resolved
@@ -39,6 +39,10 @@ General Roadmap
 
 
 Done
+
+* Make set! to define and introduce set! that modifies existing variables only
+  (currently, there is no possibility to alter variable on surrounding env, even
+  if symbol is unbound in current env, because set! will just create it
 
 * Distinguish (1 . 2) and (1 2) when printing expression.expression
 

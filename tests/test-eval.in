@@ -9,6 +9,18 @@ x
 (define y 1)
 y
 x
+(define fac 2)                                                                                                                           
+fac
+(set! fac 3)
+fac
+(define fac 4)
+fac
+(define set-fac (lambda (fac) (set! fac fac)))
+(set-fac 5)
+fac
+(define set-fac-2 (lambda (fac) (define fac fac)))
+(set-fac-2 6)
+fac
 (cons 1 2)
 (cons (+ 1 2) 5)
 (define cons-test (cons 1 2))

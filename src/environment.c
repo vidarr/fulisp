@@ -32,7 +32,7 @@
 struct Expression *environmentCreate(struct Expression *parent) {
     struct Environment *env = (struct Environment *)malloc(sizeof(struct Environment));
     env->lookup = hashTableCreate(SYMBOL_TABLE_SIZE, stdHashFunction);
-    if(parent) {
+    if(parent && !EXPR_IS_NIL(parent)) {
         DEBUG_PRINT_PARAM("Counter of parent before expressionAssign: %i\n", parent->counter);
         if(!EXPR_OF_TYPE(parent, EXPR_ENVIRONMENT)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Expected environment");
@@ -49,7 +49,7 @@ struct Expression *environmentCreate(struct Expression *parent) {
 
 
 struct Expression *environmentCreateStdEnv(void) {
-    struct Expression *env = environmentCreate(0);
+    struct Expression *env = environmentCreate(NIL);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CAR", car);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CDR", cdr);
@@ -91,7 +91,7 @@ void environmentDispose(struct Expression *surrEnv, struct Environment *env) {
         expressionDispose(surrEnv, hashTableDelete(env->lookup, keys[i++]));
     };
     free(keys);
-    if(env->parent) 
+    if(ENVIRONMENT_GET_PARENT(env)) 
         expressionDispose(surrEnv,  env->parent);
     hashTableDispose(env->lookup);
     free(env);
@@ -117,15 +117,14 @@ struct Expression *environmentUpdate(struct Expression *env, struct Expression *
     oldVal = hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, EXPRESSION_STRING(sym));
     DEBUG_PRINT_PARAM("Symbol was %s\n", expr ? " found" : " not found");
     if(!oldVal) {
-        if(EXPRESSION_ENVIRONMENT(env)->parent) {
+        if(!EXPR_IS_NIL(ENVIRONMENT_GET_PARENT(EXPRESSION_ENVIRONMENT(env)))) {
             return
-                environmentUpdate((EXPRESSION_ENVIRONMENT(env))->parent, sym, expr);
+                environmentUpdate(ENVIRONMENT_GET_PARENT(EXPRESSION_ENVIRONMENT(env)), sym, expr);
         } else {
             return NULL;
         }
     }
     ENVIRONMENT_ADD_SYMBOL(env, sym, expr);
     return expr;
-
 }
 

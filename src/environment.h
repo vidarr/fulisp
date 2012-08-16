@@ -55,6 +55,13 @@ struct Environment {
 
 
 /**
+ * Get parent environment of env
+ */
+#define ENVIRONMENT_GET_PARENT(env) \
+    ((env)->parent)
+
+
+/**
  * Try to resolve a symbol within an environment
  * @param env expression containing the environment to use
  * @param sym the symbol to look up
