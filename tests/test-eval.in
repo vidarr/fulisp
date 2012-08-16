@@ -21,6 +21,11 @@ fac
 (define set-fac-2 (lambda (fac) (define fac fac)))
 (set-fac-2 6)
 fac
+(define block-var 2)
+(begin (set! block-var (+ block-var 1)) (set! block-var (+ block-var 1)) (set! block-var (+ block-var 1)))
+block-var
+(begin (set! block-var 5) (set! block-var (+ 1 block-var)) (set! block-var (* 2 block-var)))
+block-var
 (cons 1 2)
 (cons (+ 1 2) 5)
 (define cons-test (cons 1 2))

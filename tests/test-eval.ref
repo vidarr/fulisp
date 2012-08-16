@@ -21,6 +21,11 @@ int: 4
 ;   *IGNORE*   ;
 int: 6
 int: 6
+int: 2
+float: 5.000000
+float: 5.000000
+float: 12.000000
+float: 12.000000
 (int: 1 . int: 2)
 (float: 3.000000 . int: 5)
 (int: 1 . int: 2)

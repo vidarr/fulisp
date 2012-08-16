@@ -137,7 +137,6 @@
  */
 struct Expression *quote(struct Expression *env, struct Expression *expr);
 
-struct Expression *quoteAlter(struct Expression *env, struct Expression *expr);
 
 /**
  * Prints out a String representation of the expression given as parameter
@@ -179,6 +178,9 @@ struct Expression *define(struct Expression *env, struct Expression *expr);
  * @param expr list of lists of two elements.
  */
 struct Expression *cond(struct Expression *env, struct Expression *expr);
+
+
+struct Expression *begin(struct Expression *env, struct Expression *expr);
 
 
 

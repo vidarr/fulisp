@@ -60,6 +60,7 @@ struct Expression *environmentCreateStdEnv(void) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!", set);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "DEFINE", define);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "BEGIN", begin);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "COND", cond);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "OR", or);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "AND", and);

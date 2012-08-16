@@ -115,6 +115,18 @@ struct Expression *cond(struct Expression *env, struct Expression *expr) {
 }
 
 
+struct Expression *begin(struct Expression *env, struct Expression *expr) {
+    struct Expression *iter, *res = NIL;
+
+    assert(env && expr);
+
+    ITERATE_LIST(env, expr, iter, { \
+            res = eval(env, iter); \
+            });
+    return res;
+}
+
+
 
 /*****************************************************************************
  *                           MATHEMATICAL FUNCTIONS

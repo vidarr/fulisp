@@ -1,0 +1,6 @@
+0.1.0 Initial Version
+
+0.2.0 * Refined stream interface
+      * Restricted 'define' to operate on global environment only
+        Local environment now unexpandable.
+
