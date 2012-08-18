@@ -6,8 +6,6 @@
       argument list. If no more values given, assign the empty list
    (- OPTIONAL: If no more arguments given, assign the following variables NIL)
 
-* Implement begin (using macros)
-
 * Implement Dot-Notation in Reader ( '(A . B) ) 
 
 * Introduce 2 new types: Reader/Writer
@@ -39,6 +37,8 @@ General Roadmap
 
 
 Done
+
+* Implement begin (using macros ?)
 
 * Make set! to define and introduce set! that modifies existing variables only
   (currently, there is no possibility to alter variable on surrounding env, even

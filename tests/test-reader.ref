@@ -3,6 +3,11 @@ int: 1
 int: -1
 float: 1.000000
 float: -1.000000
+float: 0.000000
+float: 0.000000
+float: -0.000000
+float: -0.000000
+SYM: .
 STR: abc
 SYM: -
 (SYM: NIL)
