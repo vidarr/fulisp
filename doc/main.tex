@@ -37,6 +37,9 @@ function consists of the functions shown in table \ref{tbl:CoreFunctions}.
         \texttt{DEFINE} & Expects exactly two arguments. First argument is a
         symvol, second argument is any kind of expression. Creates a binding in
         the global environment, returns the expression bound.\\
+        \texttt{BEGIN} & Expects a list of expressions. Evaluates each of these
+        expressions in the order of their appearance. Returns the value of the last
+        expression. \\
         \texttt{SET!} & \\
         \texttt{=} & \\
         \texttt{<} & \\
