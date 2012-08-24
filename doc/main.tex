@@ -115,4 +115,13 @@ table, an error is produced. If it resolves to a symbol table, the other parts
 \texttt{part2}, \texttt{part3} etc are looked up within this lookup table.
 \end{enumerate}
 
+
+\section{Input/Output}
+
+Uttmost principle should be that if a expression is printed out, its textual
+representation, fed back into the reader, should yield a equivalent expression,
+that is the following relation should hold:
+
+({\texttt READ} ({\texttt COERCE} {\texttt 'STRING} {\texttt EXPRESSION})) $\equiv$ {\texttt EXPRESSION}
+
 \end{document}
