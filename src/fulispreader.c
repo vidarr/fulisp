@@ -376,6 +376,11 @@ static void rmFuLispTerminator(struct Reader *reader, char sigle) {
         if(c == '+' || c == '-') {
             reader->type = EXPR_SYMBOL;
         }
+    }  else if ((reader->type == EXPR_FLOAT)) {
+        c = *(reader->current - 1);
+        if((c == '.') && (c == *(reader->buffer))) {
+            reader->type = EXPR_SYMBOL;
+        }
     }
     rmTerminator(reader, sigle);
 }

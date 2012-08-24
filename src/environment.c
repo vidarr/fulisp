@@ -101,10 +101,13 @@ void environmentDispose(struct Expression *surrEnv, struct Environment *env) {
 
 struct Expression *environmentLookup(struct Expression *env, struct Expression *sym) {
     struct Expression *expr;
+    struct Expression *parent;
     ENSURE_ENVIRONMENT(env);
     expr = hashTableGet((EXPRESSION_ENVIRONMENT(env))->lookup, EXPRESSION_STRING(sym));
     DEBUG_PRINT_PARAM("Symbol was %s\n", expr ? " found" : " not found");
-    if(!expr && EXPRESSION_ENVIRONMENT(env)->parent) {
+    if(!expr && 
+            (parent = EXPRESSION_ENVIRONMENT(env)->parent) &&
+            !EXPR_IS_NIL(parent)) {
         return
             environmentLookup((EXPRESSION_ENVIRONMENT(env))->parent, sym);
     }
