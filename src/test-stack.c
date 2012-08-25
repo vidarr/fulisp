@@ -93,7 +93,7 @@ int freeStack(void) {
 int main(int argc, char **argv) {
     size = 20;
 
-    printf("Testing stack.c\n");
+    printf("\nTesting stack.c\n\n");
 
     test(createStack(), "Create stack with 20 elements");
     test(fillStack(stack, 10), "Fill stack with 10 elements");

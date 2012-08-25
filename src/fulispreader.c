@@ -292,6 +292,7 @@ static void rmClosingBraketWithinCons(struct Reader *reader, char sigle) {
 static void rmOpeningBraket(struct Reader *reader, char sigle) {
     struct Expression *retVal, *current, *next, *expr, *nil;
     NativeReadMacro oldMacro, oldClosingBraket;
+    int dottedPair = 0;
     assert(reader);
 
     if(!BUFFER_IS_EMPTY(reader)) {
@@ -340,20 +341,51 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
     expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
     
     resetReader(reader);
-    while((expr = fuRead(reader)) && EXPR_IS_VALID(expr)) {
-        /* Here, the counter of nil is raised. It has been one too much already,
-         * so remember to perform one expressionDispose on it after the loop or
-         * recycle nil somehow without raising the counter */
-        next = expressionCreate(READER_GET_ENVIRONMENT(reader), EXPR_CONS, 
-                intCons(READER_GET_ENVIRONMENT(reader), expr, NIL));
-        /* intCons(READER_GET_ENVIRONMENT(reader), expr, nil); */
-        expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
-        expressionAssign(READER_GET_ENVIRONMENT(reader), next);
-        EXPRESSION_SET_CDR(current, next);
-        current = next;
-        expressionDispose(READER_GET_ENVIRONMENT(reader), next);
+    while((expr = fuRead(reader)) && EXPR_IS_VALID(expr)) { 
         resetReader(reader);
-        DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), retVal);
+
+        if(!NO_ERROR) {
+            expressionDispose(READER_GET_ENVIRONMENT(reader), retVal);
+            expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
+            reader->expr = NIL;
+            return;
+        }
+
+        /* If dottedPair >= 2, it means that there have been more than one
+         * expression behind the 'dot' of a dotted pair */
+        if((dottedPair >= 2)) {
+            expressionDispose(READER_GET_ENVIRONMENT(reader), retVal);
+            expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
+            /* Dispose of rest of this list ... */
+            while((expr = fuRead(reader)) && EXPR_IS_VALID(expr)) {
+                resetReader(reader);
+                expressionDispose(READER_GET_ENVIRONMENT(reader), expr); 
+            };
+            reader->expr = NIL;
+            ERROR(ERR_SYNTAX_ERROR, "Dotted Pair: Expected exactly one expression after dot, got more");
+            return;
+        }
+
+        if(dottedPair == 1) {
+            EXPRESSION_SET_CDR(current, expr);
+            DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), retVal);
+            dottedPair = 2;
+        } else if(EXPR_OF_TYPE(expr, EXPR_SYMBOL) && (strcmp(EXPRESSION_STRING(expr), DOTTED_PAIR_MARKER_STRING) == 0)) {
+            dottedPair = 1;
+        } else {
+            /* Here, the counter of nil is raised. It has been one too much already,
+             * so remember to perform one expressionDispose on it after the loop or
+             * recycle nil somehow without raising the counter */
+            next = expressionCreate(READER_GET_ENVIRONMENT(reader), EXPR_CONS, 
+                    intCons(READER_GET_ENVIRONMENT(reader), expr, NIL));
+            /* intCons(READER_GET_ENVIRONMENT(reader), expr, nil); */
+            expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
+            expressionAssign(READER_GET_ENVIRONMENT(reader), next);
+            EXPRESSION_SET_CDR(current, next);
+            current = next;
+            expressionDispose(READER_GET_ENVIRONMENT(reader), next);
+            DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), retVal);
+        }
    }
 
     /* Prevent nested brakets to get confused, e.g. if '))' is encountered */

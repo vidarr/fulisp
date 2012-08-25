@@ -36,4 +36,10 @@
 #define MAX_BYTES_PER_char    1
 #define MAX_BYTES_PER_pointer (sizeof(void *) * pow(2,8) / 16.0)
 
+/**
+ * String that is used to separate the last two expressions of a dotted pair,
+ */
+#define DOTTED_PAIR_MARKER_STRING "."
+
+
 #endif

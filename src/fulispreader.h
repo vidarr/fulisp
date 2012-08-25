@@ -22,7 +22,6 @@
 #include "reader.h"
 
 
-
 /**
  * Create a new reader that parses fuLisp code
  * @param stream the stream to read the code from

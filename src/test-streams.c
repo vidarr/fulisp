@@ -42,15 +42,6 @@ char *testText =
 char *copyText = NULL;
 
 
-/* Used for debugging */
-/* void copyContent(FILE *in, FILE *out) { */
-/*     while(!feof(in)) { */
-/*         fputc(fgetc(in), out); */
-/*     }; */
-/*     fflush(out); */
-/* } */
-
-
 int randomMax(int upper) {
     return (int) (upper ? rand() % upper : 0);
 }
@@ -192,7 +183,9 @@ int main(int argc, char **argv) {
     FILE *ioFile = NULL;
     int result = 0;
     int len = strlen(testText);
-    fprintf(stdout, "Testing streams.c\n");
+
+    printf("\nTesting streams.c\n\n");
+
     copyText = (char *)malloc(sizeof(char) * (len + 1));
 
     srand((unsigned int)time(NULL));

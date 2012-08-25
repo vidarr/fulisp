@@ -166,6 +166,9 @@ int testLookup(void) {
 
 int main(int argc, char **argv) { 
     int result;
+
+    printf("\nTesting environment.c\n\n");
+
     createStrings(NO_ENTRIES);
     env = environmentCreate(0); 
     result = test(fillEnvironment0(), "not stacked environment"); 

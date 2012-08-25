@@ -28,3 +28,11 @@ SYM: -
 ((SYM: A SYM: B) SYM: C)
 ((SYM: A SYM: B SYM: C))
 ((SYM: A) (SYM: B) (SYM: C))
+(SYM: A . SYM: B)
+(SYM: A SYM: B . SYM: C)
+(SYM: A SYM: B SYM: C . SYM: E)
+SYM: NIL
+SYM: NIL
+SYM: NIL
+SYM: NIL
+SYM: NIL

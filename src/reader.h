@@ -27,6 +27,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "constants.h"
 #include "expression.h"
 #include "cons.h"
 #include "print.h"

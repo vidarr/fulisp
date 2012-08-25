@@ -77,7 +77,9 @@ int main (int argc, char **argv) {
      * collection and access to memory */
     struct Expression *cons, *cons2;
     struct Expression *env = environmentCreate(0);
-    printf("Testing expression.c\n");
+
+    printf("\nTesting expression.c\n\n");
+
     res = 0;
     str = malloc((1 + strlen(TEST_STR)) * sizeof(char));
     cons2 = expressionCreate(env, EXPR_STRING, str);

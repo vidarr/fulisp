@@ -37,7 +37,9 @@ static struct Expression *getNextExpression(struct Reader *reader) {
 
 int main(int argc, char **argv) {
     int result;
-    printf("Testing eval.c\n");
+
+    printf("\nTesting eval.c\n\n");
+
     env = environmentCreateStdEnv();
     result = checkFromFiles(env, INPUT_FILE, INPUT_REF_FILE, getNextExpression);
     expressionDispose(env, env);
