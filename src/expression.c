@@ -41,19 +41,6 @@ struct Expression expressionNil = {
 }; 
 
 
-/* struct Cons *nilCons; */
-/*  */
-/* struct Expression expressionNil = { */
-/*     {nilCons}, */
-/*     0, */
-/*     EXPR_CONS */
-/* }; */
-/*  */
-/* struct Cons *nilCons = { */
-/*     &expressionNil, &expressionNil */
-/* }; */
-
-
 char true[] = "T";
 struct Expression expressionT = {
     {true},
@@ -62,11 +49,13 @@ struct Expression expressionT = {
 };
 
 
-/* void expressionInitialize(void) { */
-/*     expressionNil.data.string = nil; */
-/*     expressionNil.counter = 0; */
-/*     expressionNil.type = EXPR_SYMBOL; */
-/* } */
+char rest[] = "&REST";
+
+struct Expression expressionRest = {
+    {rest},
+    1,
+    EXPR_SYMBOL
+};
 
 
 void expressionDispose(struct Expression *env, struct Expression *expr) {
@@ -82,7 +71,7 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, expr);
 
     if(expr->counter-- > 0) return;
-    expressionForceDispose(env, expr);
+    expressionDispose(env, expr);
 }
 
 

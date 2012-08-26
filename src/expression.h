@@ -170,12 +170,17 @@
  */
 #define EXPR_LAMBDA (EXPR_POINTER | 7)
 
+
+/*******************************************************************************
+                              CONSTANT EXPRESSIONS
+ *******************************************************************************/
+
+
 extern struct Expression expressionNil;
 /** 
  * The NIL atom
  */
 #define NIL (&expressionNil)
-
 
 extern struct Expression expressionT ;
 /**
@@ -183,6 +188,12 @@ extern struct Expression expressionT ;
  */
 #define T (&expressionT)
 
+extern struct Expression expressionRest;
+/**
+ * The symbol that denotes the variable to store abundand arguments of lambda
+ * calls
+ */
+#define REST (&expressionRest)
 
 
 /*******************************************************************************

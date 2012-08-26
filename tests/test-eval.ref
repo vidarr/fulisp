@@ -88,3 +88,25 @@ float: 105.000000
 float: 106.000000
 int: 24
 float: 904.000000
+;   *IGNORE*   ;
+STR: TEST-REST: without rest
+STR: TEST-REST: with rest
+STR: TEST-REST: with rest
+STR: TEST-REST: with rest
+;   *IGNORE*   ;
+STR: TEST-REST-2: Without rest
+((STR: TEST-REST-2 STR: With rest))
+;   *IGNORE*   ;
+(SYM: NIL)
+(SYM: NIL int: 1)
+(SYM: NIL int: 1 int: 2 int: 3)
+;   *IGNORE*   ;
+SYM: NIL
+((int: 1 . int: 2))
+((int: 1 . int: 2) int: 10 int: 11 int: 12)
+;   *IGNORE*   ;
+SYM: NIL
+SYM: NIL
+((int: 1 int: 2 int: 3 int: 4 . int: 5))
+((int: 1 int: 2 int: 3 int: 4 . int: 5) (SYM: CONS int: 1 int: 2))
+((int: 1 int: 2 int: 3 int: 4 . int: 5) (SYM: CONS int: 1 int: 2) int: 6)

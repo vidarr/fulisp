@@ -36,6 +36,7 @@ struct Lambda {
     struct Expression *body;
     struct Expression *env;
     struct Expression *argList;
+    struct Expression *rest;
 };
 
 

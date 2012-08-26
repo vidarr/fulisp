@@ -28,11 +28,11 @@
 /* #define DEBUG_EVAL*/
 /* #define DEVUG_ENVIRONMENT*/
 /* #define DEBUG_NATIVE_FUNCTIONS */
-#define DEBUG_CONS
+/* #define DEBUG_CONS */
 /* #define DEBUG_EXPRESSION*/
 /* #define DEBUG_SYMBOL_TABLE*/
 /* #define DEBUG_STACK*/
-/* #define DEBUG_LAMBDA*/
+#define DEBUG_LAMBDA
 
 /**
  * Should hash tables place strings or copies of strings as keys?
