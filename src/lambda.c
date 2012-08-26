@@ -57,6 +57,7 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
             return NIL;
         } 
         if(iter == REST) {
+            /* TODO: Consider copying the argument list, as it is altered in here...  */
             current = intCdr(env, current);
             if(!EXPR_OF_TYPE(current, EXPR_CONS) || !(rest = intCar(env, current)) || EXPR_IS_NIL(rest) || 
                !EXPR_OF_TYPE(rest, EXPR_SYMBOL)) { /* || !(terminal = intCdr(env, current)) || !EXPR_IS_NIL(terminal)) { */

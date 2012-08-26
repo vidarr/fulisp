@@ -3,4 +3,7 @@
 0.2.0 * Refined stream interface
       * Restricted 'define' to operate on global environment only
         Local environment now unexpandable.
+	  * Introduced parameter lists with variable length through &REST
+	  * Introduced support for dotted pair notation  using '.'
+
 

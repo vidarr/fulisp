@@ -1,13 +1,3 @@
-* Implement support for variable arguments in lambda:
-    Define special character ( '&' )
-    If Symbol within argument list starts with this character, involve special
-    treatment:
-    - REST: Assign the remaining arguments as list to next symbol within
-      argument list. If no more values given, assign the empty list
-   (- OPTIONAL: If no more arguments given, assign the following variables NIL)
-
-* Implement Dot-Notation in Reader ( '(A . B) ) 
-
 * Introduce 2 new types: Reader/Writer
 
 * Implement type cast functions within types.h/.c
@@ -37,6 +27,16 @@ General Roadmap
 
 
 Done
+
+* Implement Dot-Notation in Reader ( '(A . B) ) 
+
+* Implement support for variable arguments in lambda:
+    Define special character ( '&' )
+    If Symbol within argument list starts with this character, involve special
+    treatment:
+    - REST: Assign the remaining arguments as list to next symbol within
+      argument list. If no more values given, assign the empty list
+   (- OPTIONAL: If no more arguments given, assign the following variables NIL)
 
 * Implement begin (using macros ?)
 
