@@ -72,6 +72,12 @@
 #define SYMBOL_TABLE_SIZE 20
 #define CALL_STACK_SIZE 200
 
+
+/*****************************************************************************
+ *                                   MEMORY
+ *****************************************************************************/
+
+
 /**
  * size of one mem block in expressions/cons structs
  */
@@ -81,7 +87,7 @@
  * Use preallocated memory instead of malloc/free whenever an expression is
  * created
  */
-#define MEMORY_USE_PREALLOCATION
+#define MEMORY_USE_PREALLOCATION 
 
 /**
  * Should the memory be expanded automatically?

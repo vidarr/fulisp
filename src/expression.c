@@ -77,11 +77,15 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
 
 
 void expressionForceDispose(struct Expression *env, struct Expression *expr) {
+#   ifdef MEMORY_USE_PREALLOCATION
     struct Memory *mem;
+#   endif
    
     DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));
 
+#   ifdef MEMORY_USE_PREALLOCATION
     mem = ENVIRONMENT_GET_MEMORY(env);
+#   endif
     if(EXPR_IS_POINTER(expr)) {
         if(EXPR_OF_TYPE(expr, EXPR_CONS)) {
             DEBUG_PRINT("   expr is a cons cell - recursive disposing...\n");

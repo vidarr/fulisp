@@ -21,6 +21,18 @@
 
 #include "config.h"
 
+#define DECLARE_TEST(name) \
+    printf("\nTesting name \n\n");
+
+/**
+ * Indicates successful test result.
+ */
+#define TEST_PASSED 0
+/** 
+ * Indicates failed test result.
+ */
+#define TEST_FAILED 1
+
 /**
  * Tests condition, outputs a message according to result of test and returns
  * result.

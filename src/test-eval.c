@@ -19,6 +19,7 @@
 #include "testfileinput.h"
 #include "fulispreader.h"
 #include "eval.h"
+#include "benchmarking.h"
 
 #define INPUT_FILE     "../tests/test-eval.in"
 #define INPUT_REF_FILE "../tests/test-eval.ref"
@@ -26,10 +27,18 @@
 
 static struct Expression *env;
 
+BENCHMARK_DECLARE_VAR(bmTime, bmTemp, bmTimeSt)
+
 
 static struct Expression *getNextExpression(struct Reader *reader) {
     struct Expression *expr, *readExpr = fuRead(reader);
+
+    BENCHMARK_CONTINUE(bmTime, bmTemp, bmTimeSt);
+
     expr = eval(env, readExpr);
+
+    BENCHMARK_INTERRUPT(bmTime, bmTemp, bmTimeSt);
+
     expressionDispose(env, readExpr);
     return expr;
 }
@@ -41,10 +50,17 @@ int main(int argc, char **argv) {
 
     printf("\nTesting eval.c\n\n");
 
+    BENCHMARK_INIT(bmTime, bmTemp, bmTimeSt);
+
     mem = newMemory();
     env = environmentCreateStdEnv(mem);
     result = checkFromFiles(env, INPUT_FILE, INPUT_REF_FILE, getNextExpression);
     expressionDispose(env, env);
+
+    BENCHMARK_DO( \
+        fprintf(stderr, "Benchmark: Total time measured: %li \n", bmTime) \
+    );
+
     deleteMemory(mem);
     return result;
 }

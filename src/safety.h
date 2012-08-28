@@ -62,6 +62,10 @@ extern int safetyLevel;
  */
 #define IF_SAFETY_CODE(x) {x}
 
+/**
+ * Compilse the given code if GENERATE_SAFE_CODE is not set
+ */
+#define IF_NOT_SAFETY_CODE(c)
 
 /******************************************************************************
  *                           Manipulate safety level
@@ -97,6 +101,9 @@ extern int safetyLevel;
 #define SET_SAFETY_LOW 
 
 #define SET_SAFETY_HIGH 
+
+#define IF_NOT_SAFETY_CODE(c) {c}
+
 
 #endif
 
