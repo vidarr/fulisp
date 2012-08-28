@@ -73,10 +73,14 @@ int testExpression(struct Expression *env, struct Expression *expr) {
 int main (int argc, char **argv) {
     int res;
     char *str;
+    struct Memory *mem;
     /* Environment is needed to create/assign/dispose expressions for garbage
      * collection and access to memory */
     struct Expression *cons, *cons2;
-    struct Expression *env = environmentCreate(0);
+    struct Expression *env;
+   
+    mem = newMemory();
+    env = environmentCreate(0, mem);
 
     printf("\nTesting expression.c\n\n");
 
@@ -93,6 +97,7 @@ int main (int argc, char **argv) {
        within testExpression */
     expressionDispose(env, cons);
     expressionDispose(env, env);
+    deleteMemory(mem);
     return res;
 }
 

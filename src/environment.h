@@ -28,11 +28,13 @@ struct Environment;
 #include "hash.h"
 #include "error.h"
 #include "expression.h"
+#include "memory.h"
 
 
 
 struct Environment {
   struct HashTable *lookup;
+  struct Memory *memory;
   struct Expression *parent;
 };
 
@@ -51,7 +53,7 @@ struct Environment {
     IF_SAFETY_CODE(if(!EXPR_OF_TYPE((expr), EXPR_ENVIRONMENT)) { \
         ERROR(ERR_UNEXPECTED_TYPE, "Expected Environment"); \
         return NIL; \
-        })
+})
 
 
 /**
@@ -60,6 +62,11 @@ struct Environment {
 #define ENVIRONMENT_GET_PARENT(env) \
     ((env)->parent)
 
+/**
+ * Get pointer to the Memory struct
+ */
+#define ENVIRONMENT_GET_MEMORY(env) \
+    ((EXPRESSION_ENVIRONMENT(env))->memory)
 
 /**
  * Try to resolve a symbol within an environment
@@ -91,7 +98,8 @@ struct Environment {
 #define ENVIRONMENT_ADD_STRING(env, string, expr) {\
     void *old = hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, (string), (expr)); \
     if(old != NULL) expressionDispose(env, (struct Expression *)old); \
-    expressionAssign((env), (expr));};
+    expressionAssign((env), (expr)); \
+};
 
 
 /**
@@ -128,16 +136,18 @@ struct Environment {
 /**
  * Create new empty environment
  * @param parent either expression containing parent environment or 0
+ * @param mem pointer to a Memory struct
  * @return the new environment
  */
-struct Expression *environmentCreate(struct Expression *parent);
+struct Expression *environmentCreate(struct Expression *parent, struct Memory *mem);
 
 
 /**
  * Create new environment with standard symbols defined
+ * @param mem pointer to a Memory struct
  * @return the new environment
  */
-struct Expression *environmentCreateStdEnv(void);
+struct Expression *environmentCreateStdEnv(struct Memory *mem);
 
 
 /**

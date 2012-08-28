@@ -29,7 +29,7 @@
 
 
 
-struct Expression *environmentCreate(struct Expression *parent) {
+struct Expression *environmentCreate(struct Expression *parent, struct Memory *mem) {
     struct Environment *env = (struct Environment *)malloc(sizeof(struct Environment));
     env->lookup = hashTableCreate(SYMBOL_TABLE_SIZE, stdHashFunction);
     if(parent && !EXPR_IS_NIL(parent)) {
@@ -42,14 +42,16 @@ struct Expression *environmentCreate(struct Expression *parent) {
         DEBUG_PRINT_PARAM("Counter of parent after expressionAssign: %i\n", parent->counter);
     }
     env->parent = parent;
+    env->memory = mem;
     /* TODO: As soon as Memory structure will be used, replace by different call to a
      * functon using only Memory, not Environment */
-    return expressionCreate(parent, EXPR_ENVIRONMENT, env);
+    /* expressionCreate(env, EXPR_ENVIRONMENT, env); */
+    return createEnvironmentExpression(env);
 }
 
 
-struct Expression *environmentCreateStdEnv(void) {
-    struct Expression *env = environmentCreate(NIL);
+struct Expression *environmentCreateStdEnv(struct Memory *mem) {
+    struct Expression *env = environmentCreate(NULL, mem);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CAR", car);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CDR", cdr);

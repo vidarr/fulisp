@@ -34,7 +34,8 @@
 struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expression *cdr) {
     struct Cons *cons;
     assert(env && car && cdr);
-    cons = (struct Cons *)malloc(sizeof(struct Cons));
+    /* cons = (struct Cons *)malloc(sizeof(struct Cons)); */
+    MEMORY_GET_CONS(ENVIRONMENT_GET_MEMORY(env), cons);
     cons->car = expressionAssign(env, car);
     cons->cdr = expressionAssign(env, cdr);
     return cons;

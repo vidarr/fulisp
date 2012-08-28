@@ -33,6 +33,11 @@
 #include "lambda.h"
 
 
+
+struct Expression;
+
+
+
 /*******************************************************************************
   D E A L I N G   W I T H   E X R P R E S S I O N   T Y P E S
  *******************************************************************************/
@@ -202,13 +207,10 @@ extern struct Expression expressionRest;
 
 
 
-struct Expression;
-
-
 typedef struct Expression *(NativeFunction)(struct Expression *env, struct Expression *);
 
 
-struct Cons{
+struct Cons {
     struct Expression *car, *cdr;
 };
 
@@ -272,6 +274,13 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type, 
  *         or null in case of an error
  */
 struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunction *content);
+
+
+/**
+ * Create an Expression struct around an environment struct.
+ * Needed to create root environment
+ */
+struct Expression *createEnvironmentExpression(struct Environment *env);
 
 
 /** 
@@ -381,12 +390,6 @@ struct Expression *expressionAssign(struct Expression *env, struct Expression *e
 
 
 /**
- * Fetches Memory for expression
- */
-#define GET_MEM_FOR_EXPRESSION (struct Expression *)malloc(sizeof(struct Expression)) 
-
-
-/**
  * Set the car of a cons cell
  * @param expr cons cell whose car should be set 
  * @param expr2 any expression that should be set as the car of the cons cell
@@ -439,6 +442,10 @@ struct Expression *expressionCreateString(struct Expression *env, char *str);
  * @param str the string resembling the symbol
  */
 struct Expression *createSymbol(struct Expression *env, char *str);
+
+
+#define EXPRESSION_CONS(expr) ((expr)->data.cons)
+
 
 
 #endif

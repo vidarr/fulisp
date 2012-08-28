@@ -73,6 +73,23 @@
 #define CALL_STACK_SIZE 200
 
 /**
+ * size of one mem block in expressions/cons structs
+ */
+#define MEMORY_BLOCK_SIZE 20000
+
+/**
+ * Use preallocated memory instead of malloc/free whenever an expression is
+ * created
+ */
+#define MEMORY_USE_PREALLOCATION
+
+/**
+ * Should the memory be expanded automatically?
+ * Will only have effect if MEMORY_USE_PREALLOCATION is set.
+ */
+/* #define MEMORY_AUTOEXTEND */
+
+/**
  * Should native functions be handled strictly? 
  * Strictly spoken, this is only necessary on architectures where
  * sizeof(void *) != sizeof(NativeFunc *) holds.

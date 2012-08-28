@@ -61,7 +61,8 @@ struct Expression expressionRest = {
 void expressionDispose(struct Expression *env, struct Expression *expr) {
     if(!expr || EXPR_IS_NIL(expr) || expr == T) return;
     if(!EXPR_IS_VALID(expr)) {
-        free(expr); 
+        /* free(expr);  */
+        MEMORY_DISPOSE_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
         return;
     }
     /* ALERT: Does not work with non-valid expressions - occur together with
@@ -71,35 +72,41 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, expr);
 
     if(expr->counter-- > 0) return;
-    expressionDispose(env, expr);
+    expressionForceDispose(env, expr);
 }
 
 
 void expressionForceDispose(struct Expression *env, struct Expression *expr) {
+    struct Memory *mem;
+   
     DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));
 
+    mem = ENVIRONMENT_GET_MEMORY(env);
     if(EXPR_IS_POINTER(expr)) {
         if(EXPR_OF_TYPE(expr, EXPR_CONS)) {
             DEBUG_PRINT("   expr is a cons cell - recursive disposing...\n");
             if(EXPRESSION_CAR(expr)) expressionDispose(env, EXPRESSION_CAR(expr));
             if(EXPRESSION_CDR(expr)) expressionDispose(env, EXPRESSION_CDR(expr));
-            free(expr->data.cons);
+            /* free(expr->data.cons); */
+            MEMORY_DISPOSE_CONS(mem, EXPRESSION_CONS(expr));
         } else if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
             environmentDispose(env, EXPRESSION_ENVIRONMENT(expr));
         } else if(EXPR_OF_TYPE(expr, EXPR_STRING) || 
                 EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
-            free(EXPRESSION_STRING(expr));
+            free(EXPRESSION_STRING(expr)); 
         } else if (EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
             lambdaDispose(EXPRESSION_LAMBDA(expr));
         }
     }
-    free(expr);
-    expr = 0;
+    /* free(expr); */
+    MEMORY_DISPOSE_EXPRESSION(mem, expr);
 }
 
 
 struct Expression *expressionCreate(struct Expression *env, unsigned char type, void *content) {
-    struct Expression *expr = malloc(sizeof(struct Expression));
+    struct Expression *expr;
+    /* expr = malloc(sizeof(struct Expression)); */
+    MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
     expr->counter = 0;
     expr->type = type;
     if(EXPR_IS_POINTER(expr)) {
@@ -137,7 +144,9 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type, 
 
 
 struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunction *content) {
-    struct Expression *expr = malloc(sizeof(struct Expression));
+    struct Expression *expr;
+    /* expr = malloc(sizeof(struct Expression)); */
+    MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
     expr->counter = 0;
     expr->type = EXPR_NATIVE_FUNC;
     expr->data.nativeFunc = content;
@@ -178,6 +187,16 @@ struct Expression *createSymbol(struct Expression *env, char *str) {
 struct Expression *expressionAssign(struct Expression *env, struct Expression *expr) {
     if(expr) 
         expr->counter++;
+    return expr;
+}
+
+
+struct Expression *createEnvironmentExpression(struct Environment *env) {
+    struct Expression *expr;
+    MEMORY_GET_EXPRESSION((env->memory), expr);
+    expr->counter = 0;
+    expr->type = EXPR_ENVIRONMENT;
+    expr->data.env = env;
     return expr;
 }
 

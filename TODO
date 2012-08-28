@@ -1,3 +1,5 @@
+* expressionForceDispose: Should handle disposal of root environment 
+
 * Introduce 2 new types: Reader/Writer
 
 * Implement type cast functions within types.h/.c

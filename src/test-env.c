@@ -166,20 +166,22 @@ int testLookup(void) {
 
 int main(int argc, char **argv) { 
     int result;
+    struct Memory *mem = newMemory();
 
     printf("\nTesting environment.c\n\n");
 
     createStrings(NO_ENTRIES);
-    env = environmentCreate(0); 
+    env = environmentCreate(0, mem); 
     result = test(fillEnvironment0(), "not stacked environment"); 
-    env1 = environmentCreate(env); 
+    env1 = environmentCreate(env, mem); 
     expressionDispose(env, env); 
     result += test(fillEnvironment1(), "stacked environment (level 2)"); 
-    env2 = environmentCreate(env1); 
+    env2 = environmentCreate(env1, mem); 
     expressionDispose(env, env1); 
     result += test(fillEnvironment2(), "stacked environment (level 3)"); 
     test(testLookup(), "look ups in stacked environment"); 
     expressionDispose(env, env2); 
+    deleteMemory(mem);
     deleteStrings(NO_ENTRIES);
     return result;
 } 

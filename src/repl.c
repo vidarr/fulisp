@@ -80,6 +80,7 @@ struct Expression *quit(struct Expression *env, struct Expression *expr) {
 int main(int argc, char **argv) {
     struct Expression *env;
     struct Expression *expr, *res;
+    struct Memory *mem;
     struct CharWriteStream *outStream;
     struct CharReadStream *bufStream;
     struct CharReadStream *readStream;
@@ -94,7 +95,8 @@ int main(int argc, char **argv) {
 
     welcome(stdout);
 
-    env = environmentCreateStdEnv();
+    mem = newMemory();
+    env = environmentCreateStdEnv(mem);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUIT", quit);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LICENSE", license);
     
@@ -134,8 +136,8 @@ int main(int argc, char **argv) {
     }
 
     BENCHMARK_DO( \
-            fprintf(stderr, "Benchmark: Total time measured: %li \n", bmTime) \
-            );
+        fprintf(stderr, "Benchmark: Total time measured: %li \n", bmTime) \
+    );
 
     deleteReader(reader);
     STREAM_DISPOSE(bufStream);
@@ -146,6 +148,7 @@ int main(int argc, char **argv) {
      * reference to the env it has been created in
      */
     expressionForceDispose(env,env);
+    deleteMemory(mem);
     free(readStream); 
     return 0;
 }

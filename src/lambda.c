@@ -93,7 +93,7 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv, struct Lambda *lambda
     struct Expression *sym, *val, *exprBuf;
 
     /* 1st step: create new environment with old environment as parent */
-    struct Expression *env = environmentCreate(lambda->env);
+    struct Expression *env = environmentCreate(lambda->env, ENVIRONMENT_GET_MEMORY(oldEnv));
     assert(lambda);
     /* 2nd step: Fill in arguments */
     sym = lambda->argList;
