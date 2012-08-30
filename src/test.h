@@ -41,4 +41,14 @@
  */
 int test(int cond, char *name);
 
+/**
+ * Print out warning message
+ */
+void testWarn(char *msg);
+
+/**
+ * Print out neutral message
+ */
+void testMessage(char *msg);
+
 #endif

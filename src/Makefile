@@ -37,12 +37,13 @@ $(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)
 
 
-tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env  $(BUILD_DIR)/test-streams
+tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env  $(BUILD_DIR)/test-streams $(BUILD_DIR)/test-memory
 
 
 exec-tests: tests
 	@$(BUILD_DIR)/test-stack && \
 	 $(BUILD_DIR)/test-hash && \
+	 $(BUILD_DIR)/test-memory && \
 	 $(BUILD_DIR)/test-expression && \
      $(BUILD_DIR)/test-streams && \
 	 $(BUILD_DIR)/test-reader && \
@@ -81,6 +82,10 @@ $(BUILD_DIR)/test-env: $(OBJECT_FILES)  $(BUILD_DIR)/test-env.o
 
 $(BUILD_DIR)/test-streams: $(OBJECT_FILES)  $(BUILD_DIR)/test-streams.o
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-streams  $^ $(LDFLAGS)
+
+
+$(BUILD_DIR)/test-memory: $(OBJECT_FILES) $(BUILD_DIR)/test-memory.o
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-memory  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/fulisp: $(OBJECT_FILES) $(BUILD_DIR)/repl.o

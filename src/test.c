@@ -65,6 +65,14 @@ int test(int cond, char *name) {
     }
 }
 
+void testWarn(char *msg) {
+    PRINT_FAIL(msg);
+}
+
+void testMessage(char *msg) {
+    PRINT_OK(msg);
+}
+
 
 #undef PASSED
 #undef FAILED

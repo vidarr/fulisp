@@ -33,7 +33,7 @@
 static char *outOfMemoryMessage = "Ran out of Memory!";
 
 
-void outOfMemory(void) {
+static void outOfMemory(void) {
     fprintf(stderr, outOfMemoryMessage);
     exit(EXIT_FAILURE);
 }
