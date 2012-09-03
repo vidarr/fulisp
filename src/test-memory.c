@@ -146,7 +146,7 @@ int main(int argc, char **argv) {
 #endif
 
     mem = newMemory();
-    mem->outOfMemory = setOutOfMemory;
+    mem->outOfMemory = setOutOfMemory; 
 
     result = test(testAllocation(mem, MEMORY_BLOCK_SIZE),"Allocate less memory than available");
     if(result == TEST_PASSED)

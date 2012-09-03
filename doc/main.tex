@@ -4,6 +4,9 @@
 \date{}
 \begin{document}
 
+
+% Remember: Use Oxford English!
+
 \section{Introduction}
 
 \section{Goals}
@@ -126,5 +129,63 @@ representation, fed back into the reader, should yield a equivalent expression,
 that is the following relation should hold:
 
 ({\texttt READ} ({\texttt COERCE} {\texttt 'STRING} {\texttt EXPRESSION})) $\equiv$ {\texttt EXPRESSION}
+
+
+\section{Optimisations}
+
+\subsection{Memory Preallocation}
+
+\subsubsection{Benchmark}
+
+
+Compiled the REPL twice, once with memory preallocation enabled, once with
+memory preallocation disabled.
+Then started both REPLs in parallel, and evaluated one form subsequently in the
+one REPL, then the other, repeated this several times.
+The form to be evaluated is
+
+\begin{verbatim}
+    (CONS (CONS (CONS (CONS (CONS 
+      (CONS (CONS (CONS (CONS (CONS 
+        (CONS (CONS (CONS (CONS (CONS 
+          (CONS (CONS (CONS (CONS (CONS 
+            (CONS (CONS 0 1) 2)
+          3) 4) 5) 6) 7) 8) 9) 10) 11) 12) 
+        13) 14) 15) 16) 17) 
+      18) 19) 20) 21) 22)
+\end{verbatim}
+
+Results are shown in table \ref{tbl:BMResultsMemPreallocation}.
+As you can see, for this example we gain about 9\% of speed.
+We will not ignore the fact that this example has been tailored for making
+abundand memory requests.
+
+\begin{table}
+    \centering
+    \begin{tabular}{r|c|c}
+           & With  & Without \\
+        \hline 
+         1 & 22038 & 24153 \\
+         2 & 22157 & 24841 \\
+         3 & 22204 & 24377 \\
+         4 & 22238 & 25251 \\
+         5 & 22315 & 24141 \\
+         6 & 22815 & 24792 \\
+         7 & 22146 & 24134 \\
+         8 & 22268 & 24498 \\
+         9 & 21969 & 24489 \\
+        10 & 21720 & 24750 \\
+        \hline
+        summary & 221870 & 245426 \\
+        \hline
+        average & 22187  & 24543
+    \end{tabular}
+    \caption{\label{tbl:BMResultsMemPreallocation} Ticks measured for evaluating
+        the form given in the text, left with memory preallocation enabled, on
+    the right disabled.}
+\end{table}
+
+
+
 
 \end{document}
