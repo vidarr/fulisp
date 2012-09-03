@@ -24,14 +24,18 @@
 
 struct Expression;
 
-/* struct ExpressionBlock *nextBlock; */
 struct ExpressionBlock {
     struct Expression *memory;
+#    ifdef MEMORY_AUTOEXTEND
+    struct ExpressionBlock *nextBlock; 
+#   endif
 };
 
-/* struct ConsBlock *nextBlock; */
 struct ConsBlock {
     struct Cons *memory;
+#    ifdef MEMORY_AUTOEXTEND
+    struct ConsBlock *nextBlock; 
+#   endif
 };
 
 struct Memory {
@@ -96,15 +100,17 @@ void deleteMemory(struct Memory *mem);
  *****************************************************************************/
 
 
-
-
 #ifdef MEMORY_USE_PREALLOCATION
 
 #    ifdef MEMORY_AUTOEXTEND
 
-#        define __HANDLE_OUT_OF_EXPR_MEM(mem) (mem)->outOfMemory();
+void allocateNewExpressionBlock(struct Memory *mem);
 
-#        define __HANDLE_OUT_OF_CONS_MEM(mem) (mem)->outOfMemory();
+void allocateNewConsBlock(struct Memory *mem);
+
+#        define __HANDLE_OUT_OF_EXPR_MEM(mem) allocateNewExpressionBlock(mem);
+
+#        define __HANDLE_OUT_OF_CONS_MEM(mem) allocateNewConsBlock(mem);
 
 #    else
 
