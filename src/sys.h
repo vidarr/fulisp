@@ -16,40 +16,29 @@
  * USA.
  */
     
+#ifndef __SYS_H__
+#define __SYS_H__
 
-#include "config.h"
-#include "sys.h"
-#include <limits.h>
-
-
-
-#ifdef BENCHMARK 
+/******************************************************************************
+                       Operating System dependent things
+ ******************************************************************************/
 
 
-long benchmarkTest(void) {
-    struct  timespec temp;
-    int retval;
-    if((retval = clock_getres(CLOCK_PARAMETER, &temp)) != 0) {
-        return LONG_MIN;
-    } 
-    return temp.tv_nsec;
-}
+#ifdef __OpenBSD__  /* Operating System */
+
+#    define CLOCK_PARAMETER CLOCK_VIRTUAL
+#    include <sys/time.h>
+
+#else 
+
+    /* We assume a GNU system in here - not the best thing to do, but a com
+       promise between effort and practicability */
+
+#    define CLOCK_PARAMETER CLOCK_PROCESS_CPUTIME_ID
+#    include <time.h>
+
+#endif /* Operating System */
 
 
-long benchmarkGetTime(void) {
-    struct  timespec temp;
-    int retval;
-    if((retval = clock_gettime(CLOCK_PARAMETER, &temp)) != 0) {
-       return LONG_MIN; 
-    }
-    return temp.tv_nsec;
-}
-
-
-#else /* BENCHMARK */
-
-static int __benchmark__dummy__;
-
-#endif /* BENCHMARK */
-
+#endif
 
