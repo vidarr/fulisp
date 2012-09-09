@@ -453,9 +453,6 @@ struct Expression *expressionCreateString(struct Expression *env, char *str);
 struct Expression *createSymbol(struct Expression *env, char *str);
 
 
-#define EXPRESSION_CONS(expr)          __EXPRESSION_CONS(expr)
-
-
 
 /*****************************************************************************
                          INCLUDE ACTUAL IMPLEMENTATION
@@ -465,9 +462,16 @@ struct Expression *createSymbol(struct Expression *env, char *str);
 
 #ifdef USE_PACKED_EXPRESSION_FORMAT
 
+#   ifdef USE_EXPANDED_EXPRESSION_FORMAT
+
+#       error("Both USE_PACKED_EXPRESSION_FORMAT and "          \
+              "USE_EXPANDED_EXPRESSION_FORMAT are set. Choose only one.")
+
+#   endif /* defined USE_EXPANDED_EXPRESSION_FORMAT */
+
 #   include "__expression_packed.h"
 
-#elif USE_EXPANDED_EXPRESSION_FORMAT 
+#elif  USE_EXPANDED_EXPRESSION_FORMAT 
 
 #   include "__expression_expanded.h"
 

@@ -92,7 +92,7 @@ void expressionForceDispose(struct Expression *env, struct Expression *expr) {
             if(EXPRESSION_CAR(expr)) expressionDispose(env, EXPRESSION_CAR(expr));
             if(EXPRESSION_CDR(expr)) expressionDispose(env, EXPRESSION_CDR(expr));
             /* free(expr->data.cons); */
-            MEMORY_DISPOSE_CONS(mem, EXPRESSION_CONS(expr));
+            MEMORY_DISPOSE_CONS(mem, __EXPRESSION_CONS(expr));
         } else if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
             environmentDispose(env, EXPRESSION_ENVIRONMENT(expr));
         } else if(EXPR_OF_TYPE(expr, EXPR_STRING) || 
