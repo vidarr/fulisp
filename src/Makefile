@@ -8,7 +8,7 @@ MKDIR=mkdir
 DEBUG_OPTIONS=-g $(PROFILER_CC_OPTIONS)
 CFLAGS_NO_ANSI=-Wstrict-prototypes --pedantic -Wall $(DEBUG_OPTIONS)
 CFLAGS= $(CFLAGS_NO_ANSI) --ansi
-LDFLAGS= $(DEBUG_OPTIONS) -lm
+LDFLAGS= $(DEBUG_OPTIONS) -lm -lrt
 
 BUILD_DIR=../build
 
