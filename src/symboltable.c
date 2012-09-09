@@ -55,7 +55,7 @@ struct Expression *symbolTableGetSymbol(struct Expression *env, struct HashTable
         DEBUG_PRINT_PARAM("Symbol %s not found\n", name);
         newName = (char *)malloc(sizeof(char) * (1 + strlen(name)));
         strcpy(newName, name);
-        retVal = expressionCreate(env, EXPR_SYMBOL, newName);
+        retVal = EXPRESSION_CREATE_ATOM(env, EXPR_SYMBOL, newName);
         hashTableSet(hash, newName, retVal);
     }
     return expressionAssign(env, retVal); 

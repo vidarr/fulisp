@@ -26,42 +26,16 @@
 #define MODULE_NAME "expression.c"
 
 #ifdef DEBUG_EXPRESSION
-#include "debugging.h"
+#   include "debugging.h"
 #else
-#include "no_debugging.h"
+#   include "no_debugging.h"
 #endif
 
-
-char nil[] = "NIL"; 
-
-struct Expression expressionNil = { 
-    {nil}, 
-    0, 
-    EXPR_SYMBOL 
-}; 
-
-
-char true[] = "T";
-struct Expression expressionT = {
-    {true},
-    0,
-    EXPR_SYMBOL
-};
-
-
-char rest[] = "&REST";
-
-struct Expression expressionRest = {
-    {rest},
-    1,
-    EXPR_SYMBOL
-};
 
 
 void expressionDispose(struct Expression *env, struct Expression *expr) {
     if(!expr || EXPR_IS_NIL(expr) || expr == T) return;
     if(!EXPR_IS_VALID(expr)) {
-        /* free(expr);  */
         MEMORY_DISPOSE_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
         return;
     }
@@ -92,7 +66,7 @@ void expressionForceDispose(struct Expression *env, struct Expression *expr) {
             if(EXPRESSION_CAR(expr)) expressionDispose(env, EXPRESSION_CAR(expr));
             if(EXPRESSION_CDR(expr)) expressionDispose(env, EXPRESSION_CDR(expr));
             /* free(expr->data.cons); */
-            MEMORY_DISPOSE_CONS(mem, __EXPRESSION_CONS(expr));
+            __EXPRESSION_DISPOSE_CONS_STRUCT(mem, expr);
         } else if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
             environmentDispose(env, EXPRESSION_ENVIRONMENT(expr));
         } else if(EXPR_OF_TYPE(expr, EXPR_STRING) || 
@@ -107,38 +81,51 @@ void expressionForceDispose(struct Expression *env, struct Expression *expr) {
 }
 
 
-struct Expression *expressionCreate(struct Expression *env, unsigned char type, void *content) {
+struct Expression *expressionCreate(struct Expression *env, unsigned char type,
+        void *content, void *extension) {
     struct Expression *expr;
     /* expr = malloc(sizeof(struct Expression)); */
     MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
     expr->counter = 0;
     expr->type = type;
-    if(EXPR_IS_POINTER(expr)) {
-        expr->data.string = (char *)content;
+    if(EXPR_IS_CONS(expr)) {
+        /* Allocate mem for struct Cons */
+#       if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
+            struct Cons *cons;
+            MEMORY_GET_CONS(ENVIRONMENT_GET_MEMORY(env), cons); 
+            __EXPRESSION_CONS(expr) = cons;
+#       endif
+        expressionAssign(env, content);
+        expressionAssign(env, extension);
+        __EXPRESSION_SET_CAR(expr, content);
+        __EXPRESSION_SET_CDR(expr, extension);
+    } else if(EXPR_IS_POINTER(expr)) {
+        __EXPRESSION_STRING(expr)              = (char *)content;
     } else {
         switch(type) {
             case EXPR_INTEGER:
-                expr->data.integer = *((int *)content);
+                __EXPRESSION_INTEGER(expr)     = *((int *)content);
                 break;
             case EXPR_FLOAT:
-                expr->data.floating = *((float *)content);
+                __EXPRESSION_FLOATING(expr)    = *((float *)content);
                 break;
             case EXPR_CHARACTER:
-                expr->data.character = *((char *)content);
+                __EXPRESSION_CHARACTER(expr)   = *((char *)content);
                 break;
             case EXPR_NATIVE_FUNC:
 #ifndef STRICT_NATIVE_FUNCS
-                expr->data.nativeFunc = 
+                __EXPRESSION_NATIVE_FUNC(expr) = 
                     ((struct Expression *(*)(struct Expression *, struct Expression *))content);
 #else 
                 ERROR(ERR_UNEXPECTED_TYPE,
-                        "Cannot create native function expression via expressionCreate. Use expressionCreateNativeFunc instead!");
+                        "Cannot create native function expression via expressionCreate. " \
+                        "Use expressionCreateNativeFunc instead!");
                 return NIL;
                 
 #endif
                 break;
             case EXPR_NO_TYPE:
-                expr->data.string = 0;
+                __EXPRESSION_STRING(expr)      = 0;
         };
     }
 
@@ -153,7 +140,7 @@ struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunc
     MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
     expr->counter = 0;
     expr->type = EXPR_NATIVE_FUNC;
-    expr->data.nativeFunc = content;
+    EXPRESSION_NATIVE_FUNC(expr) = content;
     DEBUG_PRINT("Created new expression containing native function.\n");
     return expr;
 }
@@ -168,7 +155,7 @@ struct Expression *expressionCreateString(struct Expression *env, char *str) {
       table */
     buf = malloc(sizeof(char) * (strlen(str) + 1));
     strcpy(buf, str);
-    return expressionCreate(env, EXPR_STRING, buf);
+    return EXPRESSION_CREATE_ATOM(env, EXPR_STRING, buf);
 }
 
 
@@ -184,7 +171,7 @@ struct Expression *createSymbol(struct Expression *env, char *str) {
     buf = malloc(sizeof(char) * (strlen(str) + 1));
     strcpy(buf, str);
     DEBUG_PRINT_PARAM("createSymbol(): Copied to  %s\n", buf);
-    return expressionCreate(env, EXPR_SYMBOL, buf);
+    return EXPRESSION_CREATE_ATOM(env, EXPR_SYMBOL, buf);
 }
 
 
@@ -197,10 +184,71 @@ struct Expression *expressionAssign(struct Expression *env, struct Expression *e
 
 struct Expression *createEnvironmentExpression(struct Environment *env) {
     struct Expression *expr;
-    MEMORY_GET_EXPRESSION((env->memory), expr);
+    MEMORY_GET_EXPRESSION(env->memory, expr);
     expr->counter = 0;
     expr->type = EXPR_ENVIRONMENT;
-    expr->data.env = env;
+    EXPRESSION_ENVIRONMENT(expr) = env;
     return expr;
 }
+
+
+char nil[] = "NIL"; 
+
+char true[] = "T";
+
+char rest[] = "&REST";
+
+#if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
+
+struct Expression expressionNil = { 
+    EXPR_SYMBOL,
+    0, 
+    {nil} 
+}; 
+
+struct Expression expressionT = {
+    EXPR_SYMBOL,
+    0,
+    {true}
+};
+
+struct Expression expressionRest = {
+    EXPR_SYMBOL,
+    1,
+    {rest}
+};
+
+
+#elif EXPRESSION_FORMAT == EXPRESSION_FORMAT_PACKED
+
+
+struct Expression expressionNil = { 
+    EXPR_SYMBOL,
+    0, 
+    {nil}, 
+    {NULL}
+}; 
+
+struct Expression expressionT = {
+    EXPR_SYMBOL,
+    0,
+    {true},
+    {NULL} 
+};
+
+struct Expression expressionRest = {
+    EXPR_SYMBOL,
+    1,
+    {rest},
+    {NULL} 
+};
+
+
+#else  /* expression format */
+
+
+#   error("EXPRESSION_FORMAT not recognized");
+
+
+#endif /* expression format */
 

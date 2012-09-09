@@ -31,12 +31,9 @@ struct ExpressionBlock {
 #   endif
 };
 
-struct ConsBlock {
-    struct Cons *memory;
-#    ifdef MEMORY_AUTOEXTEND
-    struct ConsBlock *nextBlock; 
-#   endif
-};
+
+struct ConsBlock;
+
 
 struct Memory {
     struct ExpressionBlock *exprBlocks;
@@ -104,32 +101,26 @@ void deleteMemory(struct Memory *mem);
 
 #    ifdef MEMORY_AUTOEXTEND
 
-void allocateNewExpressionBlock(struct Memory *mem);
-
-void allocateNewConsBlock(struct Memory *mem);
+         void allocateNewExpressionBlock(struct Memory *mem);
+         
+         void allocateNewConsBlock(struct Memory *mem);
 
 #        define __HANDLE_OUT_OF_EXPR_MEM(mem) allocateNewExpressionBlock(mem);
 
 #        define __HANDLE_OUT_OF_CONS_MEM(mem) allocateNewConsBlock(mem);
 
-#    else
+#    else    /* MEMORY_AUTOEXTEND */
 
 #        define __HANDLE_OUT_OF_EXPR_MEM(mem) (mem)->outOfMemory();
 
 #        define __HANDLE_OUT_OF_CONS_MEM(mem) (mem)->outOfMemory();
 
-#    endif
+#    endif   /* MEMORY_AUTOEXTEND */
 
 #    define __MEMORY_GET_EXPRESSION(mem, expr) { \
         if((mem)->nextExpr == NULL) __HANDLE_OUT_OF_EXPR_MEM(mem); \
         expr = (mem)->nextExpr; \
         (mem)->nextExpr = (struct Expression *)EXPRESSION_STRING((mem)->nextExpr); \
-     }    
-
-#    define __MEMORY_GET_CONS(mem, cons) { \
-        if((mem)->nextCons == NULL) __HANDLE_OUT_OF_CONS_MEM(mem); \
-        cons = (mem)->nextCons; \
-        (mem)->nextCons = (struct Cons *)((mem)->nextCons->car); \
      }    
 
 #    define __MEMORY_DISPOSE_EXPRESSION(mem, expr) { \
@@ -140,28 +131,65 @@ void allocateNewConsBlock(struct Memory *mem);
         ); \
      }    
 
-#    define __MEMORY_DISPOSE_CONS(mem, cons) { \
-        (cons)->car = (struct Expression *)(mem)->nextCons; \
-        (mem)->nextCons = cons; \
-     }    
 
-#else 
+#    if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
+
+#        define __MEMORY_GET_CONS(mem, cons) { \
+            if((mem)->nextCons == NULL) __HANDLE_OUT_OF_CONS_MEM(mem); \
+            cons = (mem)->nextCons; \
+            (mem)->nextCons = (struct Cons *)((mem)->nextCons->car); \
+         }    
+
+#        define __MEMORY_DISPOSE_CONS(mem, cons) { \
+            (cons)->car = (struct Expression *)(mem)->nextCons; \
+            (mem)->nextCons = cons; \
+         }    
+
+#    endif   /* EXPRESSION_FORMAT */
+
+
+#else    /* MEMORY_USE_PREALLOCATION */
+
 
 #    define __MEMORY_GET_EXPRESSION(mem, expr) { \
         expr = (struct Expression *)malloc(sizeof(struct Expression)); \
      }    
-
-#    define __MEMORY_GET_CONS(mem, cons) { \
-        cons = ((struct Cons *)malloc(sizeof(struct Cons))); \
-     }    
-
+         
 #    define __MEMORY_DISPOSE_EXPRESSION(mem, expr) \
         free(expr)
 
-#    define __MEMORY_DISPOSE_CONS(mem, cons) \
-        free(cons)
+
+
+#    if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXTENDED
+
+
+#        define __MEMORY_GET_CONS(mem, cons) { \
+            cons = ((struct Cons *)malloc(sizeof(struct Cons))); \
+         }    
+
+#        define __MEMORY_DISPOSE_CONS(mem, cons) \
+            free(cons)
+
+
+#    endif   /* EXPRESSION_FORMAT */
+
+
+#endif   /* MEMORY_USE_PREALLOCATION */
+
+
+#if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
+
+struct ConsBlock {
+    struct Cons *memory;
+#    ifdef MEMORY_AUTOEXTEND
+    struct ConsBlock *nextBlock; 
+#   endif
+};
+
+
+#endif /* EXPRESSION_FORMAT */
+
+
 
 #endif
 
-
-#endif

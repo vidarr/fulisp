@@ -138,7 +138,7 @@ int main(int argc, char **argv) {
 
     DECLARE_TEST(memory.c);
 
-#ifndef MEMORY_PREALLOCATION
+#ifndef MEMORY_USE_PREALLOCATION
 
     testWarn("Built without memory preallocation - skipping memory tests");
     exit(0);

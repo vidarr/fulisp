@@ -86,12 +86,12 @@ int main (int argc, char **argv) {
 
     res = 0;
     str = malloc((1 + strlen(TEST_STR)) * sizeof(char));
-    cons2 = expressionCreate(env, EXPR_STRING, str);
+    cons2 = EXPRESSION_CREATE_ATOM(env, EXPR_STRING, str);
     signal(SIGSEGV, sigsegvHandler); 
     memcpy(str, TEST_STR, strlen(TEST_STR) + 1);
-    cons = expressionCreate(env, EXPR_CONS, intCons(env, cons2, NIL));
-    cons = expressionCreate(env, EXPR_CONS, intCons(env, expressionAssign(env, cons2),
-                expressionAssign(env, cons)));
+    cons = EXPRESSION_CREATE_CONS(env, cons2, NIL);
+    cons = EXPRESSION_CREATE_CONS(env, expressionAssign(env, cons2),
+                                       expressionAssign(env, cons));
     res = test(testExpression(env, cons), "Cons cell management");
     /* usually one should get rid of the cons expression, but this has happened 
        within testExpression */

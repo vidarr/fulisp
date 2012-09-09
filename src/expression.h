@@ -257,11 +257,13 @@ void expressionForceDispose(struct Expression *env, struct Expression *expr);
  * Creates an expression. To create an expression containing a native function,
  * usage of {@code expressionCreateNativeFunc} is recommended.
  * @param type type of the content
- * @param content 
+ * @param content pointer to the content that should go into the new expression
+ * @param extension in case of cons cell, here goes the pointer to the cdr 
  * @return the new expression
  *         or null in case of an error
  */
-struct Expression *expressionCreate(struct Expression *env, unsigned char type, void *content);
+struct Expression *expressionCreate(struct Expression *env, unsigned char type, 
+                                    void *content, void *extension);
 
 
 /**
@@ -281,24 +283,42 @@ struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunc
 struct Expression *createEnvironmentExpression(struct Environment *env);
 
 
+/**
+ * Create an expression that keeps an atom
+ * @param env environment to use
+ * @return a new expression being an atom
+ */
+#define EXPRESSION_CREATE_ATOM(env, type, content)    \
+    expressionCreate(env, type, content, NULL)
+
+
+/**
+ * Create an expression that keeps a cons cell
+ * @param env environment to use
+ * @return a new expression being a cons cell
+ */
+#define EXPRESSION_CREATE_CONS(env, car, cdr)         \
+    expressionCreate(env, EXPR_CONS, car, cdr)
+
+
 /** 
  * Creates an invalid expression
  */
-#define CREATE_INVALID_EXPRESSION(env)            \
-    expressionCreate(env, EXPR_NO_TYPE, 0) 
+#define CREATE_INVALID_EXPRESSION(env)                \
+    EXPRESSION_CREATE_ATOM(env, EXPR_NO_TYPE, 0) 
 
 
 /**
  * Creates a Symbol out of the string str
  */
-#define CREATE_SYMBOL(env, str)        createSymbol(env, str)
+#define CREATE_SYMBOL(env, str)                   createSymbol(env, str)
 
 
 /**
  * Creates a float expression
  */
 #define CREATE_FLOAT_EXPRESSION(env, x)           \
-    expressionCreate(env, EXPR_FLOAT, (void *)&x)
+    EXPRESSION_CREATE_ATOM(env, EXPR_FLOAT, (void *)&x)
 
 
 /**
@@ -312,14 +332,14 @@ struct Expression *createEnvironmentExpression(struct Environment *env);
  * Creates a int expression
  */
 #define CREATE_INT_EXPRESSION(env, x)               \
-    expressionCreate(env, EXPR_INTEGER, (void *)&x)
+    EXPRESSION_CREATE_ATOM(env, EXPR_INTEGER, (void *)&x)
 
 
 /**
  * Creates a char expression
  */
 #define CREATE_CHAR_EXPRESSION(env, x)                \
-    expressionCreate(env, EXPR_CHARACTER, (void *)&x)
+    EXPRESSION_CREATE_ATOM(env, EXPR_CHARACTER, (void *)&x)
 
 
 
@@ -460,27 +480,21 @@ struct Expression *createSymbol(struct Expression *env, char *str);
 
 
 
-#ifdef USE_PACKED_EXPRESSION_FORMAT
-
-#   ifdef USE_EXPANDED_EXPRESSION_FORMAT
-
-#       error("Both USE_PACKED_EXPRESSION_FORMAT and "          \
-              "USE_EXPANDED_EXPRESSION_FORMAT are set. Choose only one.")
-
-#   endif /* defined USE_EXPANDED_EXPRESSION_FORMAT */
+#if      EXPRESSION_FORMAT == EXPRESSION_FORMAT_PACKED
 
 #   include "__expression_packed.h"
 
-#elif  USE_EXPANDED_EXPRESSION_FORMAT 
+#elif    EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED 
 
 #   include "__expression_expanded.h"
 
-#else   /* expression format - default case */
+#else    /* expression format - default case */
 
-#   include "__expression_expanded.h"
+#   error("Did not specify which kind of structure to use for expression")
 
-#endif  /* expression format */
+#endif   /* expression format */
 
 
 
 #endif
+

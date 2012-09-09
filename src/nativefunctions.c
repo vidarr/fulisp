@@ -150,7 +150,7 @@ struct Expression *add(struct Expression *env, struct Expression *expr) {
 
     DEBUG_PRINT_PARAM("ADD: %f\n", res);
 
-    return expressionCreate(env, EXPR_FLOAT, (void *)&res);
+    return EXPRESSION_CREATE_ATOM(env, EXPR_FLOAT, (void *)&res);
 }
 
 
@@ -170,7 +170,7 @@ struct Expression *mul(struct Expression *env, struct Expression *expr) {
 
     DEBUG_PRINT_PARAM("MUL: %f\n", res);
 
-    return expressionCreate(env, EXPR_FLOAT, (void *)&res);
+    return EXPRESSION_CREATE_ATOM(env, EXPR_FLOAT, (void *)&res);
 }
 
 

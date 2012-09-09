@@ -85,7 +85,7 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
     lambda->body    = expressionAssign(env, intCar(env, intCdr(env, expr)));
     lambda->env     = expressionAssign(env, env);
     DEBUG_PRINT("Created lambda ...");
-    return expressionCreate(env, EXPR_LAMBDA, lambda);
+    return EXPRESSION_CREATE_ATOM(env, EXPR_LAMBDA, lambda);
 }
 
 

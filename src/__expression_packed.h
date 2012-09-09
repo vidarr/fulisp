@@ -16,13 +16,13 @@
  */
 
 /**
- * Provides actual implementation for expression.h
+ * Provides actual implementation for expression.h - packed version
  */
 #ifndef __EXPRESSION_H__
 
 
 #   error("This Header is intended tor internal use only and is not meant to " \
-          "be used directly")
+        "be used directly")
 
 
 #else
@@ -36,29 +36,30 @@
 
 
 /* Advantage of THIS implementation: 
-   * Atomic types use seize only space that is really used
-   Disadvantages:
-   * double pointer dereferencing to access car/cdr
-   * second struct to wrap car/cdr
-   * all atoms must have the same size
+ * Single pointer derefencing to access car/cdr
+ * No second struct to wrap car/cdr
+ * 'Extended' types possible (i.e. some BIGNUM with head = mantisse,
+ * tail =
+ exponent
+ Disadvantages:
+ * Atomic types seize one int that is not used
  */
-struct Cons {
-    struct Expression *car, *cdr;
-};
-
 struct Expression {
-    unsigned char type;
+    int type;
     unsigned int counter;
     union {
         char *string;
         int integer;
         char character;
         double floating;
-        struct Cons *cons;
-        struct Expression *(*nativeFunc)(struct Expression *env, struct Expression *);
+        struct Expression *(*nativeFunc)(struct Expression *env, struct Expression *); 
         struct Environment *env;
         struct Lambda *lambda;
-    } data;
+        struct Expression *car;
+    } data;  
+    union {
+        struct Expression *cdr;
+    } extension;  
 };
 
 
@@ -79,7 +80,7 @@ struct Expression {
 
 #define __EXPR_IS_VALID(x)               (x && !EXPR_OF_TYPE(x, EXPR_NO_TYPE))
 
-#define __EXPR_SET_TYPE(expr, type)              \
+#define __EXPR_SET_TYPE(expr, type)            \
             (expr->type = (                    \
             (expr->type & ~EXPR_TYPE_AREAL) |  \
             (type & EXPR_TYPE_AREAL)))
@@ -132,35 +133,41 @@ extern struct Expression expressionRest;
 #define __EXPRESSION_LAMBDA(expr)                ((expr)->data.lambda)
 
 
-#define __EXPRESSION_CAR(expr)                   ((expr)->data.cons->car)
+#define __EXPRESSION_CAR(expr)                   ((expr)->data.car)
 
 
-#define __EXPRESSION_CDR(expr)                   ((expr)->data.cons->cdr)
+#define __EXPRESSION_CDR(expr)                   ((expr)->extension.cdr)
 
 
-#define __EXPRESSION_SET_CAR(expr, expr2)        (expr)->data.cons->car = expr2;
+#define __EXPRESSION_SET_CAR(expr, expr2)        (expr)->data.car = expr2;
 
 
-#define __EXPRESSION_SET_CDR(expr, expr2)        (expr)->data.cons->cdr = expr2;
+#define __EXPRESSION_SET_CDR(expr, expr2)        (expr)->extension.cdr = expr2;
 
 
 
 /*******************************************************************************
- * CASTS
+ *                                    CASTS
  *******************************************************************************/
 
 
 
 /*******************************************************************************
-  I N T E R N A L S
+ *                             I N T E R N A L S
  *******************************************************************************/
 
 
 
-#define __EXPRESSION_CONS(expr)                  ((expr)->data.cons)
+/* There is nothing like an explicit cons struct in this implementation, thus
+   ensure nobody tries to get it */
+#ifdef __EXPRESSION_CONS
 
-#define __EXPRESSION_DISPOSE_CONS_STRUCT(mem, expr)   \
-    MEMORY_DISPOSE_CONS(mem, __EXPRESSION_CONS(expr));
+#   undef __EXPRESSION_CONS
+
+#endif
+
+#define __EXPRESSION_DISPOSE_CONS_STRUCT(mem, expr)  
+
 
 
 #endif

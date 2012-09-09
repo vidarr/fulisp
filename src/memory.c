@@ -48,7 +48,7 @@ void allocateNewExpressionBlock(struct Memory *mem) {
     if(block->memory == NULL) outOfMemory();
  
 #   ifdef MEMORY_AUTOEXTEND
-    block->nextBlock = mem->exprBlocks;
+        block->nextBlock = mem->exprBlocks;
 #   endif
     mem->exprBlocks = block;
 
@@ -58,53 +58,60 @@ void allocateNewExpressionBlock(struct Memory *mem) {
     }
 }
 
+
 void allocateNewConsBlock(struct Memory *mem) {
-    int i;
-    struct ConsBlock *block = (struct ConsBlock *)malloc(sizeof(struct ConsBlock));
-    if(block == NULL) outOfMemory();
-    block->memory = (struct Cons *)malloc(sizeof(struct Cons) * MEMORY_BLOCK_SIZE);
-    if(block->memory == NULL) outOfMemory();
+#   if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
+        int i;
+        struct ConsBlock *block = (struct ConsBlock *)malloc(sizeof(struct ConsBlock));
+        if(block == NULL) outOfMemory();
+        block->memory = (struct Cons *)malloc(sizeof(struct Cons) * MEMORY_BLOCK_SIZE);
+        if(block->memory == NULL) outOfMemory();
+    
+#       ifdef MEMORY_AUTOEXTEND
+            block->nextBlock = mem->consBlocks;
+#       endif
+        mem->consBlocks = block;
+        mem->nextCons = NULL;
+        for(i = 0; i < MEMORY_BLOCK_SIZE; i++) {
+            MEMORY_DISPOSE_CONS(mem, (block->memory + i));
+        }
+#   endif   /* EXPRESSION_FORMAT */
 
-#   ifdef MEMORY_AUTOEXTEND
-    block->nextBlock = mem->consBlocks;
-#   endif
-    mem->consBlocks = block;
-
-    mem->nextCons = NULL;
-    for(i = 0; i < MEMORY_BLOCK_SIZE; i++) {
-        MEMORY_DISPOSE_CONS(mem, (block->memory + i));
-    }
 }
+
 
 struct Memory *newMemory(void) {
-#ifdef MEMORY_USE_PREALLOCATION
-    struct Memory *mem = (struct Memory *)malloc(sizeof(struct Memory));
-    if(mem == NULL) outOfMemory(); 
-    mem->exprBlocks = NULL;
-    mem->consBlocks = NULL;
-    allocateNewExpressionBlock(mem);
-    allocateNewConsBlock(mem);
-    mem->outOfMemory = outOfMemory;
-    return mem;
-#else
-    return NULL;
-#endif
+#   ifdef MEMORY_USE_PREALLOCATION
+       struct Memory *mem = (struct Memory *)malloc(sizeof(struct Memory));
+       if(mem == NULL) outOfMemory(); 
+       mem->exprBlocks = NULL;
+       mem->consBlocks = NULL;
+       allocateNewExpressionBlock(mem);
+       allocateNewConsBlock(mem);
+       mem->outOfMemory = outOfMemory;
+       return mem;
+#   else
+       return NULL;
+#   endif
 }
 
+
 void deleteMemory(struct Memory *mem) {
-#ifdef MEMORY_USE_PREALLOCATION
+#   ifdef MEMORY_USE_PREALLOCATION
 
-    assert(mem);
+       assert(mem);
 
-    if(mem->exprBlocks) {
-        if(mem->exprBlocks->memory) free(mem->exprBlocks->memory);
-        free(mem->exprBlocks);
-    }
-    if(mem->consBlocks) {
-        if(mem->consBlocks->memory) free(mem->consBlocks->memory);
-        free(mem->consBlocks);
-    }
-    free(mem);
-#endif
+       if(mem->exprBlocks) {
+           if(mem->exprBlocks->memory) free(mem->exprBlocks->memory);
+           free(mem->exprBlocks);
+       }
+#        if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
+            if(mem->consBlocks) {
+                if(mem->consBlocks->memory) free(mem->consBlocks->memory);
+                free(mem->consBlocks);
+            }
+#        endif   /* EXPRESSION_FORMAT */
+       free(mem);
+#   endif   /* MEMORY_USE_PREALLOCATION */
 }
 

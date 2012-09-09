@@ -45,7 +45,7 @@
 
 struct Expression *fuPrint(struct Expression *env, struct Expression *expr) {
     char *retStr, *buf = malloc(sizeof(char) * READ_BUFFER_SIZE);
-    struct Expression *res = expressionCreate(env, EXPR_STRING,
+    struct Expression *res = EXPRESSION_CREATE_ATOM(env, EXPR_STRING,
             expressionToString(env, buf, READ_BUFFER_SIZE, expr));
     retStr = malloc((strlen(res->data.string) + 1) * sizeof(char));
     strcpy(retStr, buf);

@@ -105,7 +105,7 @@ int fillEnvironment(struct Expression *env, int level, int no) {
         str = symNamesLvl[level][i];
         cp = (char *)malloc(sizeof(char) * (strlen(str) + 1));
         strcpy(cp, str);
-        expr = expressionCreate(env, EXPR_STRING, cp);
+        expr = EXPRESSION_CREATE_ATOM(env, EXPR_STRING, cp);
         ENVIRONMENT_ADD_STRING(env, symNamesLvl[level][i], expr); 
         ENVIRONMENT_ADD_STRING(env, symNames[level][i], expr); 
         expressionDispose(env, expr);
@@ -135,7 +135,7 @@ int lookup(struct Expression *env, char *str, char *reference) {
     struct Expression *expr;
     cp = (char *)malloc(sizeof(char) * (strlen(str) + 1));
     strcpy(cp, str);
-    expr = expressionCreate(env, EXPR_STRING, cp);
+    expr = EXPRESSION_CREATE_ATOM(env, EXPR_STRING, cp);
     res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
     expressionDispose(env, expr);
     if(!res) return 1;

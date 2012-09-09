@@ -234,34 +234,33 @@ void setExprOfReader(struct Reader *reader) {
         case EXPR_SYMBOL:
             *reader->current = 0;
             reader->expr = GET_SYMBOL(reader, reader->buffer);
-            DEBUG_PRINT_PARAM("   Created %s\n", reader->expr->data.string);
+            DEBUG_PRINT_PARAM("   Created %s\n", EXPRESSION_STRING(reader->expr));
             break;
 
         case EXPR_CHARACTER:
             reader->expr = CREATE_CHAR_EXPRESSION(READER_GET_ENVIRONMENT(reader), *(reader->current - 1));
-            DEBUG_PRINT_PARAM("   Created %c\n", reader->expr->data.character);
+            DEBUG_PRINT_PARAM("   Created %c\n", EXPRESSION_CHARACTER(reader->expr));
             *reader->current = 0;
             break;
 
         case EXPR_STRING:
             *reader->current = 0;
             reader->expr = CREATE_STRING_EXPRESSION(READER_GET_ENVIRONMENT(reader), reader->buffer); /* expressionCreate(reader->type, str); */
-            DEBUG_PRINT_PARAM("   Created %s\n", reader->expr->data.string);
+            DEBUG_PRINT_PARAM("   Created %s\n", EXPRESSION_STRING(reader->expr));
             break;
 
         case EXPR_INTEGER:
             *reader->current = 0;
             i = atoi(reader->buffer);
             reader->expr = CREATE_INT_EXPRESSION(READER_GET_ENVIRONMENT(reader), i); /* expressionCreate(reader->type, (void *)&i); */
-            DEBUG_PRINT_PARAM("   Created %i\n", \
-                    reader->expr->data.integer);
+            DEBUG_PRINT_PARAM("   Created %i\n", EXPRESSION_INTEGER(reader->expr));
             break;
 
         case EXPR_FLOAT:
             *reader->current = 0;
             f = atof(reader->buffer);
             reader->expr = CREATE_FLOAT_EXPRESSION(READER_GET_ENVIRONMENT(reader), f);/* expressionCreate(reader->type, (void *)&f); */
-            DEBUG_PRINT_PARAM("   Created %f\n", reader->expr->data.floating);
+            DEBUG_PRINT_PARAM("   Created %f\n", EXPRESSION_FLOATING(reader->expr));
             break;
 
         case EXPR_NO_TYPE:

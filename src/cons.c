@@ -28,19 +28,6 @@
 #endif
 
 
-/**
- * Creates the structure covering the two expr pointers 
- */
-struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expression *cdr) {
-    struct Cons *cons;
-    assert(env && car && cdr);
-    /* cons = (struct Cons *)malloc(sizeof(struct Cons)); */
-    MEMORY_GET_CONS(ENVIRONMENT_GET_MEMORY(env), cons);
-    cons->car = expressionAssign(env, car);
-    cons->cdr = expressionAssign(env, cdr);
-    return cons;
-}
-
 
 struct Expression *cons(struct Expression *env, struct Expression *expr) {
     struct Expression *car, *cdr;
@@ -59,7 +46,9 @@ struct Expression *cons(struct Expression *env, struct Expression *expr) {
             );
     car = eval(env, car);
     expr = eval(env, expr);
-    return expressionCreate(env, EXPR_CONS, intCons(env, car, expr));
+    expressionAssign(env, car);
+    expressionAssign(env, expr);
+    return EXPRESSION_CREATE_CONS(env, car, expr);
 }
 
 

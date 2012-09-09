@@ -67,10 +67,10 @@
 #define NO_MASK_ERROR
 
 
-#define READ_BUFFER_SIZE (int)(16000)
-#define PRINT_BUFFER_SIZE 100
-#define SYMBOL_TABLE_SIZE 20
-#define CALL_STACK_SIZE 200
+#define READ_BUFFER_SIZE               (int)(16000)
+#define PRINT_BUFFER_SIZE              100
+#define SYMBOL_TABLE_SIZE              20
+#define CALL_STACK_SIZE                200
 
 
 /*****************************************************************************
@@ -81,7 +81,7 @@
 /**
  * size of one mem block in expressions/cons structs
  */
-#define MEMORY_BLOCK_SIZE 20000
+#define MEMORY_BLOCK_SIZE              20000
 
 /**
  * Use preallocated memory instead of malloc/free whenever an expression is
@@ -102,13 +102,50 @@
  */
 #define STRICT_NATIVE_FUNCS
 
-#define GC_REFERENCE_COUNTING 1
-
 /** 
  * Which kind of garbage collection to use. 
  * This constant could be set to any of the values GC_*.
  */
 #define GARBAGE_COLLECTOR GC_REFERNCE_COUNTING
+
+/**
+ * Kind of format to use for expressions
+ */
+#define EXPRESSION_FORMAT EXPRESSION_FORMAT_PACKED
+
+
+
+/*******************************************************************************
+ *                        TYPES OF GARBAGE COLLECTION
+ *******************************************************************************/
+
+
+
+/**
+ * Reference counting garbage collector
+ */
+#define GC_REFERENCE_COUNTING 1
+
+
+
+/*******************************************************************************
+ *                        POSSIBLE EXPRESSION FORMATS
+ *******************************************************************************/
+
+
+
+/**
+ * Expanded format, i.e. use a separate struct for cons cells
+ */
+#define EXPRESSION_FORMAT_EXPANDED 1
+
+/**
+ * Packed format, i.e. use only one unified struct for all kinds of
+ * expresssions.
+ */
+#define EXPRESSION_FORMAT_PACKED   2
+
+
 
 #endif
 

@@ -186,6 +186,33 @@ abundand memory requests.
 \end{table}
 
 
+\subsection{Packed Expression Structure}
+
+\subsubsection{Benchmark}
 
 
+\begin{table}
+    \centering
+    \begin{tabular}{r|c|c}
+           & flat  & packed \\
+        \hline 
+         1 & 358995 & 714173 \\
+         2 & 506777 & 360570 \\
+         3 & 734729 & 444427 \\
+         4 & 719196 & 664277 \\
+         5 & 730034 & 401226 \\
+         6 & 592128 & 460916 \\
+         7 & 673055 & 383550 \\
+         8 & 724243 & 741072 \\
+         9 & 486136 & 361164 \\
+        10 & 728938 & 732850 \\
+        \hline
+        summary & 6254231 & 732850 \\
+        \hline
+        average & & 
+    \end{tabular}
+    \caption{\label{tbl:BMResultsExpressionFormat} Ticks measured for performing
+        test-eval, left with the initial, flat structure, on
+    the right with the packed format.}
+\end{table}
 \end{document}
