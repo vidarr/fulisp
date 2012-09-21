@@ -184,7 +184,7 @@ int main(int argc, char **argv) {
     int result = 0;
     int len = strlen(testText);
 
-    printf("\nTesting streams.c\n\n");
+    DECLARE_TEST(streams.c);
 
     copyText = (char *)malloc(sizeof(char) * (len + 1));
 

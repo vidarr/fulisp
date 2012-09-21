@@ -22,7 +22,7 @@
 #include "config.h"
 
 #define DECLARE_TEST(name) \
-    printf("\nTesting name \n\n");
+    printf("\nTesting " #name "\n\n");
 
 /**
  * Indicates successful test result.

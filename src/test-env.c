@@ -168,7 +168,7 @@ int main(int argc, char **argv) {
     int result;
     struct Memory *mem = newMemory();
 
-    printf("\nTesting environment.c\n\n");
+    DECLARE_TEST(environment.c);
 
     createStrings(NO_ENTRIES);
     env = environmentCreate(0, mem); 

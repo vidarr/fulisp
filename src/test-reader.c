@@ -16,6 +16,7 @@
 #include "config.h"
 #include "fulispreader.h"
 #include "testfileinput.h"
+#include "test.h"
 
 
 #define INPUT_FILE     "../tests/test-reader.in"
@@ -33,7 +34,7 @@ int main(int argc, char **argv) {
     struct Expression *env;
     struct Memory *mem;
 
-    printf("\nTesting reader.c\n\n");
+    DECLARE_TEST(reader.c);
 
     mem = newMemory();
     env = environmentCreateStdEnv(mem);

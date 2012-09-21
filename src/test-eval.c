@@ -20,6 +20,7 @@
 #include "fulispreader.h"
 #include "eval.h"
 #include "benchmarking.h"
+#include "test.h"
 
 #define INPUT_FILE     "../tests/test-eval.in"
 #define INPUT_REF_FILE "../tests/test-eval.ref"
@@ -48,7 +49,7 @@ int main(int argc, char **argv) {
     int result;
     struct Memory *mem;
 
-    printf("\nTesting eval.c\n\n");
+    DECLARE_TEST(eval.c);
 
     BENCHMARK_INIT(bmTime, bmTemp, bmTimeSt);
 

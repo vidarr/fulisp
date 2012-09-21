@@ -115,7 +115,7 @@ int testHashTable(int n, int m) {
 int main(int argc, char **argv) {
     int res;
 
-    printf("\nTesting hash.c\n\n");
+    DECLARE_TEST(hash.c);
 
     res = test(testHashTable(1,100), "HashTable with 1 bucket/ 100 entries"); 
     res = res | test(testHashTable(20, 10), "HashTable with 20 buckets/ 10 entries"); 

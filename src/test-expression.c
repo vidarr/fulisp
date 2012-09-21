@@ -79,10 +79,10 @@ int main (int argc, char **argv) {
     struct Expression *cons, *cons2;
     struct Expression *env;
    
+    DECLARE_TEST(expression.c);
+
     mem = newMemory();
     env = environmentCreate(0, mem);
-
-    printf("\nTesting expression.c\n\n");
 
     res = 0;
     str = malloc((1 + strlen(TEST_STR)) * sizeof(char));
