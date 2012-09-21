@@ -208,6 +208,16 @@ struct Expression *add(struct Expression *env, struct Expression *expr);
 struct Expression *mul(struct Expression *env, struct Expression *expr);
 
 
+/**
+ * Returnes the result of dividing the car by all the other numbers given as 
+ * arguments. 
+ * @param env environment to be used
+ * @param expr list of numbers 
+ * @returns result of division 
+ */
+struct Expression *divide(struct Expression *env, struct Expression *expr);
+
+
 
 /*****************************************************************************
  *                              LOGIC FUNCTIONS 

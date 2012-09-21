@@ -41,6 +41,13 @@ int: 2
 int: 1
 float: 10.000000
 float: 20.000000
+float: 2.000000
+float: 1.000000
+float: 1.000000
+float: 4.000000
+float: 0.500000
+SYM: NIL
+SYM: NIL
 SYM: T
 SYM: T
 SYM: NIL

@@ -69,6 +69,7 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "NOT", not);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "*", mul);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "/", divide);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "=", numEqual);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "<", numSmaller);
 

@@ -123,6 +123,7 @@ struct Expression *begin(struct Expression *env, struct Expression *expr) {
     ITERATE_LIST(env, expr, iter, { \
             res = eval(env, iter); \
             });
+
     return res;
 }
 
@@ -171,6 +172,48 @@ struct Expression *mul(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_PARAM("MUL: %f\n", res);
 
     return EXPRESSION_CREATE_ATOM(env, EXPR_FLOAT, (void *)&res);
+}
+
+
+struct Expression *divide(struct Expression *env, struct Expression *expr) {
+    struct Expression *car;
+    struct Expression *cdr;
+    float divident, divisor;
+
+    INIT_NATIVE_FUNCTION(env, expr);
+
+
+    DEBUG_PRINT("Entering mul\n");
+
+    SECURE_CAR(env, expr, car, "Argument list flawed");
+    car = eval(env, car);
+    divident  = EXPR_TO_FLOAT(car);
+    expressionDispose(env, car);
+
+
+    SECURE_CDR(env, expr, cdr, "Argument list flawed");
+    if(EXPR_IS_NIL(cdr)) {
+        if(divident == 0.0) {
+            ERROR(ERR_DIVISION_BY_ZERO, "Division by zero");
+            return NIL;
+        }
+        divident = 1.0 / divident;
+        return EXPRESSION_CREATE_ATOM(env, EXPR_FLOAT, (void *)&divident);
+    }
+
+    cdr = mul(env, cdr);
+
+    divisor = EXPR_TO_FLOAT(cdr);
+    if(divisor == 0.0) {
+        ERROR(ERR_DIVISION_BY_ZERO, "Division by zero");
+        return NIL;
+    };
+
+    divident /= divisor;
+
+    DEBUG_PRINT_PARAM("DIV: %f\n", divident);
+
+    return EXPRESSION_CREATE_ATOM(env, EXPR_FLOAT, (void *)&divident);
 }
 
 
