@@ -79,6 +79,7 @@
 #define ERR_STACK_OVERFLOW 1210
 #define ERR_STACK_UNDERFLOW 1211
 #define ERR_UNIMPLEMENTED 2000
+#define ERR_DIVISION_BY_ZERO 3000
 
 extern int lispError;
 extern char *lispErrorMessage;

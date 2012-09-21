@@ -6,4 +6,8 @@
 	  * Introduced parameter lists with variable length through &REST
 	  * Introduced support for dotted pair notation  using '.'
 
+0.3.0 * Some adaptions towards portability to OpenBSD
+      * Introduced preallocated memory for Expressions
+      * Introduced packed structure format for Expressions
+	  * Added functions: /
 
