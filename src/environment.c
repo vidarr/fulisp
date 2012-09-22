@@ -22,9 +22,9 @@
 #define MODULE_NAME "environment.c"
 
 #ifdef DEBUG_ENVIRONMENT
-#include "debugging.h"
+#   include "debugging.h"
 #else
-#include "no_debugging.h"
+#   include "no_debugging.h"
 #endif
 
 
@@ -52,26 +52,34 @@ struct Expression *environmentCreate(struct Expression *parent, struct Memory *m
 
 struct Expression *environmentCreateStdEnv(struct Memory *mem) {
     struct Expression *env = environmentCreate(NULL, mem);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CAR", car);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CDR", cdr);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET-CAR!", setCar);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET-CDR!", setCdr); 
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CONS", cons); 
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CONS?", consP);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA", lambdaCreate);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!", set);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "DEFINE", define);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "BEGIN", begin);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "COND", cond);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "OR", or);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "AND", and);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "NOT", not);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "*", mul);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "/", divide);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "=", numEqual);
-    ADD_NATIVE_FUNCTION_EXPRESSION(env, "<", numSmaller);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE",            quote);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CAR",              car);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CDR",              cdr);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET-CAR!",         setCar);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET-CDR!",         setCdr); 
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CONS",             cons); 
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CONS?",            consP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA",           lambdaCreate);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "SET!",             set);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "DEFINE",           define);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "BEGIN",            begin);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "COND",             cond);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "OR",               or);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "AND",              and);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "NOT",              not);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "+",                add);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "*",                mul);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "/",                divide);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "=",                numEqual);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "<",                numSmaller);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "INTEGER?",         integerP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "FLOAT?",           floatP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "CHARACTER?",       characterP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "NATIVE-FUNCTION?", nativeFunctionP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "STRING?",          stringP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "SYMBOL?",          symbolP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA?",          lambdaP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "ENVIRONMENT?",     environmentP);
 
     ENVIRONMENT_ADD_STRING(env, ((NIL)->data.string), NIL); 
     ENVIRONMENT_ADD_STRING(env, ((T)->data.string), T); 

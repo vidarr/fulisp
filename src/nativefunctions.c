@@ -308,14 +308,14 @@ struct Expression *numSmaller(struct Expression *env, struct Expression *expr) {
     expressionDispose(env, first);
     if(!NO_ERROR) return NIL;
 
-    ITERATE_LIST(env, expr, car, { \
-        car = eval(env, car); \
-        nextRes = EXPR_TO_FLOAT(car); \
-        expressionDispose(env, car); \
-        if((res >= nextRes) || !NO_ERROR) { \
-            return NIL;  \
-        } \
-        res = nextRes; \
+    ITERATE_LIST(env, expr, car, {                                    \
+        car = eval(env, car);                                         \
+        nextRes = EXPR_TO_FLOAT(car);                                 \
+        expressionDispose(env, car);                                  \
+        if((res >= nextRes) || !NO_ERROR) {                           \
+            return NIL;                                               \
+        }                                                             \
+        res = nextRes;                                                \
         DEBUG_PRINT_PARAM("numSmaller:   IN while: res = %f\n", res); \
     });
 
@@ -323,4 +323,39 @@ struct Expression *numSmaller(struct Expression *env, struct Expression *expr) {
 
     return T;
 }
+
+
+
+/*****************************************************************************
+ *                                 PREDICATS
+ *****************************************************************************/
+
+
+
+#define DEFINE_PREDICATE_FUNCTION(predicateName, iterator, test)                        \
+    struct Expression * predicateName (struct Expression *env,                \
+                                       struct Expression *expr) {             \
+        struct Expression *iterator;                                          \
+        INIT_NATIVE_FUNCTION(env, expr);                                      \
+        ITERATE_LIST(env, expr, iterator,{ iterator = eval(env, iterator); if(EXPR_IS_NIL(iterator) || !(test)){ return NIL; }}); \
+        return T;                                                             \
+    } 
+
+
+DEFINE_PREDICATE_FUNCTION(integerP,        iter, (EXPR_OF_TYPE(iter, EXPR_INTEGER)))
+
+DEFINE_PREDICATE_FUNCTION(floatP,          iter, (EXPR_OF_TYPE(iter, EXPR_FLOAT)))
+
+DEFINE_PREDICATE_FUNCTION(characterP,      iter, (EXPR_OF_TYPE(iter, EXPR_CHARACTER)))
+
+DEFINE_PREDICATE_FUNCTION(nativeFunctionP, iter, (EXPR_OF_TYPE(iter, EXPR_NATIVE_FUNC)))
+
+DEFINE_PREDICATE_FUNCTION(stringP,         iter, (EXPR_OF_TYPE(iter, EXPR_STRING)))
+
+DEFINE_PREDICATE_FUNCTION(symbolP,         iter, (EXPR_OF_TYPE(iter, EXPR_SYMBOL)))
+
+DEFINE_PREDICATE_FUNCTION(lambdaP,         iter, (EXPR_OF_TYPE(iter, EXPR_LAMBDA)))
+
+DEFINE_PREDICATE_FUNCTION(environmentP,    iter, (EXPR_OF_TYPE(iter, EXPR_ENVIRONMENT)))
+
 

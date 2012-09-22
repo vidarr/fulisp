@@ -280,4 +280,76 @@ struct Expression *numEqual(struct Expression *env, struct Expression *expr);
 struct Expression *numSmaller(struct Expression *env, struct Expression *expr);
 
 
+
+/*****************************************************************************
+ *                                 PREDICATS
+ *****************************************************************************/
+
+
+
+/**
+ * Checks whether all arguments are of type integer. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *integerP(struct Expression *env, struct Expression *expr); 
+
+/**
+ * Checks whether all arguments are of type float. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *floatP(struct Expression *env, struct Expression *expr); 
+
+/**
+ * Checks whether all arguments are of type character. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *characterP(struct Expression *env, struct Expression *expr); 
+
+/**
+ * Checks whether all arguments are of type nativeFunction. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *nativeFunctionP(struct Expression *env, struct Expression *expr); 
+
+/**
+ * Checks whether all arguments are of type string. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *stringP(struct Expression *env, struct Expression *expr); 
+
+/**
+ * Checks whether all arguments are of type symbol. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *symbolP(struct Expression *env, struct Expression *expr); 
+
+/**
+ * Checks whether all arguments are of type lambda. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *lambdaP(struct Expression *env, struct Expression *expr); 
+
+/**
+ * Checks whether all arguments are of type environment. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *environmentP(struct Expression *env, struct Expression *expr); 
+
+
 #endif

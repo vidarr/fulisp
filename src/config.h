@@ -20,7 +20,7 @@
 
 #include <limits.h>
 
-#define VERSION "0.1.0"
+#define VERSION "0.3.0"
 #define COPYRIGHT "Copyright (C) 2010, 2012  Michael J. Beer <michael.josef.beer@googlemail.com>"
 
 /* #define DEBUG */

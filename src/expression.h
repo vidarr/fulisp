@@ -212,21 +212,15 @@ typedef struct Expression *(NativeFunction)(struct Expression *env, struct Expre
 
 
 /**
- * Expression is a function
+ * Expression is an hash table
  */
-#define EXPR_FUNCTION                  (EXPR_POINTER | 5)
+#define EXPR_LAMBDA                    (EXPR_POINTER | 5)
 
 
 /**
  * Expression is an hash table
  */
 #define EXPR_ENVIRONMENT               (EXPR_POINTER | 6)
-
-
-/**
- * Expression is an hash table
- */
-#define EXPR_LAMBDA                    (EXPR_POINTER | 7)
 
 
 
