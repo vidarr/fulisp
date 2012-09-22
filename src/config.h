@@ -147,5 +147,28 @@
 
 
 
-#endif
+/******************************************************************************
+ *                   CHECK WHETHER SET OPTIONS ARE POSSIBLE
+ ******************************************************************************/
+
+
+
+#ifdef BENCHMARK 
+
+#   include <time.h>
+
+#   ifndef CLOCK_PROCESS_CPUTIME_ID
+
+/*        Unfortunately, #warning is not standard c */
+/* #      warning "Disabling benchmark - system does not provide for necessary functions" */
+#      undef   BENCHMARK
+
+#   endif /* CLOCK_PROCESS_CPUTIME_ID */
+
+#endif /* BENCHMARK */
+
+
+
+
+#endif /* __CONFIG_H__ */
 

@@ -29,7 +29,7 @@
 long benchmarkTest(void) {
     struct  timespec temp;
     int retval;
-    if((retval = clock_getres(CLOCK_PARAMETER, &temp)) != 0) {
+    if((retval = clock_getres(CLOCK_PROCESS_CPUTIME_ID, &temp)) != 0) {
         return LONG_MIN;
     } 
     return temp.tv_nsec;
@@ -39,7 +39,7 @@ long benchmarkTest(void) {
 long benchmarkGetTime(void) {
     struct  timespec temp;
     int retval;
-    if((retval = clock_gettime(CLOCK_PARAMETER, &temp)) != 0) {
+    if((retval = clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &temp)) != 0) {
        return LONG_MIN; 
     }
     return temp.tv_nsec;
