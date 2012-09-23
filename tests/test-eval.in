@@ -173,6 +173,8 @@ y
 (symbol?            *)
 (symbol?            "ab")
 (symbol?            (quote a))
+(symbol?            nil)
+(symbol?            t)
 (symbol?            (cons 1 2))
 (symbol?            (lambda (x) (x)))
 (cons?              1)

@@ -352,9 +352,24 @@ DEFINE_PREDICATE_FUNCTION(nativeFunctionP, iter, (EXPR_OF_TYPE(iter, EXPR_NATIVE
 
 DEFINE_PREDICATE_FUNCTION(stringP,         iter, (EXPR_OF_TYPE(iter, EXPR_STRING)))
 
-DEFINE_PREDICATE_FUNCTION(symbolP,         iter, (EXPR_OF_TYPE(iter, EXPR_SYMBOL)))
 
-DEFINE_PREDICATE_FUNCTION(consP,         iter, (EXPR_OF_TYPE(iter, EXPR_CONS)))
+/* SYMBOL? needs special treatment, because in here, NIL will cause T to be
+ * returend */
+struct Expression * symbolP(struct Expression *env,
+                            struct Expression *expr) {
+    struct Expression *iterator;                      
+    INIT_NATIVE_FUNCTION(env, expr);
+    ITERATE_LIST(env, expr, iterator,{ \
+       iterator = eval(env, iterator); \
+       if(!(EXPR_OF_TYPE(iterator, EXPR_SYMBOL))) { \
+           return NIL; \
+       } \
+    }); 
+    return T;
+} 
+
+
+DEFINE_PREDICATE_FUNCTION(consP,           iter, (EXPR_OF_TYPE(iter, EXPR_CONS)))
 
 DEFINE_PREDICATE_FUNCTION(lambdaP,         iter, (EXPR_OF_TYPE(iter, EXPR_LAMBDA)))
 
