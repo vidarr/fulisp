@@ -11,4 +11,5 @@
       * Introduced packed structure format for Expressions
 	  * Added functions: /
 	  * Added predicats to check for type of an expression
+	  * Added automatism for creating releases
 
