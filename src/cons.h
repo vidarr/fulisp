@@ -115,15 +115,6 @@ struct Expression *cdr(struct Expression *env, struct Expression *args);
 
 
 /**
- * Takes one argument. Checks wether this argument is a list.
- * @param env Current environment
- * @param expr parameter list
- * @return T if first parameter is a list, NIL else
- */
-struct Expression *consP(struct Expression *env, struct Expression *expr);
-
-
-/**
  * Takes two arguments. Second argument needs to be a list with two elements.
  * First element  needs to be a cons cell. Second one can
  * be of any kind. Tries to set the car of the first element to the second

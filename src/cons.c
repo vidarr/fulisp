@@ -107,16 +107,6 @@ struct Expression *cdr(struct Expression *env, struct Expression *expr) {
 } 
 
 
-struct Expression *consP(struct Expression *env, struct Expression *expr) {
-    DEBUG_PRINT("Entering consP\n");
-    INIT_NATIVE_FUNCTION(env, expr);
-    expr = intCar(env, expr);
-    expr = eval(env, expr);
-    DEBUG_PRINT("Leaving consP\n");
-    return EXPR_IS_CONS(expr) ? T : NIL;
-}
-
-
 struct Expression *setCar(struct Expression *env, struct Expression *expr) {
     struct Expression *consCell, *carExpr;
 

@@ -336,6 +336,14 @@ struct Expression *stringP(struct Expression *env, struct Expression *expr);
 struct Expression *symbolP(struct Expression *env, struct Expression *expr); 
 
 /**
+ * Checks whether all arguments are of type symbol. If none are given, T is
+ * returned as well.
+ * @param env The current environment
+ * @param expr list of elements to check
+ */
+struct Expression *consP(struct Expression *env, struct Expression *expr);
+
+/**
  * Checks whether all arguments are of type lambda. If none are given, T is
  * returned as well.
  * @param env The current environment
