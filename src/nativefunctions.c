@@ -354,7 +354,7 @@ DEFINE_PREDICATE_FUNCTION(stringP,         iter, (EXPR_OF_TYPE(iter, EXPR_STRING
 
 
 /* SYMBOL? needs special treatment, because in here, NIL will cause T to be
- * returend */
+ * returned */
 struct Expression * symbolP(struct Expression *env,
                             struct Expression *expr) {
     struct Expression *iterator;                      
@@ -375,4 +375,6 @@ DEFINE_PREDICATE_FUNCTION(lambdaP,         iter, (EXPR_OF_TYPE(iter, EXPR_LAMBDA
 
 DEFINE_PREDICATE_FUNCTION(environmentP,    iter, (EXPR_OF_TYPE(iter, EXPR_ENVIRONMENT)))
 
+
+#undef DEFINE_PREDICATE_FUNCTION
 
