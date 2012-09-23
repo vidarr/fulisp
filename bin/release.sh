@@ -8,7 +8,7 @@ read -p "Going to build fuLisp  release $FULISP_VERSION. Proceed? [yn]" YES_NO
 if [ $YES_NO == "y" ]; then
     if [ -f $TARBALL ]; then 
         mv $TARBALL $TARBALL_NEW_NAME &&
-        git tag -a "$FULISP_VERSION" -m "RELEASE"
+        git tag -a "v$FULISP_VERSION" -m "RELEASE"
     else
         echo "Error: Tarball $TARBALL has not been created!" 
         exit 1;
