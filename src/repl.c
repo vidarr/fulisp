@@ -21,6 +21,7 @@
 #include "fulispreader.h"
 #include "environment.h"
 #include "eval.h"
+#include "garbage_collector.h"
 #include "benchmarking.h"
 
 
@@ -42,9 +43,12 @@ void welcome(FILE *out) {
                  "   /                /\n"
                  "  /                /\n\n\n"
                  "    fuLisp " VERSION "  " COPYRIGHT "\n"
-                 "    This program comes with ABSOLUTELY NO WARRANTY; for details type `(license)'.\n"
-                 "    This is free software, and you are welcome to redistribute it\n"
-                 "    under certain conditions; type `(license)' for details.\n");
+                 "    This program comes with ABSOLUTELY NO WARRANTY;"
+                 " for details type `(license)'.\n"
+                 "    This is free software,"
+                 " and you are welcome to redistribute it\n"
+                 "    under certain conditions;"
+                 " type `(license)' for details.\n");
 }
 
 

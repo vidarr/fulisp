@@ -28,6 +28,9 @@
 #else
 
 
+#include "garbage_collector.h"
+
+
 
 /*******************************************************************************
   E X R E S S I O N   S T R U C T U R E
@@ -46,7 +49,6 @@
  */
 struct Expression {
     int type;
-    unsigned int counter;
     union {
         char *string;
         int integer;
@@ -60,6 +62,7 @@ struct Expression {
     union {
         struct Expression *cdr;
     } extension;  
+    GC_DEFINE_EXPR_INFO
 };
 
 

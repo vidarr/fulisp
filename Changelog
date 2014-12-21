@@ -13,3 +13,4 @@
 	  * Added predicats to check for type of an expression
 	  * Added automatism for creating releases
 
+0.4.0 * Adaptions to support LLVM/clang

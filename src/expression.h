@@ -28,11 +28,6 @@
 #include <assert.h>
 #include <string.h>
 
-#include "lisp_internals.h"
-#include "environment.h"
-#include "lambda.h"
-
-
 
 /*******************************************************************************
   E X R E S S I O N   S T R U C T U R E
@@ -50,6 +45,10 @@ struct Expression;
 typedef struct Expression *(NativeFunction)(struct Expression *env, struct Expression *);
 
 
+#include "lisp_internals.h"
+#include "garbage_collector.h"
+#include "environment.h"
+#include "lambda.h"
 
 /*******************************************************************************
                               CONSTANT EXPRESSIONS
@@ -138,16 +137,25 @@ typedef struct Expression *(NativeFunction)(struct Expression *env, struct Expre
 /*
    Internally, every expression keeps a type - field
    This field is built up this way:
-   Bit 7 indicates a pointer to be freed
-   Bit 6 indicates no pointer to be freed (an "atomic type")
+   Bits above 6 reserved (e.g. for Garbage collector)
+   Bit 6 indicates a pointer to be freed
+   Bit 5 indicates no pointer to be freed (an "atomic type")
    */
 
 /** 
  * Defines the bytes to be used for determining the type
  */
 #define EXPR_TYPE_AREAL                          \
-    ((1 << 7) | (1 << 6) | (1 << 5) | (1 << 4) | \
+    ((1 << 6) | (1 << 5) | (1 << 4) | \
      (1 << 3) | (1 << 2) | 2 | 1)
+
+
+
+/**
+ * The bit used for the GC to mark expressions
+ */
+#define EXPR_GC_MARKER_BIT (1 << 7)
+
 
 
 /**
@@ -160,13 +168,13 @@ typedef struct Expression *(NativeFunction)(struct Expression *env, struct Expre
 /**
  * Expression contains a pointer (to be freed)
  */
-#define EXPR_POINTER                   (1 << 7)
+#define EXPR_POINTER                   (1 << 6)
 
 
 /**
  * Expression contains a an atomar value  (not to be freed)
  */
-#define EXPR_ATOM                      (1 << 6)
+#define EXPR_ATOM                      (1 << 5)
 
 
 /**
@@ -212,7 +220,7 @@ typedef struct Expression *(NativeFunction)(struct Expression *env, struct Expre
 
 
 /**
- * Expression is an hash table
+ * Expression is a lambda expression
  */
 #define EXPR_LAMBDA                    (EXPR_POINTER | 5)
 

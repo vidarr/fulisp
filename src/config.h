@@ -106,7 +106,7 @@
  * Which kind of garbage collection to use. 
  * This constant could be set to any of the values GC_*.
  */
-#define GARBAGE_COLLECTOR GC_REFERNCE_COUNTING
+#define GARBAGE_COLLECTOR GC_MARK_AND_SWEEP
 
 /**
  * Kind of format to use for expressions
@@ -126,6 +126,10 @@
  */
 #define GC_REFERENCE_COUNTING 1
 
+/**
+ * Reference counting garbage collector
+ */
+#define GC_MARK_AND_SWEEP     2
 
 
 /*******************************************************************************

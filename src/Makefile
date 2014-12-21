@@ -1,6 +1,7 @@
-CC=clang
-#CC=gcc
+#CC=clang
+CC=gcc
 MKDIR=mkdir
+LAUNCHER=valgrind --leak-check=full
 
 ifeq ($(CC), gcc)
 include ../config/gcc.mk
@@ -14,7 +15,7 @@ BUILD_DIR=../build
 
 TAGS_FILE=tags
 
-SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c  test.c environment.c eval.c stack.c lambda.c benchmarking.c memory.c
+SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c  test.c environment.c eval.c stack.c lambda.c benchmarking.c memory.c garbage_collector.c
 
 HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h stack.h lambda.h benchmarking.h memory.h garbage_collector.h
 
@@ -41,13 +42,13 @@ tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $
 
 
 exec-tests: tests
-	@$(BUILD_DIR)/test-stack && \
-	 $(BUILD_DIR)/test-hash && \
-	 $(BUILD_DIR)/test-memory && \
-	 $(BUILD_DIR)/test-expression && \
-     $(BUILD_DIR)/test-streams && \
-	 $(BUILD_DIR)/test-reader && \
-	 $(BUILD_DIR)/test-eval 
+	@$(LAUNCHER) $(BUILD_DIR)/test-stack && \
+	 $(LAUNCHER) $(BUILD_DIR)/test-hash && \
+	 $(LAUNCHER) $(BUILD_DIR)/test-memory && \
+	 $(LAUNCHER) $(BUILD_DIR)/test-expression && \
+     $(LAUNCHER) $(BUILD_DIR)/test-streams && \
+	 $(LAUNCHER) $(BUILD_DIR)/test-reader && \
+	 $(LAUNCHER) $(BUILD_DIR)/test-eval 
 
 
 $(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES)

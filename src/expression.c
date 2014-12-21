@@ -41,12 +41,16 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     }
     /* ALERT: Does not work with non-valid expressions - occur together with
      * parsing of conses */
-    DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n", expr->counter);
+    DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n", GC_GET_REF_COUNT(env, expr));
     DEBUG_PRINT_PARAM("   type %u \n", (int)EXPRESSION_TYPE(expr));
     DEBUG_PRINT_EXPR(env, expr);
 
-    if(expr->counter-- > 0) return;
-    expressionForceDispose(env, expr);
+    if(GC_GET_REF_COUNT(env, expr) > 0) 
+    {
+        GC_DEC_REF_COUNT(env, expr);
+    } else {
+        expressionForceDispose(env, expr);
+    }
 }
 
 
@@ -86,7 +90,7 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type,
     struct Expression *expr;
     /* expr = malloc(sizeof(struct Expression)); */
     MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
-    expr->counter = 0;
+    GC_INIT_EXPRESSION(env, expr);
     expr->type = type;
     if(EXPR_IS_CONS(expr)) {
         /* Allocate mem for struct Cons */
@@ -138,7 +142,7 @@ struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunc
     struct Expression *expr;
     /* expr = malloc(sizeof(struct Expression)); */
     MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
-    expr->counter = 0;
+    GC_INIT_EXPRESSION(env, expr);
     expr->type = EXPR_NATIVE_FUNC;
     EXPRESSION_NATIVE_FUNC(expr) = content;
     DEBUG_PRINT("Created new expression containing native function.\n");
@@ -176,8 +180,7 @@ struct Expression *createSymbol(struct Expression *env, char *str) {
 
 
 struct Expression *expressionAssign(struct Expression *env, struct Expression *expr) {
-    if(expr) 
-        expr->counter++;
+    if(expr) GC_INC_REF_COUNT(env, expr);
     return expr;
 }
 
@@ -185,14 +188,15 @@ struct Expression *expressionAssign(struct Expression *env, struct Expression *e
 struct Expression *createEnvironmentExpression(struct Environment *env) {
     struct Expression *expr;
     MEMORY_GET_EXPRESSION(env->memory, expr);
-    expr->counter = 0;
     expr->type = EXPR_ENVIRONMENT;
+    GC_INIT_ENVIRONMENT(env);
     EXPRESSION_ENVIRONMENT(expr) = env;
     return expr;
 }
 
 
 char nil[] = "NIL"; 
+
 
 char true[] = "T";
 
@@ -202,20 +206,20 @@ char rest[] = "&REST";
 
 struct Expression expressionNil = { 
     EXPR_SYMBOL,
-    0, 
     {nil} 
+    GC_INIT_EXPR_INFO(0)
 }; 
 
 struct Expression expressionT = {
     EXPR_SYMBOL,
-    0,
     {true}
+    GC_INIT_EXPR_INFO(0)
 };
 
 struct Expression expressionRest = {
     EXPR_SYMBOL,
-    1,
     {rest}
+    GC_INIT_EXPR_INFO(1)
 };
 
 
@@ -224,23 +228,23 @@ struct Expression expressionRest = {
 
 struct Expression expressionNil = { 
     EXPR_SYMBOL,
-    0, 
     {nil}, 
     {NULL}
+    GC_INIT_EXPR_INFO(0)
 }; 
 
 struct Expression expressionT = {
     EXPR_SYMBOL,
-    0,
     {true},
     {NULL} 
+    GC_INIT_EXPR_INFO(0)
 };
 
 struct Expression expressionRest = {
     EXPR_SYMBOL,
-    1,
     {rest},
     {NULL} 
+    GC_INIT_EXPR_INFO(1)
 };
 
 

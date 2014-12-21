@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+struct Expression;
+
 /**
  * struct in the environment reserved for the GC to store whatever data it 
  * requires. Actual appearance depends on GC used.
@@ -40,9 +42,14 @@
 #define GC_RUN(env) __GC_RUN(env)
 
 /**
- * Initialize ref counter of expr
+ * Initialize expression after creation
  */
-#define GC_INIT_REF_COUNT(env, expr) __GC_INIT_REF_COUNT(env, expr)
+#define GC_INIT_EXPRESSION(env, expr) __GC_INIT_EXPRESSION(env, expr)
+
+/**
+ * Initialize expression after creation
+ */
+#define GC_INIT_ENVIRONMENT(env) __GC_INIT_ENVIRONMENT(env)
 
 /**
  * Return current ref counter of expr 
@@ -58,7 +65,6 @@
  * Increase ref counter of expr
  */
 #define GC_INC_REF_COUNT(env, expr) __GC_INC_REF_COUNT(env, expr)
-
 
 /******************************************************************************
  * Implementation details
@@ -79,27 +85,31 @@ struct ExprGcInfo {
 #    define __GC_DEFINE_EXPR_INFO          struct ExprGcInfo gcInfo;
 #    define __GC_INIT_EXPR_INFO(initcounter) ,{initcounter}
 #    define __GC_RUN(env)                  ERR_OK
-#    define __GC_INIT_REF_COUNT(env, expr) ((expr)->gcInfo.counter = 0)
+#    define __GC_INIT_EXPRESSION(env, expr) ((expr)->gcInfo.counter = 0)
 #    define __GC_GET_REF_COUNT(env, expr)  ((expr)->gcInfo.counter)
 #    define __GC_DEC_REF_COUNT(env, expr)  ((expr)->gcInfo.counter--)
 #    define __GC_INC_REF_COUNT(env, expr)  ((expr)->gcInfo.counter++)
 
 #elif       GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
 
-struct GcInfo {
+struct EnvGcInfo {
     int marker;     /* Current marker used */
 };
 
 #    define __GC_DEFINE_ENV_INFO             struct EnvGcInfo gcInfo;
 #    define __GC_DEFINE_EXPR_INFO 
 #    define __GC_INIT_EXPR_INFO(initcounter)
-#    define __GC_RUN(env)                    gc_mark_and_sweep(env)
-#    define __GC_INIT_REF_COUNT(env, expr)   while(0) {};
+#    define __GC_RUN(env)                    gcMarkAndSweep(env)
+#    define __GC_INIT_EXPRESSION(env, expr)  gcMarkExpression(env, expr)
+#    define __GC_INIT_ENVIRONMENT(env)       {env->gcInfo.marker = 0; }
 #    define __GC_GET_REF_COUNT(env, expr)    1
-#    define __GC_DEC_REF_COUNT(env, expr)    1
-#    define __GC_INC_REF_COUNT(env, expr)    1
+#    define __GC_DEC_REF_COUNT(env, expr)    while(0) {}
+#    define __GC_INC_REF_COUNT(env, expr)    while(0) {}
 
-int gc_mark_and_sweep(struct Environment *env);
+
+struct Expression *gcMarkAndSweep   (struct Expression *env);
+
+struct Expression *gcMarkExpression (struct Expression *env, struct Expression *expr);
 
 #else
 
@@ -107,6 +117,8 @@ int gc_mark_and_sweep(struct Environment *env);
 
 #endif
 
+
+#include "environment.h"
 
 
 #endif

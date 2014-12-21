@@ -48,7 +48,6 @@ struct Cons {
 
 struct Expression {
     unsigned char type;
-    unsigned int counter;
     union {
         char *string;
         int integer;
@@ -59,6 +58,7 @@ struct Expression {
         struct Environment *env;
         struct Lambda *lambda;
     } data;
+    GC_DEFINE_EXPR_INFO
 };
 
 

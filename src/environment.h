@@ -29,6 +29,7 @@ struct Environment;
 #include "error.h"
 #include "expression.h"
 #include "memory.h"
+#include "garbage_collector.h"
 
 
 
@@ -36,6 +37,8 @@ struct Environment {
   struct HashTable *lookup;
   struct Memory *memory;
   struct Expression *parent;
+  struct Expression *current;
+  GC_DEFINE_ENV_INFO
 };
 
 
