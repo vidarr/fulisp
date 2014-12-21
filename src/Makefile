@@ -1,14 +1,14 @@
-# CC=clang
-CC=gcc
-LN=gcc
+CC=clang
+#CC=gcc
 MKDIR=mkdir
 
-# PROFILER_CC_OPTIONS=-pg
-# PROFILER_LN_OPTIONS=-pg
-DEBUG_OPTIONS=-g $(PROFILER_CC_OPTIONS)
-CFLAGS_NO_ANSI=-Wstrict-prototypes --pedantic -Wall $(DEBUG_OPTIONS)
-CFLAGS= $(CFLAGS_NO_ANSI) --ansi
-LDFLAGS= $(DEBUG_OPTIONS) -lm -lrt
+ifeq ($(CC), gcc)
+include ../config/gcc.mk
+else ifeq ($(CC), clang)
+include ../config/clang.mk
+else
+$(error CC variable not set to supported compiler)
+endif
 
 BUILD_DIR=../build
 
@@ -16,7 +16,7 @@ TAGS_FILE=tags
 
 SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c  test.c environment.c eval.c stack.c lambda.c benchmarking.c memory.c
 
-HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h stack.h lambda.h benchmarking.h memory.h
+HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h stack.h lambda.h benchmarking.h memory.h garbage_collector.h
 
 OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
 
