@@ -31,8 +31,7 @@
 
 struct Expression *cons(struct Expression *env, struct Expression *expr) {
     struct Expression *car, *cdr;
-    DEBUG_PRINT("Entering cons\n");
-    INIT_NATIVE_FUNCTION(env, expr);
+    INIT_NATIVE_FUNCTION("cons", env, expr);
     SECURE_CAR(env, expr, car, "First argument of CONS is flawed");
     SECURE_CDR(env, expr, cdr, "Second argument of CONS is flawed");
     SECURE_CAR(env, cdr, expr, "First argument of CONS is flawed");
@@ -66,8 +65,7 @@ struct Expression *intCar(struct Expression *env, struct Expression *args) {
 
 struct Expression *car(struct Expression *env, struct Expression *expr) { 
     struct Expression *car; 
-    DEBUG_PRINT("Entering car()\n");
-    assert(env && expr); 
+    INIT_NATIVE_FUNCTION("car", env, expr);
     if(EXPR_IS_NIL(expr)) return NIL;
     expr = intCar(env, expr);
     expr = eval(env, expr);
@@ -93,8 +91,9 @@ struct Expression *intCdr(struct Expression *env, struct Expression *args) {
 
 struct Expression *cdr(struct Expression *env, struct Expression *expr) { 
     struct Expression *cdr; 
-    DEBUG_PRINT("Entering cdr\n");
-    assert(env && expr); 
+
+    INIT_NATIVE_FUNCTION("cdr", env, expr);
+
     if(EXPR_IS_NIL(expr)) return NIL;
     expr = intCar(env, expr);
     expr = eval(env, expr);  
@@ -110,10 +109,10 @@ struct Expression *cdr(struct Expression *env, struct Expression *expr) {
 struct Expression *setCar(struct Expression *env, struct Expression *expr) {
     struct Expression *consCell, *carExpr;
 
-    DEBUG_PRINT("Entering setCar\n");
+    INIT_NATIVE_FUNCTION("setCar", env, expr);
 
-    INIT_NATIVE_FUNCTION(env, expr);
-    ASSIGN_2_PARAMS(env, expr, consCell, carExpr, "Argument list of CONS is flawed");
+    ASSIGN_2_PARAMS(env, expr, consCell, carExpr, \
+            "Argument list of CONS is flawed");
 
     DEBUG_PRINT("consCell is ");
     DEBUG_PRINT_EXPR(env, consCell);
@@ -131,7 +130,8 @@ struct Expression *setCar(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, carExpr);
 
     carExpr = eval(env, carExpr);
-    if(EXPRESSION_CAR(consCell)) expressionDispose(env, EXPRESSION_CAR(consCell));
+    if(EXPRESSION_CAR(consCell)) 
+        expressionDispose(env, EXPRESSION_CAR(consCell));
     EXPRESSION_SET_CAR(consCell, carExpr);
 
     DEBUG_PRINT("\nconsCell is ");
@@ -144,10 +144,10 @@ struct Expression *setCar(struct Expression *env, struct Expression *expr) {
 struct Expression *setCdr(struct Expression * env, struct Expression *expr) {
     struct Expression *consCell, *cdrExpr;
 
-    DEBUG_PRINT("Entering setCar\n");
+    INIT_NATIVE_FUNCTION("setCdr", env, expr);
 
-    INIT_NATIVE_FUNCTION(env, expr);
-    ASSIGN_2_PARAMS(env, expr, consCell, cdrExpr, "Argument list of CONS is flawed");
+    ASSIGN_2_PARAMS(env, expr, consCell, cdrExpr, 
+            "Argument list of CONS is flawed");
 
     DEBUG_PRINT("consCell is ");
     DEBUG_PRINT_EXPR(env, consCell);
@@ -156,7 +156,7 @@ struct Expression *setCdr(struct Expression * env, struct Expression *expr) {
 
     consCell = eval(env, consCell);
     if(!EXPR_OF_TYPE(consCell, EXPR_CONS)) {
-            ERROR(ERR_UNEXPECTED_VAL, "setCar: Expected Cons, got other");
+            ERROR(ERR_UNEXPECTED_VAL, "setCdr: Expected Cons, got other");
             expressionDispose(env, consCell);
             return NIL;
     }

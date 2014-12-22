@@ -34,14 +34,16 @@
 /**
  * Performs basic checks on the argument list
  */
-#define INIT_NATIVE_FUNCTION(env, expr) { \
-    assert(env && expr); \
-    IF_SAFETY_CODE( { \
-        if(!EXPR_IS_NIL(expr) && !EXPR_IS_CONS(expr)) { \
-            ERROR(ERR_UNEXPECTED_VAL, "Severe internal error: Argument list is not a list!"); \
-            return NIL; \
-        }; \
-    }); \
+#define INIT_NATIVE_FUNCTION(funName, env, expr) {                            \
+    DEBUG_PRINT_PARAM("Entering %s\n", funName);                              \
+    assert(env && expr);                                                      \
+    IF_SAFETY_CODE( {                                                         \
+        if(!EXPR_IS_NIL(expr) && !EXPR_IS_CONS(expr)) {                       \
+            ERROR(ERR_UNEXPECTED_VAL,                                         \
+                    "Severe internal error: Argument list is not a list!");   \
+            return NIL;                                                       \
+        };                                                                    \
+    });                                                                       \
 }
 
 /**
@@ -182,6 +184,12 @@ struct Expression *cond(struct Expression *env, struct Expression *expr);
 
 struct Expression *begin(struct Expression *env, struct Expression *expr);
 
+
+
+/**
+ * Enforces run of garbage collector
+ */
+struct Expression *gc_run(struct Expression *env, struct Expression *expr);
 
 
 /*****************************************************************************

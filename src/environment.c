@@ -80,6 +80,7 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "SYMBOL?",          symbolP);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LAMBDA?",          lambdaP);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "ENVIRONMENT?",     environmentP);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "GC-RUN",           gc_run);
 
     ENVIRONMENT_ADD_STRING(env, ((NIL)->data.string), NIL); 
     ENVIRONMENT_ADD_STRING(env, ((T)->data.string), T); 

@@ -21,6 +21,7 @@
 #include "expression.h"
 #include "error.h"
 #include "safety.h"
+#include "garbage_collector.h"
 
 
 #define MODULE_NAME "nativefunctions.c"
@@ -35,13 +36,13 @@
 
 
 /*****************************************************************************
- *                                  MACROS
+ *                                  BASIC FUNCTIONS
  *****************************************************************************/
 
 
 
 struct Expression *quote(struct Expression *env, struct Expression *expr) {
-    assert(env && expr);
+    INIT_NATIVE_FUNCTION("quote", env, expr);
     DEBUG_PRINT_EXPR(env, expr);
     if(EXPR_IS_NIL(expr)) return NIL;
     return expressionAssign(env, intCar(env, expr));
@@ -50,9 +51,8 @@ struct Expression *quote(struct Expression *env, struct Expression *expr) {
 
 struct Expression *set(struct Expression *env, struct Expression *expr) {
     struct Expression *sym, *val;
-    assert(env && expr);
 
-    DEBUG_PRINT("Entering set");
+    INIT_NATIVE_FUNCTION("set", env, expr);
 
     ASSIGN_2_PARAMS(env, expr, sym, val, "2 arguments expected");
     if(!EXPR_OF_TYPE(sym, EXPR_SYMBOL)) { 
@@ -71,9 +71,8 @@ struct Expression *set(struct Expression *env, struct Expression *expr) {
 
 struct Expression *define(struct Expression *env, struct Expression *expr) {
     struct Expression *sym, *val, *pEnv = env;
-    assert(env && expr);
 
-    DEBUG_PRINT("Entering define");
+    INIT_NATIVE_FUNCTION("define", env, expr);
 
     ASSIGN_2_PARAMS(env, expr, sym, val, "2 arguments expected");
     if(!EXPR_OF_TYPE(sym, EXPR_SYMBOL)) { 
@@ -99,7 +98,7 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
 struct Expression *cond(struct Expression *env, struct Expression *expr) {
     struct Expression *iter, *condition, *body;
 
-    assert(env && expr);
+    INIT_NATIVE_FUNCTION("cond", env, expr);
 
     ITERATE_LIST(env, expr, iter, { \
             ASSIGN_2_PARAMS(env, iter, condition, body, "2 arguments expected"); \
@@ -118,7 +117,7 @@ struct Expression *cond(struct Expression *env, struct Expression *expr) {
 struct Expression *begin(struct Expression *env, struct Expression *expr) {
     struct Expression *iter, *res = NIL;
 
-    assert(env && expr);
+    INIT_NATIVE_FUNCTION("begin", env, expr);
 
     ITERATE_LIST(env, expr, iter, { \
             res = eval(env, iter); \
@@ -127,6 +126,15 @@ struct Expression *begin(struct Expression *env, struct Expression *expr) {
     return res;
 }
 
+
+
+struct Expression *gc_run(struct Expression *env, struct Expression *expr) {
+    
+    INIT_NATIVE_FUNCTION("gc_run", env, expr);
+
+    return GC_RUN(env);
+
+}
 
 
 /*****************************************************************************
@@ -139,7 +147,7 @@ struct Expression *add(struct Expression *env, struct Expression *expr) {
     struct Expression *car = 0;
     float res = 0;
 
-    DEBUG_PRINT("Entering add\n");
+    INIT_NATIVE_FUNCTION("add", env, expr);
 
     ITERATE_LIST(env, expr, car, { \
         /* TODO: Check for conversion errors */ \
@@ -159,7 +167,7 @@ struct Expression *mul(struct Expression *env, struct Expression *expr) {
     struct Expression *car = NULL;
     float res = 1;
 
-    DEBUG_PRINT("Entering mul\n");
+    INIT_NATIVE_FUNCTION("mul", env, expr);
 
     ITERATE_LIST(env, expr, car, { \
         /* TODO: Check for conversion errors */ \
@@ -180,10 +188,7 @@ struct Expression *divide(struct Expression *env, struct Expression *expr) {
     struct Expression *cdr;
     float divident, divisor;
 
-    INIT_NATIVE_FUNCTION(env, expr);
-
-
-    DEBUG_PRINT("Entering mul\n");
+    INIT_NATIVE_FUNCTION("divide", env, expr);
 
     SECURE_CAR(env, expr, car, "Argument list flawed");
     car = eval(env, car);
@@ -226,7 +231,7 @@ struct Expression *divide(struct Expression *env, struct Expression *expr) {
 
 struct Expression *and(struct Expression *env, struct Expression *expr) {
     struct Expression *car;
-    INIT_NATIVE_FUNCTION(env, expr);
+    INIT_NATIVE_FUNCTION("and", env, expr);
     ITERATE_LIST(env, expr, car, { \
        car = eval(env, car); \
        if(EXPR_IS_NIL(car)) return NIL; \
@@ -237,7 +242,7 @@ struct Expression *and(struct Expression *env, struct Expression *expr) {
 
 struct Expression *or(struct Expression *env, struct Expression *expr) {
     struct Expression *car;
-    INIT_NATIVE_FUNCTION(env, expr);
+    INIT_NATIVE_FUNCTION("or", env, expr);
     ITERATE_LIST(env, expr, car, { \
        car = eval(env, car); \
        if(!EXPR_IS_NIL(car)) return T; \
@@ -247,7 +252,7 @@ struct Expression *or(struct Expression *env, struct Expression *expr) {
 
 struct Expression *not(struct Expression *env, struct Expression *expr) {
     struct Expression *car;
-    INIT_NATIVE_FUNCTION(env, expr);
+    INIT_NATIVE_FUNCTION("not", env, expr);
     if(EXPR_IS_NIL(expr)) return T;
     car = eval(env, intCar(env, expr));
     return EXPR_IS_NIL(car) ? T : NIL;
@@ -266,7 +271,7 @@ struct Expression *numEqual(struct Expression *env, struct Expression *expr) {
     struct Expression *first = NULL;
     float res = 0;
 
-    DEBUG_PRINT("Entering numEqual\n");
+    INIT_NATIVE_FUNCTION("numEqual", env, expr);
 
     SECURE_CARCDR(env, expr, first, expr, "Flawed argument list");
     first = eval(env, first);
@@ -297,7 +302,7 @@ struct Expression *numSmaller(struct Expression *env, struct Expression *expr) {
     struct Expression *first = NULL;
     float res = 0, nextRes = 0;
 
-    DEBUG_PRINT("Entering numSmaller\n");
+    INIT_NATIVE_FUNCTION("numSmaller", env, expr);
 
     SECURE_CARCDR(env, expr, first, expr, "Flawed argument list");
     first = eval(env, first);
@@ -332,25 +337,31 @@ struct Expression *numSmaller(struct Expression *env, struct Expression *expr) {
 
 
 
-#define DEFINE_PREDICATE_FUNCTION(predicateName, iterator, test)                        \
+#define DEFINE_PREDICATE_FUNCTION(predicateName, iterator, test)              \
     struct Expression * predicateName (struct Expression *env,                \
                                        struct Expression *expr) {             \
         struct Expression *iterator;                                          \
-        INIT_NATIVE_FUNCTION(env, expr);                                      \
-        ITERATE_LIST(env, expr, iterator,{ iterator = eval(env, iterator); if(EXPR_IS_NIL(iterator) || !(test)){ return NIL; }}); \
+        INIT_NATIVE_FUNCTION(predicateName, env, expr);                       \
+        ITERATE_LIST(env, expr, iterator,{ iterator = eval(env, iterator);    \
+                if(EXPR_IS_NIL(iterator) || !(test)){ return NIL; }});        \
         return T;                                                             \
     } 
 
 
-DEFINE_PREDICATE_FUNCTION(integerP,        iter, (EXPR_OF_TYPE(iter, EXPR_INTEGER)))
+DEFINE_PREDICATE_FUNCTION(integerP,        iter, \
+        (EXPR_OF_TYPE(iter, EXPR_INTEGER)))
 
-DEFINE_PREDICATE_FUNCTION(floatP,          iter, (EXPR_OF_TYPE(iter, EXPR_FLOAT)))
+DEFINE_PREDICATE_FUNCTION(floatP,          iter, \
+        (EXPR_OF_TYPE(iter, EXPR_FLOAT)))
 
-DEFINE_PREDICATE_FUNCTION(characterP,      iter, (EXPR_OF_TYPE(iter, EXPR_CHARACTER)))
+DEFINE_PREDICATE_FUNCTION(characterP,      iter, \
+        (EXPR_OF_TYPE(iter, EXPR_CHARACTER)))
 
-DEFINE_PREDICATE_FUNCTION(nativeFunctionP, iter, (EXPR_OF_TYPE(iter, EXPR_NATIVE_FUNC)))
+DEFINE_PREDICATE_FUNCTION(nativeFunctionP, iter, \
+        (EXPR_OF_TYPE(iter, EXPR_NATIVE_FUNC)))
 
-DEFINE_PREDICATE_FUNCTION(stringP,         iter, (EXPR_OF_TYPE(iter, EXPR_STRING)))
+DEFINE_PREDICATE_FUNCTION(stringP,         iter, \
+        (EXPR_OF_TYPE(iter, EXPR_STRING)))
 
 
 /* SYMBOL? needs special treatment, because in here, NIL will cause T to be
@@ -358,7 +369,7 @@ DEFINE_PREDICATE_FUNCTION(stringP,         iter, (EXPR_OF_TYPE(iter, EXPR_STRING
 struct Expression * symbolP(struct Expression *env,
                             struct Expression *expr) {
     struct Expression *iterator;                      
-    INIT_NATIVE_FUNCTION(env, expr);
+    INIT_NATIVE_FUNCTION("symbolP", env, expr);
     ITERATE_LIST(env, expr, iterator,{ \
        iterator = eval(env, iterator); \
        if(!(EXPR_OF_TYPE(iterator, EXPR_SYMBOL))) { \
@@ -369,11 +380,14 @@ struct Expression * symbolP(struct Expression *env,
 } 
 
 
-DEFINE_PREDICATE_FUNCTION(consP,           iter, (EXPR_OF_TYPE(iter, EXPR_CONS)))
+DEFINE_PREDICATE_FUNCTION(consP,           iter, \
+        (EXPR_OF_TYPE(iter, EXPR_CONS)))
 
-DEFINE_PREDICATE_FUNCTION(lambdaP,         iter, (EXPR_OF_TYPE(iter, EXPR_LAMBDA)))
+DEFINE_PREDICATE_FUNCTION(lambdaP,         iter, \
+        (EXPR_OF_TYPE(iter, EXPR_LAMBDA)))
 
-DEFINE_PREDICATE_FUNCTION(environmentP,    iter, (EXPR_OF_TYPE(iter, EXPR_ENVIRONMENT)))
+DEFINE_PREDICATE_FUNCTION(environmentP,    iter, \
+        (EXPR_OF_TYPE(iter, EXPR_ENVIRONMENT)))
 
 
 #undef DEFINE_PREDICATE_FUNCTION
