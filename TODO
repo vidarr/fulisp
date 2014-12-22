@@ -1,3 +1,10 @@
+* Call GC if out-of-mem occurs
+
+* Introduce strategy to call GC regularely
+
+* Optimize MARK_AND_SWEEP: Unmarking of all expressions necessary? 
+                           Traverse hashmap using iterator
+
 * expressionForceDispose: Should handle disposal of root environment 
 
 * Introduce 2 new types: Reader/Writer
