@@ -42,7 +42,8 @@
 struct Expression;
 
 
-typedef struct Expression *(NativeFunction)(struct Expression *env, struct Expression *);
+typedef struct Expression *(NativeFunction)(struct Expression *env,
+        struct Expression *);
 
 
 #include "lisp_internals.h"
@@ -275,7 +276,8 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type,
  * @return the new expression
  *         or null in case of an error
  */
-struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunction *content);
+struct Expression *expressionCreateNativeFunc(struct Expression *env, 
+        NativeFunction *content);
 
 
 /**

@@ -20,8 +20,9 @@
 
 #include <limits.h>
 
-#define VERSION "0.3.0"
-#define COPYRIGHT "Copyright (C) 2010, 2012  Michael J. Beer <michael.josef.beer@googlemail.com>"
+#define VERSION "0.4.0"
+#define COPYRIGHT "Copyright (C) 2010, 2012, 2014  "                          \
+                  "Michael J. Beer <michael.josef.beer@googlemail.com>"
 
 #define DEBUG
 /* #define DEBUG_READER */

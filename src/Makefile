@@ -1,7 +1,8 @@
 #CC=clang
 CC=gcc
 MKDIR=mkdir
-LAUNCHER=valgrind --leak-check=full
+#LAUNCHER=valgrind --leak-check=full
+LAUNCHER=
 
 ifeq ($(CC), gcc)
 include ../config/gcc.mk
@@ -38,7 +39,7 @@ $(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)
 
 
-tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env  $(BUILD_DIR)/test-streams $(BUILD_DIR)/test-memory $(BUILD_DIR)/test-eval-gc
+tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env  $(BUILD_DIR)/test-streams $(BUILD_DIR)/test-memory $(BUILD_DIR)/test-gc
 
 
 exec-tests: tests
@@ -49,7 +50,7 @@ exec-tests: tests
      $(LAUNCHER) $(BUILD_DIR)/test-streams && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-reader && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-eval && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-eval-gc 
+	 $(LAUNCHER) $(BUILD_DIR)/test-gc 
 
 
 $(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES)
@@ -66,8 +67,8 @@ $(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o $(BUILD_DIR)/t
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
 
 
-$(BUILD_DIR)/test-eval-gc: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval-gc.o $(BUILD_DIR)/testfileinput.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval-gc  $^ $(LDFLAGS)
+$(BUILD_DIR)/test-gc: $(OBJECT_FILES)  $(BUILD_DIR)/test-gc.o $(BUILD_DIR)/testfileinput.o
+	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-gc  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-stack: $(OBJECT_FILES) $(BUILD_DIR)/test-stack.o

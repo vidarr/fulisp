@@ -128,9 +128,9 @@ struct Expression *begin(struct Expression *env, struct Expression *expr) {
 
 
 
-struct Expression *gc_run(struct Expression *env, struct Expression *expr) {
+struct Expression *gcRun(struct Expression *env, struct Expression *expr) {
     
-    INIT_NATIVE_FUNCTION("gc_run", env, expr);
+    INIT_NATIVE_FUNCTION("gcRun", env, expr);
 
     return GC_RUN(env);
 

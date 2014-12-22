@@ -21,6 +21,7 @@
 #include "config.h"
 
 struct Expression;
+struct Environment;
 
 /**
  * struct in the environment reserved for the GC to store whatever data it 
@@ -100,7 +101,7 @@ struct ExprGcInfo {
 
 struct EnvGcInfo {
     int marker;             /* Current marker used */
-    size_t noReclaimedExpr; /* Number of expressions reclaimed during last run */
+    size_t noReclaimedExpr; /* Number of expressions reclaimed dur. last run */
     size_t noMarkedExpr;    /* Number of expressions in use during last run */
 };
 
@@ -109,7 +110,7 @@ struct EnvGcInfo {
 #    define __GC_INIT_EXPR_INFO(initcounter)
 #    define __GC_RUN(env)                    gcMarkAndSweep(env)
 #    define __GC_INIT_EXPRESSION(env, expr)  gcMarkExpression(env, expr)
-#    define __GC_INIT_ENVIRONMENT(env)       {env->gcInfo.marker = 0; }
+#    define __GC_INIT_ENVIRONMENT(env)       gcInitEnvironment(env)
 #    define __GC_GET_REF_COUNT(env, expr)    1
 #    define __GC_DEC_REF_COUNT(env, expr)    while(0) {}
 #    define __GC_INC_REF_COUNT(env, expr)    while(0) {}
@@ -117,7 +118,10 @@ struct EnvGcInfo {
 
 struct Expression *gcMarkAndSweep   (struct Expression *env);
 
-struct Expression *gcMarkExpression (struct Expression *env, struct Expression *expr);
+struct Expression *gcMarkExpression (struct Expression *env, 
+        struct Expression *expr);
+
+struct Expression *gcInitEnvironment(struct Environment *environ);
 
 #else
 

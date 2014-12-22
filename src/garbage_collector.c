@@ -52,11 +52,12 @@ struct Expression * gcMarkAndSweep(struct Expression *env) {
     gcIntFlipMarker(environ);
     marker = environ->gcInfo.marker;
     environ->gcInfo.noMarkedExpr = 0;
+    environ->gcInfo.noReclaimedExpr = 0;
     DEBUG_PRINT("Marking...\n");
     /* Perhaps unnecessary ... */
     gcIntUnmarkAll(marker, environ); 
     gcIntMarkExpression(marker, env, environ->current);
-    gcIntMarkEnv(marker, env);
+    gcIntMarkExpression(marker, env, env);
     DEBUG_PRINT("Sweeping...\n");
     gcIntSweep(environ);
     DEBUG_PRINT_PARAM("Still in use: %lu\n", environ->gcInfo.noMarkedExpr);
@@ -76,6 +77,14 @@ struct Expression * gcMarkExpression(struct Expression *env,
     environ = EXPRESSION_ENVIRONMENT(env);
     marker = environ->gcInfo.marker;
     return gcIntMarkExpression(marker, env, expr);
+}
+
+
+struct Expression *gcInitEnvironment(struct Environment *environ) {
+    assert(environ);
+    environ->gcInfo.marker = 0;
+    environ->current = NULL;
+    return T;
 }
 
 
@@ -204,9 +213,9 @@ static struct Expression * gcIntMarkExpression(int marker,
 
     assert(env);
 
-    if(! expr) {
+    if(expr == NULL) {
         DEBUG_PRINT("Expression is NIL\n");
-        return NIL;
+        return T;
     }
     DEBUG_PRINT_EXPR(env, expr);
     if(IS_MARKED(marker, expr)) return T;

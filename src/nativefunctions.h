@@ -189,7 +189,7 @@ struct Expression *begin(struct Expression *env, struct Expression *expr);
 /**
  * Enforces run of garbage collector
  */
-struct Expression *gc_run(struct Expression *env, struct Expression *expr);
+struct Expression *gcRun(struct Expression *env, struct Expression *expr);
 
 
 /*****************************************************************************

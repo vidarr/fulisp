@@ -135,6 +135,7 @@ void deleteMemory(struct Memory *mem);
 
 #    if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
 
+
 #        define __MEMORY_GET_CONS(mem, cons) { \
             if((mem)->nextCons == NULL) __HANDLE_OUT_OF_CONS_MEM(mem); \
             cons = (mem)->nextCons; \
