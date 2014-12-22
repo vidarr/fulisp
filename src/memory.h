@@ -120,7 +120,8 @@ void deleteMemory(struct Memory *mem);
 #    define __MEMORY_GET_EXPRESSION(mem, expr) { \
         if((mem)->nextExpr == NULL) __HANDLE_OUT_OF_EXPR_MEM(mem); \
         expr = (mem)->nextExpr; \
-        (mem)->nextExpr = (struct Expression *)EXPRESSION_STRING((mem)->nextExpr); \
+        (mem)->nextExpr = \
+                (struct Expression *)EXPRESSION_STRING((mem)->nextExpr); \
      }    
 
 #    define __MEMORY_DISPOSE_EXPRESSION(mem, expr) { \

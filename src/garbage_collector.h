@@ -92,6 +92,12 @@ struct ExprGcInfo {
 
 #elif       GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
 
+#    if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
+
+#        error("MARK_AND_SWEEP does not support EXPRESSION_FORMAT_EXPANDED")
+
+#    endif
+
 struct EnvGcInfo {
     int marker;     /* Current marker used */
 };

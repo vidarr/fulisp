@@ -23,16 +23,17 @@
 #define VERSION "0.3.0"
 #define COPYRIGHT "Copyright (C) 2010, 2012  Michael J. Beer <michael.josef.beer@googlemail.com>"
 
-/* #define DEBUG */
+#define DEBUG
 /* #define DEBUG_READER */
 /* #define DEBUG_EVAL*/
 /* #define DEVUG_ENVIRONMENT*/
 /* #define DEBUG_NATIVE_FUNCTIONS */
 /* #define DEBUG_CONS */
-/* #define DEBUG_EXPRESSION*/
-/* #define DEBUG_SYMBOL_TABLE*/
-/* #define DEBUG_STACK*/
-#define DEBUG_LAMBDA
+/* #define DEBUG_EXPRESSION */
+/* #define DEBUG_SYMBOL_TABLE */
+/* #define DEBUG_STACK */
+/* #define DEBUG_LAMBDA */
+#define DEBUG_GARBAGE_COLLECTOR
 
 /**
  * Should hash tables place strings or copies of strings as keys?
