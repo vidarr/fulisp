@@ -51,7 +51,7 @@
  * car.
  * @param env current environment
  * @param list consed list 
- * @param runVar variable to use as running variable. Must be of type "struct Expression *"
+ * @param runVar variable to use as iterator. Must be type "struct Expression *"
  * @param code the code to map onto the list's entries
  */
 #define ITERATE_LIST(env, list, runVar, code) { \

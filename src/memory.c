@@ -20,6 +20,8 @@
 #include <stdio.h>
 #include "memory.h"
 #include "config.h"
+#include "garbage_collector.h"
+
 
 #define MODULE_NAME "memory.c"
 
@@ -44,7 +46,8 @@ void allocateNewExpressionBlock(struct Memory *mem) {
    
     block = (struct ExpressionBlock *)malloc(sizeof(struct ExpressionBlock));
     if(block == NULL) outOfMemory();
-    block->memory = (struct Expression *)malloc(sizeof(struct Expression) * MEMORY_BLOCK_SIZE);
+    block->memory = (struct Expression *)
+        malloc(sizeof(struct Expression) * MEMORY_BLOCK_SIZE);
     if(block->memory == NULL) outOfMemory();
  
 #   ifdef MEMORY_AUTOEXTEND

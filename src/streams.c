@@ -24,15 +24,95 @@
 
 
 
-/*****************************************************************************
- *                         Unbuffered CharReadStream
- *****************************************************************************/ 
-
-
 
 void reportPushBackUnimplemented(struct CharReadStream *stream, char c) {
     ERROR(ERR_UNIMPLEMENTED, "Push back not implemented by this reader!");
 }
+
+
+
+/*****************************************************************************
+ *               Unbuffered CharReadStream Reading from String
+ *****************************************************************************/ 
+
+
+
+struct IntStringCharReadStreamData {
+    char *originalString;
+    char *currentPos;
+};
+
+
+char getNextCharFromString(struct CharReadStream *stream) {
+    struct IntStringCharReadStreamData *intData;
+    char   got;
+
+    assert(stream);
+
+    intData = (struct IntStringCharReadStreamData *) stream->intConfig;
+    got     = *(intData->currentPos);
+    if(got != 0) {
+        intData->currentPos++;
+    } else {
+        got = STREAM_RETURN_CHAR_ON_ERROR;
+    }
+    return got;
+}
+
+
+void disposeStringCharReadStream(struct CharReadStream *stream) {
+    struct IntStringCharReadStreamData *intData;
+
+    assert(stream);
+
+    intData = (struct IntStringCharReadStreamData *) stream->intConfig;
+    free(intData->originalString);
+    free(intData);
+    free(stream);
+}
+
+
+int statusString(struct CharReadStream *stream) {
+    struct IntStringCharReadStreamData *intData;
+
+    assert(stream);
+
+    intData = (struct IntStringCharReadStreamData *) stream->intConfig;
+    if(! intData)                 return STREAM_STATUS_INTERNAL_ERROR;
+    if(! intData->originalString) return STREAM_STATUS_INTERNAL_ERROR;
+    if(! intData->currentPos)     return STREAM_STATUS_INTERNAL_ERROR;
+    if(intData->currentPos == 0)  return STREAM_STATUS_EOS;
+    return STREAM_STATUS_OK;
+}
+
+
+struct CharReadStream *makeStringCharReadStream(char *s) {
+    struct CharReadStream *stream;
+    struct IntStringCharReadStreamData *intData;
+    size_t strLen;
+
+    assert(s);
+
+    strLen = strlen(s);
+    intData                 = (struct IntStringCharReadStreamData *)
+        malloc(sizeof(struct IntStringCharReadStreamData));
+    intData->originalString = (char *)malloc(sizeof(char) * strlen(s));
+    strncpy(intData->originalString, s, strLen);
+    intData->currentPos     = intData->originalString;
+    stream            = malloc(sizeof(struct CharReadStream));
+    stream->intConfig = (void *)intData;
+    stream->getNext   = getNextCharFromString;
+    stream->dispose   = disposeStringCharReadStream;
+    stream->status    = statusString;
+    stream->pushBack  = reportPushBackUnimplemented;
+    return stream;
+}
+
+
+/*****************************************************************************
+ *                         Unbuffered CharReadStream
+ *****************************************************************************/ 
+
 
 
 char getNextCharFromCFile(struct CharReadStream *stream) {

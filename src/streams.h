@@ -122,6 +122,13 @@ struct CharReadStream {
 
 
 /**
+ * Create a charReadStream to read from a C string
+ * Will read and return chars
+ */
+struct CharReadStream *makeStringCharReadStream(char *s);
+
+
+/**
  * Create a charReadStream to read from a C-Stream
  * Will read and return chars
  */
