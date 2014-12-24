@@ -17,7 +17,7 @@
  */
 
 #include "streams.h"
-#include "reader.h"
+#include "fulispreader.h"
 #include "eval.h"
 #include "benchmarking.h"
 #include "test.h"
@@ -63,7 +63,7 @@ static int performTest(int (check)(struct Expression*)) {
 
 static void printUnexpectedNumberOfExpressions(const char *kind, 
         size_t actual, size_t expected) {      
-        sprintf(strBuffer, 
+        SAFE_SPRINTF(strBuffer, STR_BUFFER_LEN,
                 "Unexpected number of %s expressions: %lu  Expected %lu", 
                 kind, actual, expected); 
     testWarn(strBuffer);                                                      
@@ -158,7 +158,7 @@ static int testConsExpressions(struct Expression *env) {
 
 static char *createSymbolName(size_t no) {
     char *str = (char *)malloc(30 * sizeof(char));
-    sprintf(str, "s%lu", no);
+    SAFE_SPRINTF(str, 30, "s%lu", no);
     return str;
 }
 
@@ -256,12 +256,16 @@ static struct Expression * execute(
         struct Expression *env, char *statement) {
     struct Expression * expr;
     struct Reader *reader;
+    struct CharReadStream *bufStream;
     struct CharReadStream *stream = makeStringCharReadStream(statement);
-    reader = newReader(env, stream); 
+    bufStream = makeCharReadStream(stream);
+    reader = newFuLispReader(env, bufStream); 
     expr = fuRead(reader);
+    assert(expr);
+    expr = eval(env, expr);
     deleteReader(reader);
     STREAM_DISPOSE(stream);
-    expr = eval(env, expr);
+    STREAM_DISPOSE(bufStream);
     return expr;
 }
 
@@ -278,6 +282,7 @@ static int testComplex(struct Expression *env) {
 
     size_t reclaimed, marked;
     size_t reclaimed2, marked2;
+    assert(env);
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed2, &reclaimed2);
     execute(env, "(define adder (lambda (x y) (+ x y)))");
@@ -341,7 +346,7 @@ int main(int argc, char **argv) {
 
 #   endif
 
-    strBuffer = malloc(255 * sizeof(char));
+    strBuffer = malloc(STR_BUFFER_LEN * sizeof(char));
     result = test(performTest(testAtomicExpressions), 
             "Check allocating atomic expressions");
     result = test(performTest(testConsExpressions), 

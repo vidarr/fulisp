@@ -37,7 +37,8 @@
 
 #else 
 
-#    define ERROR_BASIC(e, m) {lispFile = __FILE__; lispLine = __LINE__; lispError = e; \
+#    define ERROR_BASIC(e, m) { \
+        lispFile = __FILE__; lispLine = __LINE__; lispError = e; \
         lispErrorMessage = m;}
 
 #endif
@@ -65,21 +66,24 @@
 /**
  * The error codes 
  */
-#define ERR_OK 0
-#define ERR_NIL_VALUE 1
-#define ERR_SYNTAX_ERROR 2
-#define ERR_BUFFER_OVERFLOW 100
-#define ERR_UNEXPECTED_TYPE 200
-#define ERR_UNEXPECTED_VAL  300
-#define ERR_EXPECTED_FUNCTION 310
+#define ERR_OK                        0
+#define ERR_NIL_VALUE                 1
+#define ERR_SYNTAX_ERROR              2
+#define ERR_BUFFER_OVERFLOW           100
+#define ERR_UNEXPECTED_TYPE           200
+#define ERR_UNEXPECTED_VAL            300
+#define ERR_EXPECTED_FUNCTION         310
 #define ERR_UNEXPECTED_END_OF_STRING  500
-#define ERR_UNBALANCED_PARENTHESES 600
-#define ERR_UNEVEN_SYM_VAL 700
-#define ERR_UNRESOLVABLE 1100
-#define ERR_STACK_OVERFLOW 1210
-#define ERR_STACK_UNDERFLOW 1211
-#define ERR_UNIMPLEMENTED 2000
-#define ERR_DIVISION_BY_ZERO 3000
+#define ERR_UNBALANCED_PARENTHESES    600
+#define ERR_UNEVEN_SYM_VAL            700
+#define ERR_UNRESOLVABLE              1100
+#define ERR_STACK_OVERFLOW            1210
+#define ERR_STACK_UNDERFLOW           1211
+#define ERR_UNIMPLEMENTED             2000
+#define ERR_DIVISION_BY_ZERO          3000
+
+#define WRN_BEGIN_WRN_CODE            10000
+#define WRN_UNSAFE_CODE               WRN_BEGIN_WRN_CODE + 10
 
 extern int lispError;
 extern char *lispErrorMessage;

@@ -51,7 +51,7 @@ char getNextCharFromString(struct CharReadStream *stream) {
 
     intData = (struct IntStringCharReadStreamData *) stream->intConfig;
     got     = *(intData->currentPos);
-    if(got != 0) {
+    if(got != '\0') {
         intData->currentPos++;
     } else {
         got = STREAM_RETURN_CHAR_ON_ERROR;
@@ -96,8 +96,9 @@ struct CharReadStream *makeStringCharReadStream(char *s) {
     strLen = strlen(s);
     intData                 = (struct IntStringCharReadStreamData *)
         malloc(sizeof(struct IntStringCharReadStreamData));
-    intData->originalString = (char *)malloc(sizeof(char) * strlen(s));
+    intData->originalString = (char *)malloc(sizeof(char) * (strLen + 1));
     strncpy(intData->originalString, s, strLen);
+    intData->originalString[strLen] = '\0';
     intData->currentPos     = intData->originalString;
     stream            = malloc(sizeof(struct CharReadStream));
     stream->intConfig = (void *)intData;

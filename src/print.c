@@ -64,36 +64,11 @@ char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer, st
 }
 
 
-void printToStream(struct Expression *env, struct CharWriteStream *stream, struct Expression *expr) {
+void printToStream(struct Expression *env, 
+        struct CharWriteStream *stream, struct Expression *expr) {
     /* Macros for printToStream()
        These macros rely on some variables to exist & be initialized properly!
        Should be used internally to printToStream() ONLY! */
-#ifdef GENERATE_SAFETY_CODE
-
-#   if __STDC_VERSION__ >= 199901L
-
-    int noBytes;
-#      define SAFE_SPRINTF(str, size, fmt, arg) { \
-    noBytes = snprintf(str, size, fmt, arg); \
-    if(noBytes <= 0) { \
-        ERROR(ERR_BUFFER_OVERFLOW, "expressionToString(): Buffer exceeded"); \
-        free(buf); \
-        return; \
-    }; \
-}
-
-
-#    else
-
-#       define SAFE_SPRINTF(str, size, fmt, arg) sprintf(str, fmt, arg)
-
-#    endif
-
-#else
-
-#   define SAFE_SPRINTF(str, size, fmt, arg) sprintf(str, fmt, arg)
-
-#endif
 
 #define PRINT_STREAM(x) {char *b = x; for(; *b != 0; b++) \
     STREAM_WRITE(stream, *b);}
@@ -217,7 +192,8 @@ void printToStream(struct Expression *env, struct CharWriteStream *stream, struc
             STREAM_WRITE(stream, ')');
     };
 
-/* Prevent to use macros 'internal' to printToStream() elsewhere, would probably not be intented! */
+/* Prevent to use macros 'internal' to printToStream() elsewhere, 
+ * would probably not be intented! */
 #undef PRINT_STREAM
 #undef PRINT_EXPR
 #undef PRINT_NATIVE_FUNC

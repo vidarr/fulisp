@@ -27,7 +27,8 @@
  * @param stream the stream to read the code from
  * @return the new reader
  */
-struct Reader *newFuLispReader(struct Expression *env, struct CharReadStream *stream); 
+struct Reader *newFuLispReader(struct Expression *env, 
+        struct CharReadStream *stream); 
 
 
 #endif

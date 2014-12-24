@@ -53,14 +53,17 @@ void createStrings(int no) {
         symNames[level] = (char **)malloc(sizeof(char *) * no);
         symNamesLvl[level] = (char **)malloc(sizeof(char *) * no);
         for(i = 0; i < no; i++) {
-            idStrings[level][i] = (char *)malloc(sizeof(char) * ID_STRING_LENGTH);
-            sprintf(idStrings[level][i], ID_STRING, level, i);
+            idStrings[level][i] = (char *)malloc(sizeof(char) * 
+                    ID_STRING_LENGTH);
+            SAFE_SPRINTF(idStrings[level][i], ID_STRING_LENGTH, 
+                    ID_STRING, level, i);
             symNames[level][i] = (char *)malloc(sizeof(char)
                     * SYM_NAME_LENGTH);
-            sprintf(symNames[level][i], SYM_NAME, i);
+            SAFE_SPRINTF(symNames[level][i], SYM_NAME_LENGTH, SYM_NAME, i);
             symNamesLvl[level][i] = (char *)malloc(sizeof(char)
                     * SYM_NAME_LVL_LENGTH);
-            sprintf(symNamesLvl[level][i], SYM_NAME_LVL, level, i);
+            SAFE_SPRINTF(symNamesLvl[level][i], SYM_NAME_LVL_LENGTH,
+                    SYM_NAME_LVL, level, i);
         }
     }
 }

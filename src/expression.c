@@ -138,7 +138,8 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type,
 }
 
 
-struct Expression *expressionCreateNativeFunc(struct Expression *env, NativeFunction *content) {
+struct Expression *expressionCreateNativeFunc(struct Expression *env, 
+        NativeFunction *content) {
     struct Expression *expr;
     /* expr = malloc(sizeof(struct Expression)); */
     MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
