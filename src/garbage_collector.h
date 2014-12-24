@@ -93,12 +93,6 @@ struct ExprGcInfo {
 
 #elif       GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
 
-#    if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
-
-#        error("MARK_AND_SWEEP does not support EXPRESSION_FORMAT_EXPANDED")
-
-#    endif
-
 struct EnvGcInfo {
     size_t noReclaimedExpr; /* Number of expressions reclaimed dur. last run */
     size_t noMarkedExpr;    /* Number of expressions in use during last run */

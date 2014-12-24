@@ -41,7 +41,8 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     }
     /* ALERT: Does not work with non-valid expressions - occur together with
      * parsing of conses */
-    DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n", GC_GET_REF_COUNT(env, expr));
+    DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n", \
+            GC_GET_REF_COUNT(env, expr));
     DEBUG_PRINT_PARAM("   type %u \n", (int)EXPRESSION_TYPE(expr));
     DEBUG_PRINT_EXPR(env, expr);
 
@@ -67,8 +68,10 @@ void expressionForceDispose(struct Expression *env, struct Expression *expr) {
     if(EXPR_IS_POINTER(expr)) {
         if(EXPR_OF_TYPE(expr, EXPR_CONS)) {
             DEBUG_PRINT("   expr is a cons cell - recursive disposing...\n");
-            if(EXPRESSION_CAR(expr)) expressionDispose(env, EXPRESSION_CAR(expr));
-            if(EXPRESSION_CDR(expr)) expressionDispose(env, EXPRESSION_CDR(expr));
+            if(EXPRESSION_CAR(expr)) 
+                expressionDispose(env, EXPRESSION_CAR(expr));
+            if(EXPRESSION_CDR(expr)) 
+                expressionDispose(env, EXPRESSION_CDR(expr));
             /* free(expr->data.cons); */
             __EXPRESSION_DISPOSE_CONS_STRUCT(mem, expr);
         } else if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
@@ -94,11 +97,6 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type,
     expr->type = type;
     if(EXPR_IS_CONS(expr)) {
         /* Allocate mem for struct Cons */
-#       if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
-            struct Cons *cons;
-            MEMORY_GET_CONS(ENVIRONMENT_GET_MEMORY(env), cons); 
-            __EXPRESSION_CONS(expr) = cons;
-#       endif
         expressionAssign(env, content);
         expressionAssign(env, extension);
         __EXPRESSION_SET_CAR(expr, content);
@@ -119,11 +117,13 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type,
             case EXPR_NATIVE_FUNC:
 #ifndef STRICT_NATIVE_FUNCS
                 __EXPRESSION_NATIVE_FUNC(expr) = 
-                    ((struct Expression *(*)(struct Expression *, struct Expression *))content);
+                    ((struct Expression *(*)
+                      (struct Expression *, struct Expression *))content);
 #else 
                 ERROR(ERR_UNEXPECTED_TYPE,
-                        "Cannot create native function expression via expressionCreate. " \
-                        "Use expressionCreateNativeFunc instead!");
+                        "Cannot create native function expression via "   \
+                        "expressionCreate. Use expressionCreateNativeFunc " \
+                        "instead!");
                 return NIL;
                 
 #endif
@@ -180,7 +180,8 @@ struct Expression *createSymbol(struct Expression *env, char *str) {
 }
 
 
-struct Expression *expressionAssign(struct Expression *env, struct Expression *expr) {
+struct Expression *expressionAssign(struct Expression *env, 
+        struct Expression *expr) {
     if(expr) GC_INC_REF_COUNT(env, expr);
     return expr;
 }
@@ -203,30 +204,6 @@ char true[] = "T";
 
 char rest[] = "&REST";
 
-#if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
-
-struct Expression expressionNil = { 
-    EXPR_SYMBOL,
-    {nil} 
-    GC_INIT_EXPR_INFO(0)
-}; 
-
-struct Expression expressionT = {
-    EXPR_SYMBOL,
-    {true}
-    GC_INIT_EXPR_INFO(0)
-};
-
-struct Expression expressionRest = {
-    EXPR_SYMBOL,
-    {rest}
-    GC_INIT_EXPR_INFO(1)
-};
-
-
-#elif EXPRESSION_FORMAT == EXPRESSION_FORMAT_PACKED
-
-
 struct Expression expressionNil = { 
     EXPR_SYMBOL,
     {nil}, 
@@ -247,13 +224,4 @@ struct Expression expressionRest = {
     {NULL} 
     GC_INIT_EXPR_INFO(1)
 };
-
-
-#else  /* expression format */
-
-
-#   error("EXPRESSION_FORMAT not recognized");
-
-
-#endif /* expression format */
 

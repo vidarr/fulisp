@@ -24,7 +24,7 @@
 #define COPYRIGHT "Copyright (C) 2010, 2012, 2014  "                          \
                   "Michael J. Beer <michael.josef.beer@googlemail.com>"
 
-#define DEBUG
+/* #define DEBUG */
 /* #define DEBUG_READER */
 /* #define DEBUG_EVAL*/
 /* #define DEVUG_ENVIRONMENT*/
@@ -113,7 +113,7 @@
 /**
  * Kind of format to use for expressions
  */
-#define EXPRESSION_FORMAT EXPRESSION_FORMAT_PACKED
+#define EXPRESSION_FORMAT TrueLies
 
 
 
@@ -132,25 +132,6 @@
  * Reference counting garbage collector
  */
 #define GC_MARK_AND_SWEEP     2
-
-
-/*******************************************************************************
- *                        POSSIBLE EXPRESSION FORMATS
- *******************************************************************************/
-
-
-
-/**
- * Expanded format, i.e. use a separate struct for cons cells
- */
-#define EXPRESSION_FORMAT_EXPANDED 1
-
-/**
- * Packed format, i.e. use only one unified struct for all kinds of
- * expresssions.
- */
-#define EXPRESSION_FORMAT_PACKED   2
-
 
 
 /******************************************************************************

@@ -26,6 +26,12 @@
 #include <stdio.h>
 
 
+#ifdef DEBUG_GARBAGE_COLLECTOR
+#include "debugging.h"
+#else
+#include "no_debugging.h"
+#endif
+
 BENCHMARK_DECLARE_VAR(bmTime, bmTemp, bmTimeSt)
 
 #define STR_BUFFER_LEN 255
@@ -51,7 +57,6 @@ static int performTest(int (check)(struct Expression*)) {
     BENCHMARK_INIT(bmTime, bmTemp, bmTimeSt);
     result =  check(env);
     BENCHMARK_DO( \
-        ffprintf(stderr,stderr, "Benchmark: Total time measured: %li \n", bmTime) \
     );
 
     expressionDispose(env, env);
@@ -115,7 +120,6 @@ static int testConsExpressions(struct Expression *env) {
     int result;
     size_t index;
     size_t maxNo, freeNo, usedNo;
-    struct Environment * environ;
     struct Expression  * car, * cdr;
     GC_RUN(env);
     getGcBenchmarkVars(env, &freeNo, &usedNo);
@@ -199,7 +203,6 @@ static int testEnvironment(struct Expression *env) {
     int result;
     size_t index;
     size_t freeNo, usedNo;
-    struct Environment * environ;
     GC_RUN(env);
     getGcBenchmarkVars(env, &freeNo, &usedNo);
     /* will create 10 * 7 expressions
@@ -278,13 +281,8 @@ static int testComplex(struct Expression *env) {
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed2, &marked2);
     execute(env, "(define adder (lambda (x y) (+ x y)))");
-    fprintf(stderr,"execute(env, '(define adder (lambda (x y) (+ x y)))')\n");
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed, &marked);
-    fprintf(stderr,"reclaimed before define: %lu   after %lu\n",
-            reclaimed2, reclaimed);
-    fprintf(stderr,"marked before define: %lu   after %lu\n",
-            marked2, marked);
     if(reclaimed2 < reclaimed) {
         testWarn("Reclaimed number unexpected\n");
         return TEST_FAILED;
@@ -294,13 +292,9 @@ static int testComplex(struct Expression *env) {
         return TEST_FAILED;
     }
     execute(env, "(+ 4 5)");
-    fprintf( stderr, "execute(env, \"(+ 4 5)\")\n");
+    DEBUG_PRINT("execute(env, \"(+ 4 5)\")\n");
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed2, &marked2);
-    fprintf(stderr,"reclaimed before define: %lu   after %lu\n",
-            reclaimed, reclaimed2);
-    fprintf(stderr,"marked before define: %lu   after %lu\n",
-            marked, marked2);
     reclaimed--; /* current contained ADDER which is still in lookup */
     marked++;    /* see above */
     if(reclaimed != reclaimed2) {
@@ -312,13 +306,9 @@ static int testComplex(struct Expression *env) {
         return TEST_FAILED;
     } 
     execute(env, "(set! adder nil)");
-    fprintf( stderr, "execute(env, \"(set adder nil)\")\n");
+    DEBUG_PRINT("execute(env, \"(set adder nil)\")\n");
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed, &marked);
-    fprintf(stderr,"reclaimed before define: %lu   after %lu\n",
-            reclaimed2, reclaimed);
-    fprintf(stderr,"marked before define: %lu   after %lu\n",
-            marked2, marked);
     if(reclaimed < reclaimed2) {
         testWarn("Reclaimed number decreased - should be increased\n");
         return TEST_FAILED;
@@ -328,13 +318,9 @@ static int testComplex(struct Expression *env) {
         return TEST_FAILED;
     }
     execute(env, "(define two 2)");
-    fprintf( stderr, "execute(env, \"(define two 2)\")\n");
+    DEBUG_PRINT("execute(env, \"(define two 2)\")\n");
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed2, &marked2);
-    fprintf(stderr,"reclaimed before define: %lu   after %lu\n",
-            reclaimed, reclaimed2);
-    fprintf(stderr,"marked before define: %lu   after %lu\n",
-            marked, marked2);
     if(reclaimed2 > reclaimed) {
         testWarn("Reclaimed number unexpected\n");
         return TEST_FAILED;

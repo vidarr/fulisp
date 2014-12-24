@@ -484,20 +484,7 @@ struct Expression *createSymbol(struct Expression *env, char *str);
 
 
 
-#if      EXPRESSION_FORMAT == EXPRESSION_FORMAT_PACKED
-
-#   include "__expression_packed.h"
-
-#elif    EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED 
-
-#   include "__expression_expanded.h"
-
-#else    /* expression format - default case */
-
-#   error("Did not specify which kind of structure to use for expression")
-
-#endif   /* expression format */
-
+#include "__expression_packed.h"
 
 
 #endif

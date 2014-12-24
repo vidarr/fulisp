@@ -133,23 +133,6 @@ void deleteMemory(struct Memory *mem);
      }    
 
 
-#    if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
-
-
-#        define __MEMORY_GET_CONS(mem, cons) { \
-            if((mem)->nextCons == NULL) __HANDLE_OUT_OF_CONS_MEM(mem); \
-            cons = (mem)->nextCons; \
-            (mem)->nextCons = (struct Cons *)((mem)->nextCons->car); \
-         }    
-
-#        define __MEMORY_DISPOSE_CONS(mem, cons) { \
-            (cons)->car = (struct Expression *)(mem)->nextCons; \
-            (mem)->nextCons = cons; \
-         }    
-
-#    endif   /* EXPRESSION_FORMAT */
-
-
 #else    /* MEMORY_USE_PREALLOCATION */
 
 
@@ -162,35 +145,7 @@ void deleteMemory(struct Memory *mem);
 
 
 
-#    if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXTENDED
-
-
-#        define __MEMORY_GET_CONS(mem, cons) { \
-            cons = ((struct Cons *)malloc(sizeof(struct Cons))); \
-         }    
-
-#        define __MEMORY_DISPOSE_CONS(mem, cons) \
-            free(cons)
-
-
-#    endif   /* EXPRESSION_FORMAT */
-
-
 #endif   /* MEMORY_USE_PREALLOCATION */
-
-
-#if EXPRESSION_FORMAT == EXPRESSION_FORMAT_EXPANDED
-
-struct ConsBlock {
-    struct Cons *memory;
-#    ifdef MEMORY_AUTOEXTEND
-    struct ConsBlock *nextBlock; 
-#   endif
-};
-
-
-#endif /* EXPRESSION_FORMAT */
-
 
 
 #endif
