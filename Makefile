@@ -13,6 +13,9 @@ exec-tests:
 clean:
 	cd src && make clean
 
+preprocess:
+	cd src && make preprocess
+
 tarball: 
 	git archive --format tar HEAD | gzip > fulisp.tar.gz
 

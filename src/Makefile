@@ -14,13 +14,23 @@ endif
 
 BUILD_DIR=../build
 
+PREPROCESS_DIR=../preprocessed
+
 TAGS_FILE=tags
 
-SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c  test.c environment.c eval.c stack.c lambda.c benchmarking.c memory.c garbage_collector.c
+SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c  \
+			  nativefunctions.c print.c reader.c safety.c streams.c \
+			  symboltable.c  test.c environment.c eval.c stack.c lambda.c \
+			  benchmarking.c memory.c garbage_collector.c 
 
-HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h stack.h lambda.h benchmarking.h memory.h garbage_collector.h
+HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h \
+			  nativefunctions.h print.h reader.h safety.h streams.h \
+			  symboltable.h test.h environment.h eval.h stack.h lambda.h  \
+			  benchmarking.h memory.h garbage_collector.h
 
 OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
+
+PREPROCESSED_FILES=$(addprefix $(PREPROCESS_DIR)/, $(SOURCE_FILES:.c=.i))
 
 
 
@@ -28,7 +38,7 @@ all: $(BUILD_DIR)/fulisp
 
 
 
-.PHONY: clean tests exec-tests fulisp
+.PHONY: clean tests exec-tests fulisp preprocess
 
 
 
@@ -67,7 +77,7 @@ $(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o $(BUILD_DIR)/t
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
 
 
-$(BUILD_DIR)/test-gc: $(OBJECT_FILES)  $(BUILD_DIR)/test-gc.o $(BUILD_DIR)/testfileinput.o
+$(BUILD_DIR)/test-gc: $(OBJECT_FILES)  $(BUILD_DIR)/test-gc.o 
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-gc  $^ $(LDFLAGS)
 
 
@@ -100,9 +110,19 @@ $(BUILD_DIR)/fulisp: $(OBJECT_FILES) $(BUILD_DIR)/repl.o
 
     
 clean:
-	@echo "REMOVING BINARIES..."; rm  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*
+	@echo "REMOVING BINARIES..."; [ -d $(BUILD_DIR) ] && rm -r $(BUILD_DIR); \
+		echo "REMOVING PREPROCESSED SOURCES..."; [ -d $(PREPROCESS_DIR) ] && \
+		rm -r $(PREPROCESS_DIR);
 
 
 tags: $(wildcard *.c) $(wildcard *.h)
 	ctags -R *.c *.h > $(TAGS_FILE)
+
+$(PREPROCESS_DIR): 
+	mkdir $(PREPROCESS_DIR)
+
+$(PREPROCESS_DIR)/%.i : %.c
+	$(CC) -E $< -o $@
+
+preprocess: $(PREPROCESS_DIR) $(PREPROCESSED_FILES)
 
