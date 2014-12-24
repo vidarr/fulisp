@@ -100,7 +100,6 @@ struct ExprGcInfo {
 #    endif
 
 struct EnvGcInfo {
-    int marker;             /* Current marker used */
     size_t noReclaimedExpr; /* Number of expressions reclaimed dur. last run */
     size_t noMarkedExpr;    /* Number of expressions in use during last run */
 };

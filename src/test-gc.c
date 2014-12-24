@@ -51,7 +51,7 @@ static int performTest(int (check)(struct Expression*)) {
     BENCHMARK_INIT(bmTime, bmTemp, bmTimeSt);
     result =  check(env);
     BENCHMARK_DO( \
-        fprintf(stderr, "Benchmark: Total time measured: %li \n", bmTime) \
+        ffprintf(stderr,stderr, "Benchmark: Total time measured: %li \n", bmTime) \
     );
 
     expressionDispose(env, env);
@@ -98,18 +98,15 @@ static int testAtomicExpressions(struct Expression *env) {
     int result;
     size_t index;
     size_t maxNo, usedNo;
-    struct Environment * environ;
     GC_RUN(env);
-    environ = EXPRESSION_ENVIRONMENT(env);
-    maxNo  = environ->gcInfo.noReclaimedExpr;
-    usedNo = environ->gcInfo.noMarkedExpr;
+    getGcBenchmarkVars(env, &maxNo, &usedNo);
     for(index = 0; index  < maxNo; index++ ) {
         EXPRESSION_CREATE_ATOM(env, EXPR_INTEGER, &index);
     }
     GC_RUN(env);
     result = ensureReclaimed(env, maxNo);
     if(result != TEST_PASSED) return result;
-    result = ensureMarked(env, usedNo);
+    result = ensureMarked(env, usedNo - 2); /* T and NIL are not marked again */
     return result;
 }
 
@@ -121,9 +118,7 @@ static int testConsExpressions(struct Expression *env) {
     struct Environment * environ;
     struct Expression  * car, * cdr;
     GC_RUN(env);
-    environ = EXPRESSION_ENVIRONMENT(env);
-    freeNo  = environ->gcInfo.noReclaimedExpr;
-    usedNo = environ->gcInfo.noMarkedExpr;
+    getGcBenchmarkVars(env, &freeNo, &usedNo);
     maxNo  = freeNo / 3 - 1;
     for(index = 0; index  < maxNo; index++ ) {
         car = EXPRESSION_CREATE_ATOM(env, EXPR_INTEGER, &index);
@@ -142,7 +137,6 @@ static int testConsExpressions(struct Expression *env) {
         EXPRESSION_CREATE_CONS(env, car, cdr); 
     }
     GC_RUN(env);
-    testMessage("Checking CONS list\n");
     result = ensureMarked(env, usedNo);
     if(result != TEST_PASSED) return result;
     result = ensureReclaimed(env, freeNo);
@@ -207,13 +201,11 @@ static int testEnvironment(struct Expression *env) {
     size_t freeNo, usedNo;
     struct Environment * environ;
     GC_RUN(env);
-    environ = EXPRESSION_ENVIRONMENT(env);
-    freeNo  = environ->gcInfo.noReclaimedExpr;
-    usedNo  = environ->gcInfo.noMarkedExpr;
+    getGcBenchmarkVars(env, &freeNo, &usedNo);
     /* will create 10 * 7 expressions
-     * 10 * 6 - 1 should be garbage-collected */
+     * 10 * 6 should be garbage-collected */
     freeNo -= 10;
-    usedNo += 12;
+    usedNo += 10;
     for(index = 0; index  < 10; index++ ) {
         createLookupEntry(env, index);
     }
@@ -284,10 +276,15 @@ static int testComplex(struct Expression *env) {
     size_t reclaimed2, marked2;
     assert(env);
     GC_RUN(env);
-    getGcBenchmarkVars(env, &reclaimed2, &reclaimed2);
+    getGcBenchmarkVars(env, &reclaimed2, &marked2);
     execute(env, "(define adder (lambda (x y) (+ x y)))");
+    fprintf(stderr,"execute(env, '(define adder (lambda (x y) (+ x y)))')\n");
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed, &marked);
+    fprintf(stderr,"reclaimed before define: %lu   after %lu\n",
+            reclaimed2, reclaimed);
+    fprintf(stderr,"marked before define: %lu   after %lu\n",
+            marked2, marked);
     if(reclaimed2 < reclaimed) {
         testWarn("Reclaimed number unexpected\n");
         return TEST_FAILED;
@@ -297,8 +294,15 @@ static int testComplex(struct Expression *env) {
         return TEST_FAILED;
     }
     execute(env, "(+ 4 5)");
+    fprintf( stderr, "execute(env, \"(+ 4 5)\")\n");
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed2, &marked2);
+    fprintf(stderr,"reclaimed before define: %lu   after %lu\n",
+            reclaimed, reclaimed2);
+    fprintf(stderr,"marked before define: %lu   after %lu\n",
+            marked, marked2);
+    reclaimed--; /* current contained ADDER which is still in lookup */
+    marked++;    /* see above */
     if(reclaimed != reclaimed2) {
         testWarn("Reclaimed number not equal\n");
         return TEST_FAILED;
@@ -306,10 +310,15 @@ static int testComplex(struct Expression *env) {
     if(marked != marked2) {
         testWarn("Marked number not equal\n");
         return TEST_FAILED;
-    }
-    execute(env, "(set adder nil)");
+    } 
+    execute(env, "(set! adder nil)");
+    fprintf( stderr, "execute(env, \"(set adder nil)\")\n");
     GC_RUN(env);
-    getGcBenchmarkVars(env, &reclaimed2, &marked2);
+    getGcBenchmarkVars(env, &reclaimed, &marked);
+    fprintf(stderr,"reclaimed before define: %lu   after %lu\n",
+            reclaimed2, reclaimed);
+    fprintf(stderr,"marked before define: %lu   after %lu\n",
+            marked2, marked);
     if(reclaimed < reclaimed2) {
         testWarn("Reclaimed number decreased - should be increased\n");
         return TEST_FAILED;
@@ -319,8 +328,13 @@ static int testComplex(struct Expression *env) {
         return TEST_FAILED;
     }
     execute(env, "(define two 2)");
+    fprintf( stderr, "execute(env, \"(define two 2)\")\n");
     GC_RUN(env);
-    getGcBenchmarkVars(env, &reclaimed, &marked);
+    getGcBenchmarkVars(env, &reclaimed2, &marked2);
+    fprintf(stderr,"reclaimed before define: %lu   after %lu\n",
+            reclaimed, reclaimed2);
+    fprintf(stderr,"marked before define: %lu   after %lu\n",
+            marked, marked2);
     if(reclaimed2 > reclaimed) {
         testWarn("Reclaimed number unexpected\n");
         return TEST_FAILED;
@@ -349,10 +363,13 @@ int main(int argc, char **argv) {
     strBuffer = malloc(STR_BUFFER_LEN * sizeof(char));
     result = test(performTest(testAtomicExpressions), 
             "Check allocating atomic expressions");
+    if(result != TEST_PASSED) return 0;
     result = test(performTest(testConsExpressions), 
             "Check allocating cons expressions");
+    if(result != TEST_PASSED) return 0;
     result = test(performTest(testEnvironment), 
             "Check dealing with environment");
+    if(result != TEST_PASSED) return 0;
     result = test(performTest(testComplex), 
             "Check Complex operations");
     free(strBuffer);
