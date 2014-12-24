@@ -109,10 +109,14 @@ void printToStream(struct Expression *env,
 #endif 
 
 
+    int exprType;
     char *buf;
+#define BUFTOWRITETO_LENGTH 200
+    char bufToWriteTo[BUFTOWRITETO_LENGTH + 1];
     struct Expression *e1, *e2;
 
     assert(stream);
+    bufToWriteTo[BUFTOWRITETO_LENGTH] = '\0';
 
     if(!expr) {
         DEBUG_PRINT("expressionToString(): NIL");
@@ -190,6 +194,29 @@ void printToStream(struct Expression *env,
                 printToStream(env, stream, e1);
             };
             STREAM_WRITE(stream, ')');
+            break;
+        case EXPR_ENVIRONMENT:
+            DEBUG_PRINT_PARAM("expressionToString(): ENV Expression: %p\n",
+                    expr->data.env);
+            buf = "ENV: ";
+            PRINT_STREAM(buf);
+            PRINT_EXPR(pointer, %p, ((void *)expr->data.env));
+            break;
+        case EXPR_NO_TYPE:
+            DEBUG_PRINT("expressionToString(): "   \
+                   "INVALID Expression\n");
+            buf = "INVALID EXPRESSION";
+            PRINT_STREAM(buf);
+            break;
+        default:
+            exprType = EXPRESSION_TYPE(expr);
+            DEBUG_PRINT_PARAM("expressionToString(): "  \
+                    "UNKNOWN Expression of type %ui\n", exprType);
+            SAFE_SPRINTF(bufToWriteTo, BUFTOWRITETO_LENGTH,    \
+                    "UNKNOWN expression type %ui", exprType);
+            PRINT_STREAM(bufToWriteTo);
+            break;
+
     };
 
 /* Prevent to use macros 'internal' to printToStream() elsewhere, 
