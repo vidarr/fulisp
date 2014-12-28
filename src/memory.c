@@ -44,10 +44,11 @@ void allocateNewExpressionBlock(struct Memory *mem) {
     int i;
     struct ExpressionBlock *block;
    
-    block = (struct ExpressionBlock *)malloc(sizeof(struct ExpressionBlock));
+    block = 
+        (struct ExpressionBlock *)SAFE_MALLOC(sizeof(struct ExpressionBlock));
     if(block == NULL) outOfMemory();
     block->memory = (struct Expression *)
-        malloc(sizeof(struct Expression) * MEMORY_BLOCK_SIZE);
+        SAFE_MALLOC(sizeof(struct Expression) * MEMORY_BLOCK_SIZE);
     if(block->memory == NULL) outOfMemory();
  
 #   ifdef MEMORY_AUTOEXTEND
@@ -64,7 +65,7 @@ void allocateNewExpressionBlock(struct Memory *mem) {
 
 struct Memory *newMemory(void) {
 #   ifdef MEMORY_USE_PREALLOCATION
-       struct Memory *mem = (struct Memory *)malloc(sizeof(struct Memory));
+       struct Memory *mem = (struct Memory *)SAFE_MALLOC(sizeof(struct Memory));
        if(mem == NULL) outOfMemory(); 
        mem->exprBlocks = NULL;
        allocateNewExpressionBlock(mem);

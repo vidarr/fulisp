@@ -38,7 +38,7 @@ all: $(BUILD_DIR)/fulisp
 
 
 
-.PHONY: clean tests exec-tests fulisp preprocess
+.PHONY: clean tests check fulisp preprocess
 
 
 
@@ -52,7 +52,7 @@ $(BUILD_DIR):
 tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env  $(BUILD_DIR)/test-streams $(BUILD_DIR)/test-memory $(BUILD_DIR)/test-gc
 
 
-exec-tests: tests
+check: tests
 	@$(LAUNCHER) $(BUILD_DIR)/test-stack && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-hash && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-memory && \
@@ -110,9 +110,10 @@ $(BUILD_DIR)/fulisp: $(OBJECT_FILES) $(BUILD_DIR)/repl.o
 
     
 clean:
-	@echo "REMOVING BINARIES..."; [ -d $(BUILD_DIR) ] && rm -r $(BUILD_DIR); \
-		echo "REMOVING PREPROCESSED SOURCES..."; [ -d $(PREPROCESS_DIR) ] && \
-		rm -r $(PREPROCESS_DIR);
+	@echo "REMOVING BINARIES..."; \
+        if [ -d $(BUILD_DIR) ]; then  rm -r $(BUILD_DIR); fi; \
+		echo "REMOVING PREPROCESSED SOURCES...";  \
+	   	if [ -d $(PREPROCESS_DIR) ]; then rm -r $(PREPROCESS_DIR); fi
 
 
 tags: $(wildcard *.c) $(wildcard *.h)

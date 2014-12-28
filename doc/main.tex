@@ -1,9 +1,14 @@
 \documentclass[12pt]{article}
 \usepackage{amsmath}
+\usepackage{listings}
+\lstset{
+    stepnumber=1,
+    language=Lisp
+}
+
 \title{\LaTeX}
 \date{}
 \begin{document}
-
 
 % Remember: Use Oxford English!
 
@@ -130,6 +135,13 @@ that is the following relation should hold:
 
 ({\texttt READ} ({\texttt COERCE} {\texttt 'STRING} {\texttt EXPRESSION})) $\equiv$ {\texttt EXPRESSION}
 
+\section{Implementation}
+
+\subsection{Garbage Collection}
+
+\subsection{Strings}
+
+\include{strings}
 
 \section{Optimisations}
 

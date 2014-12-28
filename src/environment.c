@@ -29,8 +29,10 @@
 
 
 
-struct Expression *environmentCreate(struct Expression *parent, struct Memory *mem) {
-    struct Environment *env = (struct Environment *)malloc(sizeof(struct Environment));
+struct Expression *environmentCreate(struct Expression *parent, 
+        struct Memory *mem) {
+    struct Environment *env = 
+        (struct Environment *)SAFE_MALLOC(sizeof(struct Environment));
     env->lookup = hashTableCreate(SYMBOL_TABLE_SIZE, stdHashFunction);
     if(parent && !EXPR_IS_NIL(parent)) {
         DEBUG_PRINT_PARAM("Counter of parent before expressionAssign: %i\n", parent->counter);

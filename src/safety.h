@@ -89,12 +89,48 @@ extern int safetyLevel;
 
 
 /*****************************************************************************
+ *           Prevent memory allocation errors remaining undetected
+ *****************************************************************************/
+
+
+#define malloc unsafe_malloc
+
+#define SAFE_MALLOC(noBytes)    __SAFE_MALLOC(noBytes)
+
+
+/*****************************************************************************
+ *                   Dealing with strings in a safe manner
+ *
+ * Safe strings have a length field resembling the maximum length of the 
+ * string (excl. the terminal 0).
+ * The lowest bit does not account for the length but servers as a marker 
+ * for srings being tainted.
+ *****************************************************************************/
+
+
+/** 
+ * Create new string 
+ * @param length maximum length of string (excl. zero terminator)
+ * @return char * 
+ */
+#define SAFE_STRING_NEW(length)       __SAFE_STRING_NEW(length)
+
+/**
+ * Checks whether str is a string that has been tainted.
+ */
+#define SAFE_STRING_IS_TAINTED(str, len)   __SAFE_STRING_IS_TAINTED(str, len)
+
+/**
+ * Recover a string that has been marked as TAINTED
+ */
+#define SAFE_STRING_RESET_TAINTED(str, len) __SAFE_STRING_RESET_TAINTED(str, len)
+
+
+/*****************************************************************************
  *                  PREVENT USING UNSAFE STRING FUNCTIONS
  *
  * In order to prevent buffer overflows, this code should enforce the use of 
- * safe string functions. These functions take a length argument and will
- * cause the program to terminate if a function would operate outside of 
- * this length.
+ * safe string functions. 
  *
  *****************************************************************************/
 
@@ -107,11 +143,11 @@ extern int safetyLevel;
 /**
  * Safe version of sprintf(3) .
  * Should always be preferred to sprintf(3) / snprintf(3)
- * Semtantics as snprintf(3) :
+ * Semtantics as sprintf(3) :
  * int virtualStrlen = 
- *    SAFE_SPRINTF(targetStr, targetStrMaxLen, FORMAT_STRING, ...)
+ *    SAFE_SPRINTF(targetStr, FORMAT_STRING, ...)
  */
-#define SAFE_SPRINTF             safeSprintf
+#define SAFE_SPRINTF        __SAFE_SPRINTF
 
 /** 
  * strnlen(3) replacement as it is not available in C89
@@ -134,8 +170,6 @@ extern int safetyLevel;
  *                             I N T E R N A L S
  *===========================================================================*/
 
-int safeSprintf(char *str, size_t size, const char *format, ...);
-
 
 #ifdef GENERATE_SAFETY_CODE
 
@@ -145,28 +179,51 @@ int safeSprintf(char *str, size_t size, const char *format, ...);
 #define __IF_NOT_SAFETY_CODE(c) 
 #define __SET_SAFETY_LEVEL(x) {safetyLevel = x;}
 
-#define __SAFE_STRLEN(x, len)      safeStrlen(x, len)
-#define __SAFE_STRCPY(d, s, len)   safeStrcpy(d, s, len)
+#define __SAFE_MALLOC(noBytes) safeMalloc(noBytes)
+
+#define __SAFE_STRING_NEW(length)    stringNew(length)
+#define __SAFE_STRING_IS_TAINTED(str, len) stringIsTainted(str, len)
+#define __SAFE_STRING_RESET_TAINTED(str, len) do{str[len] = '\0';}while(0)
+
+#define __SAFE_SPRINTF      safeSprintf
+#define __SAFE_STRLEN(x, len)    safeStrlen(x, len)
+#define __SAFE_STRCPY(d, s, len) safeStrcpy(d, s, len)
 /* Has not been implemented yet */
-#define __SAFE_STRCMP(s1, s2, len) strcmp(s1, s2)
+#define __SAFE_STRCMP(s1, s2, len)      strcmp(s1, s2)
 
-size_t safeStrlen(const char *str, size_t maxLen);
-char * safeStrcpy(char *dest,const char *src, size_t maxLen);
+void   * safeMalloc(size_t noBytes);
+char   * stringNew(size_t length);
+int      stringIsTainted(char *str, size_t length);
 
-#else
+int      safeSprintf(char *str, size_t length, const char *format, ...);
+size_t   safeStrlen(const char *str, size_t maxLen);
+char   * safeStrcpy(char *dest, const char *src, size_t maxLen);
+
+#else    /* GENERATE_SAFETY_CODE */
+
+
 /* if no safe code should be generated, just remove all safety macros */
 
 #define __IF_SAFETY_HIGH(x)
 #define __IF_SAFETY_CODE(x)
-#define __IF_NOT_SAFETY_CODE(c) {c}
+#define __IF_NOT_SAFETY_CODE(c) do{c}while(0)
 #define __SET_SAFETY_LEVEL(x)
 
+#undef malloc
+#define __SAFE_MALLOC(noBytes) malloc(noBytes)
+
+#define __SAFE_STRING_NEW(length)     \
+    ((char *)malloc(sizeof(char) * (length + 1)))
+#define __SAFE_STRING_IS_TAINTED(str, length) ((int)0)
+#define __SAFE_STRING_RESET_TAINTED(str, len) 
+
+#define __SAFE_SPRINTF             sprintf
 #define __SAFE_STRLEN(x, len)      strlen(x)
 #define __SAFE_STRCPY(d, s, len)   strcpy(d, s)
 #define __SAFE_STRCMP(s1, s2, len) strcmp(s1, s2)
 
 
-#endif
+#endif   /* GENERATE_SAFETY_CODE */
 
 
 #endif

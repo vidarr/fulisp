@@ -28,8 +28,8 @@
 
 
 struct Stack *stackCreate(int size) {
-  struct Stack *stack = (struct Stack *)malloc(sizeof(struct Stack));
-  stack->stack = (StackEntry *)malloc(sizeof(StackEntry) * (size + 1));
+  struct Stack *stack = (struct Stack *)SAFE_MALLOC(sizeof(struct Stack));
+  stack->stack = (StackEntry *)SAFE_MALLOC(sizeof(StackEntry) * (size + 1));
   stack->first = stack->next = stack->stack;
   stack->last = stack->stack + size; /* - 1; */
   stackResetError(stack);

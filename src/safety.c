@@ -18,6 +18,9 @@
   
 #include "safety.h"
 
+#define __OLD_MALLOC malloc
+
+#undef malloc
 #undef strlen
 #undef strcpy
 #undef strcmp
@@ -28,71 +31,117 @@
 #include <string.h>
 #include <stdarg.h>
 #include "error.h"
+#include <assert.h>
 
  
 int safetyLevel = SAFETY_HIGH; 
 
 
-/**
+
+/*============================================================================
+ * Safe string functions 
+ *===========================================================================*/
+
+
+
+#ifdef GENERATE_SAFETY_CODE
+
+
+void *safeMalloc(size_t noBytes) {
+    void *newMem = malloc(noBytes);
+    if(newMem == NULL) {
+        ERROR(ERR_INSUFFICTIENT_MEMORY ,"Could not allocate further memory");
+    }
+    return newMem;
+}
+
+#define malloc __OLD_MALLOC /* Prevent further use of malloc(3) */
+#undef  __OLD_MALLOC
+
+
+char * stringNew(size_t length) {
+    char *cString = NULL;
+
+    assert(length > 0);
+
+    cString = SAFE_MALLOC(sizeof(char) * (length + 1));
+    if(cString == NULL) {
+        return NULL;
+    }
+    cString[length] = '\0';         /* Place CANARY */
+    return cString;
+}
+
+
+int stringIsTainted(char *str, size_t length) {
+    int result = 0;
+
+    assert(str);
+
+   if(str[length] != '\0') { /* Check CANARY */
+       WARNING(ERR_UNEXPECTED_END_OF_STRING , "String has been tainted");
+       str[length - 1] = '\0';
+       result = 1;
+   } 
+   return result;
+}
+
+
+#endif
+
+
+#ifdef GENERATE_SAFETY_CODE
+
+int safeSprintf(char *str, size_t bufLen, const char *format, ...) {
+    int retVal;
+    va_list args;
+
+/*
  * This function comes in a couple of flavours, all of them are not 
  * 100% safe as the string printed is possibly trunated.
  * However, as long as  GENERATE_SAFE_CODE is defined at least 
  * buffer overflows will be detected and reported.
  */
-int safeSprintf(char *str, size_t size, const char *format, ...) {
-    int retVal;
-
-    va_list args;
-
-#ifdef GENERATE_SAFETY_CODE
 
 #   if __STDC_VERSION__ >= 199901L
 
     /* This version prevents memory corruption but possibly truncates */
     va_start(args, format);
-    retVal = vsnprintf(str, size, format, args); 
+    retVal  = vsnprintf(str, bufLen, format, args); 
     va_end(args);
-    if(retVal >= size) {
+    if(retVal >= bufLen) {
         ERROR(ERR_BUFFER_OVERFLOW, "While printing to string");
         retVal = -1;
     }
 
-#   else  /* __STDC_VERSION__ */
+#else  /* __STDC_VERSION__ */
 
     /* This version wont prevent possible memory corruptions but detect them 
      * using a CANARY 
      * and report them back */
 
-    str[size - 1] = '\0';
+    if(str[bufLen] != '\0') {
+        WARNING(ERR_UNEXPECTED_END_OF_STRING , "String has been tainted");
+        str[bufLen] = '\0';
+    }
     va_start(args, format);
     retVal = vsprintf(str, format, args); 
     va_end(args);
-    if(str[size - 1] != '\0') {
+    if(SAFE_STRING_IS_TAINTED(str, bufLen)) {
         ERROR(ERR_BUFFER_OVERFLOW, "Canary has been overwritten "
                 "while invoking sprintf(3)");
-        /* Ok, the program ends probably anyhow, but just in case ... */
-        str[size - 1] = '\0';
         retVal = -1;
     } else {
         WARNING(WRN_UNSAFE_CODE,  \
                 "Using unsafe sprintf(3) ( snprintf(3) unavailable ?)");
     }
 
-#   endif /* __STDC_VERSION__ */
-
-#else  /* GENERATE_SAFETY_CODE */
-
-    /* This version is just unsafe */
-    va_start(args, format);
-    retVal = vsprintf(str, format, args); 
-    va_end(args);
-    WARNING(WRN_UNSAFE_CODE,  \
-            "Using unsafe sprintf(3) ( snprintf(3) unavailable ?)");
-
-#endif
+#endif /* __STDC_VERSION__ */
 
     return retVal;
 }
+
+#endif  /* GENERATE_SAFETY_CODE */
 
 
 size_t safeStrlen(const char *str, size_t maxLen) {

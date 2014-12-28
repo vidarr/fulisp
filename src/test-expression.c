@@ -44,7 +44,7 @@ void sigsegvHandler(int signal) {
 int testExpression(struct Expression *env, struct Expression *expr) {
     struct Expression *ref1, *ref2, *ref3;
 
-    char *str = (char *)malloc(sizeof(char) * MAX_STR_BUFFER);
+    char *str = SAFE_STRING_NEW(MAX_STR_BUFFER);
     
     ref1 = expressionAssign(env, expr);
     ref2 = expressionAssign(env, expr);
@@ -85,7 +85,7 @@ int main (int argc, char **argv) {
     env = environmentCreate(0, mem);
 
     res = 0;
-    str = malloc((1 + strlen(TEST_STR)) * sizeof(char));
+    str = SAFE_STRING_NEW(strlen(TEST_STR) * sizeof(char));
     cons2 = EXPRESSION_CREATE_ATOM(env, EXPR_STRING, str);
     signal(SIGSEGV, sigsegvHandler); 
     memcpy(str, TEST_STR, strlen(TEST_STR) + 1);

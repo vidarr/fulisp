@@ -7,8 +7,8 @@ fulisp:
 tests:
 	cd src && make tests
 
-exec-tests:
-	cd src && make exec-tests
+check: 
+	cd src && make check
 
 clean:
 	cd src && make clean

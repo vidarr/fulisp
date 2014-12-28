@@ -34,17 +34,17 @@
 
 
 struct Reader *newReader(struct Expression *env, struct CharReadStream *stream) { 
-    struct Reader *reader = malloc(sizeof(struct Reader));
+    struct Reader *reader = SAFE_MALLOC(sizeof(struct Reader));
     assert(env && stream);
     reader->type = EXPR_SYMBOL;
-    reader->expr = (void *)0;
+    reader->expr = NULL;
     reader->env = env;
-    reader->lookup = malloc(sizeof(struct ReadMacroLookUp));
+    reader->lookup = SAFE_MALLOC(sizeof(struct ReadMacroLookUp));
     registerStandardReadMacro(reader, rmIdentity);
     reader->lookup->next = 0;
     reader->lookup->sign = 0;
     reader->stream = stream;
-    reader->buffer = (char *)malloc(sizeof(char) * READ_BUFFER_SIZE);
+    reader->buffer = SAFE_STRING_NEW(READ_BUFFER_SIZE);
     reader->symbolTable = symbolTableCreate(READER_GET_ENVIRONMENT(reader));
     resetReader(reader);
     return reader;
@@ -161,7 +161,8 @@ NativeReadMacro lookupReadMacro(struct Reader *reader, char c) {
 }
 
 
-NativeReadMacro registerStandardReadMacro(struct Reader *reader, NativeReadMacro macro) {
+NativeReadMacro registerStandardReadMacro(struct Reader *reader, 
+        NativeReadMacro macro) {
     NativeReadMacro old;
     assert(reader);
     old = reader->lookup->macro;
@@ -202,7 +203,7 @@ NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c,
     };
     /* Macro entry does not yet exist - create it */
     DEBUG_PRINT_PARAM("Created entry for '%c\n' in Read Macro Lookup\n", c);
-    entry->next = malloc(sizeof(struct ReadMacroLookUp));
+    entry->next = SAFE_MALLOC(sizeof(struct ReadMacroLookUp));
     entry = entry->next;
     entry->macro = macro;
     entry->sign = c;
@@ -234,41 +235,52 @@ void setExprOfReader(struct Reader *reader) {
         case EXPR_SYMBOL:
             *reader->current = 0;
             reader->expr = GET_SYMBOL(reader, reader->buffer);
-            DEBUG_PRINT_PARAM("   Created %s\n", EXPRESSION_STRING(reader->expr));
+            DEBUG_PRINT_PARAM("   Created %s\n", \
+                    EXPRESSION_STRING(reader->expr));
             break;
 
         case EXPR_CHARACTER:
-            reader->expr = CREATE_CHAR_EXPRESSION(READER_GET_ENVIRONMENT(reader), *(reader->current - 1));
-            DEBUG_PRINT_PARAM("   Created %c\n", EXPRESSION_CHARACTER(reader->expr));
+            reader->expr = CREATE_CHAR_EXPRESSION( \
+                    READER_GET_ENVIRONMENT(reader), *(reader->current - 1));
+            DEBUG_PRINT_PARAM("   Created %c\n",  \
+                    EXPRESSION_CHARACTER(reader->expr));
             *reader->current = 0;
             break;
 
         case EXPR_STRING:
             *reader->current = 0;
-            reader->expr = CREATE_STRING_EXPRESSION(READER_GET_ENVIRONMENT(reader), reader->buffer); /* expressionCreate(reader->type, str); */
-            DEBUG_PRINT_PARAM("   Created %s\n", EXPRESSION_STRING(reader->expr));
+            reader->expr = CREATE_STRING_EXPRESSION(  \
+                    READER_GET_ENVIRONMENT(reader), reader->buffer); 
+            DEBUG_PRINT_PARAM("   Created %s\n",  \
+                    EXPRESSION_STRING(reader->expr));
             break;
 
         case EXPR_INTEGER:
             *reader->current = 0;
             i = atoi(reader->buffer);
-            reader->expr = CREATE_INT_EXPRESSION(READER_GET_ENVIRONMENT(reader), i); /* expressionCreate(reader->type, (void *)&i); */
-            DEBUG_PRINT_PARAM("   Created %i\n", EXPRESSION_INTEGER(reader->expr));
+            reader->expr = CREATE_INT_EXPRESSION( \
+                    READER_GET_ENVIRONMENT(reader), i); 
+            DEBUG_PRINT_PARAM("   Created %i\n",  \
+                    EXPRESSION_INTEGER(reader->expr));
             break;
 
         case EXPR_FLOAT:
             *reader->current = 0;
             f = atof(reader->buffer);
-            reader->expr = CREATE_FLOAT_EXPRESSION(READER_GET_ENVIRONMENT(reader), f);/* expressionCreate(reader->type, (void *)&f); */
-            DEBUG_PRINT_PARAM("   Created %f\n", EXPRESSION_FLOATING(reader->expr));
+            reader->expr = CREATE_FLOAT_EXPRESSION( \
+                    READER_GET_ENVIRONMENT(reader), f);
+            DEBUG_PRINT_PARAM("   Created %f\n",  \
+                    EXPRESSION_FLOATING(reader->expr));
             break;
 
         case EXPR_NO_TYPE:
-            reader->expr = CREATE_INVALID_EXPRESSION(READER_GET_ENVIRONMENT(reader));
+            reader->expr = 
+                CREATE_INVALID_EXPRESSION(READER_GET_ENVIRONMENT(reader));
             break;
 
         default:
-            ERROR(ERR_UNEXPECTED_VAL, "Could not determine type of read expression");
+            ERROR(ERR_UNEXPECTED_VAL, \
+                    "Could not determine type of read expression");
     };
 
     *reader->current = 0;

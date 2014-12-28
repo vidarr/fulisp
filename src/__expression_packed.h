@@ -50,17 +50,18 @@
 struct Expression {
     int type;
     union {
-        char *string;
-        int integer;
-        char character;
-        double floating;
-        struct Expression *(*nativeFunc)(struct Expression *env, struct Expression *); 
-        struct Environment *env;
-        struct Lambda *lambda;
-        struct Expression *car;
+        char   *string;
+        int     integer;
+        char    character;
+        double  floating;
+        struct  Expression *(*nativeFunc)(struct Expression *env, struct Expression *); 
+        struct  Environment *env;
+        struct  Lambda *lambda;
+        struct  Expression *car;
     } data;  
     union {
         struct Expression *cdr;
+        size_t             length;  /* Used for length of string */
     } extension;  
     GC_DEFINE_EXPR_INFO
 };
@@ -115,17 +116,21 @@ extern struct Expression expressionRest;
 
 
 
-#define __EXPRESSION_INTEGER(expr)               (expr->data.integer)
+#define __EXPRESSION_INTEGER(expr)               ((expr)->data.integer)
 
 
-#define __EXPRESSION_FLOATING(expr)              (expr->data.floating)
+#define __EXPRESSION_FLOATING(expr)              ((expr)->data.floating)
 
 
-#define __EXPRESSION_CHARACTER(expr)             (expr->data.character)
+#define __EXPRESSION_CHARACTER(expr)             ((expr)->data.character)
 
 
-#define __EXPRESSION_STRING(expr)                (expr->data.string)
+#define __EXPRESSION_STRING(expr)                ((expr)->data.string)
 
+#define __EXPRESSION_STRING_GET_LENGTH(expr)     ((expr)->extension.length)
+
+#define __EXPRESSION_STRING_SET_LENGTH(expr, len) \
+    (expr)->extension.length = len
 
 #define __EXPRESSION_NATIVE_FUNC(expr)           ((expr)->data.nativeFunc)
 

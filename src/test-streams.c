@@ -186,16 +186,16 @@ int main(int argc, char **argv) {
 
     DECLARE_TEST(streams.c);
 
-    copyText = (char *)malloc(sizeof(char) * (len + 1));
+    copyText = SAFE_STRING_NEW(len);
 
     srand((unsigned int)time(NULL));
 
     /* Testing writing to/reading from a string */
 
-    result  = test(testStringCharWriteStream(copyText, testText, strlen(testText) + 1), 
+    result  = test(testStringCharWriteStream(copyText, testText, len + 1), 
             "CStreamCharWriteStream / buffer large enough");;
 
-    result |= test(testStringCharWriteStream(copyText, testText, strlen(testText) - 1), 
+    result |= test(testStringCharWriteStream(copyText, testText, len - 1), 
             "CStreamCharWriteStream / buffer too small");
 
     free(copyText);

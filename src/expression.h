@@ -26,7 +26,7 @@
 #define __EXPRESSION_H__
 
 #include <assert.h>
-#include <string.h>
+#include "safety.h"
 
 
 /*******************************************************************************
@@ -382,6 +382,25 @@ struct Expression *createEnvironmentExpression(struct Environment *env);
 
 
 /**
+ * Get the maximum length of a string expression.
+ * @param expr pointer to an expression
+ */
+#define EXPRESSION_STRING_LENGTH(expr) __EXPRESSION_STRING_LENGTH(expr)
+
+
+/**
+ * If you want to use this function, refrain from it and use
+ * SAFE_STRING_IS_TAINTED (safety.h) instead (as the other 
+ * function performs some on-the-fly checks)
+ * @param str and struct Expression resembling a string
+ * Returns 1 if TAINTED_FLAG has been set, 0 otherwis
+ *
+ */
+#define EXPRESSION_STRING_GET_TAINTED_BIT(str)  \
+    __EXPRESSION_STRING_GET_TAINTED_BIT(str)
+
+
+/**
  * Get the pointer to native function
  * @param expr pointer to an expression
  */
@@ -419,7 +438,8 @@ struct Expression *createEnvironmentExpression(struct Environment *env);
  * @param expr the expression that should be assigned
  * @return a pointer to the expression that is ready to be assigned to whatever
  */
-struct Expression *expressionAssign(struct Expression *env, struct Expression *expr); 
+struct Expression *expressionAssign(struct Expression *env, 
+        struct Expression *expr); 
 
 
 /**

@@ -70,6 +70,7 @@
 #define ERR_NIL_VALUE                 1
 #define ERR_SYNTAX_ERROR              2
 #define ERR_BUFFER_OVERFLOW           100
+#define ERR_LIMIT_EXCESS              110
 #define ERR_UNEXPECTED_TYPE           200
 #define ERR_UNEXPECTED_VAL            300
 #define ERR_EXPECTED_FUNCTION         310
@@ -81,6 +82,7 @@
 #define ERR_STACK_UNDERFLOW           1211
 #define ERR_UNIMPLEMENTED             2000
 #define ERR_DIVISION_BY_ZERO          3000
+#define ERR_INSUFFICTIENT_MEMORY      4000
 
 #define WRN_BEGIN_WRN_CODE            10000
 #define WRN_UNSAFE_CODE               WRN_BEGIN_WRN_CODE + 10

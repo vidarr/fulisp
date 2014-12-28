@@ -45,7 +45,8 @@ void symbolTableDispose(struct Expression *env, struct HashTable *hash) {
 }
 
 
-struct Expression *symbolTableGetSymbol(struct Expression *env, struct HashTable *hash, char *name) {
+struct Expression *symbolTableGetSymbol(struct Expression *env, 
+        struct HashTable *hash, char *name) {
     struct Expression *retVal;
     char *newName;
     assert(hash && name);
@@ -53,7 +54,7 @@ struct Expression *symbolTableGetSymbol(struct Expression *env, struct HashTable
     DEBUG_PRINT_PARAM("Search fo symbol %s ...\n", name);
     if(! (retVal = (struct Expression *)hashTableGet(hash, name))) {
         DEBUG_PRINT_PARAM("Symbol %s not found\n", name);
-        newName = (char *)malloc(sizeof(char) * (1 + strlen(name)));
+        newName = SAFE_STRING_NEW(strlen(name));
         strcpy(newName, name);
         retVal = EXPRESSION_CREATE_ATOM(env, EXPR_SYMBOL, newName);
         hashTableSet(hash, newName, retVal);

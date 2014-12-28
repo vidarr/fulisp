@@ -45,23 +45,20 @@ struct Expression *env;
 
 void createStrings(int no) {
     int i, level;
-    idStrings = (char ***)malloc(sizeof(char **) * 3);
-    symNames = (char ***)malloc(sizeof(char **) * 3);
-    symNamesLvl = (char ***)malloc(sizeof(char **) * 3);
+    idStrings = (char ***)SAFE_MALLOC(sizeof(char **) * 3);
+    symNames = (char ***)SAFE_MALLOC(sizeof(char **) * 3);
+    symNamesLvl = (char ***)SAFE_MALLOC(sizeof(char **) * 3);
     for(level = 0; level < 3; level++) {
-        idStrings[level] = (char **)malloc(sizeof(char *) * no);
-        symNames[level] = (char **)malloc(sizeof(char *) * no);
-        symNamesLvl[level] = (char **)malloc(sizeof(char *) * no);
+        idStrings[level] = (char **)SAFE_MALLOC(sizeof(char *) * no);
+        symNames[level] = (char **)SAFE_MALLOC(sizeof(char *) * no);
+        symNamesLvl[level] = (char **)SAFE_MALLOC(sizeof(char *) * no);
         for(i = 0; i < no; i++) {
-            idStrings[level][i] = (char *)malloc(sizeof(char) * 
-                    ID_STRING_LENGTH);
+            idStrings[level][i] = SAFE_STRING_NEW(ID_STRING_LENGTH);
             SAFE_SPRINTF(idStrings[level][i], ID_STRING_LENGTH, 
                     ID_STRING, level, i);
-            symNames[level][i] = (char *)malloc(sizeof(char)
-                    * SYM_NAME_LENGTH);
+            symNames[level][i] = SAFE_STRING_NEW(SYM_NAME_LENGTH);
             SAFE_SPRINTF(symNames[level][i], SYM_NAME_LENGTH, SYM_NAME, i);
-            symNamesLvl[level][i] = (char *)malloc(sizeof(char)
-                    * SYM_NAME_LVL_LENGTH);
+            symNamesLvl[level][i] = SAFE_STRING_NEW(SYM_NAME_LVL_LENGTH);
             SAFE_SPRINTF(symNamesLvl[level][i], SYM_NAME_LVL_LENGTH,
                     SYM_NAME_LVL, level, i);
         }
@@ -102,13 +99,12 @@ void printStrings(void) {
 
 int fillEnvironment(struct Expression *env, int level, int no) { 
     int i;
-    char *cp, *str;
+    char *str;
     struct Expression *expr;
     for(i = 0; i < no; i++) {
         str = symNamesLvl[level][i];
-        cp = (char *)malloc(sizeof(char) * (strlen(str) + 1));
-        strcpy(cp, str);
-        expr = EXPRESSION_CREATE_ATOM(env, EXPR_STRING, cp);
+        expr = CREATE_STRING_EXPRESSION(env, str);
+        free(str);
         ENVIRONMENT_ADD_STRING(env, symNamesLvl[level][i], expr); 
         ENVIRONMENT_ADD_STRING(env, symNames[level][i], expr); 
         expressionDispose(env, expr);
@@ -134,11 +130,8 @@ int fillEnvironment2(void) {
 
 int lookup(struct Expression *env, char *str, char *reference) {
     struct Expression *res;
-    char *cp;
     struct Expression *expr;
-    cp = (char *)malloc(sizeof(char) * (strlen(str) + 1));
-    strcpy(cp, str);
-    expr = EXPRESSION_CREATE_ATOM(env, EXPR_STRING, cp);
+    expr = CREATE_STRING_EXPRESSION(env, str);
     res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
     expressionDispose(env, expr);
     if(!res) return 1;

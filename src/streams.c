@@ -24,6 +24,24 @@
 
 
 
+#define MODULE_NAME "streams.c"
+
+#ifdef DEBUG_STREAMS
+#include "debugging.h"
+#else
+#include "no_debugging.h"
+#endif
+
+
+#define CHECK_AND_RECOVER_BUFFER_SANITY(buf, bufLen, functionName) \
+    do { \
+        size_t localBufLen = bufLen; \
+        if(SAFE_STRING_IS_TAINTED(buf, localBufLen)) { \
+            SAFE_STRING_RESET_TAINTED(buf, localBufLen); \
+            ERROR(ERR_BUFFER_OVERFLOW, functionName ": " \
+                    "Unable to push more chars onto buffer"); \
+        } \
+    }while(0)
 
 void reportPushBackUnimplemented(struct CharReadStream *stream, char c) {
     ERROR(ERR_UNIMPLEMENTED, "Push back not implemented by this reader!");
@@ -95,12 +113,12 @@ struct CharReadStream *makeStringCharReadStream(char *s) {
 
     strLen = strlen(s);
     intData                 = (struct IntStringCharReadStreamData *)
-        malloc(sizeof(struct IntStringCharReadStreamData));
-    intData->originalString = (char *)malloc(sizeof(char) * (strLen + 1));
+        SAFE_MALLOC(sizeof(struct IntStringCharReadStreamData));
+    intData->originalString = (char *)SAFE_MALLOC(sizeof(char) * (strLen + 1));
     strncpy(intData->originalString, s, strLen);
     intData->originalString[strLen] = '\0';
     intData->currentPos     = intData->originalString;
-    stream            = malloc(sizeof(struct CharReadStream));
+    stream            = SAFE_MALLOC(sizeof(struct CharReadStream));
     stream->intConfig = (void *)intData;
     stream->getNext   = getNextCharFromString;
     stream->dispose   = disposeStringCharReadStream;
@@ -159,7 +177,7 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s) {
 
     assert(s);
 
-    stream            = malloc(sizeof(struct CharReadStream));
+    stream            = SAFE_MALLOC(sizeof(struct CharReadStream));
     stream->getNext   = getNextCharFromCFile;
     stream->dispose   = disposeCStreamCharReadStream;
     stream->status    = statusCStream;
@@ -230,11 +248,16 @@ void charPushBack(struct CharReadStream *stream, char c) {
     IF_SAFETY_HIGH( \
         if(internalStruct->current - internalStruct->buffer >= \
             BUFFERED_STREAM_BUFFER_STREAM) { \
-            ERROR(ERR_BUFFER_OVERFLOW, "charPushBack(): Unable to push more chars onto read buffer"); \
+            ERROR(ERR_BUFFER_OVERFLOW, 
+                    "charPushBack(): " \
+                   "Unable to push more chars onto read buffer"); \
             return; \
         });
 
     *(internalStruct->current++) = c;
+    CHECK_AND_RECOVER_BUFFER_SANITY(internalStruct->buffer, \
+            BUFFERED_STREAM_BUFFER_STREAM, \
+            "charPushBack");
 }
 
 
@@ -265,13 +288,12 @@ void disposeCharReadStream(struct CharReadStream *stream) {
 struct CharReadStream *makeCharReadStream(struct CharReadStream
         *stream) {
     struct CharReadStream *bufStream = (struct CharReadStream *)
-        malloc(sizeof(struct CharReadStream));
+        SAFE_MALLOC(sizeof(struct CharReadStream));
     struct InternalCharBufferedStream *intStream = 
         (struct InternalCharBufferedStream *) 
-        malloc(sizeof(struct InternalCharBufferedStream));
+        SAFE_MALLOC(sizeof(struct InternalCharBufferedStream));
     intStream->current = intStream->buffer = 
-        (char *)malloc(
-            sizeof(char) * BUFFERED_STREAM_BUFFER_STREAM);
+        SAFE_STRING_NEW(BUFFERED_STREAM_BUFFER_STREAM);
     intStream->readStream = stream;
     bufStream->intConfig  = (void *)intStream;
     bufStream->pushBack   = charPushBack;
@@ -309,6 +331,8 @@ int writeBufferedCharToFile(void *intConfig, char c) {
         (struct CStreamCharWriteStream *)intConfig;
     assert(intConfig);
     *(cfg->current++) = c;
+    CHECK_AND_RECOVER_BUFFER_SANITY(cfg->buffer, cfg->bufferSize, \
+            "writeBufferedCharToFile");
     if(cfg->current - cfg->buffer <= cfg->bufferSize) {
         *cfg->current = 0;
         length = fprintf(cfg->stream,"%s", cfg->buffer);
@@ -350,7 +374,7 @@ void disposeCStreamCharWriteStream(struct CharWriteStream *stream) {
 struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file) {
     struct CStreamCharWriteStream *cfg;
     struct CharWriteStream *stream = 
-        (struct CharWriteStream *)malloc(sizeof(struct CharWriteStream));
+        (struct CharWriteStream *)SAFE_MALLOC(sizeof(struct CharWriteStream));
     assert(file);
 
     if(bufferSize == 0) {
@@ -358,11 +382,10 @@ struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file) {
         stream->write = writeCharToFile;
         stream->dispose = disposeCStreamCharWriteStream;
     } else {
-        stream->intConfig = cfg = (void *)malloc(
+        stream->intConfig = cfg = (void *)SAFE_MALLOC( \
                 sizeof(struct CStreamCharWriteStream));
         cfg->stream =(FILE *)file;
-        cfg->buffer = cfg->current = 
-        (char *)malloc(sizeof(char) * (bufferSize + 1));
+        cfg->buffer = cfg->current = SAFE_STRING_NEW(bufferSize);
         stream->write = writeBufferedCharToFile;
         stream->dispose = disposeCStreamCharWriteStream;
         cfg->bufferSize = bufferSize;
@@ -407,9 +430,9 @@ void disposeStringCharWriteStream(struct CharWriteStream *stream) {
 struct CharWriteStream *makeStringCharWriteStream(int stringLength, char
         *string) {
     struct CharWriteStream *stream = (struct CharWriteStream
-            *)malloc(sizeof(struct CharWriteStream));
-    struct intStringWriteStream *intStream = (struct intStringWriteStream
-            *)malloc(sizeof(struct intStringWriteStream));
+            *)SAFE_MALLOC(sizeof(struct CharWriteStream));
+    struct intStringWriteStream *intStream = (struct intStringWriteStream *)
+        SAFE_MALLOC(sizeof(struct intStringWriteStream));
     stream->intConfig = intStream;
     stream->write = writeCharToString;
     stream->dispose = disposeStringCharWriteStream;

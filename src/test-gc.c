@@ -155,7 +155,7 @@ static int testConsExpressions(struct Expression *env) {
 
 
 static char *createSymbolName(size_t no) {
-    char *str = (char *)malloc(30 * sizeof(char));
+    char *str = SAFE_STRING_NEW(30);
     SAFE_SPRINTF(str, 30, "s%lu", no);
     return str;
 }
@@ -346,7 +346,7 @@ int main(int argc, char **argv) {
 
 #   endif
 
-    strBuffer = malloc(STR_BUFFER_LEN * sizeof(char));
+    strBuffer = SAFE_STRING_NEW(STR_BUFFER_LEN);
     result = test(performTest(testAtomicExpressions), 
             "Check allocating atomic expressions");
     if(result != TEST_PASSED) return 0;

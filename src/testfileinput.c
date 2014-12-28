@@ -90,8 +90,8 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
     struct Expression *expr = 0;
 
 
-    inputBuffer = (char *)malloc(sizeof(char) * INPUT_BUFFER_SIZE);
-    refBuffer = (char *)malloc(sizeof(char) * INPUT_BUFFER_SIZE);
+    inputBuffer = SAFE_STRING_NEW(INPUT_BUFFER_SIZE);
+    refBuffer = SAFE_STRING_NEW(INPUT_BUFFER_SIZE);
 
 
     inFile = fopen(inFileName, "r");

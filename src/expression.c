@@ -103,6 +103,7 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type,
         __EXPRESSION_SET_CDR(expr, extension);
     } else if(EXPR_IS_POINTER(expr)) {
         __EXPRESSION_STRING(expr)              = (char *)content;
+        __EXPRESSION_STRING_SET_LENGTH(expr, strlen((char *)content));
     } else {
         switch(type) {
             case EXPR_INTEGER:
@@ -158,7 +159,7 @@ struct Expression *expressionCreateString(struct Expression *env, char *str) {
     /*TODO: As soon as the global lookup for symbols is installed,
       look up str in it and assign the data-slot a pointer to the entry in the
       table */
-    buf = malloc(sizeof(char) * (strlen(str) + 1));
+    buf = SAFE_STRING_NEW(strlen(str));
     strcpy(buf, str);
     return EXPRESSION_CREATE_ATOM(env, EXPR_STRING, buf);
 }
@@ -173,7 +174,7 @@ struct Expression *createSymbol(struct Expression *env, char *str) {
     /*TODO: As soon as the global lookup for symbols is installed,
       look up str in it and assign the data-slot a pointer to the entry in the
       table */
-    buf = malloc(sizeof(char) * (strlen(str) + 1));
+    buf = SAFE_STRING_NEW(strlen(str));
     strcpy(buf, str);
     DEBUG_PRINT_PARAM("createSymbol(): Copied to  %s\n", buf);
     return EXPRESSION_CREATE_ATOM(env, EXPR_SYMBOL, buf);

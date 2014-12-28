@@ -44,18 +44,19 @@
 
 
 struct Expression *fuPrint(struct Expression *env, struct Expression *expr) {
-    char *retStr, *buf = malloc(sizeof(char) * READ_BUFFER_SIZE);
+    char *retStr, *buf = SAFE_STRING_NEW(READ_BUFFER_SIZE);
     struct Expression *res = EXPRESSION_CREATE_ATOM(env, EXPR_STRING,
             expressionToString(env, buf, READ_BUFFER_SIZE, expr));
-    retStr = malloc((strlen(res->data.string) + 1) * sizeof(char));
-    strcpy(retStr, buf);
+    retStr = SAFE_STRING_NEW(strlen(res->data.string));
+    SAFE_STRCPY(retStr, buf, READ_BUFFER_SIZE);
     res->data.string = retStr;
     free(buf);
     return res;
 }
 
 
-char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer, struct Expression *expr) {
+char *expressionToString(struct Expression *env, char *str, 
+        int sizeOfBuffer, struct Expression *expr) {
     
    struct CharWriteStream *stream = makeStringCharWriteStream(sizeOfBuffer, str);
    printToStream(env, stream, expr);
@@ -75,7 +76,7 @@ void printToStream(struct Expression *env,
 
 
 #define PRINT_EXPR(type, strType, data) {\
-    buf = malloc(MAX_BYTES_PER_##type); \
+    buf = SAFE_MALLOC(MAX_BYTES_PER_##type); \
     SAFE_SPRINTF(buf, MAX_BYTES_PER_##type, #type ": "  #strType, data); \
     PRINT_STREAM(buf); \
     free(buf); \

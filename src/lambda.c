@@ -79,7 +79,7 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
     DEBUG_PRINT("args is  "); DEBUG_PRINT_EXPR(env, args); 
     DEBUG_PRINT("rest is  "); DEBUG_PRINT_EXPR(env, rest);
     DEBUG_PRINT("\n");
-    lambda          = (struct Lambda *)malloc(sizeof(struct Lambda));
+    lambda          = (struct Lambda *)SAFE_MALLOC(sizeof(struct Lambda));
     lambda->rest    = expressionAssign(env, rest);
     lambda->argList = expressionAssign(env, args);
     lambda->body    = expressionAssign(env, intCar(env, intCdr(env, expr)));
