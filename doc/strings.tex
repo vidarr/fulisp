@@ -1,0 +1,253 @@
+\lstset{language=C}  
+
+\subsection{Introduction}
+
+
+\subsection{The problem with strings in C}
+
+In C, strings are an array of characters. Since in C there is no way of 
+determining the actual number of elements in the array, in C the end of a 
+string is marked by a \texttt{'\textbackslash0'} - character.
+All functions for manipulating strings will rely on the last character of a
+string is a \texttt{'\textbackslash0'}. 
+Determining the length of a string is done by the standard library funtion
+\texttt{strcpy(3)} , which could be implemented like 
+
+\begin{lstlisting}
+size_t strlen(char *str) {
+    char *current = str;
+    while(*current != '\0') current++;
+    return current - str;
+}
+\end{lstlisting}
+
+For formatting strings, there is \texttt{sprintf(3)} .
+It is used like
+
+\begin{lstlisting}
+#define MAX_BUF_LEN 20
+char *destString = (char *)malloc(sizeof(char) * (MAX_BUF_LEN + 1));
+sprintf(destString, "In Code line %u\n", __LINE__);
+\end{lstlisting}
+
+In here, a severe problem arises: What happens if the formatted result exceeds
+the allocated length of 20 characters?
+At first, \texttt{sprintf(3)} itself will write beyond the end of the allocated
+ memory, which is a serious problem: 
+Data following the allocated space will be overwritten. 
+This is bad already, but the subsequent consequences are potentially much worse.
+
+Consider the following code:
+
+\begin{lstlisting}
+char *source = (char *)malloc(sizeof(har) * 2);
+char *dest   = (char *)malloc(sizeof(har) * 2);
+source[0] = 'a';
+source[1] = 'b'; /* Should be '\0' */
+strcpy(dest, source);
+\end{lstlisting}
+
+\texttt{strcpy(3)} expects that source terminates with '\textbackslash0' and 
+will copy bytes from source to dest until it encounters 
+\texttt{'\textbackslash0'}.
+You see easily that in the example above source does not terminate with a zero.
+Since \texttt{strcpy(3)} has no means to determine the actual length of neither 
+the size of the memory allocated for source nor for dest it will overwrite data 
+behind the end of dest until it encounters a \texttt{'\textbackslash0'} behind 
+source by accident.
+This could overwrite thousands of bytes in memory and corrupt it.
+If you are lucky, this will result in a segmentation fault and thus tell you 
+that there is a problem. 
+If you are not quite as lucky the error will remain unnoticed initially, but
+make your program crash at a random point in the program flow leaving the
+programmer with no hint towards the actual error causing the crash.
+
+This leaves us with two rules that should be followed when dealing with strings:
+
+\begin{enumerate}
+\item Try to avoid buffer overflows.
+\item If you cannot avoid overflows, at least reveal them.
+\end{enumerate}
+
+\subsection{Mitigation}
+
+How to reach these goals?
+For one thing, always remember the length of your buffers.
+For instance, recent C versions provide \texttt{snprintf(3)} as an replacement 
+for \texttt{sprintf(3)}. \texttt{snprintf(3)} takes an additional size argument
+ and write at most size characters into the buffer and if it would happen, 
+notify the caller about it:
+
+\begin{lstlisting}
+#define MAX_BUF_LEN 20
+size_t lengthOfTargetString = 0;
+char *destString = (char *)malloc(sizeof(char) * (MAX_BUF_LEN + 1));
+lengthOfTargetString = snprintf(destString, MAX_BUF_LEN, 
+    "In Code line %u\n", __LINE__);
+if(lengthOfTargetString > MAX_BUF_LEN) {
+    fprintf(stderr, "String could not be created\n");
+}
+\end{lstlisting}
+
+Of course, it is a littlebit clumsy to always having to carry around two 
+values for each string - the string itself and its length. One solution could be
+to wrap both within a struct type and completely refraining from passing around
+bare char - pointers:
+
+\begin{lstlisting}
+struct String {
+    char *data;
+    size_t maxLength;
+};
+\end{lstlisting}
+
+This induces some overhead, but would be an acceptable solution. 
+Always trying to optimize each an everything, one could have the idea to
+use a more compact design like just appending the length directly in memory
+after the char pointer like this:
+
+\begin{lstlisting}
+size_t strLength = 5;
+char *string = (char *)malloc(sizeof(char) * strLength + sizeof(size_t));
+string[0] = 'a';
+string[1] = 'b';
+string[3] = '\0';
+*((size_t *)(string + strLength)) = strLength;
+\end{lstlisting}
+
+However, this is a bad approach since if somewhere in your code something
+overwrites the \texttt{'\textbackslash0'} and beyond, it will overwrite the 
+length of the string buffer.
+Another solution could be to prepending it to the string:
+ 
+\begin{lstlisting}
+size_t strLength = 5;
+char *string = (char *)malloc(sizeof(char) * strLength + sizeof(size_t));
+((size_t *)string)[0] = strLength;
+string = (char *)(((size_t *)string) + 1);
+string[0] = 'a';
+string[1] = 'b';
+string[3] = '\0';
+\end{lstlisting}
+
+However, this makes it very diffcult to deal with. Which pointer will you store?
+If you use the pointer pointing at the length field, you will have to add 
+a displacement whenever you want to access the char array representing the
+actual string. Clumsy and error-prone.
+If you store the pointer after the length field, you will be easily accessing 
+the actual string data. You could use the pointer like it was an ordinary 
+char array and pasing it to whichever C string function. 
+For accessing the actual length field, you have to decrease the pointer 
+appropriately which is not too bad since you could wrap this operation in 
+appropriate functions.
+However, consider the following piece of code:
+
+\begin{lstlisting}
+size_t lengthOfTargetString;
+size_t strLength = 20;
+char *string = (char *)malloc(sizeof(char) * strLength + sizeof(size_t));
+((size_t *)string)[0] = strLength;
+string = (char *)(((size_t *)string) + 1);
+lengthOfTargetString = snprintf(destString, getMaxBufferLength(string),
+    "In Code line %u\n", __LINE__);
+if(lengthOfTargetString > MAX_BUF_LEN) {
+    fprintf(stderr, "String could not be created\n");
+    string[get_max_buf_length(string)] = '\0';
+}
+printf("%s\n", string);
+free(string);  /*  This will cause trouble */
+\end{lstlisting}
+
+The \texttt{free(3)} call will fail, since string does not point to the 
+beginning of an allocated block put straight into the middle of such a block.
+Of course you could introduce a function \texttt{getStartOfBuffer(string)}
+which decreases the pointer string appropriately to point to the correct start.
+However, this is again error-prone since relying on the user to remember
+to care is never a good idea. Somebody will forget.
+
+Thus the only consequency one can conclude from this is to always remember 
+the length of a buffer but keep the length and the actual buffer separate.
+
+/subsection{Detecting Buffer Overflows}
+
+So everything is fine? Not quite. Not all string functions expect length
+arguments. \texttt{snprintf(3)} for example has been introduced with C99 only, 
+thus if you develop for a compiler only supporting C89, you will have to either
+reimplement \texttt{snprintf(3)} on your own or fall back to 
+\texttt{sprintf(3)}.
+Now, since \texttt{sprintf(3)} does not care for the length of the provided 
+buffer, there is no way to avoid a buffer overflow.
+But the least we can do is ensuring that such a incident will not remain hidden.
+The solution to this are canaries.
+
+Consider this:
+
+\begin{lstlisting}
+char *strBuffer = (char *)malloc(sizeof(char) * (maxBufferLength + 1));
+strBuffer[maxBufferLength] = '\0';
+sprintf(strBuffer, "In line %u\n", __LINE__);
+if(strBuffer[maxBufferLength] != '\0') {
+    fprintf(stderr, "ERROR: Buffer overflow occured!\n");
+}
+\end{lstlisting}
+
+In here, we mark the end of the buffer with a zero char.
+If sprintf writes less than the maximum amount of chars to \texttt{strBuffer}, 
+nobody will care for the zero char beyond the zero char marking the end of 
+the string.
+If it writes exactly \texttt{maxBufferLength} it will overwrite 'our' zero char 
+with its own zero char terminating the written string. The buffer will still 
+end with a zero char.
+If \texttt{sprintf(3)} writes more than \texttt{maxBufferLength} chars, it will 
+overwrite the zero char at the end of the buffer and possibly beyond the end of
+the buffer.
+This is bad, but now one can figure out that a buffer overflow has occured 
+by checking the very last char in the buffer. 
+If it is a zero char, everything is fine.
+If it is not a zero char, a buffer overflow has occured and memory 
+corrupted.
+
+If a string function encounters that a string has been tainted, what should it 
+do about it?
+One reasonable reaction would be to just pass it back to the caller and let
+him take care of it all.
+However, you must take into account that the caller will not always check for
+the string being tainted and just go on working with it and manipulating it by
+passing it for example to \texttt{strcpy(3)}.
+We could avoid the problems arising from this behavior by just placing 
+the zero terminator again at the very end of the string, however this would mask
+the buffer overflow error again.
+
+We can do better than that by keeping the last character in the string to 
+be something diferent from \texttt{'\textbackslash0'} but setting the character
+before the last character to \texttt{'\textbackslash0'}:
+
+\begin{lstlisting}
+int    requiredBufLen;
+size_t bufLen = 20;
+char *string = (char *)malloc(sizeof(char) * (bufLen + 1));
+string[bufLen] = '\0';
+requiredBufLen = sprintf(string, bufLen, 
+   "We are in line %u\n", __LINE__);
+if(requiredBufLen >= bufLen || string[bufLen] != '\0')  {
+   fprintf(stderr, "String has been tainted!\n");
+   string[bufLen - 1] = '\0';
+}
+\end{lstlisting}
+
+Now, this block ensures that
+\begin{enumerate}
+\item A buffer overflow within \texttt{sprintf(3)} wont go unnoticed since you 
+still can check whether there has been an buffer overflow through 
+\texttt{string[bufLen] == '\textbackslash0'}
+\item The string will stay marked as having been tainted.
+\item Subsequent buffer overflows stemming handling the string naively 
+will not lead to subsequent buffer overflows. 
+\end{enumerate}
+
+If the validity of the string is crucial and the code should fail as soon as 
+possible, you can just terminate the program instead of printing to stderr in 
+the example above. Otherwise if it is not crucial then this code ensures that 
+there will no subsequent buffer overflows in the aftermath.
+
+\lstset{language=Lisp}  

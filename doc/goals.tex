@@ -1,0 +1,141 @@
+My intention of writing fuLisp is to figure out how stuff works.
+The code should not be restricted to any platform if it is feasible to achieve.
+
+\subsection{Principles}
+
+\subsubsection{Independence}
+
+One important principle of developing software is not inventing the wheel over
+and over and over but design modularly and reuse these modules if you need 
+their functionality.
+The intention of writing fuLisp is to figure out how stuff works, to learn.
+You do not learn by just copying code that already does what you want to learn
+thus we are going to violate this principle in here for the sake of a higher 
+goal.
+Instead we will focus on \emph{independence}.
+The code should not depend on anything external, or at least as as less
+external functionality as possible.
+This has a simple reason: You wont learn how stuff works by just telling it to 
+work. Just calling a function \texttt{garbage\_collect()} will not unveil to you
+how garbage collection is done.
+Another point is portability.
+Not all platforms, compilers and environments offer the same tools and 
+functionality. 
+This means to use as few foreign libraries. It also means to use the least 
+common denominator of the language used to implement. For C, therefore we try 
+to stick to ANSI C / C89 standard, even it prevents the use of really helpful 
+functions like \texttt{snprintf(3)}.
+Sticking to standards is a good idea anyhow if you want to maintain independence
+of the environment your code will be compiled / used in.
+At some point, you got to decide for one option, like the kind of operating 
+system API you want to supprort. 
+Using cross libraries could be one solution, but will come at the cost of 
+becoming independent of the cross library.
+Thus we decided to stick to Posix for example.
+
+\subsubsection{\label{sec:simplicity}Simplicity}
+
+Simplicity often competes with performance. 
+However, our first goal is to learn, and obfuscating code by optimizing,
+apart from wasting time on unimportant things, will make it harder to understand 
+what is actually going on. 
+Often algorithms are not that easy to understand in the first place, why 
+further complicating it by scrambling the code?
+Moreover, optimization is often done the wrong way optimizing stuff that 
+does in fact not account much for time or memory consumption. 
+There hides another rather important principle: First get it right, then get it 
+fast.  
+First ensure the correctness of the code, then if - and only if! - you encounter
+performance problems, identify the bottlenecks and optimize them away!
+So we decided to just leave it (mostly) entirely at first. 
+We will apply certain optimizations if apropriate, but only after we got the 
+code working and are able to ensure that the costs in terms of code complexity 
+will be bearable.
+Simple and thus more easily understandable code will tend to contain 
+less bugs than complicated messy code, so adhering to simplicity is always 
+recommended to stick to even on code not intended for educational purposes.
+In fact, this principle turned out to be that important and successful 
+throughout the history of software development that its well known as the 
+\emph{KISS}-principle.
+However, things are not as clear as they look at the first glance.
+Consider designing a library, should you design for simple implementation or 
+a simple interface?
+if you design for a simple interface, it will usually induce a complicated 
+internal structure. 
+Consider the Posix Sockets or Java Streams.
+There is one \texttt{read(2)} function in the Posix socket interface to read 
+from files as well as from network connections or even memory.
+Alternatively, there could be one function \texttt{read\_from\_file}, one 
+function \texttt{read\_from\_tcp} and so on.
+Of course, having one function for one single purpose would simplify the
+implementation of each function, after all reading from a TCP stream involves
+fairly other operations than reading from a file on the local file system.
+However, simplifying the implemenation by increasing the number of functions 
+within the interface would complicate the programs actually using the interface.
+Thus, simplifying the internal implementation of a code module often comes with
+a cost.
+Another argument could be performance. 
+The ACE library for instance deals with handling network streams, mainly by
+wrapping calls of the Posix Socket API.
+It got, however, not one \texttt{read()} function, but about a dozen, each one 
+accepting different parameters. Of course, the intention is to give the user 
+a maximum of flexibility to craft code suiting exactly the problem he addresses.
+gaining the maximum of performance by tweaking all kinds of parameters.
+Unfortunately, to even get an overview of what is actually offered and how to
+work with these functions, figuring out which version suits best into the 
+current frame takes ages and to use it properly you would probably have to spend
+half a year training yourself.
+What makes things even worse, the more complicated the interface is, the
+more effort one has to spend to proper document all of it. 
+Documenting one function \texttt{read()} is far less work than documenting a
+dozen functions basically all doing the same, but, slightly different. 
+It is probably not surprising that ACE being a great and performant library
+nevertheless failed in respects of documenting itself. 
+The more complex a library is, the more responsibility you transfer to the user
+and the less likely it is, that the user will chose your module to use in the
+first place.
+All in all, we are convinced that it is better to simplify the interface 
+than the internals.
+
+\subsubsection{Modularity}
+
+Yet another principle we will try to stick to as strictly as possible is 
+modularity.
+This means in order to solve a problem, split it up into smaller, fairly 
+indepentend parts. 
+This enables keeping things local and thus decreasing the complexity of a 
+single part as smaller parts are easier to understand and oversee.
+Working on a piece of software consisting of 500 lines of code is easier than 
+working on 10000 lines of code at once.
+Separating the problem into smaller independent parts reduces the amount of 
+flaws in each part and promotes simplicity.
+However, in the end the single bits and pieces need to fit together again and 
+therefore their boundaries, their interface with their environment needs to 
+be concise and well documented.
+Therefore, we will focus on separating the software into moduels and make them 
+as independent from each other as possible.
+We try to designing clean, small and concise, easy to handle and well documented
+interfaces.  
+The internal implementation of the modules should be well done as well, of 
+course, but priority has the interface definition and its documentation.
+As everybody has only limited amount of resources, we will assume that whoever
+takes a look into one specific module will want to become familiar with it 
+anyhow thus investing some time we will not stress documenting the internals 
+of a module but spend our power into crafting neat clean and well documented 
+interfaces.
+Besides, sinces each module is rather independent, it will not be to hard to
+understand anyhow.
+This fits, by coincidence, what we said in chapter \ref{sec:simplicity}.
+
+\subsubsection{The Code is the Documentation}
+
+%name vars, functions etc. 
+
+% TODO: Incorporate
+% \begin{itemize}
+%     \item Adhere to standards: Use Standard C, POSIX
+%     \item Try to provide standardized tests for each bit 
+%     \item Simple design. Optimize only if benefits can be proven.
+%     \item (Kind of follow-up to previous) Use lean interfaces (keep the headers
+%         small)
+% \end{itemize}
