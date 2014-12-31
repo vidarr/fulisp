@@ -50,19 +50,30 @@ struct Expression *quote(struct Expression *env, struct Expression *expr) {
 
 
 struct Expression *set(struct Expression *env, struct Expression *expr) {
-    struct Expression *sym, *val;
+        struct Expression *sym, *val, *rest;
 
     INIT_NATIVE_FUNCTION("set", env, expr);
 
-    ASSIGN_2_PARAMS(env, expr, sym, val, "2 arguments expected");
+    ASSIGN_2_PARAMS_WITH_REST(env, expr, sym, val, rest, \
+            "set(): 2 arguments expected");
     if(!EXPR_OF_TYPE(sym, EXPR_SYMBOL)) { 
-        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); 
+        ERROR(ERR_UNEXPECTED_TYPE, "set(): expects SYMBOL VALUE as argument"); 
         return NULL; 
     }; 
     val = eval(env, val);
     DEBUG_PRINT("Setting \n");
     DEBUG_PRINT_EXPR(env, sym);
     DEBUG_PRINT_EXPR(env, val);
+
+    if( ! EXPR_IS_NIL(rest)) {
+        rest = eval(env, rest);
+        if(!EXPR_OF_TYPE(rest, EXPR_ENVIRONMENT)) { 
+            ERROR(ERR_UNEXPECTED_TYPE,   \
+                    "set(): expects ENVIRONMENT VALUE as argument"); 
+            return NIL; 
+        }
+        env = rest;
+    }; 
 
     environmentUpdate(env, sym, val);
     return expressionAssign(env, val);
@@ -341,7 +352,7 @@ struct Expression *numSmaller(struct Expression *env, struct Expression *expr) {
     struct Expression * predicateName (struct Expression *env,                \
                                        struct Expression *expr) {             \
         struct Expression *iterator;                                          \
-        INIT_NATIVE_FUNCTION(predicateName, env, expr);                       \
+        INIT_NATIVE_FUNCTION(#predicateName, env, expr);                       \
         ITERATE_LIST(env, expr, iterator,{ iterator = eval(env, iterator);    \
                 if(EXPR_IS_NIL(iterator) || !(test)){ return NIL; }});        \
         return T;                                                             \
@@ -392,3 +403,29 @@ DEFINE_PREDICATE_FUNCTION(environmentP,    iter, \
 
 #undef DEFINE_PREDICATE_FUNCTION
 
+
+struct Expression * getEnv(struct Expression *env,
+                           struct Expression *expr) {
+    INIT_NATIVE_FUNCTION("getEnv", env, expr);
+    return env;
+}
+
+
+struct Expression * getParentEnv(struct Expression *env,
+                           struct Expression *expr) {
+    struct Expression *envToLookAt;
+    INIT_NATIVE_FUNCTION("getParentEnv", env, expr);
+    SECURE_CAR(env, expr, envToLookAt, \
+            "getParentEnv expects argument"); 
+    envToLookAt = eval(env, envToLookAt);
+    DEBUG_PRINT("getParentEnv(): Got ");
+    DEBUG_PRINT_EXPR(env, envToLookAt);
+    if(EXPR_IS_NIL(envToLookAt)) {
+        return NIL;
+    } else if(!EXPR_OF_TYPE(envToLookAt, EXPR_ENVIRONMENT)) { 
+        ERROR(ERR_UNEXPECTED_TYPE,   \
+                "getParentEnvironment expects ENVIRONMENT VALUE as argument"); 
+        return NIL; 
+    } 
+    return ENVIRONMENT_GET_PARENT(EXPRESSION_ENVIRONMENT(envToLookAt));
+}

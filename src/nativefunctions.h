@@ -110,6 +110,8 @@
  * element of the list.
  * If SAFETY_CODE is set, then it is checked if expr is a list of exactly two
  * elements.
+ * @param sym struct Expression which will be assigned the first expression
+ * @param val struct Expression which will be assigned the second expression
  * @param emsg Error string if operation fails
  */
 #define ASSIGN_2_PARAMS(env, expr, sym, val, emsg) { \
@@ -120,6 +122,28 @@
             return NULL; \
             }); \
     val = intCar(env, val); \
+}
+
+
+/**
+ * Checks wether expr is a list. Assigns sym the first and val the second
+ * element of the list.
+ * If SAFETY_CODE is set, then it is checked if expr is a list of exactly two
+ * elements.
+ * @param sym struct Expression which will be assigned the first expression
+ * @param val struct Expression which will be assigned the second expression
+ * @param rest struct Expression which will be assigned the rest of the list
+ * @param emsg Error string if operation fails
+ */
+#define ASSIGN_2_PARAMS_WITH_REST(env, expr, sym, val, rest, emsg) { \
+    SECURE_CARCDR(env, expr, sym, rest, emsg); \
+    IF_SAFETY_CODE(  \
+            if(!EXPR_IS_NIL(intCdr(env, rest))) {  \
+            ERROR(ERR_UNEXPECTED_VAL, emsg); \
+            return NULL; \
+            }); \
+    val = intCar(env, rest); \
+    rest = intCdr(env, rest); \
 }
 
 
@@ -365,7 +389,20 @@ struct Expression *lambdaP(struct Expression *env, struct Expression *expr);
  * @param env The current environment
  * @param expr list of elements to check
  */
-struct Expression *environmentP(struct Expression *env, struct Expression *expr); 
+struct Expression *environmentP(struct Expression *env,
+        struct Expression *expr); 
 
+/**
+ * Returns the current environment 
+ * @param env the current environment
+ */
+struct Expression * getEnv(struct Expression *env, struct Expression *expr);
 
+/**
+ * Returns the parent environment of expr .
+ * @param env the current environment
+ * @param expr an environment
+ */
+struct Expression * getParentEnv(struct Expression *env,
+        struct Expression *expr);
 #endif
