@@ -47,6 +47,12 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
     current = args = intCar(env, expr);
     beforeLast = NIL;
 
+    if((intCar(env, args) == NIL) && (intCdr(env, args) == NIL)) {
+        /* LAMBDA does not expect ANY arguments */
+        args = NIL;
+        current = NIL;
+    }
+
     while(EXPR_OF_TYPE(current, EXPR_CONS)) {
         DEBUG_PRINT_EXPR(env, beforeLast);
         DEBUG_PRINT_EXPR(env, current);
@@ -84,7 +90,7 @@ struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr)
     lambda->argList = expressionAssign(env, args);
     lambda->body    = expressionAssign(env, intCar(env, intCdr(env, expr)));
     lambda->env     = expressionAssign(env, env);
-    DEBUG_PRINT("Created lambda ...");
+    DEBUG_PRINT("Created lambda ...\n");
     return EXPRESSION_CREATE_ATOM(env, EXPR_LAMBDA, lambda);
 }
 
@@ -101,7 +107,7 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv, struct Lambda *lambda
     DEBUG_PRINT("sym ");
     DEBUG_PRINT_EXPR(env, sym);
     DEBUG_PRINT_EXPR(env, val);
-    while(sym != NIL && val != NIL) {
+    while(!EXPR_IS_NIL(sym) && !EXPR_IS_NIL(val)) {
         if(!EXPR_OF_TYPE(sym, EXPR_CONS) || !EXPR_OF_TYPE(val, EXPR_CONS)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Argument list is flawed");
             expressionDispose(lambda->env, env);
@@ -128,7 +134,7 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv, struct Lambda *lambda
         }
     } else {
         IF_SAFETY_CODE( \
-            if(val != NIL) { \
+            if(!EXPR_IS_NIL(val)) { \
                 expressionDispose(lambda->env, env); \
                 ERROR(ERR_UNEVEN_SYM_VAL, "too many arguments given!"); \
                 return NIL; \
@@ -136,7 +142,7 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv, struct Lambda *lambda
         );
     }
 
-    if(sym != NIL) {
+    if(!EXPR_IS_NIL(sym)) {
         expressionDispose(lambda->env, env); 
         ERROR(ERR_UNEVEN_SYM_VAL, "too few arguments given!");
         return NIL;

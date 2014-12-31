@@ -1,3 +1,4 @@
+
 * Call GC if out-of-mem occurs
 
 * Introduce strategy to call GC regularely
@@ -36,6 +37,9 @@ General Roadmap
 
 
 Done
+
+* BUGFIX: (LAMBDA () (quote 1)) has to be called with at least one arg though it 
+    does not require one
 
 * Implement Dot-Notation in Reader ( '(A . B) ) 
 
