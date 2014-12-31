@@ -21,6 +21,8 @@ int: 4
 ;   *IGNORE*   ;
 int: 6
 int: 6
+;   *IGNORE*   ;
+int: 0
 int: 2
 float: 5.000000
 float: 5.000000

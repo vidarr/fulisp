@@ -21,6 +21,8 @@ fac
 (define set-fac-2 (lambda (fac) (define fac fac)))
 (set-fac-2 6)
 fac
+(define zero-arg (lambda () (quote 0)))
+(zero-arg)
 (define block-var 2)
 (begin (set! block-var (+ block-var 1)) (set! block-var (+ block-var 1)) (set! block-var (+ block-var 1)))
 block-var
