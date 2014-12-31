@@ -64,6 +64,7 @@ struct Expression *fuType(struct Expression *env, struct Expression *expr) {
             type = TYPE_ENVIRONMENT;
             break;
     };
+    expressionDispose(env, evaluatedExpr);
     assert(type != NULL);
     DEBUG_PRINT("fuType(): Got Expression of type :");
     DEBUG_PRINT_EXPR(env, type);
