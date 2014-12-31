@@ -32,6 +32,12 @@
 #include "no_debugging.h"
 #endif
 
+
+
+#if GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
+
+
+
 BENCHMARK_DECLARE_VAR(bmTime, bmTemp, bmTimeSt)
 
 #define STR_BUFFER_LEN 255
@@ -342,13 +348,6 @@ int main(int argc, char **argv) {
     int result;
     DECLARE_TEST(test-gc.c);
 
-#   if GARBAGE_COLLECTOR != GC_MARK_AND_SWEEP
-
-    testWarn("Garbage Collector tests only suitable for MARK_AND_SWEEP");
-    exit(0);
-
-#   endif
-
     strBuffer = SAFE_STRING_NEW(STR_BUFFER_LEN);
     result = test(performTest(testAtomicExpressions), 
             "Check allocating atomic expressions");
@@ -364,3 +363,18 @@ int main(int argc, char **argv) {
     free(strBuffer);
     return result; 
 } 
+
+
+
+#else /* GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP */
+
+
+int main(int argc, char **argv) {
+
+    testWarn("Garbage Collector tests only suitable for MARK_AND_SWEEP");
+    exit(0);
+} 
+
+
+
+#endif /* GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP */

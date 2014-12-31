@@ -138,7 +138,7 @@
 #define ASSIGN_2_PARAMS_WITH_REST(env, expr, sym, val, rest, emsg) { \
     SECURE_CARCDR(env, expr, sym, rest, emsg); \
     IF_SAFETY_CODE(  \
-            if(!EXPR_IS_NIL(intCdr(env, rest))) {  \
+            if(EXPR_IS_NIL(rest)) {  \
             ERROR(ERR_UNEXPECTED_VAL, emsg); \
             return NULL; \
             }); \

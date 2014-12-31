@@ -54,7 +54,7 @@ struct Expression *environmentCreate(struct Expression *parent,
 
 
 struct Expression *environmentCreateStdEnv(struct Memory *mem) {
-    struct Expression *env = environmentCreate(NULL, mem);
+    struct Expression *env = environmentCreate(NIL, mem);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE",            quote);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CAR",              car);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CDR",              cdr);

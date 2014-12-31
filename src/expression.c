@@ -193,6 +193,7 @@ struct Expression *createEnvironmentExpression(struct Environment *env) {
     MEMORY_GET_EXPRESSION(env->memory, expr);
     expr->type = EXPR_ENVIRONMENT;
     GC_INIT_ENVIRONMENT(env);
+    GC_INIT_EXPRESSION(expr, expr);
     EXPRESSION_ENVIRONMENT(expr) = env;
     return expr;
 }
@@ -234,7 +235,7 @@ struct Expression expressionRest = {
         EXPR_SYMBOL, \
         {char##constantName}, \
         {NULL}  \
-        GC_INIT_EXPR_INFO(0) \
+        GC_INIT_EXPR_INFO(1) \
     }
 
 DEFINE_CONSTANT_SYMBOL(expressionInteger,     ":INT");    

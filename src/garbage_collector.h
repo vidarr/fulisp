@@ -86,7 +86,8 @@ struct ExprGcInfo {
 #    define __GC_DEFINE_EXPR_INFO            struct ExprGcInfo gcInfo;
 #    define __GC_INIT_EXPR_INFO(initcounter) ,{initcounter}
 #    define __GC_RUN(env)                    T
-#    define __GC_INIT_EXPRESSION(env, expr)  ((expr)->gcInfo.counter = 0)
+#    define __GC_INIT_EXPRESSION(env, expr)  do{(expr)->gcInfo.counter = 0;} while(0)
+#    define __GC_INIT_ENVIRONMENT(env)       while(0) {}
 #    define __GC_GET_REF_COUNT(env, expr)    ((expr)->gcInfo.counter)
 #    define __GC_DEC_REF_COUNT(env, expr)    ((expr)->gcInfo.counter--)
 #    define __GC_INC_REF_COUNT(env, expr)    ((expr)->gcInfo.counter++)

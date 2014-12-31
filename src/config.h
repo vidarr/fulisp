@@ -34,7 +34,7 @@
 /* #define DEBUG_SYMBOL_TABLE */
 /* #define DEBUG_STACK */
 /* #define DEBUG_LAMBDA */
-#define DEBUG_GARBAGE_COLLECTOR
+/* #define DEBUG_GARBAGE_COLLECTOR */
 
 /**
  * Should hash tables place strings or copies of strings as keys?
@@ -108,7 +108,7 @@
  * Which kind of garbage collection to use. 
  * This constant could be set to any of the values GC_*.
  */
-#define GARBAGE_COLLECTOR GC_MARK_AND_SWEEP
+#define GARBAGE_COLLECTOR GC_MARK_AND_SWEEP 
 
 /**
  * Kind of format to use for expressions

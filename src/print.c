@@ -76,7 +76,7 @@ void printToStream(struct Expression *env,
 
 
 #define PRINT_EXPR(type, strType, data) {\
-    buf = SAFE_MALLOC(MAX_BYTES_PER_##type); \
+    buf = SAFE_STRING_NEW(MAX_BYTES_PER_##type); \
     SAFE_SPRINTF(buf, MAX_BYTES_PER_##type, #type ": "  #strType, data); \
     PRINT_STREAM(buf); \
     free(buf); \
