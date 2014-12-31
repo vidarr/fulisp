@@ -93,7 +93,8 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
     ASSIGN_2_PARAMS_WITH_REST(env, expr, sym, val, rest, \
             "define(): 2 arguments expected");
     if(!EXPR_OF_TYPE(sym, EXPR_SYMBOL)) { 
-        ERROR(ERR_UNEXPECTED_TYPE, "set expects SYMBOL VALUE as argument"); 
+        ERROR(ERR_UNEXPECTED_TYPE, \
+                "define(): expects SYMBOL VALUE as argument");
         return NIL; 
     }; 
     val = eval(env, val);
@@ -103,12 +104,14 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, val);
 
     if( ! EXPR_IS_NIL(rest)) {
-        DEBUG_PRINT("set(): Using non-standard environment");
+        DEBUG_PRINT("define(): Using non-standard environment\n");
         rest = eval(env, rest);
+        DEBUG_PRINT("define(): Environment expression evaluated to\n");
+        DEBUG_PRINT_EXPR(env, rest);
         if(!EXPR_OF_TYPE(rest, EXPR_ENVIRONMENT)) { 
             expressionDispose(env, rest);
-            ERROR(ERR_UNEXPECTED_TYPE,   \
-                    "set(): expects ENVIRONMENT VALUE as argument"); 
+            ERROR(ERR_UNEXPECTED_TYPE, \
+                    "define(): expects ENVIRONMENT VALUE as argument"); 
             return NIL; 
         }
         ENVIRONMENT_ADD_SYMBOL(rest, sym, val);
@@ -455,7 +458,7 @@ struct Expression * getParentEnv(struct Expression *env,
     SECURE_CAR(env, expr, envToLookAt, \
             "getParentEnv expects argument"); 
     envToLookAt = eval(env, envToLookAt);
-    DEBUG_PRINT("getParentEnv(): Got ");
+    DEBUG_PRINT("getParentEnv(): Got \n");
     DEBUG_PRINT_EXPR(env, envToLookAt);
     if(EXPR_IS_NIL(envToLookAt)) {
         return NIL;

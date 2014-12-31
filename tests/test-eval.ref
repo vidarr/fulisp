@@ -204,3 +204,9 @@ SYM: :SYMBOL
 SYM: :CONS
 SYM: :LAMBDA
 SYM: :NATIVEFUNC
+;   *IGNORE*   ;
+STR: injected
+STR: injected
+;   *IGNORE*   ;
+STR: overwritten
+STR: overwritten

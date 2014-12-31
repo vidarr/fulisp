@@ -38,15 +38,15 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
     assert(env && expr);
     ENSURE_ENVIRONMENT(env);
 
-    DEBUG_PRINT("Evaluating ");
+    DEBUG_PRINT("Evaluating \n");
     DEBUG_PRINT_EXPR(env, expr);
 
     if(!EXPR_IS_CONS(expr)) {
         if(!EXPR_OF_TYPE(expr, EXPR_SYMBOL) || EXPR_IS_NIL(expr)) {
-            DEBUG_PRINT("EVAL: No symbol - evaluate to itself\n");
+            DEBUG_PRINT("eval(): No symbol - evaluate to itself\n");
             res = expressionAssign(env, expr);
         } else {
-            DEBUG_PRINT("EVAL: Symbol - resolving it...\n");
+            DEBUG_PRINT("eval(): Symbol - resolving it...\n");
             res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
             if(!res) {
                 ERROR(ERR_UNRESOLVABLE, "Could not resolve symbol");
@@ -57,9 +57,12 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
         /* All lists are function calls - argument lists are quoted and thus
          * given to the native function 'quote' returning the list */
         struct Expression *first = intCar(env, expr);
+        DEBUG_PRINT("eval(): Got CONS cell\n");
         DEBUG_PRINT_EXPR(env, first);
         /* In case of being a or something returning a function it should be resolved before being applied */
         first = eval(env, first);
+        DEBUG_PRINT("eval(): Evaluated to\n");
+        DEBUG_PRINT_EXPR(env, first);
         if(!first) {
             /* Should be unreachable code ... */
             ERROR(ERR_UNRESOLVABLE, "Could not resolve symbol");
@@ -72,6 +75,9 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
                     break;
                 case EXPR_LAMBDA:
                     res = lambdaInvoke(env, EXPRESSION_LAMBDA(first), intCdr(env, expr));
+                    break;
+                case EXPR_ENVIRONMENT:
+                    res = first;
                     break;
                 default:
                     ERROR(ERR_UNEXPECTED_VAL, "eval(): First element in list is not a function!");
