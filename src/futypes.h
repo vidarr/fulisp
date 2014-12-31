@@ -22,7 +22,7 @@
 
 #include "expression.h"
 
-
+struct Expression *fuType(struct Expression *env, struct Expression *expr);
 
 #endif
 

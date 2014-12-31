@@ -77,21 +77,9 @@ typedef struct Expression *(NativeFunction)(struct Expression *env,
 
 
 /**
- * Symbol that denotes the type 'CHAR'
+ * Symbol that denotes the type 'INTEGER'
  */
-#define TYPE_CHAR __TYPE_CHAR
-
-
-/**
- * Symbol that denotes the type 'STRING'
- */
-#define TYPE_STRING __TYPE_STRING
-
-
-/**
- * Symbol that denotes the type 'INT'
- */
-#define TYPE_INT __TYPE_INT
+#define TYPE_INTEGER __TYPE_INTEGER
 
 
 /**
@@ -101,9 +89,45 @@ typedef struct Expression *(NativeFunction)(struct Expression *env,
 
 
 /**
+ * Symbol that denotes the type 'CHAR'
+ */
+#define TYPE_CHARACTER __TYPE_CHARACTER
+
+
+/**
+ * Symbol that denotes the type 'STRING'
+ */
+#define TYPE_STRING __TYPE_STRING
+
+
+/**
  * Symbol that denotes the type 'SYMBOL'
  */
 #define TYPE_SYMBOL __TYPE_SYMBOL
+
+
+/**
+ * Symbol that denotes the type 'CONS'
+ */
+#define TYPE_CONS __TYPE_CONS
+
+
+/**
+ * Symbol that denotes the type 'LAMBDA'
+ */
+#define TYPE_LAMBDA __TYPE_LAMBDA
+
+
+/**
+ * Symbol that denotes the type 'NATIVE FUNCTION'
+ */
+#define TYPE_NATIVE_FUNC __TYPE_NATIVE_FUNC
+
+
+/**
+ * Symbol that denotes the type 'ENVIRONMENT'
+ */
+#define TYPE_ENVIRONMENT __TYPE_ENVIRONMENT
 
 
 
@@ -227,21 +251,9 @@ typedef struct Expression *(NativeFunction)(struct Expression *env,
 
 
 /**
- * Expression is an native function
- */
-#define EXPR_NATIVE_FUNC               (EXPR_ATOM | 4)
-
-
-/**
  * Expression is an string
  */
 #define EXPR_STRING                    (EXPR_POINTER | 1)
-
-
-/**
- * Expression is asymbol
- */
-#define EXPR_SYMBOL                    (EXPR_POINTER | 2)
 
 
 /**
@@ -254,6 +266,18 @@ typedef struct Expression *(NativeFunction)(struct Expression *env,
  * Expression is a lambda expression
  */
 #define EXPR_LAMBDA                    (EXPR_POINTER | 5)
+
+
+/**
+ * Expression is asymbol
+ */
+#define EXPR_SYMBOL                    (EXPR_POINTER | 2)
+
+
+/**
+ * Expression is an native function
+ */
+#define EXPR_NATIVE_FUNC               (EXPR_ATOM | 4)
 
 
 /**

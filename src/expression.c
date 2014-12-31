@@ -228,48 +228,22 @@ struct Expression expressionRest = {
 };
 
 
-char sChar[] = "CHAR";
+#define DEFINE_CONSTANT_SYMBOL(constantName, SymbolName) \
+    char char##constantName [] = SymbolName; \
+    struct Expression constantName = { \
+        EXPR_SYMBOL, \
+        {char##constantName}, \
+        {NULL}  \
+        GC_INIT_EXPR_INFO(0) \
+    }
 
-char sString[] = "STRING";
-
-char sInt[] = "INT";
-
-char sFloat[] = "FLOAT";
-
-char sSymbol[] = "SYMBOL";
-
-struct Expression expressionChar = {
-    EXPR_SYMBOL,
-    {sChar}, 
-    {NULL}
-    GC_INIT_EXPR_INFO(0)
-}; 
-
-struct Expression expressionString = {
-    EXPR_SYMBOL,
-    {sString}, 
-    {NULL}
-    GC_INIT_EXPR_INFO(0)
-}; 
-
-struct Expression expressionInt = {
-    EXPR_SYMBOL,
-    {sInt}, 
-    {NULL}
-    GC_INIT_EXPR_INFO(0)
-}; 
-
-struct Expression expressionFloat = {
-    EXPR_SYMBOL,
-    {sFloat}, 
-    {NULL}
-    GC_INIT_EXPR_INFO(0)
-}; 
-
-struct Expression expressionSymbol = {
-    EXPR_SYMBOL,
-    {sSymbol}, 
-    {NULL}
-    GC_INIT_EXPR_INFO(0)
-}; 
+DEFINE_CONSTANT_SYMBOL(expressionInteger,     ":INT");    
+DEFINE_CONSTANT_SYMBOL(expressionFloat,       ":FLOAT");    
+DEFINE_CONSTANT_SYMBOL(expressionCharacter,   ":CHAR");    
+DEFINE_CONSTANT_SYMBOL(expressionString,      ":STRING");    
+DEFINE_CONSTANT_SYMBOL(expressionSymbol,      ":SYMBOL");    
+DEFINE_CONSTANT_SYMBOL(expressionCons,        ":CONS");    
+DEFINE_CONSTANT_SYMBOL(expressionLambda,      ":LAMBDA");    
+DEFINE_CONSTANT_SYMBOL(expressionNativeFunc,  ":NATIVEFUNC");    
+DEFINE_CONSTANT_SYMBOL(expressionEnvironment, ":ENV");    
 

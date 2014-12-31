@@ -37,7 +37,7 @@
 }    
 
 #    define DEBUG_PRINT_EXPR(env, x) { \
-                    char *buf = malloc(sizeof(char) * 3200); \
+                    char *buf = SAFE_MALLOC(sizeof(char) * 3200); \
                     fprintf(stderr, "%s: %i: Expr is %s\n", __FILE__, __LINE__, \
                             expressionToString(env, buf, 3200, x)); \
                     free(buf); \

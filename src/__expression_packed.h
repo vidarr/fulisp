@@ -101,29 +101,31 @@ extern struct Expression expressionNil;
 extern struct Expression expressionT ;
 extern struct Expression expressionRest;
 
-
 #define __T                            (&expressionT)
-
 #define __NIL                          (&expressionNil)
-
 #define __REST                         (&expressionRest)
 
 
-extern struct Expression expressionChar;
-extern struct Expression expressionString;
-extern struct Expression expressionInt;
+extern struct Expression expressionInteger;
 extern struct Expression expressionFloat;
+extern struct Expression expressionCharacter;
+extern struct Expression expressionString;
 extern struct Expression expressionSymbol;
+extern struct Expression expressionCons;
+extern struct Expression expressionLambda;
+extern struct Expression expressionNativeFunc;
+extern struct Expression expressionEnvironment;
 
-#define __TYPE_CHAR                    (&expressionChar)
-
-#define __TYPE_STRING                  (&expressionString)
-
-#define __TYPE_INT                     (&expressionInt)
-
+#define __TYPE_INTEGER                 (&expressionInteger)
 #define __TYPE_FLOAT                   (&expressionFloat)
-
+#define __TYPE_CHARACTER               (&expressionCharacter)
+#define __TYPE_STRING                  (&expressionString)
 #define __TYPE_SYMBOL                  (&expressionSymbol)
+#define __TYPE_CONS                    (&expressionCons)
+#define __TYPE_LAMBDA                  (&expressionLambda)
+#define __TYPE_NATIVE_FUNC             (&expressionNativeFunc)
+#define __TYPE_ENVIRONMENT             (&expressionEnvironment)
+
 
 
 /******************************************************************************

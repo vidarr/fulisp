@@ -88,12 +88,20 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
     ENVIRONMENT_ADD_STRING(env, ((NIL)->data.string), NIL); 
     ENVIRONMENT_ADD_STRING(env, ((T)->data.string), T); 
     
-    ENVIRONMENT_ADD_STRING(env, ((TYPE_CHAR)->data.string), TYPE_CHAR);
-    ENVIRONMENT_ADD_STRING(env, ((TYPE_STRING)->data.string), TYPE_STRING);
-    ENVIRONMENT_ADD_STRING(env, ((TYPE_INT)->data.string), TYPE_INT);
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_INTEGER)->data.string), TYPE_INTEGER);
     ENVIRONMENT_ADD_STRING(env, ((TYPE_FLOAT)->data.string), TYPE_FLOAT);
+    ENVIRONMENT_ADD_STRING(env, \
+            ((TYPE_CHARACTER)->data.string), TYPE_CHARACTER);
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_STRING)->data.string), TYPE_STRING);
     ENVIRONMENT_ADD_STRING(env, ((TYPE_SYMBOL)->data.string), TYPE_SYMBOL);
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_CONS)->data.string), TYPE_CONS);
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_LAMBDA)->data.string), TYPE_LAMBDA);
+    ENVIRONMENT_ADD_STRING(env, \
+            ((TYPE_NATIVE_FUNC)->data.string), TYPE_NATIVE_FUNC);
+    ENVIRONMENT_ADD_STRING(env, \
+            ((TYPE_ENVIRONMENT)->data.string), TYPE_ENVIRONMENT);
 
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "TYPE",             fuType);
     return env;
 }
 

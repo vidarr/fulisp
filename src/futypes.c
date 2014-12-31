@@ -18,8 +18,6 @@
 
 #include"futypes.h"
 
-
-
 #define MODULE_NAME "futypes.c"
 
 #ifdef DEBUG_TYPES
@@ -28,4 +26,47 @@
 #   include "no_debugging.h"
 #endif
 
+
+struct Expression *fuType(struct Expression *env, struct Expression *expr) {
+    struct Expression *evaluatedExpr;
+    struct Expression *type = NULL;
+    INIT_NATIVE_FUNCTION("fuTypes", env, expr);
+    evaluatedExpr = eval(env, intCar(env, expr));
+    if(EXPR_IS_NIL(evaluatedExpr)) {
+        return NIL;
+    }
+    switch(EXPRESSION_TYPE(evaluatedExpr)) {
+        case EXPR_INTEGER:
+            type = TYPE_INTEGER;
+            break;
+        case EXPR_FLOAT:
+            type = TYPE_FLOAT;
+            break;
+        case EXPR_CHARACTER:
+            type = TYPE_CHARACTER;
+            break;
+        case EXPR_STRING:
+            type = TYPE_STRING;
+            break;
+        case EXPR_SYMBOL: 
+            type = TYPE_SYMBOL;
+            break;
+        case EXPR_CONS:
+            type = TYPE_CONS;
+            break;
+        case EXPR_LAMBDA:
+            type = TYPE_LAMBDA;
+            break;
+        case EXPR_NATIVE_FUNC:
+            type = TYPE_NATIVE_FUNC;
+            break;
+        case EXPR_ENVIRONMENT:
+            type = TYPE_ENVIRONMENT;
+            break;
+    };
+    assert(type != NULL);
+    DEBUG_PRINT("fuType(): Got Expression of type :");
+    DEBUG_PRINT_EXPR(env, type);
+    return type;
+}
 
