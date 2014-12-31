@@ -105,13 +105,16 @@ static int testAtomicExpressions(struct Expression *env) {
     size_t maxNo, usedNo;
     GC_RUN(env);
     getGcBenchmarkVars(env, &maxNo, &usedNo);
+    /* Needed due to constant symbols in symbol table that are only marked
+     * once at the very first run of the GC */
+    getGcBenchmarkVars(env, &maxNo, &usedNo);
     for(index = 0; index  < maxNo; index++ ) {
         EXPRESSION_CREATE_ATOM(env, EXPR_INTEGER, &index);
     }
     GC_RUN(env);
     result = ensureReclaimed(env, maxNo);
     if(result != TEST_PASSED) return result;
-    result = ensureMarked(env, usedNo - 2); /* T and NIL are not marked again */
+    result = ensureMarked(env, usedNo - 11); 
     return result;
 }
 

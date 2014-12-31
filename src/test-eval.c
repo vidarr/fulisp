@@ -25,10 +25,6 @@
 #define INPUT_FILE     "../tests/test-eval.in"
 #define INPUT_REF_FILE "../tests/test-eval.ref"
 
-
-#define DEBUG
-#include "debugging.h"
-
 static struct Expression *env;
 
 BENCHMARK_DECLARE_VAR(bmTime, bmTemp, bmTimeSt)
@@ -40,7 +36,6 @@ static struct Expression *getNextExpression(struct Reader *reader) {
     BENCHMARK_CONTINUE(bmTime, bmTemp, bmTimeSt);
 
     expr = eval(env, readExpr);
-    DEBUG_PRINT_EXPR(env, expr);
 
     BENCHMARK_INTERRUPT(bmTime, bmTemp, bmTimeSt);
 
