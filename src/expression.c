@@ -193,8 +193,8 @@ struct Expression *createEnvironmentExpression(struct Environment *env) {
     MEMORY_GET_EXPRESSION(env->memory, expr);
     expr->type = EXPR_ENVIRONMENT;
     GC_INIT_ENVIRONMENT(env);
-    GC_INIT_EXPRESSION(expr, expr);
     EXPRESSION_ENVIRONMENT(expr) = env;
+    GC_INIT_EXPRESSION(expr, expr);
     return expr;
 }
 
