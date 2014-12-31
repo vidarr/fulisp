@@ -109,6 +109,22 @@ extern struct Expression expressionRest;
 #define __REST                         (&expressionRest)
 
 
+extern struct Expression expressionChar;
+extern struct Expression expressionString;
+extern struct Expression expressionInt;
+extern struct Expression expressionFloat;
+extern struct Expression expressionSymbol;
+
+#define __TYPE_CHAR                    (&expressionChar)
+
+#define __TYPE_STRING                  (&expressionString)
+
+#define __TYPE_INT                     (&expressionInt)
+
+#define __TYPE_FLOAT                   (&expressionFloat)
+
+#define __TYPE_SYMBOL                  (&expressionSymbol)
+
 
 /******************************************************************************
   A C C E S S

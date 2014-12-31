@@ -76,6 +76,36 @@ typedef struct Expression *(NativeFunction)(struct Expression *env,
 #define REST                           __REST
 
 
+/**
+ * Symbol that denotes the type 'CHAR'
+ */
+#define TYPE_CHAR __TYPE_CHAR
+
+
+/**
+ * Symbol that denotes the type 'STRING'
+ */
+#define TYPE_STRING __TYPE_STRING
+
+
+/**
+ * Symbol that denotes the type 'INT'
+ */
+#define TYPE_INT __TYPE_INT
+
+
+/**
+ * Symbol that denotes the type 'FLOAT'
+ */
+#define TYPE_FLOAT __TYPE_FLOAT
+
+
+/**
+ * Symbol that denotes the type 'SYMBOL'
+ */
+#define TYPE_SYMBOL __TYPE_SYMBOL
+
+
 
 /*******************************************************************************
   D E A L I N G   W I T H   E X R P R E S S I O N   T Y P E S

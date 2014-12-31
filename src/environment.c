@@ -18,6 +18,7 @@
 #include "environment.h"
 #include "nativefunctions.h"
 #include "cons.h"
+#include "futypes.h"
 
 #define MODULE_NAME "environment.c"
 
@@ -86,6 +87,13 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
 
     ENVIRONMENT_ADD_STRING(env, ((NIL)->data.string), NIL); 
     ENVIRONMENT_ADD_STRING(env, ((T)->data.string), T); 
+    
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_CHAR)->data.string), TYPE_CHAR);
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_STRING)->data.string), TYPE_STRING);
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_INT)->data.string), TYPE_INT);
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_FLOAT)->data.string), TYPE_FLOAT);
+    ENVIRONMENT_ADD_STRING(env, ((TYPE_SYMBOL)->data.string), TYPE_SYMBOL);
+
     return env;
 }
 

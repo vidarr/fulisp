@@ -205,6 +205,7 @@ char true[] = "T";
 
 char rest[] = "&REST";
 
+
 struct Expression expressionNil = { 
     EXPR_SYMBOL,
     {nil}, 
@@ -225,4 +226,50 @@ struct Expression expressionRest = {
     {NULL} 
     GC_INIT_EXPR_INFO(1)
 };
+
+
+char sChar[] = "CHAR";
+
+char sString[] = "STRING";
+
+char sInt[] = "INT";
+
+char sFloat[] = "FLOAT";
+
+char sSymbol[] = "SYMBOL";
+
+struct Expression expressionChar = {
+    EXPR_SYMBOL,
+    {sChar}, 
+    {NULL}
+    GC_INIT_EXPR_INFO(0)
+}; 
+
+struct Expression expressionString = {
+    EXPR_SYMBOL,
+    {sString}, 
+    {NULL}
+    GC_INIT_EXPR_INFO(0)
+}; 
+
+struct Expression expressionInt = {
+    EXPR_SYMBOL,
+    {sInt}, 
+    {NULL}
+    GC_INIT_EXPR_INFO(0)
+}; 
+
+struct Expression expressionFloat = {
+    EXPR_SYMBOL,
+    {sFloat}, 
+    {NULL}
+    GC_INIT_EXPR_INFO(0)
+}; 
+
+struct Expression expressionSymbol = {
+    EXPR_SYMBOL,
+    {sSymbol}, 
+    {NULL}
+    GC_INIT_EXPR_INFO(0)
+}; 
 

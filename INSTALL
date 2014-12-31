@@ -47,10 +47,17 @@ Now, build the executable by invoking
 
     cd fulisp/src && make fulisp; cd ../..
 
+This should work out of the box for GCC.
 If everything worked, you should now be provided a file fulisp/build/fulisp.
 You can now fire up the interpreter with 
 
     fulisp/build/fulisp
+
+3. Switching between GCC and CLANG 
+----------------------------------
+
+By default, the Makefile assumes GCC, if you want to compile using LLVM instead,
+open the src/Makefile and change CC=gcc to CC=clang.
 
 Have fun!
 
