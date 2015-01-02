@@ -21,8 +21,15 @@
 
 
 #include "expression.h"
+#include "stdlib.h"
 
 struct Expression *fuType(struct Expression *env, struct Expression *expr);
+
+struct Expression *fuInt(struct Expression *env, struct Expression *expr);
+
+struct Expression *fuFloat(struct Expression *env, struct Expression *expr);
+
+
 
 #endif
 

@@ -105,6 +105,8 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
             ((TYPE_ENVIRONMENT)->data.string), TYPE_ENVIRONMENT);
 
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "TYPE",             fuType);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "INTEGER",          fuInt);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "FLOAT",            fuFloat);
     return env;
 }
 

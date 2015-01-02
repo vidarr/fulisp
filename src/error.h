@@ -83,6 +83,7 @@
 #define ERR_UNIMPLEMENTED             2000
 #define ERR_DIVISION_BY_ZERO          3000
 #define ERR_INSUFFICTIENT_MEMORY      4000
+#define ERR_CONVERSION_FAILED         5000
 
 #define WRN_BEGIN_WRN_CODE            10000
 #define WRN_UNSAFE_CODE               WRN_BEGIN_WRN_CODE + 10

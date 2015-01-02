@@ -210,3 +210,24 @@ STR: injected
 ;   *IGNORE*   ;
 STR: overwritten
 STR: overwritten
+int: 0
+int: 1
+int: -1
+int: 13
+int: -13
+int: 13
+int: 13
+int: -13
+int: -13
+int: 1
+int: -1
+int: 13
+int: -12
+SYM: NIL
+float: 1.000000
+float: -2.000000
+float: 3.400000
+float: 5.000000
+float: -6.000000
+float: 7.800000
+float: -9.000000

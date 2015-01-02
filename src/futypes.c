@@ -16,7 +16,7 @@
  */ 
 
 
-#include"futypes.h"
+#include "futypes.h"
 
 #define MODULE_NAME "futypes.c"
 
@@ -69,5 +69,95 @@ struct Expression *fuType(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT("fuType(): Got Expression of type :");
     DEBUG_PRINT_EXPR(env, type);
     return type;
+}
+
+struct Expression *fuInt(struct Expression *env, struct Expression *expr) {
+    int  iResult;
+    float dResult;
+    char *endPointer;
+    struct Expression *evaluatedExpr;
+    struct Expression *result = NULL;
+    INIT_NATIVE_FUNCTION("fuInt", env, expr);
+    evaluatedExpr = eval(env, intCar(env, expr));
+    DEBUG_PRINT("fuFloat(): Evaluated to \n");
+    DEBUG_PRINT_EXPR(env, evaluatedExpr);
+    if(EXPR_IS_NIL(evaluatedExpr)) {
+        ERROR(ERR_CONVERSION_FAILED , "fuInt(): Got NIL");
+        return NIL;
+    }
+    switch(EXPRESSION_TYPE(evaluatedExpr)) {
+        case EXPR_INTEGER:
+            DEBUG_PRINT("fuInt(): Got INTEGER\n");
+            result = expressionAssign(env, evaluatedExpr);
+            break;
+        case EXPR_FLOAT:
+            DEBUG_PRINT("fuInt(): Got FLOAT\n");
+            iResult = EXPRESSION_FLOATING(evaluatedExpr); 
+            DEBUG_PRINT_PARAM("fuInt(): Converted to %i\n", iResult);
+            result = CREATE_INT_EXPRESSION(env, iResult);
+            break;
+        case EXPR_STRING:
+            DEBUG_PRINT("fuInt(): Got STRING\n");
+            dResult = strtod(EXPRESSION_STRING(evaluatedExpr), &endPointer);
+            iResult = dResult;
+            DEBUG_PRINT_PARAM("fuInt(): Converted to %i\n", iResult);
+            if(*endPointer != '\0') {
+                ERROR(ERR_CONVERSION_FAILED , \
+                        "fuInt(): Could not convert STRING to INT");
+                result = NIL;
+            } else {
+                result = CREATE_INT_EXPRESSION(env, iResult);
+            }
+            break;
+        default:
+            result = NIL;
+    }
+    expressionDispose(env, evaluatedExpr);
+    return result;
+}
+
+struct Expression *fuFloat(struct Expression *env, struct Expression *expr) {
+    float fResult;
+    double dResult;
+    char *endPointer;
+    struct Expression *evaluatedExpr;
+    struct Expression *result = NULL;
+    INIT_NATIVE_FUNCTION("fuInt", env, expr);
+    evaluatedExpr = eval(env, intCar(env, expr));
+    DEBUG_PRINT("fuFloat(): Evaluated to \n");
+    DEBUG_PRINT_EXPR(env, evaluatedExpr);
+    if(EXPR_IS_NIL(evaluatedExpr)) {
+        ERROR(ERR_CONVERSION_FAILED , "fuFloat(): Got NIL");
+        return NIL;
+    }
+    switch(EXPRESSION_TYPE(evaluatedExpr)) {
+        case EXPR_INTEGER:
+            DEBUG_PRINT("fuFloat(): Got INTEGER\n");
+            fResult = EXPR_TO_FLOAT(evaluatedExpr); 
+            DEBUG_PRINT_PARAM("fuFloat(): Converted to %f\n", fResult);
+            result = CREATE_FLOAT_EXPRESSION(env, fResult);
+            break;
+        case EXPR_FLOAT:
+            DEBUG_PRINT("fuFloat(): Got FLOAT\n");
+            result = expressionAssign(env, evaluatedExpr);
+            break;
+        case EXPR_STRING:
+            DEBUG_PRINT("fuFloat(): Got STRING\n");
+            dResult = strtod(EXPRESSION_STRING(evaluatedExpr), &endPointer);
+            DEBUG_PRINT_PARAM("fuFloat(): Converted to %f\n", (float)dResult);
+            if(*endPointer != '\0') {
+                ERROR(ERR_CONVERSION_FAILED , \
+                        "fuFloat(): Could not convert STRING to FLOAT");
+                result = NIL;
+            } else {
+                fResult = (float)dResult;
+                result = CREATE_FLOAT_EXPRESSION(env, fResult);
+            }
+            break;
+        default:
+            result = NIL;
+    }
+    expressionDispose(env, evaluatedExpr);
+    return result;
 }
 
