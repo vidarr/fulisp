@@ -1,3 +1,23 @@
+* BUG: Parser: "" does not parse to empty string
+* BUG:
+    fuLisp:100$ (integer 541234513123124)
+    eval.c: 41: Evaluating 
+    eval.c: 42: Expr is (SYM: INTEGER int: -856)
+    eval.c: 60: eval(): Got CONS cell
+    eval.c: 61: Expr is SYM: INTEGER
+    eval.c: 41: Evaluating 
+    eval.c: 42: Expr is SYM: INTEGER
+    eval.c: 49: eval(): Symbol - resolving it...
+    eval.c: 64: eval(): Evaluated to
+    eval.c: 65: Expr is FNC:  BR DG 40 00 00 00 00 00
+    futypes.c: 80: Entering fuInt
+    eval.c: 41: Evaluating 
+    eval.c: 42: Expr is int: -856
+    eval.c: 46: eval(): No symbol - evaluate to itself
+    futypes.c: 82: fuFloat(): Evaluated to 
+    futypes.c: 83: Expr is int: -856
+    futypes.c: 90: fuInt(): Got INTEGER
+        FUBAR: Canary has been overwritten while invoking sprintf(3)
 
 * Call GC if out-of-mem occurs
 
