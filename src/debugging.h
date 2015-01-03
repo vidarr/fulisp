@@ -32,22 +32,27 @@
         fprintf(stderr, msg); \
 }    
 
-#    define DEBUG_PRINT_PARAM(msg, param) {fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
+#    define DEBUG_PRINT_PARAM(msg, param) { \
+        fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
         fprintf(stderr, msg, param); \
-}    
+} 
 
 #    define DEBUG_PRINT_EXPR(env, x) { \
-                    char *buf = SAFE_MALLOC(sizeof(char) * 3200); \
+                    char *buf = SAFE_STRING_NEW(3200); \
                     fprintf(stderr, "%s: %i: Expr is %s\n", __FILE__, __LINE__, \
                             expressionToString(env, buf, 3200, x)); \
                     free(buf); \
 }    
 
 #    define DEBUG_PRINT_NATIVE_FUNC(x) { \
-        char *str = malloc(sizeof(NativeFunction *) + 1); \
-        NATIVE_FUNC_TO_STR(x, str); \
-        str[sizeof(NativeFunction *)] = '\0'; \
-        DEBUG_PRINT_PARAM("FCT: %s\n", str); \
+        size_t bufLen = 3 * sizeof(NativeFunction *); \
+        char *str = SAFE_STRING_NEW(bufLen); \
+        NATIVE_FUNC_TO_STR(x, str, bufLen); \
+        if(SAFE_STRING_IS_TAINTED(str, bufLen)) {  \
+            ERROR(ERR_BUFFER_OVERFLOW, "Canary has been overwritten");  \
+        } else { \
+            DEBUG_PRINT_PARAM("FCT: %s\n", str); \
+        } \
         free(str); \
 }    ;
 

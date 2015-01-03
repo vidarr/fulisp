@@ -25,8 +25,8 @@
                   "Michael J. Beer <michael.josef.beer@googlemail.com>"
 
 #define DEBUG
-/* #define DEBUG_READER */
-#define DEBUG_EVAL
+#define DEBUG_READER
+/* #define DEBUG_EVAL */
 /* #define DEVUG_ENVIRONMENT*/
 #define DEBUG_NATIVE_FUNCTIONS
 /* #define DEBUG_CONS */
@@ -35,6 +35,7 @@
 /* #define DEBUG_STACK */
 /* #define DEBUG_LAMBDA */
 /* #define DEBUG_GARBAGE_COLLECTOR */
+#define DEBUG_TYPES
 
 /**
  * Should hash tables place strings or copies of strings as keys?
@@ -54,7 +55,7 @@
 /**
  * Should lisp abort on lisp error?
  */
-/* #define EXIT_ON_ERROR  */
+/* #define EXIT_ON_ERROR */
 
 /**
   * Should be benchmarked?

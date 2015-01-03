@@ -27,6 +27,30 @@
 #endif
 
 
+struct Expression *stringToIntExpression(struct Expression *env, 
+        const char *str) {
+    struct Expression *result;
+    char *endPointer;
+    int iResult;
+    double dResult = strtod(str, &endPointer);
+    if(dResult > INT_MAX || dResult < INT_MIN) {
+        WARNING(ERR_CONVERSION_FAILED , \
+                "fuInt(): Out of integer range");
+        result = NIL;
+    } else {
+        iResult = dResult;
+        DEBUG_PRINT_PARAM("fuInt(): Converted to %i\n", iResult);
+        if(*endPointer != '\0') {
+            ERROR(ERR_CONVERSION_FAILED , \
+                    "fuInt(): Could not convert STRING to INT");
+            result = NIL;
+        } else {
+            result = CREATE_INT_EXPRESSION(env, iResult);
+        }
+    }
+    return result;
+}
+
 struct Expression *fuType(struct Expression *env, struct Expression *expr) {
     struct Expression *evaluatedExpr;
     struct Expression *type = NULL;
@@ -73,8 +97,6 @@ struct Expression *fuType(struct Expression *env, struct Expression *expr) {
 
 struct Expression *fuInt(struct Expression *env, struct Expression *expr) {
     int  iResult;
-    float dResult;
-    char *endPointer;
     struct Expression *evaluatedExpr;
     struct Expression *result = NULL;
     INIT_NATIVE_FUNCTION("fuInt", env, expr);
@@ -98,16 +120,8 @@ struct Expression *fuInt(struct Expression *env, struct Expression *expr) {
             break;
         case EXPR_STRING:
             DEBUG_PRINT("fuInt(): Got STRING\n");
-            dResult = strtod(EXPRESSION_STRING(evaluatedExpr), &endPointer);
-            iResult = dResult;
-            DEBUG_PRINT_PARAM("fuInt(): Converted to %i\n", iResult);
-            if(*endPointer != '\0') {
-                ERROR(ERR_CONVERSION_FAILED , \
-                        "fuInt(): Could not convert STRING to INT");
-                result = NIL;
-            } else {
-                result = CREATE_INT_EXPRESSION(env, iResult);
-            }
+            result = stringToIntExpression(env, 
+                    EXPRESSION_STRING(evaluatedExpr));
             break;
         default:
             result = NIL;

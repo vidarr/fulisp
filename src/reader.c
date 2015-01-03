@@ -102,7 +102,7 @@ struct Expression *fuRead(struct Reader *reader) {
             macro(reader, readChar);
             /* if the macro returned an expression, we are done  */
             if(reader->expr) {
-                DEBUG_PRINT("fuRead() returns expr : ");
+                DEBUG_PRINT("fuRead() returns expr : \n");
                 DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr);
                 expr = reader->expr;
                 reader->expr = 0;
@@ -218,7 +218,6 @@ NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c,
  * and store the expression in reader->expr
  */
 void setExprOfReader(struct Reader *reader) {
-    int i;
     float f;
 
     assert(reader);
@@ -257,9 +256,9 @@ void setExprOfReader(struct Reader *reader) {
 
         case EXPR_INTEGER:
             *reader->current = 0;
-            i = atoi(reader->buffer);
-            reader->expr = CREATE_INT_EXPRESSION( \
-                    READER_GET_ENVIRONMENT(reader), i); 
+            reader->expr = 
+                stringToIntExpression(READER_GET_ENVIRONMENT(reader), 
+                    reader->buffer);
             DEBUG_PRINT_PARAM("   Created %i\n",  \
                     EXPRESSION_INTEGER(reader->expr));
             break;

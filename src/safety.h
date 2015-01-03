@@ -175,7 +175,7 @@ extern int safetyLevel;
 
 
 #define __IF_SAFETY_HIGH(x) { if(safetyLevel == SAFETY_HIGH) {x}}
-#define __IF_SAFETY_CODE(x) {x}
+#define __IF_SAFETY_CODE(x) {x;}
 #define __IF_NOT_SAFETY_CODE(c) 
 #define __SET_SAFETY_LEVEL(x) {safetyLevel = x;}
 
@@ -213,7 +213,7 @@ char   * safeStrcpy(char *dest, const char *src, size_t maxLen);
 #define __SAFE_MALLOC(noBytes) malloc(noBytes)
 
 #define __SAFE_STRING_NEW(length)     \
-    ((char *)malloc(sizeof(char) * (length + 1)))
+    ((char *)malloc(sizeof(char) * ((length) + 1)))
 #define __SAFE_STRING_IS_TAINTED(str, length) ((int)0)
 #define __SAFE_STRING_RESET_TAINTED(str, len) 
 

@@ -35,6 +35,7 @@
 #include "streams.h"
 #include "symboltable.h"
 #include "environment.h"
+#include "futypes.h"
 
 
 

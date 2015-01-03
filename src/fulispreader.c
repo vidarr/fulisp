@@ -18,9 +18,9 @@
 #define MODULE_NAME "fulispreader.c"
 
 #ifdef DEBUG_READER
-#include "debugging.h"
+#    include "debugging.h"
 #else
-#include "no_debugging.h"
+#    include "no_debugging.h"
 #endif
 
 
@@ -201,7 +201,8 @@ static void rmString(struct Reader *reader, char sigle) {
     DEBUG_PRINT_PARAM("Read macro rmString called with %c\n", sigle);
 
     if(!BUFFER_IS_EMPTY(reader)) {
-        ERROR(ERR_SYNTAX_ERROR, "rmString(): Leading characters before String - Missing ' '?");
+        ERROR(ERR_SYNTAX_ERROR, \
+                "rmString(): Leading characters before String - Missing ' '?");
         reader->expr = NIL; /* GET_SYMBOL(reader, "NIL"); */
         return;
     }

@@ -103,7 +103,6 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type,
         __EXPRESSION_SET_CDR(expr, extension);
     } else if(EXPR_IS_POINTER(expr)) {
         __EXPRESSION_STRING(expr)              = (char *)content;
-        __EXPRESSION_STRING_SET_LENGTH(expr, strlen((char *)content));
     } else {
         switch(type) {
             case EXPR_INTEGER:

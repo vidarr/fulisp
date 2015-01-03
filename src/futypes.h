@@ -23,6 +23,9 @@
 #include "expression.h"
 #include "stdlib.h"
 
+struct Expression *stringToIntExpression(struct Expression *env, 
+        const char *str);
+
 struct Expression *fuType(struct Expression *env, struct Expression *expr);
 
 struct Expression *fuInt(struct Expression *env, struct Expression *expr);

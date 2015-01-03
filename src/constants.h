@@ -31,10 +31,11 @@
  * Number of chars maximal used for string rep. of some data types
  */
 
-#define MAX_BYTES_PER_int ((LOG_TO_LOG10_FACTOR * log(INT_MAX)) + 1)
-#define MAX_BYTES_PER_float   ((LOG_TO_LOG10_FACTOR * log(FLT_MAX) * 2) + 1)
-#define MAX_BYTES_PER_char    1
-#define MAX_BYTES_PER_pointer (sizeof(void *) * pow(2,8) / 16.0)
+#define MAX_BYTES_PER_int     (size_t)((LOG_TO_LOG10_FACTOR * log(INT_MAX)) + 1)
+#define MAX_BYTES_PER_float  (size_t)((LOG_TO_LOG10_FACTOR * log(FLT_MAX) * 2) \
+        + 1)
+#define MAX_BYTES_PER_char    (size_t)1
+#define MAX_BYTES_PER_pointer (size_t)(sizeof(void *) * pow(2,8) / 16.0)
 
 /**
  * String that is used to separate the last two expressions of a dotted pair,

@@ -55,13 +55,11 @@ int compareStrings(char *a, char *b, int len) {
 }
 
 
-/* Still the Write tests are no real tests but rather a preparation for the
-   Read tests */
-
 int testStringCharWriteStream(char *target, char *origin, int len) {
     struct CharWriteStream *stream;
     char *lOrigin = origin;
 
+    ERROR_RESET;
     stream = makeStringCharWriteStream(len, target);
 
     while(*lOrigin != '\0') {
@@ -70,10 +68,13 @@ int testStringCharWriteStream(char *target, char *origin, int len) {
     };
     STREAM_DISPOSE(stream);
     target[len - 1] = '\0';
+    if(! NO_ERROR) {
+        return TEST_FAILED;
+    }
 
-    if(compareStrings(origin, target, strlen(target)) != 0) return 1;
+    if(compareStrings(origin, target, strlen(target)) != 0) return TEST_FAILED;
 
-    return 0;
+    return TEST_PASSED;
 }
 
 
@@ -195,8 +196,18 @@ int main(int argc, char **argv) {
     result  = test(testStringCharWriteStream(copyText, testText, len + 1), 
             "CStreamCharWriteStream / buffer large enough");;
 
-    result |= test(testStringCharWriteStream(copyText, testText, len - 1), 
+#   ifndef EXIT_ON_ERROR
+
+    result |= test(
+            testStringCharWriteStream(copyText, testText, len - 1) != 
+            TEST_PASSED, 
             "CStreamCharWriteStream / buffer too small");
+#   else
+    
+    testWarn("Skipping CStreamCharWriteStream / buffer too small " 
+            " since EXIT_ON_ERROR in place");
+
+#   endif
 
     free(copyText);
 

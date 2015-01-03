@@ -21,7 +21,7 @@
 #include <stdlib.h>
 
 /**
- * Reset error state
+ * Check whether there has been no error
  */
 #define NO_ERROR (lispError == ERR_OK)
 
@@ -44,7 +44,11 @@
 #endif
 
 #ifdef EXIT_ON_ERROR
-#    define ERROR(e, m) {ERROR_BASIC(e, m); abort();}
+#    define ERROR(e, m) { \
+    ERROR_BASIC(e, m); \
+    fprintf(stderr, "\n%s:%u - %u %s\n", \
+            lispFile, lispLine, lispError, lispErrorMessage); \
+    abort();}
 #else
 #    define ERROR(e, m) ERROR_BASIC(e, m)
 #endif

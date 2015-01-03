@@ -58,7 +58,8 @@ struct Expression *fuPrint(struct Expression *env, struct Expression *expr) {
 char *expressionToString(struct Expression *env, char *str, 
         int sizeOfBuffer, struct Expression *expr) {
     
-   struct CharWriteStream *stream = makeStringCharWriteStream(sizeOfBuffer, str);
+   struct CharWriteStream *stream = 
+       makeStringCharWriteStream(sizeOfBuffer, str);
    printToStream(env, stream, expr);
    STREAM_DISPOSE(stream);
   return str; 
@@ -76,8 +77,9 @@ void printToStream(struct Expression *env,
 
 
 #define PRINT_EXPR(type, strType, data) {\
-    buf = SAFE_STRING_NEW(MAX_BYTES_PER_##type); \
-    SAFE_SPRINTF(buf, MAX_BYTES_PER_##type, #type ": "  #strType, data); \
+    size_t bufLen = MAX_BYTES_PER_##type + 6 + 2; \
+    buf = SAFE_STRING_NEW(bufLen); \
+    SAFE_SPRINTF(buf, bufLen, #type ": "  #strType, data); \
     PRINT_STREAM(buf); \
     free(buf); \
 }

@@ -145,11 +145,6 @@ extern struct Expression expressionEnvironment;
 
 #define __EXPRESSION_STRING(expr)                ((expr)->data.string)
 
-#define __EXPRESSION_STRING_GET_LENGTH(expr)     ((expr)->extension.length)
-
-#define __EXPRESSION_STRING_SET_LENGTH(expr, len) \
-    (expr)->extension.length = len
-
 #define __EXPRESSION_NATIVE_FUNC(expr)           ((expr)->data.nativeFunc)
 
 

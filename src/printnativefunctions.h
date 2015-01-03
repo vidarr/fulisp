@@ -37,14 +37,18 @@
  * @param str the string to write result to. must provide 3 * sizeof(function
  * pointer)
  */
-#define NATIVE_FUNC_TO_STR(func, str) { \
+#define NATIVE_FUNC_TO_STR(func, str, bufLen) { \
     int i; \
-    unsigned char *fp = (unsigned char *)&func; \
-    for(i = 0; i < sizeof(NativeFunction *); i += 3) { \
-        str[i] = ' '; \
-        str[i + 1] = HEX_HIGH_DIGIT(fp[i]); \
-        str[i + 2] = HEX_LOW_DIGIT(fp[i]); \
+    unsigned char *fp; \
+    size_t bufLenUsed = 3 * sizeof(NativeFunction *); \
+    IF_SAFETY_CODE(assert(bufLen >= bufLenUsed););  \
+    fp = (unsigned char *)&func; \
+    for(i = 0; i < sizeof(NativeFunction *); i++) { \
+        str[3 * i] = ' '; \
+        str[3 * i + 1] = HEX_HIGH_DIGIT(fp[i]); \
+        str[3 * i + 2] = HEX_LOW_DIGIT(fp[i]); \
     }; \
+    str[bufLenUsed] = '\0'; \
 };
 
 #endif
