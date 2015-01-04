@@ -15,3 +15,6 @@
 
 0.4.0 * Adaptions to support LLVM/clang
       * Added Garbage Collector MARK_AND_SWEEP
+	  * Added cast functions INTEGER / FLOAT
+	  * FIX: Integer overflow/underrun while parsing integers
+	  * FIX: Parsing of empty string ""

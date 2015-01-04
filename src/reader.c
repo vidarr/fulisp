@@ -196,7 +196,7 @@ NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c,
             free(entry->next);
             return old;
         };
-        DEBUG_PRINT_PARAM("Replaced '%c\n' from Read Macro Lookup\n", c);
+        DEBUG_PRINT_PARAM("Replaced '%c' from Read Macro Lookup\n", c);
         old = entry->next->macro;
         entry->next->macro = macro;
         return old;
@@ -224,9 +224,8 @@ void setExprOfReader(struct Reader *reader) {
 
     DEBUG_PRINT("setExprOfReader() invoked\n");
 
-    /* if buffer is empty, there is nothin to convert anyways */
     if(reader->buffer == reader->current) {
-        reader->expr = GET_SYMBOL(reader, "");
+        reader->expr = NIL;
         return;
     };
 

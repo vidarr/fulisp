@@ -223,6 +223,9 @@ static void rmStringEnd(struct Reader *reader, char sigle) {
     assert(reader);
     DEBUG_PRINT_PARAM("Read macro rmStringEnd called with %c\n", sigle);
 
+    if(reader->current == reader->buffer) {
+        PUSH_INTO_BUFFER('\0', reader);
+    }
     registerReadMacro(reader, sigle, rmString);
     rmFuLispTerminator(reader, sigle);
 }

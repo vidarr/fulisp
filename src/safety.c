@@ -62,7 +62,7 @@ void *safeMalloc(size_t noBytes) {
 char * stringNew(size_t length) {
     char *cString = NULL;
 
-    assert(length > 0);
+    assert(length >= 0);
 
     cString = SAFE_MALLOC(sizeof(char) * (length + 1));
     if(cString == NULL) {
