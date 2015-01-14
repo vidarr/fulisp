@@ -11,7 +11,8 @@ check:
 	cd src && make check
 
 clean:
-	cd src && make clean
+	cd src && make clean && \
+		cd ../doc && make clean
 
 preprocess:
 	cd src && make preprocess

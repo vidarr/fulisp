@@ -9,6 +9,6 @@ pdf: ${TEX_FILES}
 	${PDFLATEX} ${MAIN_TEX_FILE}
 
 clean:
-	@echo "Removing built documentation..." && \
+	@echo "REMOVING BUILT DOCUMENTATION..." && \
     rm *.aux && rm *.log && rm *.pdf
 
