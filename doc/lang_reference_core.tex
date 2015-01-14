@@ -1,0 +1,62 @@
+\section{Language Core}
+
+\subsection{\label{sec:CoreReference}Reference}
+
+Most of fuLisp will be actually implemented in fuLisp itself. 
+The very core supplying the basic functionality is however provided as native
+functions.
+These functions are described in the following sections.
+
+\commandDescription{QUOTE}{Prevents evaluation of its argument}
+{ARG1 - Any type}
+{Takes its argument and returns it as is without having it evaluated as usually}
+
+\commandDescription{CONS}{Creates a cons cell}
+{ARG1 - Any type  ARG2 - Any type}
+{Wraps ARG1 and ARG2 into a CONS cell, i.e. returns \texttt{(ARG1 ARG2)}}
+
+\commandDescription{CAR}{Returns the CAR of a cons cell.}
+{ARG1 - A CONS cell}
+{Returns the Car of a CONS cell, i.e.  \\\texttt{(CAR (CONS 1 2)) == 1}.}
+
+\commandDescription{CDR}{Returns the CDR of a cons cell.}
+{ARG1 - A CONS cell}
+{Returns the Cdr of a CONS cell, i.e. \\\texttt{(CDR (CONS 1 2)) == 2}.}
+
+% \commandDescription{COND} & \\
+% \commandDescription{CONS?} & \\
+% \commandDescription{DEFINE} & Expects exactly two arguments. First argument is a
+% ymvol, second argument is any kind of expression. Creates a binding in
+% he global environment, returns the expression bound.\\
+% \commandDescription{BEGIN} & Expects a list of expressions. Evaluates each of these
+% xpressions in the order of their appearance. Returns the value of the last
+% xpression. \\
+% \commandDescription{SET!} & \\
+% \commandDescription{OR} & \\
+% \commandDescription{AND} & \\
+% \commandDescription{NOT} & \\
+% \commandDescription{LAMBDA} & Creates a new unnamed closure. Expects exactly two
+% rguments: First argument is a list of symbols, the second argument is a
+% xpression. If the returned closure is evaluated, these symbols will be
+% ound to the arguments the closure is called with. The closure can be
+% ound to a symbol and thus become a function as it is common.\\
+% \commandDescription{=} & Checks whether its arguments are numerically equal. \\
+% \commandDescription{<} & \\
+% \commandDescription{+} & \\
+% \commandDescription{*} & \\
+% \commandDescription{INTEGER?} & Returns T if its argument an INTEGER \\
+% \commandDescription{FLOAT?} & Returns T if its argument is a FLOAT \\
+% \commandDescription{CHARACTER?} & Returns T if its argument a CHARACTER \\
+% \commandDescription{STRING?} & Returns T if its argument is a STRING \\
+% \commandDescription{LAMBDA?} & Returns T if its argument is a LAMBDA \\
+% \commandDescription{NATIVE-FUNCTION?} & Returns T if its argument is a native function \\
+% \commandDescription{SYMBOL?} & Returns T if its argument is of type SYMBOL \\
+% \commandDescription{ENVIRONMENT?} & Returns T if its argument is an ENVIRONMENT \\
+% \commandDescription{TYPE} & Returns type of its ARGUMENT \\
+% \commandDescription{INTEGER} & Converts its argument to an INTEGER \\
+% \commandDescription{FLOAT} & Converts its argument to an FLOAT \\
+% \commandDescription{GC-RUN} & Force the Garbage collector to run \\
+% \commandDescription{GET-ENVIRONMENT} & Get the current environment \\
+% \commandDescription{GET-PARENT-ENVIRONMENT} & Takes an environment as argument and returns its parent 
+%     \end{tabular}
+
