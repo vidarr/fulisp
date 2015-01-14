@@ -18,7 +18,7 @@ preprocess:
 	cd src && make preprocess
 
 tarball: 
-	git archive --format tar HEAD | gzip > fulisp.tar.gz
+	git archive --prefix=fulisp/ --format tar HEAD | gzip > fulisp.tar.gz
 
 release: tarball
 	bash bin/release.sh
