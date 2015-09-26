@@ -28,7 +28,7 @@
 
 #ifdef DEBUG
 #    include "debugging.h"
-#else 
+#else
 #    include "no_debugging.h"
 #endif
 
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
     struct CharReadStream *bufStream;
     struct CharReadStream *readStream;
     struct Reader *reader;
-    int lastError; 
+    int lastError;
 
     BENCHMARK_DECLARE_VAR(bmTime, bmTemp, bmTimeSt);
 
@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
     env = environmentCreateStdEnv(mem);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUIT", quit);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LICENSE", license);
-    
+
     readStream = makeCStreamCharReadStream(stdin);
     expr = 0;
     bufStream = makeCharReadStream(readStream);

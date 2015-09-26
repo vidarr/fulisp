@@ -4,9 +4,11 @@ MKDIR=mkdir
 #LAUNCHER=valgrind --leak-check=full
 LAUNCHER=
 
-ifeq ($(CC), gcc)
+CLANG=$(shell echo "$(CC)"  | sed -ne 's/.*\(clang\).*/\1/p')
+GCC=$(shell echo "$(CC)"  | sed -ne 's/.*\(gcc\).*/\1/p')
+ifeq ($(GCC), gcc)
 include ../config/gcc.mk
-else ifeq ($(CC), clang)
+else ifeq ($(CLANG), clang)
 include ../config/clang.mk
 else
 $(error CC variable not set to supported compiler)
@@ -55,12 +57,13 @@ tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $
 check: tests
 	@$(LAUNCHER) $(BUILD_DIR)/test-stack && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-hash && \
+	 $(LAUNCHER) $(BUILD_DIR)/test-env && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-memory && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-expression && \
      $(LAUNCHER) $(BUILD_DIR)/test-streams && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-reader && \
 	 $(LAUNCHER) $(BUILD_DIR)/test-eval && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-gc 
+	 $(LAUNCHER) $(BUILD_DIR)/test-gc
 
 
 $(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES)
@@ -77,7 +80,7 @@ $(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o $(BUILD_DIR)/t
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
 
 
-$(BUILD_DIR)/test-gc: $(OBJECT_FILES)  $(BUILD_DIR)/test-gc.o 
+$(BUILD_DIR)/test-gc: $(OBJECT_FILES)  $(BUILD_DIR)/test-gc.o
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-gc  $^ $(LDFLAGS)
 
 
@@ -119,7 +122,7 @@ clean:
 tags: $(wildcard *.c) $(wildcard *.h)
 	ctags -R *.c *.h > $(TAGS_FILE)
 
-$(PREPROCESS_DIR): 
+$(PREPROCESS_DIR):
 	mkdir $(PREPROCESS_DIR)
 
 $(PREPROCESS_DIR)/%.i : %.c

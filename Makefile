@@ -1,5 +1,7 @@
 RELEASE_DIR=release
 
+.PHONY: all fulisp tests check clean preprocess tarball release
+
 all: 
 	cd src && make all
 

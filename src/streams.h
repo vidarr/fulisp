@@ -36,16 +36,16 @@
  * In here, streams are considered streams of some data
  * they are represented by a function returning subsequent bits of this data
  * flow
- * You could also call them 'iterators' 
+ * You could also call them 'iterators'
  * All of them contain a field intConfig, a void pointer.
  * In it, the streams internal data should be stored
  * For example, the stream reading from a FILE object keeps a pointer to its
  * FILE in it
  *
- *  a function getNext(void *) returns the next element of the stream
+ * A function getNext(void *) returns the next element of the stream.
  * It takes the pointer stored in intConfig, thus getting the next element
  * collapses to the call stream->getNext(stream->intConfig)
- * To simpligy this call, use STREAM_NEXT to shorten this call:
+ * To simplify this call, use STREAM_NEXT:
  * STREAM_NEXT(stream)
  *
  * Buffered streams provide another function:
@@ -109,7 +109,7 @@ struct CharReadStream {
     char (*getNext) (struct CharReadStream *);
     void (*dispose) (struct CharReadStream *);
     int  (*status)  (struct CharReadStream *);
-    void (*pushBack)(struct CharReadStream *, char); 
+    void (*pushBack)(struct CharReadStream *, char);
     void *intConfig;
 };
 
@@ -224,7 +224,7 @@ struct CharWriteStream *makeStringCharWriteStream(int stringLength, char *string
 
 
 
-/** 
+/**
  * This represents an ordinary stream to be read from
  * Stream.getNext() will deliver another item from the stream
  */

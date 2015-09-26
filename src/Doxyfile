@@ -1790,3 +1790,10 @@ GENERATE_LEGEND        = YES
 # the various graphs.
 
 DOT_CLEANUP            = YES
+
+COLS_IN_ALPHA_INDEX    = YES
+
+
+ALPHABETICAL_INDEX     = YES
+GENERATE_TREEVIEW      = YES
+

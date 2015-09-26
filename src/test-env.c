@@ -38,9 +38,9 @@
 char ***idStrings;
 char ***symNames, ***symNamesLvl;
 
-struct Expression *env1; 
-struct Expression *env2; 
-struct Expression *env; 
+struct Expression *env1;
+struct Expression *env2;
+struct Expression *env;
 
 
 void createStrings(int no) {
@@ -54,7 +54,7 @@ void createStrings(int no) {
         symNamesLvl[level] = (char **)SAFE_MALLOC(sizeof(char *) * no);
         for(i = 0; i < no; i++) {
             idStrings[level][i] = SAFE_STRING_NEW(ID_STRING_LENGTH);
-            SAFE_SPRINTF(idStrings[level][i], ID_STRING_LENGTH, 
+            SAFE_SPRINTF(idStrings[level][i], ID_STRING_LENGTH,
                     ID_STRING, level, i);
             symNames[level][i] = SAFE_STRING_NEW(SYM_NAME_LENGTH);
             SAFE_SPRINTF(symNames[level][i], SYM_NAME_LENGTH, SYM_NAME, i);
@@ -84,7 +84,7 @@ void deleteStrings(int no) {
 }
 
 
-void printStrings(void) { 
+void printStrings(void) {
     int level, i;
     createStrings(15);
     for(level = 0; level < 3; level++) {
@@ -97,16 +97,15 @@ void printStrings(void) {
 }
 
 
-int fillEnvironment(struct Expression *env, int level, int no) { 
+int fillEnvironment(struct Expression *env, int level, int no) {
     int i;
     char *str;
     struct Expression *expr;
     for(i = 0; i < no; i++) {
         str = symNamesLvl[level][i];
         expr = CREATE_STRING_EXPRESSION(env, str);
-        free(str);
-        ENVIRONMENT_ADD_STRING(env, symNamesLvl[level][i], expr); 
-        ENVIRONMENT_ADD_STRING(env, symNames[level][i], expr); 
+        ENVIRONMENT_ADD_STRING(env, symNamesLvl[level][i], expr);
+        ENVIRONMENT_ADD_STRING(env, symNames[level][i], expr);
         expressionDispose(env, expr);
     }
     return 0;
@@ -116,12 +115,12 @@ int fillEnvironment(struct Expression *env, int level, int no) {
 int fillEnvironment0(void) {
     return fillEnvironment(env, 0,  NO_ENTRIES);
 }
- 
- 
+
+
 int fillEnvironment1(void) {
     return fillEnvironment(env1, 1,  NO_ENTRIES);
 }
- 
+
 
 int fillEnvironment2(void) {
     return fillEnvironment(env2, 2,  NO_ENTRIES);
@@ -134,7 +133,7 @@ int lookup(struct Expression *env, char *str, char *reference) {
     expr = CREATE_STRING_EXPRESSION(env, str);
     res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
     expressionDispose(env, expr);
-    if(!res) return 1;
+    if(EXPR_IS_NIL(res)) return 1;
     if(!strcmp(EXPRESSION_STRING(res), reference)) {
         expressionDispose(env, res);
         return 1;
@@ -149,7 +148,7 @@ int testLookup(void) {
     int i;
     for(i = NO_ENTRIES - 1; i >= 0; i--) {
         /* Look up all 3 symbols */
-        if(!lookup(env2, symNames[2][i], symNamesLvl[2][i]))
+        if(!lookup(env2, symNamesLvl[2][i], symNamesLvl[2][i]))
             return 1;
         if(!lookup(env2, symNamesLvl[1][i], symNamesLvl[1][i]))
             return 1;
@@ -160,7 +159,7 @@ int testLookup(void) {
 }
 
 
-int main(int argc, char **argv) { 
+int main(int argc, char **argv) {
     int result;
     struct Memory *mem = newMemory();
 
