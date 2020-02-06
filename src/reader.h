@@ -15,37 +15,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  USA.
  */
- 
+
 #ifndef __READER_H__
 #define __READER_H__
 
 #include "config.h"
 
-#include <stdlib.h>
 #include <assert.h>
-#include <stdio.h>
-#include <string.h>
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include "constants.h"
-#include "expression.h"
 #include "cons.h"
-#include "print.h"
+#include "constants.h"
+#include "environment.h"
+#include "expression.h"
+#include "futypes.h"
 #include "lisp_internals.h"
+#include "print.h"
 #include "streams.h"
 #include "symboltable.h"
-#include "environment.h"
-#include "futypes.h"
-
-
 
 /******************************************************************************
  *                               Structs
  ******************************************************************************/
 
-
 struct Reader;
-
 
 /**
  * A read macro is a function that takes over parsing the input provided by a
@@ -55,13 +51,11 @@ struct Reader;
  * char does not appear within the buffer, so if this char should be kept, the
  * read macro has to place it there
  */
-typedef void (* NativeReadMacro)(struct Reader *, char);
-
-
+typedef void (*NativeReadMacro)(struct Reader *, char);
 
 /**
  * Lookup entry for read macros
- * such a lookup is a linked list 
+ * such a lookup is a linked list
  * the very first entry is not included in the search
  * its macro resembles the 'default' macro
  * returned if none fitting could be found
@@ -72,7 +66,6 @@ struct ReadMacroLookUp {
     char sign;
     NativeReadMacro macro;
 };
-
 
 /**
  * A Reader is a set of read macros that have been assigned a char as identifier
@@ -96,36 +89,29 @@ struct Reader {
     int type;
 };
 
-
-
 /******************************************************************************
  *                              Public Functions
  ******************************************************************************/
 
-
-
 struct Expression *fuRead(struct Reader *reader);
 
-
 /**
- * Create a new reader environment 
+ * Create a new reader environment
  * @param getNextChar function that wraps the stream to be read from
  */
-struct Reader *newReader(struct Expression *env, struct CharReadStream *stream); 
+struct Reader *newReader(struct Expression *env, struct CharReadStream *stream);
 
 /**
  * Frees Reader structure
  * @param reader the reader to be freed
  */
-void deleteReader(struct Reader *reader); 
-
+void deleteReader(struct Reader *reader);
 
 /**
  * Resets the Reader structure
  * @param reader the reader to be reset
  */
 void resetReader(struct Reader *reader);
-
 
 /**
  * Lookup the given char, if not found, the standard macro is returned
@@ -136,14 +122,13 @@ void resetReader(struct Reader *reader);
  */
 NativeReadMacro lookupReadMacro(struct Reader *reader, char c);
 
-
 /**
  * Registers the read macro to call if none other does apply
  * @param reader the reader to register to
  * @param macro  the macro to become the standard macro
  */
-NativeReadMacro registerStandardReadMacro(struct Reader *reader, NativeReadMacro macro);
-
+NativeReadMacro registerStandardReadMacro(struct Reader *reader,
+                                          NativeReadMacro macro);
 
 /**
  * Inserts a read macro for sign c into reader reader
@@ -152,79 +137,76 @@ NativeReadMacro registerStandardReadMacro(struct Reader *reader, NativeReadMacro
  * @return the macro found within lookup for sign c or 0 if there has not been
  * one
  */
-NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c, 
-        NativeReadMacro macro);
-
+NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c,
+                                  NativeReadMacro macro);
 
 void printLookup(struct Reader *reader);
-
 
 /* coerce read string to expression */
 
 void setExprOfReader(struct Reader *reader);
 
-/** 
+/**
  * ReadMacro that ignores read character
  */
 void rmIgnore(struct Reader *reader, char sigle);
 
 /**
  * Standard ReadMacro
- * just push read char to buffer 
+ * just push read char to buffer
  */
 void rmIdentity(struct Reader *reader, char sigle);
 
 /**
- * Finish reading from stream 
+ * Finish reading from stream
  */
 void rmTerminator(struct Reader *reader, char sigle);
-
-
 
 /******************************************************************************
  *                                M A C R O S
  ******************************************************************************/
 
-
-#define LOOKUP_READ_MACRO(x,r) lookupReadMacro(r, x)
+#define LOOKUP_READ_MACRO(x, r) lookupReadMacro(r, x)
 
 #ifdef DEBUG_READER
 #ifdef DEBUG
-#define PUSH_INTO_BUFFER(x, r) { \
-    fprintf(stderr, "Pushed %c into buffer\n", x); \
-    *(r->current) = x; (r->current)++; \
-}
-
-
+#define PUSH_INTO_BUFFER(x, r)                         \
+    {                                                  \
+        fprintf(stderr, "Pushed %c into buffer\n", x); \
+        *(r->current) = x;                             \
+        (r->current)++;                                \
+    }
 
 #define DEBUG_PRINT_MACRO_LOOKUP(r) printLookup(r)
 #endif
 
-#else 
+#else
 
-#define PUSH_INTO_BUFFER(x, r) { \
-    *(r->current) = x; (r->current)++; \
-}
+#define PUSH_INTO_BUFFER(x, r) \
+    {                          \
+        *(r->current) = x;     \
+        (r->current)++;        \
+    }
 
 #define DEBUG_PRINT_MACRO_LOOKUP(r)
 
 #endif
 
-
 #define BUFFER_IS_EMPTY(r) (r->current == r->buffer)
 
-#define PUSH_INTO_BUFFER_X(x, r) { \
-    IF_SAFETY_HIGH(if((r->current - r->buffer) > \
-                READ_BUFFER_SIZE){ ERROR(ERR_BUFFER_OVERFLOW);}); \
-    *(r->current) = x; (r->current)++; \
-}
-
+#define PUSH_INTO_BUFFER_X(x, r)                                          \
+    {                                                                     \
+        IF_SAFETY_HIGH(if ((r->current - r->buffer) > READ_BUFFER_SIZE) { \
+            ERROR(ERR_BUFFER_OVERFLOW);                                   \
+        });                                                               \
+        *(r->current) = x;                                                \
+        (r->current)++;                                                   \
+    }
 
 #define READ_NEXT_CHAR(r) STREAM_NEXT(r->stream)
 
-
-#define GET_SYMBOL(r, x) symbolTableGetSymbol(READER_GET_ENVIRONMENT(r), r->symbolTable, x)
-
+#define GET_SYMBOL(r, x) \
+    symbolTableGetSymbol(READER_GET_ENVIRONMENT(r), r->symbolTable, x)
 
 #define READER_GET_ENVIRONMENT(reader) (reader->env)
 

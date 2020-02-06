@@ -21,10 +21,7 @@
 
 #include "reader.h"
 
-
-int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, struct Expression *(* getNextExpr)(struct Reader *reader)); 
+int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName,
+                   struct Expression *(*getNextExpr)(struct Reader *reader));
 
 #endif
-
-
-

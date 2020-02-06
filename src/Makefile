@@ -7,11 +7,11 @@ LAUNCHER=
 CLANG=$(shell echo "$(CC)"  | sed -ne 's/.*\(clang\).*/\1/p')
 GCC=$(shell echo "$(CC)"  | sed -ne 's/.*\(gcc\).*/\1/p')
 ifeq ($(GCC), gcc)
-include ../config/gcc.mk
+	include ../config/gcc.mk
 else ifeq ($(CLANG), clang)
-include ../config/clang.mk
+	include ../config/clang.mk
 else
-$(error CC variable not set to supported compiler)
+	$(error CC variable not set to supported compiler)
 endif
 
 BUILD_DIR=../build
@@ -56,14 +56,14 @@ tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $
 
 check: tests
 	@$(LAUNCHER) $(BUILD_DIR)/test-stack && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-hash && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-env && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-memory && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-expression && \
-     $(LAUNCHER) $(BUILD_DIR)/test-streams && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-reader && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-eval && \
-	 $(LAUNCHER) $(BUILD_DIR)/test-gc
+		$(LAUNCHER) $(BUILD_DIR)/test-hash && \
+		$(LAUNCHER) $(BUILD_DIR)/test-env && \
+		$(LAUNCHER) $(BUILD_DIR)/test-memory && \
+		$(LAUNCHER) $(BUILD_DIR)/test-expression && \
+		$(LAUNCHER) $(BUILD_DIR)/test-streams && \
+		$(LAUNCHER) $(BUILD_DIR)/test-reader && \
+		$(LAUNCHER) $(BUILD_DIR)/test-eval && \
+		$(LAUNCHER) $(BUILD_DIR)/test-gc
 
 
 $(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES)
@@ -111,12 +111,12 @@ $(BUILD_DIR)/test-memory: $(OBJECT_FILES) $(BUILD_DIR)/test-memory.o
 $(BUILD_DIR)/fulisp: $(OBJECT_FILES) $(BUILD_DIR)/repl.o
 	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/fulisp $^ $(LDFLAGS)
 
-    
+
 clean:
 	@echo "REMOVING BINARIES..."; \
-        if [ -d $(BUILD_DIR) ]; then  rm -r $(BUILD_DIR); fi; \
+		if [ -d $(BUILD_DIR) ]; then  rm -r $(BUILD_DIR); fi; \
 		echo "REMOVING PREPROCESSED SOURCES...";  \
-	   	if [ -d $(PREPROCESS_DIR) ]; then rm -r $(PREPROCESS_DIR); fi
+		if [ -d $(PREPROCESS_DIR) ]; then rm -r $(PREPROCESS_DIR); fi
 
 
 tags: $(wildcard *.c) $(wildcard *.h)

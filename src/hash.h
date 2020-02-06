@@ -9,10 +9,11 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- 
+
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ USA.
  */
 
 #ifndef __HASH_C__
@@ -21,7 +22,6 @@
 #define HASHTABLE_STD_SIZE 15
 
 #define HASH_TABLE_SAFE_KEY
-
 
 struct HashEntry {
     char *key;
@@ -32,21 +32,18 @@ struct HashEntry {
 struct HashTable {
     struct HashEntry **hash;
     unsigned int size;
-    unsigned int(* hashFunc)(struct HashTable *, char *);
+    unsigned int (*hashFunc)(struct HashTable *, char *);
 };
 
-
-
 /**
- * Creates new hash table 
+ * Creates new hash table
  * @param n number of buckets of the hash table
  * @param hashFunc the hashing function to use
  * @return hash table
  */
-struct HashTable * hashTableCreate(unsigned int n, unsigned int(* hashFunc)(struct
-            HashTable *, char *));  
-
-
+struct HashTable *hashTableCreate(unsigned int n,
+                                  unsigned int (*hashFunc)(struct HashTable *,
+                                                           char *));
 
 /**
  *  Deletes an hash table
@@ -54,19 +51,17 @@ struct HashTable * hashTableCreate(unsigned int n, unsigned int(* hashFunc)(stru
  */
 void hashTableDispose(struct HashTable *hash);
 
-
 /**
  * Associates a key eith a value
  * If existent, the old value will be deleted
  * If not existent, an entry will be created
  * @param hashTable the hash table to be used
- * @param key 
+ * @param key
  * @param val Pointer to the value (void)
- * 
+ *
  * @return pointer to the old value or NULL if previously not set
  */
-void *hashTableSet(struct HashTable * hashTable, char *key, void *val);
-
+void *hashTableSet(struct HashTable *hashTable, char *key, void *val);
 
 /**
  * Deletes an entry of an hash table
@@ -74,30 +69,27 @@ void *hashTableSet(struct HashTable * hashTable, char *key, void *val);
  * @param hashTable the hash table to be used
  * @param key the key of the entry to be deleted
  * @param delete if != 0, the key will be freed
- * 
+ *
  * @return pointer to the value that has been deleted, or 0 if entry not found
  */
 void *hashTableDelete(struct HashTable *hashTable, char *key);
 
-
 /**
- * Returns the value associated to a key 
+ * Returns the value associated to a key
  * @param hashTable the hash to be used
  * @param key the key to be searched
  *
  * @return pointer to the value ass. to the key, or 0 if not found
  */
-void *hashTableGet(struct HashTable * hashTable, char *key);
-
+void *hashTableGet(struct HashTable *hashTable, char *key);
 
 /**
  * Standard hash function
  * @param key the key to be mapped onto a number
- * 
+ *
  * @return an hash function suited for n buckets
  */
 unsigned int stdHashFunction(struct HashTable *hash, char *key);
-
 
 /**
  *  Returns an array containing pointers to all keys of a paticular hash table

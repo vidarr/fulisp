@@ -12,7 +12,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
 
 #ifndef __MEMORY_H__
@@ -21,63 +22,57 @@
 #include "config.h"
 #include "expression.h"
 
-
 struct Expression;
 
 struct ExpressionBlock {
     struct Expression *memory;
-#    ifdef MEMORY_AUTOEXTEND
-    struct ExpressionBlock *nextBlock; 
-#   endif
+#ifdef MEMORY_AUTOEXTEND
+    struct ExpressionBlock *nextBlock;
+#endif
 };
-
 
 struct ConsBlock;
 
-
 struct Memory {
     struct ExpressionBlock *exprBlocks;
-    struct ConsBlock       *consBlocks;
-    struct Expression      *nextExpr;
-    struct Cons            *nextCons;
-    void (* outOfMemory)(void);
+    struct ConsBlock *consBlocks;
+    struct Expression *nextExpr;
+    struct Cons *nextCons;
+    void (*outOfMemory)(void);
 };
-
 
 /******************************************************************************
                                      MACROS
  ******************************************************************************/
 
-
 /**
- * Get another Expression struct that can be used 
+ * Get another Expression struct that can be used
  * @param mem Pointer to Memory struct to use
  * @param epxr lvalue (variable) to receive pointer to new Expression struct
  */
-#define MEMORY_GET_EXPRESSION(mem, expr) __MEMORY_GET_EXPRESSION(mem, expr) 
+#define MEMORY_GET_EXPRESSION(mem, expr) __MEMORY_GET_EXPRESSION(mem, expr)
 
 /**
  * Get another Cons struct that can be used
  * @param mem Pointer to Memory struct to use
  * @param cons lvalue (variable) to receive pointer to new Cons struct
  */
-#define MEMORY_GET_CONS(mem, cons) __MEMORY_GET_CONS(mem, cons) 
+#define MEMORY_GET_CONS(mem, cons) __MEMORY_GET_CONS(mem, cons)
 
 /**
  * Recycle Expression struct
  */
-#define MEMORY_DISPOSE_EXPRESSION(mem, expr) __MEMORY_DISPOSE_EXPRESSION(mem, expr) 
+#define MEMORY_DISPOSE_EXPRESSION(mem, expr) \
+    __MEMORY_DISPOSE_EXPRESSION(mem, expr)
 
 /**
  * Recycle Cons struct
  */
-#define  MEMORY_DISPOSE_CONS(mem, cons) __MEMORY_DISPOSE_CONS(mem, cons)
-
+#define MEMORY_DISPOSE_CONS(mem, cons) __MEMORY_DISPOSE_CONS(mem, cons)
 
 /******************************************************************************
                                 Public functions
  ******************************************************************************/
-
 
 /**
  * Creates a new Memory structure
@@ -91,62 +86,52 @@ struct Memory *newMemory(void);
  */
 void deleteMemory(struct Memory *mem);
 
-
 /******************************************************************************
                                    INTERNALS
  *****************************************************************************/
 
-
 #ifdef MEMORY_USE_PREALLOCATION
 
-#    ifdef MEMORY_AUTOEXTEND
+#ifdef MEMORY_AUTOEXTEND
 
-         void allocateNewExpressionBlock(struct Memory *mem);
-         
-         void allocateNewConsBlock(struct Memory *mem);
+void allocateNewExpressionBlock(struct Memory *mem);
 
-#        define __HANDLE_OUT_OF_EXPR_MEM(mem) allocateNewExpressionBlock(mem);
+void allocateNewConsBlock(struct Memory *mem);
 
-#        define __HANDLE_OUT_OF_CONS_MEM(mem) allocateNewConsBlock(mem);
+#define __HANDLE_OUT_OF_EXPR_MEM(mem) allocateNewExpressionBlock(mem);
 
-#    else    /* MEMORY_AUTOEXTEND */
+#define __HANDLE_OUT_OF_CONS_MEM(mem) allocateNewConsBlock(mem);
 
-#        define __HANDLE_OUT_OF_EXPR_MEM(mem) (mem)->outOfMemory();
+#else /* MEMORY_AUTOEXTEND */
 
-#        define __HANDLE_OUT_OF_CONS_MEM(mem) (mem)->outOfMemory();
+#define __HANDLE_OUT_OF_EXPR_MEM(mem) (mem)->outOfMemory();
 
-#    endif   /* MEMORY_AUTOEXTEND */
+#define __HANDLE_OUT_OF_CONS_MEM(mem) (mem)->outOfMemory();
 
-#    define __MEMORY_GET_EXPRESSION(mem, expr) { \
-        if((mem)->nextExpr == NULL) __HANDLE_OUT_OF_EXPR_MEM(mem); \
-        expr = (mem)->nextExpr; \
-        (mem)->nextExpr = \
-                (struct Expression *)EXPRESSION_STRING((mem)->nextExpr); \
-     }    
+#endif /* MEMORY_AUTOEXTEND */
 
-#    define __MEMORY_DISPOSE_EXPRESSION(mem, expr) { \
+#define __MEMORY_GET_EXPRESSION(mem, expr)                           \
+    {                                                                \
+        if ((mem)->nextExpr == NULL) __HANDLE_OUT_OF_EXPR_MEM(mem);  \
+        expr = (mem)->nextExpr;                                      \
+        (mem)->nextExpr =                                            \
+            (struct Expression *)EXPRESSION_STRING((mem)->nextExpr); \
+    }
+
+#define __MEMORY_DISPOSE_EXPRESSION(mem, expr)               \
+    {                                                        \
         EXPRESSION_STRING(expr) = (char *)((mem)->nextExpr); \
-        (mem)->nextExpr = expr; \
-        IF_SAFETY_CODE( \
-            expr->type = 0; \
-        ); \
-     }    
+        (mem)->nextExpr = expr;                              \
+        IF_SAFETY_CODE(expr->type = 0;);                     \
+    }
 
+#else /* MEMORY_USE_PREALLOCATION */
 
-#else    /* MEMORY_USE_PREALLOCATION */
+#define __MEMORY_GET_EXPRESSION(mem, expr) \
+    { expr = (struct Expression *)malloc(sizeof(struct Expression)); }
 
+#define __MEMORY_DISPOSE_EXPRESSION(mem, expr) free(expr)
 
-#    define __MEMORY_GET_EXPRESSION(mem, expr) { \
-        expr = (struct Expression *)malloc(sizeof(struct Expression)); \
-     }    
-         
-#    define __MEMORY_DISPOSE_EXPRESSION(mem, expr) \
-        free(expr)
-
-
-
-#endif   /* MEMORY_USE_PREALLOCATION */
-
+#endif /* MEMORY_USE_PREALLOCATION */
 
 #endif
-

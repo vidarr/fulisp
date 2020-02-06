@@ -13,9 +13,8 @@
  */
 
 #include "reader.h"
-#include "error.h"
 #include "config.h"
-
+#include "error.h"
 
 #define MODULE_NAME "reader.c"
 
@@ -25,15 +24,12 @@
 #include "no_debugging.h"
 #endif
 
-
-
 /******************************************************************************
  *                              Public Functions
  ******************************************************************************/
 
-
-
-struct Reader *newReader(struct Expression *env, struct CharReadStream *stream) { 
+struct Reader *newReader(struct Expression *env,
+                         struct CharReadStream *stream) {
     struct Reader *reader = SAFE_MALLOC(sizeof(struct Reader));
     assert(env && stream);
     reader->type = EXPR_SYMBOL;
@@ -50,58 +46,54 @@ struct Reader *newReader(struct Expression *env, struct CharReadStream *stream) 
     return reader;
 }
 
-
 void deleteReader(struct Reader *reader) {
-    struct ReadMacroLookUp * entry, *nextEntry;
+    struct ReadMacroLookUp *entry, *nextEntry;
 
     assert(reader);
 
     entry = reader->lookup;
 
-    if(reader) {
-        if(reader->lookup) {
-            while(entry) {
+    if (reader) {
+        if (reader->lookup) {
+            while (entry) {
                 nextEntry = entry->next;
                 free(entry);
                 entry = nextEntry;
             };
         };
-        if(reader->buffer) free(reader->buffer);
+        if (reader->buffer) free(reader->buffer);
         /* free all stored symbols */
         symbolTableDispose(READER_GET_ENVIRONMENT(reader), reader->symbolTable);
         free(reader);
     };
     reader = 0;
-} 
-
+}
 
 void resetReader(struct Reader *reader) {
     assert(reader);
-    if(reader->expr) {
-        expressionDispose(READER_GET_ENVIRONMENT(reader), reader->expr); 
+    if (reader->expr) {
+        expressionDispose(READER_GET_ENVIRONMENT(reader), reader->expr);
         reader->expr = (void *)0;
     };
     reader->type = EXPR_NO_TYPE;
     reader->current = reader->buffer;
 }
 
-
 struct Expression *fuRead(struct Reader *reader) {
-
     char readChar;
     NativeReadMacro macro;
     struct Expression *expr = 0;
 
     assert(reader);
 
-    while(!reader->expr && (readChar = READ_NEXT_CHAR(reader))) {
+    while (!reader->expr && (readChar = READ_NEXT_CHAR(reader))) {
         DEBUG_PRINT_PARAM(" Got '%c'\n", readChar);
         macro = LOOKUP_READ_MACRO((char)readChar, reader);
         DEBUG_PRINT_NATIVE_FUNC(macro);
-        if(macro) {
+        if (macro) {
             macro(reader, readChar);
             /* if the macro returned an expression, we are done  */
-            if(reader->expr) {
+            if (reader->expr) {
                 DEBUG_PRINT("fuRead() returns expr : \n");
                 DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr);
                 expr = reader->expr;
@@ -119,28 +111,27 @@ struct Expression *fuRead(struct Reader *reader) {
     };
 
     /* if not looked up yet, try to evaluate the input */
-    if((macro = LOOKUP_READ_MACRO(0, reader))) {
+    if ((macro = LOOKUP_READ_MACRO(0, reader))) {
         macro(reader, 0);
-    } else 
+    } else
         rmTerminator(reader, 0); /* If none registered, take the standard
                                     terminating macro */
-    DEBUG_PRINT(" reached end of function\n"); 
+    DEBUG_PRINT(" reached end of function\n");
     DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr);
 
     return expressionAssign(READER_GET_ENVIRONMENT(reader), reader->expr);
 }
 
-
 NativeReadMacro lookupReadMacro(struct Reader *reader, char c) {
     struct ReadMacroLookUp *entry;
 
     assert(reader);
-    if(!reader->lookup) return 0;
+    if (!reader->lookup) return 0;
     /* if lookup does not contain any special macros, so give back the standard
        one */
-    if(!reader->lookup->next) return reader->lookup->macro;
+    if (!reader->lookup->next) return reader->lookup->macro;
     entry = reader->lookup->next;
-    while(entry->next && entry->sign != c) {
+    while (entry->next && entry->sign != c) {
 #ifdef DEBUG_READER
 #ifdef DEBUG
         fprintf(stderr, "Search %c for %c\n", entry->sign, c);
@@ -151,7 +142,7 @@ NativeReadMacro lookupReadMacro(struct Reader *reader, char c) {
 
     /* if none found, return the standard read macro, i.e. the first in the list
      * */
-    if(entry->sign != c) entry = reader->lookup;
+    if (entry->sign != c) entry = reader->lookup;
 #ifdef DEBUG
 #ifdef DEBUG_READER
     fprintf(stderr, "lookupReadMacro(): %c is '%c'\n", c, entry->sign);
@@ -160,9 +151,8 @@ NativeReadMacro lookupReadMacro(struct Reader *reader, char c) {
     return entry->macro;
 }
 
-
-NativeReadMacro registerStandardReadMacro(struct Reader *reader, 
-        NativeReadMacro macro) {
+NativeReadMacro registerStandardReadMacro(struct Reader *reader,
+                                          NativeReadMacro macro) {
     NativeReadMacro old;
     assert(reader);
     old = reader->lookup->macro;
@@ -170,26 +160,24 @@ NativeReadMacro registerStandardReadMacro(struct Reader *reader,
     return old;
 }
 
-
-NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c, 
-        NativeReadMacro macro) {
-
+NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c,
+                                  NativeReadMacro macro) {
     NativeReadMacro old;
-    struct ReadMacroLookUp *before, *entry = reader->lookup; 
+    struct ReadMacroLookUp *before, *entry = reader->lookup;
     assert(reader);
 
     before = reader->lookup;
 
-    while(entry->next && entry->next->sign != c) {
+    while (entry->next && entry->next->sign != c) {
         before = entry;
         entry = entry->next;
     };
 
-    if(entry->next && entry->next->sign == c) {
+    if (entry->next && entry->next->sign == c) {
         DEBUG_PRINT_PARAM("registerLookup: Searched for '%c'", c);
         DEBUG_PRINT_PARAM("   (%u)  ", (unsigned int)c);
         DEBUG_PRINT_PARAM(" Found '%c'\n", entry->sign);
-        if(!macro) {
+        if (!macro) {
             DEBUG_PRINT_PARAM("Removed '%c\n' from Read Macro Lookup\n", c);
             before->next->next = entry->next->next;
             old = entry->next->macro;
@@ -211,8 +199,6 @@ NativeReadMacro registerReadMacro(struct Reader *reader, unsigned char c,
     return 0;
 }
 
-
-
 /**
  * Cast the content of reader->buffer to whatever type is given as reader->type
  * and store the expression in reader->expr
@@ -224,61 +210,60 @@ void setExprOfReader(struct Reader *reader) {
 
     DEBUG_PRINT("setExprOfReader() invoked\n");
 
-    if(reader->buffer == reader->current) {
+    if (reader->buffer == reader->current) {
         reader->expr = NIL;
         return;
     };
 
-    switch(reader->type) {
+    switch (reader->type) {
         case EXPR_SYMBOL:
             *reader->current = 0;
             reader->expr = GET_SYMBOL(reader, reader->buffer);
-            DEBUG_PRINT_PARAM("   Created %s\n", \
-                    EXPRESSION_STRING(reader->expr));
+            DEBUG_PRINT_PARAM("   Created %s\n",
+                              EXPRESSION_STRING(reader->expr));
             break;
 
         case EXPR_CHARACTER:
-            reader->expr = CREATE_CHAR_EXPRESSION( \
-                    READER_GET_ENVIRONMENT(reader), *(reader->current - 1));
-            DEBUG_PRINT_PARAM("   Created %c\n",  \
-                    EXPRESSION_CHARACTER(reader->expr));
+            reader->expr = CREATE_CHAR_EXPRESSION(
+                READER_GET_ENVIRONMENT(reader), *(reader->current - 1));
+            DEBUG_PRINT_PARAM("   Created %c\n",
+                              EXPRESSION_CHARACTER(reader->expr));
             *reader->current = 0;
             break;
 
         case EXPR_STRING:
             *reader->current = 0;
-            reader->expr = CREATE_STRING_EXPRESSION(  \
-                    READER_GET_ENVIRONMENT(reader), reader->buffer); 
-            DEBUG_PRINT_PARAM("   Created %s\n",  \
-                    EXPRESSION_STRING(reader->expr));
+            reader->expr = CREATE_STRING_EXPRESSION(
+                READER_GET_ENVIRONMENT(reader), reader->buffer);
+            DEBUG_PRINT_PARAM("   Created %s\n",
+                              EXPRESSION_STRING(reader->expr));
             break;
 
         case EXPR_INTEGER:
             *reader->current = 0;
-            reader->expr = 
-                stringToIntExpression(READER_GET_ENVIRONMENT(reader), 
-                    reader->buffer);
-            DEBUG_PRINT_PARAM("   Created %i\n",  \
-                    EXPRESSION_INTEGER(reader->expr));
+            reader->expr = stringToIntExpression(READER_GET_ENVIRONMENT(reader),
+                                                 reader->buffer);
+            DEBUG_PRINT_PARAM("   Created %i\n",
+                              EXPRESSION_INTEGER(reader->expr));
             break;
 
         case EXPR_FLOAT:
             *reader->current = 0;
             f = atof(reader->buffer);
-            reader->expr = CREATE_FLOAT_EXPRESSION( \
-                    READER_GET_ENVIRONMENT(reader), f);
-            DEBUG_PRINT_PARAM("   Created %f\n",  \
-                    EXPRESSION_FLOATING(reader->expr));
+            reader->expr =
+                CREATE_FLOAT_EXPRESSION(READER_GET_ENVIRONMENT(reader), f);
+            DEBUG_PRINT_PARAM("   Created %f\n",
+                              EXPRESSION_FLOATING(reader->expr));
             break;
 
         case EXPR_NO_TYPE:
-            reader->expr = 
+            reader->expr =
                 CREATE_INVALID_EXPRESSION(READER_GET_ENVIRONMENT(reader));
             break;
 
         default:
-            ERROR(ERR_UNEXPECTED_VAL, \
-                    "Could not determine type of read expression");
+            ERROR(ERR_UNEXPECTED_VAL,
+                  "Could not determine type of read expression");
     };
 
     *reader->current = 0;
@@ -286,7 +271,6 @@ void setExprOfReader(struct Reader *reader) {
     DEBUG_PRINT_PARAM("   Expr set: %s\n", (reader->expr) ? "yes" : "no");
     return;
 }
-
 
 void printLookup(struct Reader *reader) {
     struct ReadMacroLookUp *next;
@@ -296,7 +280,7 @@ void printLookup(struct Reader *reader) {
     next = reader->lookup;
     fprintf(stderr, "Lookup looks like :   ");
 
-    while(next->next) {
+    while (next->next) {
         fprintf(stderr, "%c ", next->next->sign);
         next = next->next;
     };
@@ -304,23 +288,20 @@ void printLookup(struct Reader *reader) {
     fprintf(stderr, "\n");
 }
 
-
 void rmIgnore(struct Reader *reader, char sigle) {
     /* well, yes, thats exactly what it does - nothing */
 }
-
 
 void rmIdentity(struct Reader *reader, char sigle) {
     assert(reader);
     PUSH_INTO_BUFFER(sigle, reader);
 }
 
-
 void rmTerminator(struct Reader *reader, char sigle) {
     assert(reader != 0);
 
     DEBUG_PRINT_PARAM("Read macro rmTerminator called with %c\n", sigle);
-    if(reader->buffer != reader->current) {
+    if (reader->buffer != reader->current) {
         setExprOfReader(reader);
     };
 }

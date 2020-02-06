@@ -15,41 +15,33 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-    
 
+#include <limits.h>
 #include "config.h"
 #include "sys.h"
-#include <limits.h>
 
-
-
-#ifdef BENCHMARK 
-
+#ifdef BENCHMARK
 
 long benchmarkTest(void) {
-    struct  timespec temp;
+    struct timespec temp;
     int retval;
-    if((retval = clock_getres(CLOCK_PROCESS_CPUTIME_ID, &temp)) != 0) {
+    if ((retval = clock_getres(CLOCK_PROCESS_CPUTIME_ID, &temp)) != 0) {
         return LONG_MIN;
-    } 
-    return temp.tv_nsec;
-}
-
-
-long benchmarkGetTime(void) {
-    struct  timespec temp;
-    int retval;
-    if((retval = clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &temp)) != 0) {
-       return LONG_MIN; 
     }
     return temp.tv_nsec;
 }
 
+long benchmarkGetTime(void) {
+    struct timespec temp;
+    int retval;
+    if ((retval = clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &temp)) != 0) {
+        return LONG_MIN;
+    }
+    return temp.tv_nsec;
+}
 
 #else /* BENCHMARK */
 
 static int __benchmark__dummy__;
 
 #endif /* BENCHMARK */
-
-

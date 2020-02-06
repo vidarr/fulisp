@@ -15,10 +15,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-  
+
 #include "expression.h"
-
-
 
 #ifndef __STREAMS_H__
 #define __STREAMS_H__
@@ -26,11 +24,7 @@
 #include <stdio.h>
 #include "config.h"
 
-
-
 #define BUFFERED_STREAM_BUFFER_STREAM READ_BUFFER_SIZE
-
-
 
 /**
  * In here, streams are considered streams of some data
@@ -59,13 +53,9 @@
  *
  */
 
-
-
 /*****************************************************************************
                              GENERAL STREAM MACROS
  *****************************************************************************/
-
-
 
 /**
  * Get the next item from a stream
@@ -74,7 +64,6 @@
  */
 #define STREAM_NEXT(stream) ((stream)->getNext((stream)))
 
-
 /**
  * Push back a char onto a buffered stream
  * @param s buffered read stream
@@ -82,13 +71,11 @@
  */
 #define STREAM_PUSH_BACK(s, x) ((s)->pushBack((s), x))
 
-
 /**
  * Get rid of a stream.
  * @param stream Pointer to a stream to dispose
  */
 #define STREAM_DISPOSE(stream) ((stream)->dispose(stream))
-
 
 /**
  * Get status of stream.
@@ -97,22 +84,17 @@
  */
 #define STREAM_STATUS(stream) ((stream)->status(stream))
 
-
-
 /*****************************************************************************
  *                                 ReadStream
  *****************************************************************************/
 
-
-
 struct CharReadStream {
-    char (*getNext) (struct CharReadStream *);
-    void (*dispose) (struct CharReadStream *);
-    int  (*status)  (struct CharReadStream *);
+    char (*getNext)(struct CharReadStream *);
+    void (*dispose)(struct CharReadStream *);
+    int (*status)(struct CharReadStream *);
     void (*pushBack)(struct CharReadStream *, char);
     void *intConfig;
 };
-
 
 /**
  * Character to return in case of some exceptional behaviour, i.e. an error or
@@ -120,21 +102,17 @@ struct CharReadStream {
  */
 #define STREAM_RETURN_CHAR_ON_ERROR ((char)0)
 
-
 /**
  * Create a charReadStream to read from a C string
  * Will read and return chars
  */
 struct CharReadStream *makeStringCharReadStream(char *s);
 
-
 /**
  * Create a charReadStream to read from a C-Stream
  * Will read and return chars
  */
 struct CharReadStream *makeCStreamCharReadStream(FILE *s);
-
-
 
 /**
  * Reset CharReadStream. Next read will start from beginning of buffer
@@ -144,7 +122,6 @@ struct CharReadStream *makeCStreamCharReadStream(FILE *s);
  */
 struct CharReadStream *resetCharReadStream(struct CharReadStream *stream);
 
-
 /**
  * Create a buffered stream that wraps around a charReadStream.
  * @param stream Pointer to a CharReadStream to be wrapped within a buffered
@@ -152,26 +129,22 @@ struct CharReadStream *resetCharReadStream(struct CharReadStream *stream);
  */
 struct CharReadStream *makeCharReadStream(struct CharReadStream *stream);
 
-
-
 /******************************************************************************
  *                                Write Streams
  ******************************************************************************/
 
-
 /**
  * Generic macro to write to a stream
  */
-#define STREAM_WRITE(stream, x)  {stream->write(stream->intConfig, x);}
+#define STREAM_WRITE(stream, x) \
+    { stream->write(stream->intConfig, x); }
 
-
-struct CharWriteStream{
+struct CharWriteStream {
     int (*status)(struct CharWriteStream *);
     void (*dispose)(struct CharWriteStream *);
     int (*write)(void *, char);
     void *intConfig;
 };
-
 
 /**
  * Creates a WriteStream that writes to a C file
@@ -180,49 +153,42 @@ struct CharWriteStream{
  */
 struct CharWriteStream *makeCStreamCharWriteStream(int bufferSize, FILE *file);
 
-
 /**
  * Creates a stream that writes into a string buffer
- * @param stringLength maximum length of the string 
+ * @param stringLength maximum length of the string
  * @param string buffer to write to
- * @return pointer to CharWriteStream 
- */ 
-struct CharWriteStream *makeStringCharWriteStream(int stringLength, char *string);
-
-
+ * @return pointer to CharWriteStream
+ */
+struct CharWriteStream *makeStringCharWriteStream(int stringLength,
+                                                  char *string);
 
 /******************************************************************************
  *                              STATUS CONSTANTS
  ******************************************************************************/
-
 
 /**
  * Stream is ready to be used.
  */
 #define STREAM_STATUS_OK ((int)0)
 
-/** 
+/**
  * Stream has reached end of stream (EOS).
  */
 #define STREAM_STATUS_EOS ((int)100)
 
 /**
- * Stream has encountered an internal error. 
+ * Stream has encountered an internal error.
  */
 #define STREAM_STATUS_INTERNAL_ERROR ((int)-1)
 
-/** 
+/**
  * Stream has encountered an error that is not further specified.
  */
 #define STREAM_STATUS_GENERAL_ERROR ((int)1)
 
-
-
 /******************************************************************************
  *                            Unimplemented stuff
  ******************************************************************************/
-
-
 
 /**
  * This represents an ordinary stream to be read from
@@ -235,14 +201,13 @@ struct CharWriteStream *makeStringCharWriteStream(int stringLength, char *string
 /*     void *intConfig; */
 /* }; */
 
-
 /**
  * Convert a charReadStream into an ordinary Stream
  * @param cStream the char stream to convert
  * @return a ReadStream wrapping the charStream
  */
-/* struct ReadStream *charReadStreamToReadStream(struct CharReadStream *cStream); */
-
+/* struct ReadStream *charReadStreamToReadStream(struct CharReadStream
+ * *cStream); */
 
 /* struct BufferedReadStream { */
 /*     struct Expression *(*getNext)(struct BufferedReadStream *); */
@@ -252,10 +217,9 @@ struct CharWriteStream *makeStringCharWriteStream(int stringLength, char *string
 /*     void *intConfig; */
 /* }; */
 
-
 /**
  * a write stream basically takes one item and writes it whereever the stream
- * aims at 
+ * aims at
  */
 /* struct WriteStream { */
 /*     int (*status)(struct WriteStream *); */
@@ -263,7 +227,5 @@ struct CharWriteStream *makeStringCharWriteStream(int stringLength, char *string
 /*     int (*write)(void *, struct Expression *); */
 /*     void *intConfig; */
 /* }; */
-
-
 
 #endif

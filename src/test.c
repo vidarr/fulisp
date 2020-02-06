@@ -9,15 +9,16 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- 
+
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ USA.
  */
 
 #include "test.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define PASSED "Passed"
 
@@ -29,31 +30,25 @@
 
 #define ESC 27
 
-#define PRINT_OK(str) \
-    printf("%c[0;32;40m%s%c[0m\n", ESC, (str), ESC);
+#define PRINT_OK(str) printf("%c[0;32;40m%s%c[0m\n", ESC, (str), ESC);
 
-#define PRINT_FAIL(str) \
-        printf("%c[0;31;40m%s%c[0m\n", ESC, (str), ESC);
+#define PRINT_FAIL(str) printf("%c[0;31;40m%s%c[0m\n", ESC, (str), ESC);
 
-#define PRINT_CRITICAL(str) \
-        printf("%c[7;31;40m%s%c[0m\n", ESC, (str), ESC);
+#define PRINT_CRITICAL(str) printf("%c[7;31;40m%s%c[0m\n", ESC, (str), ESC);
 
-#else 
+#else
 
-#define PRINT_OK(str) \
-    printf("%s\n", (str));
+#define PRINT_OK(str) printf("%s\n", (str));
 
-#define PRINT_FAIL(str) \
-        printf("%s\n",(str));
+#define PRINT_FAIL(str) printf("%s\n", (str));
 
-#define PRINT_CRITICAL(str) \
-        printf("%s\n", (str));
+#define PRINT_CRITICAL(str) printf("%s\n", (str));
 
 #endif
 
 int test(int cond, char *name) {
     printf("Checking %60s...", name);
-    if(cond == 0) {
+    if (cond == 0) {
         PRINT_OK(PASSED);
         return 0;
     } else if (cond > 0) {
@@ -65,14 +60,9 @@ int test(int cond, char *name) {
     }
 }
 
-void testWarn(char *msg) {
-    PRINT_FAIL(msg);
-}
+void testWarn(char *msg) { PRINT_FAIL(msg); }
 
-void testMessage(char *msg) {
-    PRINT_OK(msg);
-}
-
+void testMessage(char *msg) { PRINT_OK(msg); }
 
 #undef PASSED
 #undef FAILED
@@ -80,4 +70,3 @@ void testMessage(char *msg) {
 #undef PRINT_OK
 #undef PRINT_FAIL
 #undef PRINT_CRITICAL
-

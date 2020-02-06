@@ -15,45 +15,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-  
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <time.h>
 #include "streams.h"
 #include "test.h"
 
-
-
 #define MAX_RANDOM_RUNS 14
 
-
-char *testText =  
-" /** \n" \
-"  * (C) 2010,2012 Michael J. Beer \n" \
-"  * This program is free software; you can redistribute it and/or modify \n" \
-"  * it under the terms of the GNU General Public License as published by \n" \
-"  * the Free Software Foundation; either version 3 of the License, or \n" \
-"  * (at your option) any later version. \n" \
-"  * \n" \
-"  * This program is distributed in the hope that it will be useful, |";
-
+char *testText =
+    " /** \n"
+    "  * (C) 2010,2012 Michael J. Beer \n"
+    "  * This program is free software; you can redistribute it and/or modify "
+    "\n"
+    "  * it under the terms of the GNU General Public License as published by "
+    "\n"
+    "  * the Free Software Foundation; either version 3 of the License, or \n"
+    "  * (at your option) any later version. \n"
+    "  * \n"
+    "  * This program is distributed in the hope that it will be useful, |";
 
 char *copyText = NULL;
 
-
-int randomMax(int upper) {
-    return (int) (upper ? rand() % upper : 0);
-}
-
+int randomMax(int upper) { return (int)(upper ? rand() % upper : 0); }
 
 int compareStrings(char *a, char *b, int len) {
-    while(*a == *b && len > 0) {
-        a++; b++; len--;
+    while (*a == *b && len > 0) {
+        a++;
+        b++;
+        len--;
     };
     return len;
 }
-
 
 int testStringCharWriteStream(char *target, char *origin, int len) {
     struct CharWriteStream *stream;
@@ -62,26 +57,25 @@ int testStringCharWriteStream(char *target, char *origin, int len) {
     ERROR_RESET;
     stream = makeStringCharWriteStream(len, target);
 
-    while(*lOrigin != '\0') {
+    while (*lOrigin != '\0') {
         STREAM_WRITE(stream, *lOrigin);
         lOrigin++;
     };
     STREAM_DISPOSE(stream);
     target[len - 1] = '\0';
-    if(! NO_ERROR) {
+    if (!NO_ERROR) {
         return TEST_FAILED;
     }
 
-    if(compareStrings(origin, target, strlen(target)) != 0) return TEST_FAILED;
+    if (compareStrings(origin, target, strlen(target)) != 0) return TEST_FAILED;
 
     return TEST_PASSED;
 }
 
-
 int testCStreamCharWriteStream(FILE *file, char *text, int len) {
     struct CharWriteStream *stream = makeCStreamCharWriteStream(len, file);
 
-    while(*text != '\0') {
+    while (*text != '\0') {
         STREAM_WRITE(stream, *text);
         text++;
     };
@@ -92,39 +86,36 @@ int testCStreamCharWriteStream(FILE *file, char *text, int len) {
     return 0;
 }
 
-
 int testCStreamCharReadStream(FILE *file, char *text, int len) {
     char next;
     int readChars, textLen;
-    char *reference               = text;
+    char *reference = text;
     struct CharReadStream *stream = makeCStreamCharReadStream(file);
 
     textLen = strlen(text) + 1;
 
     next = STREAM_NEXT(stream);
     readChars = 0;
-    while(STREAM_STATUS(stream) == STREAM_STATUS_OK) {
-        if(next != *reference++) { 
-            STREAM_DISPOSE(stream); 
-            return 1; 
-        } 
+    while (STREAM_STATUS(stream) == STREAM_STATUS_OK) {
+        if (next != *reference++) {
+            STREAM_DISPOSE(stream);
+            return 1;
+        }
         next = STREAM_NEXT(stream);
         readChars++;
     };
 
-    if(next != 0 || STREAM_STATUS(stream) != STREAM_STATUS_EOS) {
+    if (next != 0 || STREAM_STATUS(stream) != STREAM_STATUS_EOS) {
         STREAM_DISPOSE(stream);
         return 1;
     }
 
     STREAM_DISPOSE(stream);
 
-    if(readChars != textLen)
-        return 1;
+    if (readChars != textLen) return 1;
 
     return 0;
 }
-
 
 int testCharReadStream(FILE *file, char *text, int len) {
     char next;
@@ -132,27 +123,26 @@ int testCharReadStream(FILE *file, char *text, int len) {
     int charsToNextPushBack, noToPushBack, maxPushBackRuns;
     struct CharReadStream *intStream;
     struct CharReadStream *stream;
-    char *reference     = text;
+    char *reference = text;
     charsToNextPushBack = randomMax(MAX_RANDOM_RUNS);
-    maxPushBackRuns     = randomMax(MAX_RANDOM_RUNS);
-    intStream           = makeCStreamCharReadStream(file);
-    stream              =  makeCharReadStream(intStream);
+    maxPushBackRuns = randomMax(MAX_RANDOM_RUNS);
+    intStream = makeCStreamCharReadStream(file);
+    stream = makeCharReadStream(intStream);
 
-    textLen             = strlen(text) + 1;
+    textLen = strlen(text) + 1;
 
-    next                = STREAM_NEXT(stream);
-    readChars           = 0;
+    next = STREAM_NEXT(stream);
+    readChars = 0;
 
-
-    while(STREAM_STATUS(stream) == STREAM_STATUS_OK) {
-        if(next != *reference++) {
+    while (STREAM_STATUS(stream) == STREAM_STATUS_OK) {
+        if (next != *reference++) {
             STREAM_DISPOSE(intStream);
             STREAM_DISPOSE(stream);
             return 1;
         }
-        if(maxPushBackRuns && !charsToNextPushBack--) {
+        if (maxPushBackRuns && !charsToNextPushBack--) {
             noToPushBack = randomMax(reference - text);
-            while(noToPushBack--) {
+            while (noToPushBack--) {
                 STREAM_PUSH_BACK(stream, *(reference - 1));
                 reference--;
                 readChars--;
@@ -164,7 +154,7 @@ int testCharReadStream(FILE *file, char *text, int len) {
         readChars++;
     };
 
-    if(next != 0 || STREAM_STATUS(stream) != STREAM_STATUS_EOS) {
+    if (next != 0 || STREAM_STATUS(stream) != STREAM_STATUS_EOS) {
         STREAM_DISPOSE(stream);
         STREAM_DISPOSE(intStream);
         return 1;
@@ -173,12 +163,10 @@ int testCharReadStream(FILE *file, char *text, int len) {
     STREAM_DISPOSE(stream);
     STREAM_DISPOSE(intStream);
 
-    if(readChars != textLen) 
-        return 1;
+    if (readChars != textLen) return 1;
 
     return 0;
 }
-
 
 int main(int argc, char **argv) {
     FILE *ioFile = NULL;
@@ -193,58 +181,57 @@ int main(int argc, char **argv) {
 
     /* Testing writing to/reading from a string */
 
-    result  = test(testStringCharWriteStream(copyText, testText, len + 1), 
-            "CStreamCharWriteStream / buffer large enough");;
+    result = test(testStringCharWriteStream(copyText, testText, len + 1),
+                  "CStreamCharWriteStream / buffer large enough");
+    ;
 
-#   ifndef EXIT_ON_ERROR
+#ifndef EXIT_ON_ERROR
 
     result |= test(
-            testStringCharWriteStream(copyText, testText, len - 1) != 
-            TEST_PASSED, 
-            "CStreamCharWriteStream / buffer too small");
-#   else
-    
-    testWarn("Skipping CStreamCharWriteStream / buffer too small " 
-            " since EXIT_ON_ERROR in place");
+        testStringCharWriteStream(copyText, testText, len - 1) != TEST_PASSED,
+        "CStreamCharWriteStream / buffer too small");
+#else
 
-#   endif
+    testWarn(
+        "Skipping CStreamCharWriteStream / buffer too small "
+        " since EXIT_ON_ERROR in place");
+
+#endif
 
     free(copyText);
 
-    if((ioFile = tmpfile()) == NULL) {
+    if ((ioFile = tmpfile()) == NULL) {
         fprintf(stderr, "Could not retrieve temporary file - aborting");
         exit(1);
-    } 
+    }
 
     /* Testing writing chars to FILE objects */
 
-    result  = test(testCStreamCharWriteStream(ioFile, testText, 0), 
-            "CStreamCharWriteStream / without buffering");
+    result = test(testCStreamCharWriteStream(ioFile, testText, 0),
+                  "CStreamCharWriteStream / without buffering");
 
     rewind(ioFile);
 
-    result |= test(testCStreamCharReadStream(ioFile, testText, 0), 
-            "CStreamCharReadStream / without buffering");
+    result |= test(testCStreamCharReadStream(ioFile, testText, 0),
+                   "CStreamCharReadStream / without buffering");
 
     /* The same with buffering turned on */
 
     rewind(ioFile);
 
-    result |= test(testCStreamCharWriteStream(ioFile, testText,20), 
-            "CStreamCharWriteStream / with buffering");
+    result |= test(testCStreamCharWriteStream(ioFile, testText, 20),
+                   "CStreamCharWriteStream / with buffering");
 
     rewind(ioFile);
 
-    result |= test(testCStreamCharReadStream(ioFile, testText, 20), 
-            "CStreamCharReadStream / with buffering");
+    result |= test(testCStreamCharReadStream(ioFile, testText, 20),
+                   "CStreamCharReadStream / with buffering");
 
     rewind(ioFile);
 
-    result |=  test(testCharReadStream(ioFile, testText, 25),
-            "CharReadStream");
+    result |= test(testCharReadStream(ioFile, testText, 25), "CharReadStream");
 
     fclose(ioFile);
 
     return result;
 }
-

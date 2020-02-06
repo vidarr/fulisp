@@ -12,7 +12,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
 
 /**
@@ -25,22 +26,19 @@
 #include "config.h"
 #include "safety.h"
 
-#include "stdlib.h"
 #include <stdio.h>
 #include <string.h>
-#include "expression.h"
 #include "error.h"
+#include "expression.h"
 #include "lisp_internals.h"
-#include "streams.h"
-#include "nativefunctions.h"
 #include "memory.h"
-
-
+#include "nativefunctions.h"
+#include "stdlib.h"
+#include "streams.h"
 
 /*****************************************************************************
  *                                   MACROS
  *****************************************************************************/
-
 
 /**
  * Iterate over list of cons cells and execute code on every single car (eqv. of
@@ -50,34 +48,32 @@
  * list has been reached. "code" can use "runVar" to subsequently access every
  * car.
  * @param env current environment
- * @param list consed list 
+ * @param list consed list
  * @param runVar variable to use as iterator. Must be type "struct Expression *"
  * @param code the code to map onto the list's entries
  */
-#define ITERATE_LIST(env, list, runVar, code) { \
-    struct Expression *next; \
-    runVar = list; \
-    while(runVar != NIL) { \
-        if(!EXPR_OF_TYPE(runVar, EXPR_CONS)) { \
-            ERROR(ERR_UNEXPECTED_TYPE, "list is not regular"); \
-            return NIL; \
-        } \
-        next = intCdr(env, runVar); \
-        runVar = intCar(env, runVar); \
-        code; \
-        runVar = next; \
-    } \
-}
-
-
+#define ITERATE_LIST(env, list, runVar, code)                      \
+    {                                                              \
+        struct Expression *next;                                   \
+        runVar = list;                                             \
+        while (runVar != NIL) {                                    \
+            if (!EXPR_OF_TYPE(runVar, EXPR_CONS)) {                \
+                ERROR(ERR_UNEXPECTED_TYPE, "list is not regular"); \
+                return NIL;                                        \
+            }                                                      \
+            next = intCdr(env, runVar);                            \
+            runVar = intCar(env, runVar);                          \
+            code;                                                  \
+            runVar = next;                                         \
+        }                                                          \
+    }
 
 /*****************************************************************************
  *                                   MACROS
  *****************************************************************************/
 
-
 /**
- * Creates a cons cell 
+ * Creates a cons cell
  * @param expr list containing two elements: car and cdr of new cons cell
  * @return a new expression resembling the cons cell
  */
@@ -96,7 +92,7 @@ struct Expression *intCar(struct Expression *env, struct Expression *args);
  * @param args a cons cell
  * @return the CAR of args or NIL
  */
-struct Expression *car(struct Expression *env, struct Expression *args); 
+struct Expression *car(struct Expression *env, struct Expression *args);
 
 /**
  * Returnes the CDR of a Cons cell or NIL if something goes wrong
@@ -113,31 +109,27 @@ struct Expression *intCdr(struct Expression *env, struct Expression *args);
  */
 struct Expression *cdr(struct Expression *env, struct Expression *args);
 
-
 /**
  * Takes two arguments. Second argument needs to be a list with two elements.
  * First element  needs to be a cons cell. Second one can
  * be of any kind. Tries to set the car of the first element to the second
- * argument. 
+ * argument.
  * @param env Current environment
- * @param expr list with two elements. 
+ * @param expr list with two elements.
  */
 struct Expression *setCar(struct Expression *env, struct Expression *expr);
-
 
 /**
  * Takes two arguments. Second argument needs to be a list with two elements.
  * First element  needs to be a cons cell. Second one can
  * be of any kind. Tries to set the cdr of the first element to the second
- * argument. 
+ * argument.
  * @param env Current environment
- * @param expr list with two elements. 
+ * @param expr list with two elements.
  */
 struct Expression *setCdr(struct Expression *env, struct Expression *expr);
 
-
-struct Cons *intCons(struct Expression *env, struct Expression *car, struct Expression *cdr);
-
+struct Cons *intCons(struct Expression *env, struct Expression *car,
+                     struct Expression *cdr);
 
 #endif
-

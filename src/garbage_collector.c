@@ -12,7 +12,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
 
 #include "garbage_collector.h"
@@ -28,18 +29,16 @@
 
 #if GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
 
+static struct Expression *gcIntMarkHash(struct Expression *env,
+                                        struct HashTable *hash);
+static struct Expression *gcIntMarkEnv(struct Expression *env);
+static struct Expression *gcIntMarkExpression(struct Expression *env,
+                                              struct Expression *expr);
+static struct Expression *gcIntSweep(struct Environment *env);
+static void gcIntUnmarkAll(struct Environment *env);
 
-static struct Expression * gcIntMarkHash(struct Expression *env, 
-                                         struct HashTable *hash) ;
-static struct Expression * gcIntMarkEnv(struct Expression *env) ;
-static struct Expression * gcIntMarkExpression(struct Expression *env, 
-                                               struct Expression *expr) ;
-static struct Expression * gcIntSweep(struct Environment *env);
-static void                gcIntUnmarkAll(struct Environment *env);
-
-    
-struct Expression * gcMarkAndSweep(struct Expression *env) {
-    struct Environment * environ;
+struct Expression *gcMarkAndSweep(struct Expression *env) {
+    struct Environment *environ;
 
     assert(env);
     ENSURE_ENVIRONMENT(env);
@@ -49,7 +48,7 @@ struct Expression * gcMarkAndSweep(struct Expression *env) {
     environ->gcInfo.noReclaimedExpr = 0;
     DEBUG_PRINT("Marking...\n");
     /* Perhaps unnecessary ... */
-    gcIntUnmarkAll(environ); 
+    gcIntUnmarkAll(environ);
     DEBUG_PRINT("Marking current Expr\n");
     gcIntMarkExpression(env, environ->current);
     DEBUG_PRINT("Marking Global environment\n");
@@ -61,16 +60,13 @@ struct Expression * gcMarkAndSweep(struct Expression *env) {
     return T;
 }
 
-
-struct Expression * gcMarkExpression(struct Expression *env, 
-                                     struct Expression *expr) {
-
+struct Expression *gcMarkExpression(struct Expression *env,
+                                    struct Expression *expr) {
     assert(env);
     ENSURE_ENVIRONMENT(env);
 
     return gcIntMarkExpression(env, expr);
 }
-
 
 struct Expression *gcInitEnvironment(struct Environment *environ) {
     assert(environ);
@@ -78,52 +74,48 @@ struct Expression *gcInitEnvironment(struct Environment *environ) {
     return T;
 }
 
-
 /******************************************************************************
   I N T E R N A L S
  ******************************************************************************/
 
-
 #define MARK_EXPR(expr) SET_MARKER_BIT(expr)
 #define UNMARK_EXPR(expr) UNSET_MARKER_BIT(expr)
 
-#define SET_MARKER_BIT(expr)  { \
-    int type = (expr)->type; \
-    type |= EXPR_GC_MARKER_BIT; \
-    (expr)->type = type; \
-}
+#define SET_MARKER_BIT(expr)        \
+    {                               \
+        int type = (expr)->type;    \
+        type |= EXPR_GC_MARKER_BIT; \
+        (expr)->type = type;        \
+    }
 
-#define UNSET_MARKER_BIT(expr)  { \
-    int type = (expr)->type; \
-    type &= ~EXPR_GC_MARKER_BIT; \
-    (expr)->type = type; \
-}
+#define UNSET_MARKER_BIT(expr)       \
+    {                                \
+        int type = (expr)->type;     \
+        type &= ~EXPR_GC_MARKER_BIT; \
+        (expr)->type = type;         \
+    }
 
-#define IS_MARKER_BIT_SET(expr) \
-    ((expr)->type & EXPR_GC_MARKER_BIT)
-    
-#define IS_MARKED(expr) IS_MARKER_BIT_SET(expr) 
+#define IS_MARKER_BIT_SET(expr) ((expr)->type & EXPR_GC_MARKER_BIT)
 
+#define IS_MARKED(expr) IS_MARKER_BIT_SET(expr)
 
 /******************************************************************************
- * M A R K   
+ * M A R K
  *****************************************************************************/
-
 
 static void gcIntUnmarkAllFromBlock(struct Expression *block) {
     struct Expression *expr;
-    size_t indexExpr; 
+    size_t indexExpr;
     expr = block;
-    for(indexExpr = 0; indexExpr < MEMORY_BLOCK_SIZE; indexExpr++) {
+    for (indexExpr = 0; indexExpr < MEMORY_BLOCK_SIZE; indexExpr++) {
         UNMARK_EXPR(expr);
         expr++;
     }
 }
 
-
 static void gcIntUnmarkAll(struct Environment *env) {
     struct ExpressionBlock *block;
-    struct Memory * memory;
+    struct Memory *memory;
 
     assert(env);
 
@@ -131,28 +123,27 @@ static void gcIntUnmarkAll(struct Environment *env) {
     assert(env);
     block = memory->exprBlocks;
     assert(block);
-#   ifdef MEMORY_AUTOEXTEND
-    while(block != NULL) {
+#ifdef MEMORY_AUTOEXTEND
+    while (block != NULL) {
         gcIntUnmarkAllFromBlock(block->memory);
         block = block->nextBlock;
     }
-#   else
+#else
     gcIntUnmarkAllFromBlock(block->memory);
-#   endif
+#endif
 }
 
-
-static struct Expression * gcIntMarkHash(struct Expression *env, 
-                                         struct HashTable *hash) {
+static struct Expression *gcIntMarkHash(struct Expression *env,
+                                        struct HashTable *hash) {
     /* Highly inefficient - better have some iterator over the hash content */
-    char ** current;
+    char **current;
     char **keys;
-    struct Expression * expr;
+    struct Expression *expr;
 
     assert(env);
 
     keys = hashTableKeys(hash);
-    for(current = keys; *current != NULL; current++) {
+    for (current = keys; *current != NULL; current++) {
         expr = hashTableGet(hash, *current);
         DEBUG_PRINT_PARAM("Marking LOOKUP entry for key %s\n", *current);
         gcIntMarkExpression(env, expr);
@@ -160,29 +151,27 @@ static struct Expression * gcIntMarkHash(struct Expression *env,
     free(keys);
     return T;
 }
- 
 
-static struct Expression * gcIntMarkEnv(struct Expression *env) {
+static struct Expression *gcIntMarkEnv(struct Expression *env) {
     struct Environment *environ = EXPRESSION_ENVIRONMENT(env);
     DEBUG_PRINT("MARKING ENV:LOOKUP\n");
     return gcIntMarkHash(env, environ->lookup);
 }
 
-
-static struct Expression * gcIntMarkExpression(struct Expression *env,  
-                                               struct Expression *expr) {
-    struct Expression  *element;
-    struct Lambda      *lambda;
+static struct Expression *gcIntMarkExpression(struct Expression *env,
+                                              struct Expression *expr) {
+    struct Expression *element;
+    struct Lambda *lambda;
     struct Environment *environ;
 
     assert(env);
 
-    if(expr == NULL) {
+    if (expr == NULL) {
         DEBUG_PRINT("Expression is NIL\n");
         return T;
     }
     DEBUG_PRINT_EXPR(env, expr);
-    if(IS_MARKED(expr)) {
+    if (IS_MARKED(expr)) {
         DEBUG_PRINT("Already marked\n");
         return T;
     }
@@ -190,14 +179,14 @@ static struct Expression * gcIntMarkExpression(struct Expression *env,
     MARK_EXPR(expr);
     environ = EXPRESSION_ENVIRONMENT(env);
     environ->gcInfo.noMarkedExpr++;
-    if(EXPR_IS_CONS(expr)) {
+    if (EXPR_IS_CONS(expr)) {
         DEBUG_PRINT("Marking CONS:CAR\n");
         element = intCar(env, expr);
         gcIntMarkExpression(env, element);
         DEBUG_PRINT("Marking CONS:CDR\n");
         element = intCdr(env, expr);
         gcIntMarkExpression(env, element);
-    } else if(EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
+    } else if (EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
         lambda = EXPRESSION_LAMBDA(expr);
         assert(lambda);
         DEBUG_PRINT("Marking LAMBDA:BODY\n");
@@ -208,7 +197,7 @@ static struct Expression * gcIntMarkExpression(struct Expression *env,
         gcIntMarkExpression(env, lambda->argList);
         DEBUG_PRINT("Marking LAMBDA:REST\n");
         gcIntMarkExpression(env, lambda->rest);
-    } else if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
+    } else if (EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
         gcIntMarkEnv(expr);
     };
     DEBUG_PRINT("Done Marking expression \n");
@@ -216,20 +205,18 @@ static struct Expression * gcIntMarkExpression(struct Expression *env,
     return T;
 }
 
-
 /******************************************************************************
  *  S W E E P    P A R T
  ******************************************************************************/
 
-
-static int gcIntReclaimExpressionsFromBlock(struct Memory *memory, 
-        struct Expression *block) {
+static int gcIntReclaimExpressionsFromBlock(struct Memory *memory,
+                                            struct Expression *block) {
     struct Expression *expr;
     size_t indexExpr;
     size_t noReclaimed = 0;
     expr = block;
-    for(indexExpr = 0; indexExpr < MEMORY_BLOCK_SIZE; indexExpr++) {
-        if(! IS_MARKED(expr)) {
+    for (indexExpr = 0; indexExpr < MEMORY_BLOCK_SIZE; indexExpr++) {
+        if (!IS_MARKED(expr)) {
             MEMORY_DISPOSE_EXPRESSION(memory, expr);
             noReclaimed++;
         }
@@ -237,7 +224,6 @@ static int gcIntReclaimExpressionsFromBlock(struct Memory *memory,
     }
     return noReclaimed;
 }
-
 
 static int gcIntReclaimExpressions(struct Memory *memory) {
     struct ExpressionBlock *block;
@@ -247,34 +233,32 @@ static int gcIntReclaimExpressions(struct Memory *memory) {
 
     block = memory->exprBlocks;
     assert(block);
-#   ifdef MEMORY_AUTOEXTEND
-    while(block != NULL) {
-        noReclaimedExpressions += gcIntReclaimExpressionsFromBlock(memory, 
-                block->memory);
+#ifdef MEMORY_AUTOEXTEND
+    while (block != NULL) {
+        noReclaimedExpressions +=
+            gcIntReclaimExpressionsFromBlock(memory, block->memory);
         block = block->nextBlock;
     }
-#   else
-    noReclaimedExpressions += gcIntReclaimExpressionsFromBlock(memory, 
-            block->memory);
-#   endif
+#else
+    noReclaimedExpressions +=
+        gcIntReclaimExpressionsFromBlock(memory, block->memory);
+#endif
     return noReclaimedExpressions;
 }
 
-
-static struct Expression * gcIntSweep(struct Environment * environ) {
-    struct Memory     *memory;
+static struct Expression *gcIntSweep(struct Environment *environ) {
+    struct Memory *memory;
     memory = environ->memory;
     memory->nextExpr = NULL;
     environ->gcInfo.noReclaimedExpr = gcIntReclaimExpressions(memory);
     return T;
 }
-    
+
 #undef MARKER_BIT
 #undef MARK_EXPR
-#undef SET_MARKER_BIT 
-#undef UNSET_MARKER_BIT 
+#undef SET_MARKER_BIT
+#undef UNSET_MARKER_BIT
 #undef IS_MARKER_BIT_SET
 #undef IS_MARKED
 
 #endif
-

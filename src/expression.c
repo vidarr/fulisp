@@ -4,81 +4,78 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, 
+ *
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */ 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
 
+#include "expression.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include "expression.h"
-#include "print.h"
 #include "config.h"
 #include "environment.h"
+#include "print.h"
 
 #define MODULE_NAME "expression.c"
 
 #ifdef DEBUG_EXPRESSION
-#   include "debugging.h"
+#include "debugging.h"
 #else
-#   include "no_debugging.h"
+#include "no_debugging.h"
 #endif
 
-
-
 void expressionDispose(struct Expression *env, struct Expression *expr) {
-    if(!expr || EXPR_IS_NIL(expr) || expr == T) return;
-    if(!EXPR_IS_VALID(expr)) {
+    if (!expr || EXPR_IS_NIL(expr) || expr == T) return;
+    if (!EXPR_IS_VALID(expr)) {
         MEMORY_DISPOSE_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
         return;
     }
     /* ALERT: Does not work with non-valid expressions - occur together with
      * parsing of conses */
-    DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n", \
-            GC_GET_REF_COUNT(env, expr));
+    DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n",
+                      GC_GET_REF_COUNT(env, expr));
     DEBUG_PRINT_PARAM("   type %u \n", (int)EXPRESSION_TYPE(expr));
     DEBUG_PRINT_EXPR(env, expr);
 
-    if(GC_GET_REF_COUNT(env, expr) > 0) 
-    {
+    if (GC_GET_REF_COUNT(env, expr) > 0) {
         GC_DEC_REF_COUNT(env, expr);
     } else {
         expressionForceDispose(env, expr);
     }
 }
 
-
 void expressionForceDispose(struct Expression *env, struct Expression *expr) {
-#   ifdef MEMORY_USE_PREALLOCATION
+#ifdef MEMORY_USE_PREALLOCATION
     struct Memory *mem;
-#   endif
-   
+#endif
+
     DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));
 
-#   ifdef MEMORY_USE_PREALLOCATION
+#ifdef MEMORY_USE_PREALLOCATION
     mem = ENVIRONMENT_GET_MEMORY(env);
-#   endif
-    if(EXPR_IS_POINTER(expr)) {
-        if(EXPR_OF_TYPE(expr, EXPR_CONS)) {
+#endif
+    if (EXPR_IS_POINTER(expr)) {
+        if (EXPR_OF_TYPE(expr, EXPR_CONS)) {
             DEBUG_PRINT("   expr is a cons cell - recursive disposing...\n");
-            if(EXPRESSION_CAR(expr)) 
+            if (EXPRESSION_CAR(expr))
                 expressionDispose(env, EXPRESSION_CAR(expr));
-            if(EXPRESSION_CDR(expr)) 
+            if (EXPRESSION_CDR(expr))
                 expressionDispose(env, EXPRESSION_CDR(expr));
             /* free(expr->data.cons); */
             __EXPRESSION_DISPOSE_CONS_STRUCT(mem, expr);
-        } else if(EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
+        } else if (EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
             environmentDispose(env, EXPRESSION_ENVIRONMENT(expr));
-        } else if(EXPR_OF_TYPE(expr, EXPR_STRING) || 
-                EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
-            free(EXPRESSION_STRING(expr)); 
+        } else if (EXPR_OF_TYPE(expr, EXPR_STRING) ||
+                   EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
+            free(EXPRESSION_STRING(expr));
         } else if (EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
             lambdaDispose(EXPRESSION_LAMBDA(expr));
         }
@@ -87,49 +84,48 @@ void expressionForceDispose(struct Expression *env, struct Expression *expr) {
     MEMORY_DISPOSE_EXPRESSION(mem, expr);
 }
 
-
 struct Expression *expressionCreate(struct Expression *env, unsigned char type,
-        void *content, void *extension) {
+                                    void *content, void *extension) {
     struct Expression *expr;
     /* expr = malloc(sizeof(struct Expression)); */
     MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
     GC_INIT_EXPRESSION(env, expr);
     expr->type = type;
-    if(EXPR_IS_CONS(expr)) {
+    if (EXPR_IS_CONS(expr)) {
         /* Allocate mem for struct Cons */
         expressionAssign(env, content);
         expressionAssign(env, extension);
         __EXPRESSION_SET_CAR(expr, content);
         __EXPRESSION_SET_CDR(expr, extension);
-    } else if(EXPR_IS_POINTER(expr)) {
-        __EXPRESSION_STRING(expr)              = (char *)content;
+    } else if (EXPR_IS_POINTER(expr)) {
+        __EXPRESSION_STRING(expr) = (char *)content;
     } else {
-        switch(type) {
+        switch (type) {
             case EXPR_INTEGER:
-                __EXPRESSION_INTEGER(expr)     = *((int *)content);
+                __EXPRESSION_INTEGER(expr) = *((int *)content);
                 break;
             case EXPR_FLOAT:
-                __EXPRESSION_FLOATING(expr)    = *((float *)content);
+                __EXPRESSION_FLOATING(expr) = *((float *)content);
                 break;
             case EXPR_CHARACTER:
-                __EXPRESSION_CHARACTER(expr)   = *((char *)content);
+                __EXPRESSION_CHARACTER(expr) = *((char *)content);
                 break;
             case EXPR_NATIVE_FUNC:
 #ifndef STRICT_NATIVE_FUNCS
-                __EXPRESSION_NATIVE_FUNC(expr) = 
-                    ((struct Expression *(*)
-                      (struct Expression *, struct Expression *))content);
-#else 
+                __EXPRESSION_NATIVE_FUNC(expr) =
+                    ((struct Expression *
+                      (*)(struct Expression *, struct Expression *)) content);
+#else
                 ERROR(ERR_UNEXPECTED_TYPE,
-                        "Cannot create native function expression via "   \
-                        "expressionCreate. Use expressionCreateNativeFunc " \
-                        "instead!");
+                      "Cannot create native function expression via "
+                      "expressionCreate. Use expressionCreateNativeFunc "
+                      "instead!");
                 return NIL;
-                
+
 #endif
                 break;
             case EXPR_NO_TYPE:
-                __EXPRESSION_STRING(expr)      = 0;
+                __EXPRESSION_STRING(expr) = 0;
         };
     }
 
@@ -137,9 +133,8 @@ struct Expression *expressionCreate(struct Expression *env, unsigned char type,
     return expr;
 }
 
-
-struct Expression *expressionCreateNativeFunc(struct Expression *env, 
-        NativeFunction *content) {
+struct Expression *expressionCreateNativeFunc(struct Expression *env,
+                                              NativeFunction *content) {
     struct Expression *expr;
     /* expr = malloc(sizeof(struct Expression)); */
     MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
@@ -150,10 +145,9 @@ struct Expression *expressionCreateNativeFunc(struct Expression *env,
     return expr;
 }
 
-
 struct Expression *expressionCreateString(struct Expression *env, char *str) {
     char *buf;
-    assert (str);
+    assert(str);
 
     /*TODO: As soon as the global lookup for symbols is installed,
       look up str in it and assign the data-slot a pointer to the entry in the
@@ -163,10 +157,9 @@ struct Expression *expressionCreateString(struct Expression *env, char *str) {
     return EXPRESSION_CREATE_ATOM(env, EXPR_STRING, buf);
 }
 
-
 struct Expression *createSymbol(struct Expression *env, char *str) {
     char *buf;
-    assert (str);
+    assert(str);
 
     DEBUG_PRINT_PARAM("createSymbol(): Got '%s'\n", str);
 
@@ -179,13 +172,11 @@ struct Expression *createSymbol(struct Expression *env, char *str) {
     return EXPRESSION_CREATE_ATOM(env, EXPR_SYMBOL, buf);
 }
 
-
-struct Expression *expressionAssign(struct Expression *env, 
-        struct Expression *expr) {
-    if(expr) GC_INC_REF_COUNT(env, expr);
+struct Expression *expressionAssign(struct Expression *env,
+                                    struct Expression *expr) {
+    if (expr) GC_INC_REF_COUNT(env, expr);
     return expr;
 }
-
 
 struct Expression *createEnvironmentExpression(struct Environment *env) {
     struct Expression *expr;
@@ -197,53 +188,32 @@ struct Expression *createEnvironmentExpression(struct Environment *env) {
     return expr;
 }
 
-
-char nil[] = "NIL"; 
-
+char nil[] = "NIL";
 
 char true[] = "T";
 
 char rest[] = "&REST";
 
-
-struct Expression expressionNil = { 
-    EXPR_SYMBOL,
-    {nil}, 
-    {NULL}
-    GC_INIT_EXPR_INFO(0)
-}; 
+struct Expression expressionNil = {
+    EXPR_SYMBOL, {nil}, {NULL} GC_INIT_EXPR_INFO(0)};
 
 struct Expression expressionT = {
-    EXPR_SYMBOL,
-    {true},
-    {NULL} 
-    GC_INIT_EXPR_INFO(0)
-};
+    EXPR_SYMBOL, {true}, {NULL} GC_INIT_EXPR_INFO(0)};
 
 struct Expression expressionRest = {
-    EXPR_SYMBOL,
-    {rest},
-    {NULL} 
-    GC_INIT_EXPR_INFO(1)
-};
-
+    EXPR_SYMBOL, {rest}, {NULL} GC_INIT_EXPR_INFO(1)};
 
 #define DEFINE_CONSTANT_SYMBOL(constantName, SymbolName) \
-    char char##constantName [] = SymbolName; \
-    struct Expression constantName = { \
-        EXPR_SYMBOL, \
-        {char##constantName}, \
-        {NULL}  \
-        GC_INIT_EXPR_INFO(1) \
-    }
+    char char##constantName[] = SymbolName;              \
+    struct Expression constantName = {                   \
+        EXPR_SYMBOL, {char##constantName}, {NULL} GC_INIT_EXPR_INFO(1)}
 
-DEFINE_CONSTANT_SYMBOL(expressionInteger,     ":INT");    
-DEFINE_CONSTANT_SYMBOL(expressionFloat,       ":FLOAT");    
-DEFINE_CONSTANT_SYMBOL(expressionCharacter,   ":CHAR");    
-DEFINE_CONSTANT_SYMBOL(expressionString,      ":STRING");    
-DEFINE_CONSTANT_SYMBOL(expressionSymbol,      ":SYMBOL");    
-DEFINE_CONSTANT_SYMBOL(expressionCons,        ":CONS");    
-DEFINE_CONSTANT_SYMBOL(expressionLambda,      ":LAMBDA");    
-DEFINE_CONSTANT_SYMBOL(expressionNativeFunc,  ":NATIVEFUNC");    
-DEFINE_CONSTANT_SYMBOL(expressionEnvironment, ":ENV");    
-
+DEFINE_CONSTANT_SYMBOL(expressionInteger, ":INT");
+DEFINE_CONSTANT_SYMBOL(expressionFloat, ":FLOAT");
+DEFINE_CONSTANT_SYMBOL(expressionCharacter, ":CHAR");
+DEFINE_CONSTANT_SYMBOL(expressionString, ":STRING");
+DEFINE_CONSTANT_SYMBOL(expressionSymbol, ":SYMBOL");
+DEFINE_CONSTANT_SYMBOL(expressionCons, ":CONS");
+DEFINE_CONSTANT_SYMBOL(expressionLambda, ":LAMBDA");
+DEFINE_CONSTANT_SYMBOL(expressionNativeFunc, ":NATIVEFUNC");
+DEFINE_CONSTANT_SYMBOL(expressionEnvironment, ":ENV");

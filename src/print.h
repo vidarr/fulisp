@@ -9,10 +9,11 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- 
+
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ USA.
  */
 
 /**
@@ -25,13 +26,11 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "expression.h"
+#include "environment.h"
 #include "error.h"
+#include "expression.h"
 #include "lisp_internals.h"
 #include "streams.h"
-#include "environment.h"
-
-
 
 /**
  * Gives a string representation of an expression
@@ -40,7 +39,6 @@
  */
 struct Expression *fuPrint(struct Expression *env, struct Expression *expr);
 
-
 /**
  * TODO: Replace by appr. calls to printToStream()
  * Gives a string representation of an expression
@@ -48,19 +46,19 @@ struct Expression *fuPrint(struct Expression *env, struct Expression *expr);
  *            Its size wont be altered so buffer overflows are possible !
  * @param sizeOfBuffer size of the buffer
  *                     if SAFETY_CODE is enabled, buffer overflows are prevented
- * @param expr pointer to the expression to be printed 
+ * @param expr pointer to the expression to be printed
  * @return pointer to the string representation (should be the pointer given as
  *         'str'
  */
-char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer, struct Expression *expr);
-
+char *expressionToString(struct Expression *env, char *str, int sizeOfBuffer,
+                         struct Expression *expr);
 
 /**
  * prints an expression to a write stream
  * @param stream the stream to write to
  * @param expr the expr to be printed
  */
-void printToStream(struct Expression *env, struct CharWriteStream *stream, struct Expression *expr);
-
+void printToStream(struct Expression *env, struct CharWriteStream *stream,
+                   struct Expression *expr);
 
 #endif

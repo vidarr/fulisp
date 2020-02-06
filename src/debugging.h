@@ -15,60 +15,62 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-  
 
 #ifndef __DEBUGGING_H__
 #define __DEBUGGING_H__
 
-
-#include "stdio.h"
 #include "printnativefunctions.h"
+#include "stdio.h"
 
 #ifdef DEBUG
 
-#    define IF_DEBUG(x) x
+#define IF_DEBUG(x) x
 
-#    define DEBUG_PRINT(msg) {fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
-        fprintf(stderr, msg); \
-}    
-
-#    define DEBUG_PRINT_PARAM(msg, param) { \
+#define DEBUG_PRINT(msg)                                 \
+    {                                                    \
         fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
-        fprintf(stderr, msg, param); \
-} 
+        fprintf(stderr, msg);                            \
+    }
 
-#    define DEBUG_PRINT_EXPR(env, x) { \
-                    char *buf = SAFE_STRING_NEW(3200); \
-                    fprintf(stderr, "%s: %i: Expr is %s\n", __FILE__, __LINE__, \
-                            expressionToString(env, buf, 3200, x)); \
-                    free(buf); \
-}    
+#define DEBUG_PRINT_PARAM(msg, param)                    \
+    {                                                    \
+        fprintf(stderr, "%s: %i: ", __FILE__, __LINE__); \
+        fprintf(stderr, msg, param);                     \
+    }
 
-#    define DEBUG_PRINT_NATIVE_FUNC(x) { \
-        size_t bufLen = 3 * sizeof(NativeFunction *); \
-        char *str = SAFE_STRING_NEW(bufLen); \
-        NATIVE_FUNC_TO_STR(x, str, bufLen); \
-        if(SAFE_STRING_IS_TAINTED(str, bufLen)) {  \
-            ERROR(ERR_BUFFER_OVERFLOW, "Canary has been overwritten");  \
-        } else { \
-            DEBUG_PRINT_PARAM("FCT: %s\n", str); \
-        } \
-        free(str); \
-}    ;
+#define DEBUG_PRINT_EXPR(env, x)                                    \
+    {                                                               \
+        char *buf = SAFE_STRING_NEW(3200);                          \
+        fprintf(stderr, "%s: %i: Expr is %s\n", __FILE__, __LINE__, \
+                expressionToString(env, buf, 3200, x));             \
+        free(buf);                                                  \
+    }
 
-#else 
+#define DEBUG_PRINT_NATIVE_FUNC(x)                                     \
+    {                                                                  \
+        size_t bufLen = 3 * sizeof(NativeFunction *);                  \
+        char *str = SAFE_STRING_NEW(bufLen);                           \
+        NATIVE_FUNC_TO_STR(x, str, bufLen);                            \
+        if (SAFE_STRING_IS_TAINTED(str, bufLen)) {                     \
+            ERROR(ERR_BUFFER_OVERFLOW, "Canary has been overwritten"); \
+        } else {                                                       \
+            DEBUG_PRINT_PARAM("FCT: %s\n", str);                       \
+        }                                                              \
+        free(str);                                                     \
+    };
 
-#    define IF_DEBUG(x)
+#else
 
-#    define DEBUG_PRINT(msg)
+#define IF_DEBUG(x)
 
-#    define DEBUG_PRINT_PARAM(msg, param)
+#define DEBUG_PRINT(msg)
 
-#    define DEBUG_PRINT_EXPR(env, x)
+#define DEBUG_PRINT_PARAM(msg, param)
 
-#    define DEBUG_PRINT_NATIVE_FUNC(x)
+#define DEBUG_PRINT_EXPR(env, x)
+
+#define DEBUG_PRINT_NATIVE_FUNC(x)
 
 #endif
-
 
 #endif

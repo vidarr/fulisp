@@ -12,51 +12,43 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
-
 
 #include <stdio.h>
 #include "stack.h"
 #include "test.h"
 
-
 static struct Stack *stack;
 static int size;
 
-
 int createStack(void) {
-    if((stack = stackCreate(size)))
-        return 0;
+    if ((stack = stackCreate(size))) return 0;
     return 1;
 }
-
 
 int fillStack(struct Stack *stack, int no) {
     long i = 0;
     assert(stack);
-    for(i = 0; i < no; i++) {
-        if(stackPush(stack, (void *)i) == NULL) {
-            if(stackError(stack) != ERR_OK)
-                return 1;
+    for (i = 0; i < no; i++) {
+        if (stackPush(stack, (void *)i) == NULL) {
+            if (stackError(stack) != ERR_OK) return 1;
         }
     }
     return 0;
 }
-
 
 int drainStack(struct Stack *stack, int no, int firstNo) {
     long i = 0;
     assert(stack);
-    for(i = 0; i < no; i++) {
-        if(stackPop(stack) == NULL) {
-            if(stackError(stack) != ERR_OK)
-                return 1;
+    for (i = 0; i < no; i++) {
+        if (stackPop(stack) == NULL) {
+            if (stackError(stack) != ERR_OK) return 1;
         }
     }
     return 0;
 }
-
 
 /* int fillEmptyWithinLimits(void) {  */
 /*   if(fillStack(stack, size / 2))  */
@@ -83,12 +75,10 @@ int drainStack(struct Stack *stack, int no, int firstNo) {
 /*   return 0;  */
 /* }       */
 
-
 int freeStack(void) {
     stackFree(stack);
     return 0;
 }
-
 
 int main(int argc, char **argv) {
     size = 20;
@@ -99,16 +89,21 @@ int main(int argc, char **argv) {
     test(fillStack(stack, 10), "Fill stack with 10 elements");
     test(drainStack(stack, 5, 5), "Pop 5 elements off of stack");
     test(fillStack(stack, 15), "Fill stack");
-    test(!stackPush(stack, (StackEntry)21) && !(stackError(stack) != ERR_OK), "Push beyond limits"); 
-    test(!stackPush(stack, (StackEntry)21) && !(stackError(stack) != ERR_OK), "Push beyond limits"); 
+    test(!stackPush(stack, (StackEntry)21) && !(stackError(stack) != ERR_OK),
+         "Push beyond limits");
+    test(!stackPush(stack, (StackEntry)21) && !(stackError(stack) != ERR_OK),
+         "Push beyond limits");
     stackResetError(stack);
     test(drainStack(stack, 21, 21), "Pop all elements off of stack");
-    test(!stackPop(stack) && !(stackError(stack) != ERR_OK) && !stackPop(stack) && !(stackError(stack) != ERR_OK), "Pop beyond limits");
+    test(!stackPop(stack) && !(stackError(stack) != ERR_OK) &&
+             !stackPop(stack) && !(stackError(stack) != ERR_OK),
+         "Pop beyond limits");
     stackResetError(stack);
-    test(stackPush(stack, (StackEntry) 15l) != (StackEntry)15l && !(stackError(stack) != ERR_OK) &&
-            stackPop(stack) != (StackEntry)15, "Push onto potentially tainted stack");
+    test(stackPush(stack, (StackEntry)15l) != (StackEntry)15l &&
+             !(stackError(stack) != ERR_OK) &&
+             stackPop(stack) != (StackEntry)15,
+         "Push onto potentially tainted stack");
 
-    test(freeStack(), "Disposing stack"); 
+    test(freeStack(), "Disposing stack");
     return 0;
 }
-

@@ -12,23 +12,21 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
- 
+
 #ifndef __FULISPREADER_H__
 #define __FULISPREADER_H__
 
-
 #include "reader.h"
-
 
 /**
  * Create a new reader that parses fuLisp code
  * @param stream the stream to read the code from
  * @return the new reader
  */
-struct Reader *newFuLispReader(struct Expression *env, 
-        struct CharReadStream *stream); 
-
+struct Reader *newFuLispReader(struct Expression *env,
+                               struct CharReadStream *stream);
 
 #endif

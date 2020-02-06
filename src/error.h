@@ -12,9 +12,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
- 
 
 #ifndef __ERROR_H__
 #define __ERROR_H__
@@ -25,72 +25,95 @@
  */
 #define NO_ERROR (lispError == ERR_OK)
 
-/** 
+/**
  * Signal an error
  */
-#ifdef NO_MASK_ERROR 
+#ifdef NO_MASK_ERROR
 
-#    define ERROR_BASIC(e, m) {if(NO_ERROR) { \
-        lispFile = __FILE__; lispLine = __LINE__; lispError = e; \
+#define ERROR_BASIC(e, m)         \
+    {                             \
+        if (NO_ERROR) {           \
+            lispFile = __FILE__;  \
+            lispLine = __LINE__;  \
+            lispError = e;        \
+            lispErrorMessage = m; \
+        }                         \
+    }
+
+#else
+
+#define ERROR_BASIC(e, m)     \
+    {                         \
+        lispFile = __FILE__;  \
+        lispLine = __LINE__;  \
+        lispError = e;        \
         lispErrorMessage = m; \
-     }}
-
-#else 
-
-#    define ERROR_BASIC(e, m) { \
-        lispFile = __FILE__; lispLine = __LINE__; lispError = e; \
-        lispErrorMessage = m;}
+    }
 
 #endif
 
 #ifdef EXIT_ON_ERROR
-#    define ERROR(e, m) { \
-    ERROR_BASIC(e, m); \
-    fprintf(stderr, "\n%s:%u - %u %s\n", \
-            lispFile, lispLine, lispError, lispErrorMessage); \
-    abort();}
+#define ERROR(e, m)                                                         \
+    {                                                                       \
+        ERROR_BASIC(e, m);                                                  \
+        fprintf(stderr, "\n%s:%u - %u %s\n", lispFile, lispLine, lispError, \
+                lispErrorMessage);                                          \
+        abort();                                                            \
+    }
 #else
-#    define ERROR(e, m) ERROR_BASIC(e, m)
+#define ERROR(e, m) ERROR_BASIC(e, m)
 #endif
 
-
-#define ERROR_RESET { \
-    lispError = 0; lispErrorMessage = 0;};
+#define ERROR_RESET           \
+    {                         \
+        lispError = 0;        \
+        lispErrorMessage = 0; \
+    };
 
 /**
  * Signal a warning
  */
-#define WARNING(w, m) {lispFile = __FILE__; lispLine = __LINE__; lispWarning = w; lispWarningMessage = m;}
+#define WARNING(w, m)           \
+    {                           \
+        lispFile = __FILE__;    \
+        lispLine = __LINE__;    \
+        lispWarning = w;        \
+        lispWarningMessage = m; \
+    }
 
 /**
  * Signal an unrecoverable error - abort the process
  */
-#define PANIC(p, m) {fprintf(stderr, "fuLisp Panic %3i: %s\n", p, m); exit(1);}
+#define PANIC(p, m)                                      \
+    {                                                    \
+        fprintf(stderr, "fuLisp Panic %3i: %s\n", p, m); \
+        exit(1);                                         \
+    }
 
 /**
- * The error codes 
+ * The error codes
  */
-#define ERR_OK                        0
-#define ERR_NIL_VALUE                 1
-#define ERR_SYNTAX_ERROR              2
-#define ERR_BUFFER_OVERFLOW           100
-#define ERR_LIMIT_EXCESS              110
-#define ERR_UNEXPECTED_TYPE           200
-#define ERR_UNEXPECTED_VAL            300
-#define ERR_EXPECTED_FUNCTION         310
-#define ERR_UNEXPECTED_END_OF_STRING  500
-#define ERR_UNBALANCED_PARENTHESES    600
-#define ERR_UNEVEN_SYM_VAL            700
-#define ERR_UNRESOLVABLE              1100
-#define ERR_STACK_OVERFLOW            1210
-#define ERR_STACK_UNDERFLOW           1211
-#define ERR_UNIMPLEMENTED             2000
-#define ERR_DIVISION_BY_ZERO          3000
-#define ERR_INSUFFICTIENT_MEMORY      4000
-#define ERR_CONVERSION_FAILED         5000
+#define ERR_OK 0
+#define ERR_NIL_VALUE 1
+#define ERR_SYNTAX_ERROR 2
+#define ERR_BUFFER_OVERFLOW 100
+#define ERR_LIMIT_EXCESS 110
+#define ERR_UNEXPECTED_TYPE 200
+#define ERR_UNEXPECTED_VAL 300
+#define ERR_EXPECTED_FUNCTION 310
+#define ERR_UNEXPECTED_END_OF_STRING 500
+#define ERR_UNBALANCED_PARENTHESES 600
+#define ERR_UNEVEN_SYM_VAL 700
+#define ERR_UNRESOLVABLE 1100
+#define ERR_STACK_OVERFLOW 1210
+#define ERR_STACK_UNDERFLOW 1211
+#define ERR_UNIMPLEMENTED 2000
+#define ERR_DIVISION_BY_ZERO 3000
+#define ERR_INSUFFICTIENT_MEMORY 4000
+#define ERR_CONVERSION_FAILED 5000
 
-#define WRN_BEGIN_WRN_CODE            10000
-#define WRN_UNSAFE_CODE               WRN_BEGIN_WRN_CODE + 10
+#define WRN_BEGIN_WRN_CODE 10000
+#define WRN_UNSAFE_CODE WRN_BEGIN_WRN_CODE + 10
 
 extern int lispError;
 extern char *lispErrorMessage;
@@ -99,7 +122,5 @@ extern char *lispWarningMessage;
 
 extern char *lispFile;
 extern int lispLine;
- 
 
 #endif
-

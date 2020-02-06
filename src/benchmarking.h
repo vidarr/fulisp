@@ -15,84 +15,75 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-    
+
 #ifndef __BENCHMARK_H__
 #define __BENCHMARK_H__
 
-
-
 #ifdef BENCHMARK
 
-
-#include <sys/time.h>
 #include <limits.h>
 #include <stdlib.h>
-
+#include <sys/time.h>
 
 long benchmarkTest(void);
 
 long benchmarkGetTime(void);
 
+#define BENCHMARK_DECLARE_VAR(x, y, temp) long x, y, temp;
 
-#define BENCHMARK_DECLARE_VAR(x, y, temp)  long x, y, temp;
+#define BENCHMARK_INIT(x, y, temp)                                             \
+    {                                                                          \
+        x = 0;                                                                 \
+        y = 0;                                                                 \
+        if ((temp = benchmarkTest()) < 0) {                                    \
+            fprintf(stderr,                                                    \
+                    "Warning: Could not get resolution of clock."              \
+                    " Benchmarking wont be possible\n");                       \
+        } else {                                                               \
+            fprintf(stderr, "Benchmarking: Resolution of clock will be %li\n", \
+                    temp);                                                     \
+        };                                                                     \
+    }
 
+#define BENCHMARK_CONTINUE(x, y, temp)                               \
+    {                                                                \
+        if ((temp = benchmarkGetTime()) < 0) {                       \
+            fprintf(stderr,                                          \
+                    "Benchmarking: Could not read clock - disabling" \
+                    " benchmark.\n");                                \
+            x = LONG_MIN;                                            \
+        } else {                                                     \
+            y = temp;                                                \
+        };                                                           \
+    }
 
-#define BENCHMARK_INIT(x, y, temp)  { \
-    x = 0; y = 0; \
-    if((temp = benchmarkTest()) < 0) { \
-        fprintf(stderr, "Warning: Could not get resolution of clock." \
-                        " Benchmarking wont be possible\n"); \
-    } else { \
-        fprintf(stderr, "Benchmarking: Resolution of clock will be %li\n", \
-                temp); \
-    }; \
-}
-
-
-#define BENCHMARK_CONTINUE(x, y, temp) { \
-    if((temp = benchmarkGetTime()) < 0) { \
-        fprintf(stderr, "Benchmarking: Could not read clock - disabling" \
-                        " benchmark.\n"); \
-        x = LONG_MIN; \
-    } else { \
-        y = temp; \
-   }; \
-}
-
-
-#define BENCHMARK_INTERRUPT(x, y, temp) { \
-    if((temp = benchmarkGetTime()) < 0 || x == LONG_MIN) { \
-        fprintf(stderr, "Benchmarking: Could not read clock - disabling" \
-                        " bechmark.\n"); \
-        x = LONG_MIN;  \
-    } else { \
-        x += labs(y - temp); \
-        fprintf(stderr, "Benchmarking: Measured %li\n", labs(y - temp)); \
-    }; \
-}
-
+#define BENCHMARK_INTERRUPT(x, y, temp)                                      \
+    {                                                                        \
+        if ((temp = benchmarkGetTime()) < 0 || x == LONG_MIN) {              \
+            fprintf(stderr,                                                  \
+                    "Benchmarking: Could not read clock - disabling"         \
+                    " bechmark.\n");                                         \
+            x = LONG_MIN;                                                    \
+        } else {                                                             \
+            x += labs(y - temp);                                             \
+            fprintf(stderr, "Benchmarking: Measured %li\n", labs(y - temp)); \
+        };                                                                   \
+    }
 
 #define BENCHMARK_DO(x) x
 
-
-
-#else 
-
+#else
 
 #define BENCHMARK_DECLARE_VAR(x, y, temp)
 
-#define BENCHMARK_INIT(x, y, temp) 
+#define BENCHMARK_INIT(x, y, temp)
 
 #define BENCHMARK_CONTINUE(x, y, temp)
 
 #define BENCHMARK_INTERRUPT(x, y, temp)
 
-#define BENCHMARK_DO(x) 
-
-
-#endif
-
-
+#define BENCHMARK_DO(x)
 
 #endif
 
+#endif

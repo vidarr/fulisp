@@ -15,32 +15,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-  
+
 #ifndef __SYMBOLTABLE_H__
 #define __SYMBOLTABLE_H__
 
 #include "config.h"
-#include "safety.h"
+#include "environment.h"
 #include "expression.h"
 #include "hash.h"
+#include "safety.h"
 #include "stdlib.h"
-#include "environment.h"
-
-
 
 /**
  * Creates a new clean symbol table
  */
 struct HashTable *symbolTableCreate(struct Expression *env);
 
-
 /**
  * Disposes the symbol table and the underlying structure
  * Gets rid of every symbol contained within the table
  * @param hash the symbol table to dispose
  */
-void symbolTableDispose(struct Expression *env, struct HashTable *hash); 
-
+void symbolTableDispose(struct Expression *env, struct HashTable *hash);
 
 /**
  * Resolves the name of a symbol to the symbol itself
@@ -48,7 +44,7 @@ void symbolTableDispose(struct Expression *env, struct HashTable *hash);
  * @param name the name of the symbol
  * @return the expression repr. the symbol
  */
-struct Expression *symbolTableGetSymbol(struct Expression *env, struct HashTable *hash, char *name);
-
+struct Expression *symbolTableGetSymbol(struct Expression *env,
+                                        struct HashTable *hash, char *name);
 
 #endif

@@ -15,36 +15,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
- 
+
 #include <stdlib.h>
 #include <time.h>
 #include "memory.h"
 #include "test.h"
 
-#define ADAPT_INDEX(i, j) \
+#define ADAPT_INDEX(i, j)                                                  \
     /* if i flows over, ensure that numbers dont repeat with period 255 */ \
-    if(j > i) {  \
-        i += 256 - j; \
-    } 
+    if (j > i) {                                                           \
+        i += 256 - j;                                                      \
+    }
 
-#define GET_EXPRESSION(m, e, i, j)  \
-    ADAPT_INDEX(i, j) \
-    MEMORY_GET_EXPRESSION(m, e); \
+#define GET_EXPRESSION(m, e, i, j) \
+    ADAPT_INDEX(i, j)              \
+    MEMORY_GET_EXPRESSION(m, e);   \
     e->type = i;
 
-void initRandom(void) {
-    srand(time(NULL));
-}
+void initRandom(void) { srand(time(NULL)); }
 
-int getTrueOrFalse(void) {
-    return (rand() > RAND_MAX / 2);
-}
+int getTrueOrFalse(void) { return (rand() > RAND_MAX / 2); }
 
 static int outOfMemory = 0;
 
-void setOutOfMemory(void) {
-    outOfMemory = 1;
-}
+void setOutOfMemory(void) { outOfMemory = 1; }
 
 struct Expression *allocate(struct Memory *mem, int no) {
     unsigned char i, j;
@@ -56,41 +50,40 @@ struct Expression *allocate(struct Memory *mem, int no) {
     GET_EXPRESSION(mem, expr, i, j);
     EXPRESSION_STRING(expr) = (char *)NULL;
     start = prev = expr;
-    for(i = 1, total = 1, j = 0; total < no; i++, j++, total++) {
+    for (i = 1, total = 1, j = 0; total < no; i++, j++, total++) {
         GET_EXPRESSION(mem, expr, i, j);
-        if(outOfMemory) return NULL;
+        if (outOfMemory) return NULL;
         EXPRESSION_STRING(prev) = (char *)expr;
         prev = expr;
     }
 
-    EXPRESSION_STRING(prev) = (char *) NULL;
+    EXPRESSION_STRING(prev) = (char *)NULL;
     return start;
 }
 
 int verify(struct Expression *expr, int no) {
     unsigned char i, j;
     i = j = 0;
-    
-    ADAPT_INDEX(i, j); 
-    if(expr->type != i) return TEST_FAILED;
-    
+
+    ADAPT_INDEX(i, j);
+    if (expr->type != i) return TEST_FAILED;
+
     expr = (struct Expression *)EXPRESSION_STRING(expr);
 
-    j = 0; 
+    j = 0;
     i = 1;
 
-    while(expr != NULL) {
-        ADAPT_INDEX(i, j); 
-        if(expr->type != i) {
-           
-           return TEST_FAILED;
+    while (expr != NULL) {
+        ADAPT_INDEX(i, j);
+        if (expr->type != i) {
+            return TEST_FAILED;
         }
-        
+
         expr = (struct Expression *)EXPRESSION_STRING(expr);
         i++;
         j++;
     }
-    
+
     return TEST_PASSED;
 }
 
@@ -104,9 +97,9 @@ int releaseSome(struct Memory *mem, struct Expression *expr) {
 
     initRandom();
 
-    while(current != NULL) {
+    while (current != NULL) {
         expr = (struct Expression *)EXPRESSION_STRING(current);
-        if((getTrueOrFalse())) {
+        if ((getTrueOrFalse())) {
             MEMORY_DISPOSE_EXPRESSION(mem, current);
             no++;
         }
@@ -114,12 +107,12 @@ int releaseSome(struct Memory *mem, struct Expression *expr) {
     }
     return no;
 }
-        
+
 static struct Expression *expr = NULL;
 
 int testAllocation(struct Memory *mem, int no) {
     expr = allocate(mem, no);
-    if(expr == NULL) return TEST_FAILED;
+    if (expr == NULL) return TEST_FAILED;
     return verify(expr, no);
 }
 
@@ -127,10 +120,9 @@ int testReleaseAndAlloc(struct Memory *mem) {
     int noReleased = 0;
     noReleased = releaseSome(mem, expr);
     expr = allocate(mem, noReleased);
-    if(expr == NULL) return TEST_FAILED;
+    if (expr == NULL) return TEST_FAILED;
     return verify(expr, noReleased);
 }
-
 
 int main(int argc, char **argv) {
     struct Memory *mem;
@@ -146,34 +138,38 @@ int main(int argc, char **argv) {
 #endif
 
     mem = newMemory();
-    mem->outOfMemory = setOutOfMemory; 
+    mem->outOfMemory = setOutOfMemory;
 
-    result = test(testAllocation(mem, MEMORY_BLOCK_SIZE),"Allocate less memory than available");
-    if(result == TEST_PASSED)
-        result = test(testReleaseAndAlloc(mem), "Release and reallocate memory");
+    result = test(testAllocation(mem, MEMORY_BLOCK_SIZE),
+                  "Allocate less memory than available");
+    if (result == TEST_PASSED)
+        result =
+            test(testReleaseAndAlloc(mem), "Release and reallocate memory");
     else {
         testWarn("Skipping Release and reallocate memory");
         return result;
     }
 
-    deleteMemory(mem);    
+    deleteMemory(mem);
 
-#   ifdef MEMORY_AUTOEXTEND
+#ifdef MEMORY_AUTOEXTEND
 
     mem = newMemory();
-    
-    result = test(testAllocation(mem, 2 * MEMORY_BLOCK_SIZE + 3),"Allocate memory with autoexpansion");
-    if(result == TEST_PASSED)
-        result = test(testReleaseAndAlloc(mem), "Release and reallocate memory with autoexpansion");
-    else 
-        testWarn("Skipping Release and reallocate memory with autoexpanded memory");
 
-#   else
+    result = test(testAllocation(mem, 2 * MEMORY_BLOCK_SIZE + 3),
+                  "Allocate memory with autoexpansion");
+    if (result == TEST_PASSED)
+        result = test(testReleaseAndAlloc(mem),
+                      "Release and reallocate memory with autoexpansion");
+    else
+        testWarn(
+            "Skipping Release and reallocate memory with autoexpanded memory");
+
+#else
 
     testWarn("Skipping testing autoexpansion");
 
-#   endif
+#endif
 
     return result;
 }
-

@@ -19,16 +19,14 @@
 #ifndef __PRINT_NATIVE_FUNCTIONS_H__
 #define __PRINT_NATIVE_FUNCTIONS_H__
 
-
 /* Convert decimal no between 0 and 15 to hex digit */
-#define TO_HEX(x) ((x) < 10 ? '0' + (x) : 'A' + (x) - 10)
+#define TO_HEX(x) ((x) < 10 ? '0' + (x) : 'A' + (x)-10)
 
 /* Convert x to hex, get low hex digit */
-#define HEX_LOW_DIGIT(x)  TO_HEX(((x) & (16 | 8 | 4 | 2 | 1)))
+#define HEX_LOW_DIGIT(x) TO_HEX(((x) & (16 | 8 | 4 | 2 | 1)))
 
 /* Convert x to hex, get high hex digit */
 #define HEX_HIGH_DIGIT(x) TO_HEX(((x) >> 4))
-
 
 /**
  * This macro explicitly prints out function pointers in a compatible way - so
@@ -37,18 +35,19 @@
  * @param str the string to write result to. must provide 3 * sizeof(function
  * pointer)
  */
-#define NATIVE_FUNC_TO_STR(func, str, bufLen) { \
-    int i; \
-    unsigned char *fp; \
-    size_t bufLenUsed = 3 * sizeof(NativeFunction *); \
-    IF_SAFETY_CODE(assert(bufLen >= bufLenUsed););  \
-    fp = (unsigned char *)&func; \
-    for(i = 0; i < sizeof(NativeFunction *); i++) { \
-        str[3 * i] = ' '; \
-        str[3 * i + 1] = HEX_HIGH_DIGIT(fp[i]); \
-        str[3 * i + 2] = HEX_LOW_DIGIT(fp[i]); \
-    }; \
-    str[bufLenUsed] = '\0'; \
-};
+#define NATIVE_FUNC_TO_STR(func, str, bufLen)             \
+    {                                                     \
+        int i;                                            \
+        unsigned char *fp;                                \
+        size_t bufLenUsed = 3 * sizeof(NativeFunction *); \
+        IF_SAFETY_CODE(assert(bufLen >= bufLenUsed););    \
+        fp = (unsigned char *)&func;                      \
+        for (i = 0; i < sizeof(NativeFunction *); i++) {  \
+            str[3 * i] = ' ';                             \
+            str[3 * i + 1] = HEX_HIGH_DIGIT(fp[i]);       \
+            str[3 * i + 2] = HEX_LOW_DIGIT(fp[i]);        \
+        };                                                \
+        str[bufLenUsed] = '\0';                           \
+    };
 
 #endif

@@ -15,11 +15,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-  
 
 #ifndef __DEBUGGING_H__
 #define __DEBUGGING_H__
-
 
 #define IF_DEBUG(x)
 
@@ -27,9 +25,8 @@
 
 #define DEBUG_PRINT_PARAM(msg, param)
 
-#define DEBUG_PRINT_EXPR(x, buf) 
+#define DEBUG_PRINT_EXPR(x, buf)
 
 #define DEBUG_PRINT_NATIVE_FUNC(x)
-
 
 #endif

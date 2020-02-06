@@ -4,24 +4,24 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, 
+ *
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */ 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
+ */
 
+#include "memory.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include "memory.h"
 #include "config.h"
 #include "garbage_collector.h"
-
 
 #define MODULE_NAME "memory.c"
 
@@ -31,9 +31,7 @@
 #include "no_debugging.h"
 #endif
 
-
 static char *outOfMemoryMessage = "Ran out of Memory!";
-
 
 static void outOfMemory(void) {
     fprintf(stderr, "%s", outOfMemoryMessage);
@@ -43,50 +41,47 @@ static void outOfMemory(void) {
 void allocateNewExpressionBlock(struct Memory *mem) {
     int i;
     struct ExpressionBlock *block;
-   
-    block = 
+
+    block =
         (struct ExpressionBlock *)SAFE_MALLOC(sizeof(struct ExpressionBlock));
-    if(block == NULL) outOfMemory();
-    block->memory = (struct Expression *)
-        SAFE_MALLOC(sizeof(struct Expression) * MEMORY_BLOCK_SIZE);
-    if(block->memory == NULL) outOfMemory();
- 
-#   ifdef MEMORY_AUTOEXTEND
-        block->nextBlock = mem->exprBlocks;
-#   endif
+    if (block == NULL) outOfMemory();
+    block->memory = (struct Expression *)SAFE_MALLOC(sizeof(struct Expression) *
+                                                     MEMORY_BLOCK_SIZE);
+    if (block->memory == NULL) outOfMemory();
+
+#ifdef MEMORY_AUTOEXTEND
+    block->nextBlock = mem->exprBlocks;
+#endif
     mem->exprBlocks = block;
 
     mem->nextExpr = NULL;
-    for(i = 0; i < MEMORY_BLOCK_SIZE; i++) {
+    for (i = 0; i < MEMORY_BLOCK_SIZE; i++) {
         MEMORY_DISPOSE_EXPRESSION(mem, (block->memory + i));
     }
 }
 
-
 struct Memory *newMemory(void) {
-#   ifdef MEMORY_USE_PREALLOCATION
-       struct Memory *mem = (struct Memory *)SAFE_MALLOC(sizeof(struct Memory));
-       if(mem == NULL) outOfMemory(); 
-       mem->exprBlocks = NULL;
-       allocateNewExpressionBlock(mem);
-       mem->outOfMemory = outOfMemory;
-       return mem;
-#   else
-       return NULL;
-#   endif
+#ifdef MEMORY_USE_PREALLOCATION
+    struct Memory *mem = (struct Memory *)SAFE_MALLOC(sizeof(struct Memory));
+    if (mem == NULL) outOfMemory();
+    mem->exprBlocks = NULL;
+    allocateNewExpressionBlock(mem);
+    mem->outOfMemory = outOfMemory;
+    return mem;
+#else
+    return NULL;
+#endif
 }
-
 
 void deleteMemory(struct Memory *mem) {
-#   ifdef MEMORY_USE_PREALLOCATION
+#ifdef MEMORY_USE_PREALLOCATION
 
-       assert(mem);
+    assert(mem);
 
-       if(mem->exprBlocks) {
-           if(mem->exprBlocks->memory) free(mem->exprBlocks->memory);
-           free(mem->exprBlocks);
-       }
-       free(mem);
-#   endif   /* MEMORY_USE_PREALLOCATION */
+    if (mem->exprBlocks) {
+        if (mem->exprBlocks->memory) free(mem->exprBlocks->memory);
+        free(mem->exprBlocks);
+    }
+    free(mem);
+#endif /* MEMORY_USE_PREALLOCATION */
 }
-

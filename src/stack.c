@@ -12,7 +12,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
 
 #include "stack.h"
@@ -26,54 +27,43 @@
 #include "no_debugging.h"
 #endif
 
-
 struct Stack *stackCreate(int size) {
-  struct Stack *stack = (struct Stack *)SAFE_MALLOC(sizeof(struct Stack));
-  stack->stack = (StackEntry *)SAFE_MALLOC(sizeof(StackEntry) * (size + 1));
-  stack->first = stack->next = stack->stack;
-  stack->last = stack->stack + size; /* - 1; */
-  stackResetError(stack);
-  return stack;
+    struct Stack *stack = (struct Stack *)SAFE_MALLOC(sizeof(struct Stack));
+    stack->stack = (StackEntry *)SAFE_MALLOC(sizeof(StackEntry) * (size + 1));
+    stack->first = stack->next = stack->stack;
+    stack->last = stack->stack + size; /* - 1; */
+    stackResetError(stack);
+    return stack;
 }
 
-                                               
 void stackFree(struct Stack *stack) {
-  free(stack->stack);
-  free(stack);
+    free(stack->stack);
+    free(stack);
 }
-
 
 void *stackPush(struct Stack *stack, StackEntry el) {
-  if(stack->next <= stack->last) {
-      DEBUG_PRINT("Pushing...\n");
-      *(stack->next) = el;
-      stack->next++;
-      return el;
-  }
-  DEBUG_PRINT("Stack would overflow!\n");
-  stack->error = ERR_STACK_OVERFLOW;
-  return NULL;
+    if (stack->next <= stack->last) {
+        DEBUG_PRINT("Pushing...\n");
+        *(stack->next) = el;
+        stack->next++;
+        return el;
+    }
+    DEBUG_PRINT("Stack would overflow!\n");
+    stack->error = ERR_STACK_OVERFLOW;
+    return NULL;
 }
-
 
 StackEntry stackPop(struct Stack *stack) {
-  if(stack->next > stack->first) {
-      DEBUG_PRINT("Popping...\n");
-      stack->next--;
-      return *(stack->next);
-  }
-  DEBUG_PRINT("Stack would underflow!\n");
-  stack->error = ERR_STACK_UNDERFLOW;
-  return NULL;
+    if (stack->next > stack->first) {
+        DEBUG_PRINT("Popping...\n");
+        stack->next--;
+        return *(stack->next);
+    }
+    DEBUG_PRINT("Stack would underflow!\n");
+    stack->error = ERR_STACK_UNDERFLOW;
+    return NULL;
 }
 
+int stackError(struct Stack *stack) { return stack->error; }
 
-int stackError(struct Stack *stack) {
-  return stack->error;
-}
-
-
-void stackResetError(struct Stack *stack) {
-  stack->error = ERR_OK;
-}
-
+void stackResetError(struct Stack *stack) { stack->error = ERR_OK; }

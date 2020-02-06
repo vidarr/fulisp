@@ -15,19 +15,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-    
+
 /*
  * Deals with lambda forms
  */
 #ifndef __LAMBDA_H__
 #define __LAMBDA_H__
 
-#include "lisp_internals.h"
 #include "config.h"
-#include "expression.h"
 #include "cons.h"
 #include "eval.h"
-
+#include "expression.h"
+#include "lisp_internals.h"
 
 /**
  * Data structure representing a lambda form
@@ -39,11 +38,9 @@ struct Lambda {
     struct Expression *rest;
 };
 
-
 /*****************************************************************************
  *                                 Functions                                 *
  *****************************************************************************/
-
 
 /**
  * Create a new lambda form
@@ -52,17 +49,17 @@ struct Lambda {
  * body.
  * @return a new lambda form
  */
-struct Expression *lambdaCreate(struct Expression *env, struct Expression *expr);
-
+struct Expression *lambdaCreate(struct Expression *env,
+                                struct Expression *expr);
 
 /**
  * Invoke lambda form on concrete arguments
  * @param lambda lambda form to evaluate
- * @param args list of values for the arguments to use 
- * @return expression being the result of the evaluation 
+ * @param args list of values for the arguments to use
+ * @return expression being the result of the evaluation
  */
-struct Expression *lambdaInvoke(struct Expression *oldEnv, struct Lambda *lambda, struct Expression *args);
-
+struct Expression *lambdaInvoke(struct Expression *oldEnv,
+                                struct Lambda *lambda, struct Expression *args);
 
 /**
  * Delete a lambda form
@@ -70,6 +67,4 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv, struct Lambda *lambda
  */
 void lambdaDispose(struct Lambda *lambda);
 
-
 #endif
-

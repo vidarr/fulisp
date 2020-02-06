@@ -1,5 +1,5 @@
 /*
- * (C) 2012 Michael J. Beer 
+ * (C) 2012 Michael J. Beer
  * This program is free software; you can
  * redistribute it and/or modify * it under the terms of the GNU General Public
  * License as published by * the Free Software Foundation; either version 3 of
@@ -13,34 +13,31 @@
  * USA.2010
  */
 
-#include <stdio.h>
 #include <errno.h>
+#include <stdio.h>
 #include "config.h"
 /* Exit if any kind of error occurs */
 #define EXIT_ON_ERROR
-#include "error.h"
-#include "print.h"
-#include "fulispreader.h"
 #include "environment.h"
+#include "error.h"
+#include "fulispreader.h"
+#include "print.h"
 #include "test.h"
 
 #ifdef DEBUG
 
-#    include "debugging.h"
+#include "debugging.h"
 
-#else 
+#else
 
-#    include "no_debugging.h"
+#include "no_debugging.h"
 
 #endif
-
 
 #define INPUT_BUFFER_SIZE 200
 #define IGNORE_SIGLE ";   *IGNORE*   ;"
 
-
 static char *inputBuffer;
-
 
 static void iOError(void) {
     perror("Something went wrong: ");
@@ -48,29 +45,28 @@ static void iOError(void) {
     exit(1);
 }
 
-
 static char *chomp(char *str) {
     int i = 0;
     DEBUG_PRINT_PARAM("Chomping %s\n", str);
-    while(str[i] != '\0') i++;
-    if(i > 1) {
-        if((str[--i] == '\n') || (str[i] == '\r'))  str[i] = '\0';
-        if((str[--i] == '\n') || (str[i] == '\r'))  str[i] = '\0';
+    while (str[i] != '\0') i++;
+    if (i > 1) {
+        if ((str[--i] == '\n') || (str[i] == '\r')) str[i] = '\0';
+        if ((str[--i] == '\n') || (str[i] == '\r')) str[i] = '\0';
     };
     DEBUG_PRINT_PARAM("Chomped %s\n", str);
     return str;
 }
 
-
-static int checkInput(struct Expression *env, struct Expression *expr, char *reference) {
-
-    if(!expr) { DEBUG_PRINT("expr is 0!\n");
+static int checkInput(struct Expression *env, struct Expression *expr,
+                      char *reference) {
+    if (!expr) {
+        DEBUG_PRINT("expr is 0!\n");
         return 1;
     }
 
-    if(strcmp(reference, IGNORE_SIGLE) == 0) return 0;
+    if (strcmp(reference, IGNORE_SIGLE) == 0) return 0;
     expressionToString(env, inputBuffer, INPUT_BUFFER_SIZE, expr);
-    if(strcmp(inputBuffer, reference) == 0)  {
+    if (strcmp(inputBuffer, reference) == 0) {
         /* expressionDispose(env, printed); */
         return 0;
     }
@@ -78,8 +74,8 @@ static int checkInput(struct Expression *env, struct Expression *expr, char *ref
     return 1;
 }
 
-
-int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, struct Expression *(* getNextExpr)(struct Reader *reader)) {
+int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName,
+                   struct Expression *(*getNextExpr)(struct Reader *reader)) {
     char *refBuffer;
     FILE *inFile;
     FILE *refFile;
@@ -89,28 +85,26 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
     struct Reader *reader;
     struct Expression *expr = 0;
 
-
     inputBuffer = SAFE_STRING_NEW(INPUT_BUFFER_SIZE);
     refBuffer = SAFE_STRING_NEW(INPUT_BUFFER_SIZE);
 
-
     inFile = fopen(inFileName, "r");
-    if(inFile == NULL) iOError();
+    if (inFile == NULL) iOError();
     DEBUG_PRINT("File open\n");
 
     refFile = fopen(refFileName, "r");
-    if(refFile == NULL) iOError();
+    if (refFile == NULL) iOError();
     DEBUG_PRINT("File open\n");
 
     readStream = makeCStreamCharReadStream(inFile);
     bufStream = makeCharReadStream(readStream);
     reader = newFuLispReader(env, bufStream);
 
-    while(!feof(refFile)) {
-        if(NULL == fgets((void *)refBuffer, INPUT_BUFFER_SIZE, refFile)) {
-            if(errno != 0) 
+    while (!feof(refFile)) {
+        if (NULL == fgets((void *)refBuffer, INPUT_BUFFER_SIZE, refFile)) {
+            if (errno != 0)
                 iOError();
-            else 
+            else
                 break;
         }
         errno = 0;
@@ -126,11 +120,9 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName, 
     deleteReader(reader);
     STREAM_DISPOSE(bufStream);
     fclose(inFile);
-    free(readStream); 
+    free(readStream);
 
-    free(refBuffer); 
+    free(refBuffer);
     free(inputBuffer);
     return result;
 }
-
-

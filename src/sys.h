@@ -15,7 +15,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-    
+
 #ifndef __SYS_H__
 #define __SYS_H__
 
@@ -23,22 +23,19 @@
                        Operating System dependent things
  ******************************************************************************/
 
+#ifdef __OpenBSD__ /* Operating System */
 
-#ifdef __OpenBSD__  /* Operating System */
+#define CLOCK_PARAMETER CLOCK_VIRTUAL
+#include <sys/time.h>
 
-#    define CLOCK_PARAMETER CLOCK_VIRTUAL
-#    include <sys/time.h>
+#else
 
-#else 
+/* We assume a GNU system in here - not the best thing to do, but a com
+   promise between effort and practicability */
 
-    /* We assume a GNU system in here - not the best thing to do, but a com
-       promise between effort and practicability */
-
-#    define CLOCK_PARAMETER CLOCK_PROCESS_CPUTIME_ID
-#    include <time.h>
+#define CLOCK_PARAMETER CLOCK_PROCESS_CPUTIME_ID
+#include <time.h>
 
 #endif /* Operating System */
 
-
 #endif
-

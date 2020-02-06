@@ -12,9 +12,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
-
 
 #ifndef __CALL_STACK_H__
 #define __CALL_STACK_H__
@@ -23,18 +23,15 @@
 #include "error.h"
 #include "expression.h"
 
-
 typedef void *StackEntry;
 
-
 struct Stack {
-  StackEntry *stack;
-  StackEntry *next;
-  StackEntry *first;
-  StackEntry *last;
-  int error;
+    StackEntry *stack;
+    StackEntry *next;
+    StackEntry *first;
+    StackEntry *last;
+    int error;
 };
-
 
 /**
  * Creates a stack
@@ -42,13 +39,11 @@ struct Stack {
  */
 struct Stack *stackCreate(int size);
 
-
 /**
  * Frees stack structure.
  * @param stack The stack to be freed.
  */
 void stackFree(struct Stack *stack);
-
 
 /**
  * Pushes an element onto the stack.
@@ -59,7 +54,6 @@ void stackFree(struct Stack *stack);
  */
 void *stackPush(struct Stack *stack, StackEntry el);
 
-
 /**
  * Pops an element from the stack.
  * @param stack the stack to be popped from
@@ -67,17 +61,14 @@ void *stackPush(struct Stack *stack, StackEntry el);
  */
 StackEntry stackPop(struct Stack *stack);
 
-
 /**
  * Returns error state from last stack operation.
  */
 int stackError(struct Stack *stack);
 
-
 /**
  * Set error state of stack back to ERR_OK
  */
 void stackResetError(struct Stack *stack);
-
 
 #endif

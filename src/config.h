@@ -12,7 +12,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
+ * USA.
  */
 
 #ifndef __CONFIG_H__
@@ -21,8 +22,9 @@
 #include <limits.h>
 
 #define VERSION "0.4.0"
-#define COPYRIGHT "Copyright (C) 2010, 2012, 2014  "                          \
-                  "Michael J. Beer <michael.josef.beer@googlemail.com>"
+#define COPYRIGHT                      \
+    "Copyright (C) 2010, 2012, 2014  " \
+    "Michael J. Beer <michael.josef.beer@googlemail.com>"
 
 /* #define DEBUG */
 /* #define DEBUG_READER */
@@ -58,8 +60,8 @@
 /* #define EXIT_ON_ERROR */
 
 /**
-  * Should be benchmarked?
-  */
+ * Should be benchmarked?
+ */
 #define BENCHMARK
 
 /**
@@ -69,28 +71,25 @@
  */
 #define NO_MASK_ERROR
 
-
-#define READ_BUFFER_SIZE               (int)(16000)
-#define PRINT_BUFFER_SIZE              100
-#define SYMBOL_TABLE_SIZE              20
-#define CALL_STACK_SIZE                200
-
+#define READ_BUFFER_SIZE (int)(16000)
+#define PRINT_BUFFER_SIZE 100
+#define SYMBOL_TABLE_SIZE 20
+#define CALL_STACK_SIZE 200
 
 /*****************************************************************************
  *                                   MEMORY
  *****************************************************************************/
 
-
 /**
  * size of one mem block in expressions/cons structs
  */
-#define MEMORY_BLOCK_SIZE              20000
+#define MEMORY_BLOCK_SIZE 20000
 
 /**
  * Use preallocated memory instead of malloc/free whenever an expression is
  * created
  */
-#define MEMORY_USE_PREALLOCATION 
+#define MEMORY_USE_PREALLOCATION
 
 /**
  * Should the memory be expanded automatically?
@@ -99,30 +98,26 @@
 /* #define MEMORY_AUTOEXTEND */
 
 /**
- * Should native functions be handled strictly? 
+ * Should native functions be handled strictly?
  * Strictly spoken, this is only necessary on architectures where
  * sizeof(void *) != sizeof(NativeFunc *) holds.
  */
 #define STRICT_NATIVE_FUNCS
 
-/** 
- * Which kind of garbage collection to use. 
+/**
+ * Which kind of garbage collection to use.
  * This constant could be set to any of the values GC_*.
  */
-#define GARBAGE_COLLECTOR GC_MARK_AND_SWEEP 
+#define GARBAGE_COLLECTOR GC_MARK_AND_SWEEP
 
 /**
  * Kind of format to use for expressions
  */
 #define EXPRESSION_FORMAT TrueLies
 
-
-
 /*******************************************************************************
  *                        TYPES OF GARBAGE COLLECTION
  *******************************************************************************/
-
-
 
 /**
  * Reference counting garbage collector
@@ -132,31 +127,25 @@
 /**
  * Reference counting garbage collector
  */
-#define GC_MARK_AND_SWEEP     2
-
+#define GC_MARK_AND_SWEEP 2
 
 /******************************************************************************
  *                   CHECK WHETHER SET OPTIONS ARE POSSIBLE
  ******************************************************************************/
 
+#ifdef BENCHMARK
 
+#include <time.h>
 
-#ifdef BENCHMARK 
-
-#   include <time.h>
-
-#   ifndef CLOCK_PROCESS_CPUTIME_ID
+#ifndef CLOCK_PROCESS_CPUTIME_ID
 
 /*        Unfortunately, #warning is not standard c */
-/* #      warning "Disabling benchmark - system does not provide for necessary functions" */
-#      undef   BENCHMARK
+/* #      warning "Disabling benchmark - system does not provide for necessary
+ * functions" */
+#undef BENCHMARK
 
-#   endif /* CLOCK_PROCESS_CPUTIME_ID */
+#endif /* CLOCK_PROCESS_CPUTIME_ID */
 
 #endif /* BENCHMARK */
 
-
-
-
 #endif /* __CONFIG_H__ */
-

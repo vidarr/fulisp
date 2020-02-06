@@ -15,32 +15,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-  
+
 #ifndef __CONSTANTS_H__
 #define __CONSTANTS_H__
 
 #include <math.h>
-#include "limits.h"
 #include "float.h"
-
+#include "limits.h"
 
 /* Helpers */
-#define LOG_TO_LOG10_FACTOR  (1.0/log(10.0))
+#define LOG_TO_LOG10_FACTOR (1.0 / log(10.0))
 
 /**
  * Number of chars maximal used for string rep. of some data types
  */
 
-#define MAX_BYTES_PER_int     (size_t)((LOG_TO_LOG10_FACTOR * log(INT_MAX)) + 1)
-#define MAX_BYTES_PER_float  (size_t)((LOG_TO_LOG10_FACTOR * log(FLT_MAX) * 2) \
-        + 1)
-#define MAX_BYTES_PER_char    (size_t)1
-#define MAX_BYTES_PER_pointer (size_t)(sizeof(void *) * pow(2,8) / 16.0)
+#define MAX_BYTES_PER_int (size_t)((LOG_TO_LOG10_FACTOR * log(INT_MAX)) + 1)
+#define MAX_BYTES_PER_float \
+    (size_t)((LOG_TO_LOG10_FACTOR * log(FLT_MAX) * 2) + 1)
+#define MAX_BYTES_PER_char (size_t)1
+#define MAX_BYTES_PER_pointer (size_t)(sizeof(void *) * pow(2, 8) / 16.0)
 
 /**
  * String that is used to separate the last two expressions of a dotted pair,
  */
 #define DOTTED_PAIR_MARKER_STRING "."
-
 
 #endif
