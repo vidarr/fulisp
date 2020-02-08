@@ -128,7 +128,7 @@ void allocateNewConsBlock(struct Memory *mem);
 #else /* MEMORY_USE_PREALLOCATION */
 
 #define __MEMORY_GET_EXPRESSION(mem, expr) \
-    { expr = (struct Expression *)malloc(sizeof(struct Expression)); }
+    { expr = (struct Expression *)SAFE_MALLOC(sizeof(struct Expression)); }
 
 #define __MEMORY_DISPOSE_EXPRESSION(mem, expr) free(expr)
 
