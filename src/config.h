@@ -89,7 +89,7 @@
  * Use preallocated memory instead of malloc/free whenever an expression is
  * created
  */
-/* #define MEMORY_USE_PREALLOCATION */
+#define MEMORY_USE_PREALLOCATION
 
 /**
  * Should the memory be expanded automatically?
@@ -133,6 +133,22 @@
 /******************************************************************************
  *                   CHECK WHETHER SET OPTIONS ARE POSSIBLE
  ******************************************************************************/
+
+#if !defined(GARBAGE_COLLECTOR)
+
+#error("GARBAGE_COLLECTOR has not been defined!")
+
+#elif GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
+
+#ifndef MEMORY_USE_PREALLOCATION
+
+#error("MARK_AND_SWEEP requires MEMORY_USE_PREALLOCATION");
+
+#endif /* MEMORY_USE_PREALLOCATION */
+
+#endif /* GARBAGE_COLLECTION */
+
+/*----------------------------------------------------------------------------*/
 
 #ifdef BENCHMARK
 
