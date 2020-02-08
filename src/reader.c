@@ -85,8 +85,9 @@ struct Expression *fuRead(struct Reader *reader) {
     struct Expression *expr = 0;
 
     assert(reader);
+    assert(0 == reader->expr);
 
-    while (!reader->expr && (readChar = READ_NEXT_CHAR(reader))) {
+    while (readChar = READ_NEXT_CHAR(reader)) {
         DEBUG_PRINT_PARAM(" Got '%c'\n", readChar);
         macro = LOOKUP_READ_MACRO((char)readChar, reader);
         DEBUG_PRINT_NATIVE_FUNC(macro);
@@ -113,13 +114,19 @@ struct Expression *fuRead(struct Reader *reader) {
     /* if not looked up yet, try to evaluate the input */
     if ((macro = LOOKUP_READ_MACRO(0, reader))) {
         macro(reader, 0);
-    } else
+    } else {
         rmTerminator(reader, 0); /* If none registered, take the standard
                                     terminating macro */
+    }
+
     DEBUG_PRINT(" reached end of function\n");
     DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), reader->expr);
 
-    return expressionAssign(READER_GET_ENVIRONMENT(reader), reader->expr);
+    expr = reader->expr;
+    reader->expr = 0;
+
+    return expr;
+
 }
 
 NativeReadMacro lookupReadMacro(struct Reader *reader, char c) {
