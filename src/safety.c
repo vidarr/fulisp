@@ -42,7 +42,7 @@ int safetyLevel = SAFETY_HIGH;
 #ifdef GENERATE_SAFETY_CODE
 
 void *safeMalloc(size_t noBytes) {
-    void *newMem = malloc(noBytes);
+    void *newMem = calloc(1, noBytes);
     if (newMem == NULL) {
         ERROR(ERR_INSUFFICTIENT_MEMORY, "Could not allocate further memory");
     }
