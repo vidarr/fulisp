@@ -22,9 +22,13 @@
 #include "no_debugging.h"
 #endif
 
+/*----------------------------------------------------------------------------*/
+
+static void registerStandardReadMacros(struct Reader *reader);
+
 /*******************************************************************************
  *                           R E A D   M A C R O S
- *******************************************************************************/
+ ******************************************************************************/
 
 /**
  * push toupper(char) to buffer
@@ -67,11 +71,13 @@ static void rmOpeningBraket(struct Reader *reader, char sigle);
 
 static void rmFuLispTerminator(struct Reader *reader, char sigle);
 
-static void registerStandardReadMacros(struct Reader *reader);
+static void rmComment(struct Reader *reader, char sigle);
+
+static void rmCommentEnd(struct Reader *reader, char sigle);
 
 /******************************************************************************
  *                        I M P L E M E N T A T I O N
- *******************************************************************************/
+ ******************************************************************************/
 
 struct Reader *newFuLispReader(struct Expression *env,
                                struct CharReadStream *stream) {
@@ -116,6 +122,7 @@ static void registerStandardReadMacros(struct Reader *reader) {
     registerReadMacro(reader, (unsigned char)'(', rmOpeningBraket);
     registerReadMacro(reader, (unsigned char)')', rmClosingBraket);
     registerReadMacro(reader, (unsigned char)'\\', rmGetNextAsCharacter);
+    registerReadMacro(reader, (unsigned char)';', rmComment);
 
     IF_DEBUG(fprintf(stderr, "Lookup looks like:\n"); next = reader->lookup;
              while ((next = next->next)) {
@@ -391,4 +398,39 @@ static void rmFuLispTerminator(struct Reader *reader, char sigle) {
         }
     }
     rmTerminator(reader, sigle);
+}
+
+static void rmComment(struct Reader *reader, char sigle) {
+
+    struct Reader *nestedReader;
+
+    assert(reader);
+
+    DEBUG_PRINT_PARAM("Read macro rmStartComment called with %c\n", sigle);
+
+    if (!BUFFER_IS_EMPTY(reader)) {
+        ERROR(ERR_SYNTAX_ERROR,
+              "rmStartComment(): Leading characters before Comment - Missing ' "
+              "'?");
+        reader->expr = NIL; /* GET_SYMBOL(reader, "NIL"); */
+        return;
+    }
+    /* We need a new, 'clean' reader to prevent any char to trigger anything
+     * except the end of the String */
+    nestedReader = newReader(READER_GET_ENVIRONMENT(reader), reader->stream);
+    nestedReader->type = EXPR_SYMBOL;
+
+    registerStandardReadMacro(nestedReader, rmIgnore);
+    registerReadMacro(nestedReader, (unsigned char) '\n', rmCommentEnd);
+    registerReadMacro(nestedReader, (unsigned char) '\0', rmCommentEnd);
+
+    reader->expr = fuRead(nestedReader);
+    deleteReader(nestedReader);
+
+}
+
+static void rmCommentEnd(struct Reader *reader, char sigle) {
+
+    reader->expr = NIL;
+
 }
