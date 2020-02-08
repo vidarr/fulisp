@@ -54,6 +54,7 @@ struct Expression *environmentCreate(struct Expression *parent,
 }
 
 struct Expression *environmentCreateStdEnv(struct Memory *mem) {
+
     struct Expression *env = environmentCreate(NIL, mem);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUOTE", quote);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "CAR", car);
@@ -104,6 +105,10 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
     ENVIRONMENT_ADD_STRING(env, ((TYPE_ENVIRONMENT)->data.string),
                            TYPE_ENVIRONMENT);
 
+    ENVIRONMENT_ADD_STRING(
+        env, "LISP-LIBRARY-PATH",
+        CREATE_STRING_EXPRESSION(env, DEFAULT_LISP_LIBRARY_PATH));
+
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "TYPE", fuType);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "INTEGER", fuInt);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "FLOAT", fuFloat);
@@ -131,7 +136,6 @@ void environmentDispose(struct Expression *surrEnv, struct Environment *env) {
 }
 
 void environmentClear(struct Expression *env) {
-
     struct Expression *expr = 0;
     struct HashTable *hash = 0;
     char **keys = 0;
@@ -145,25 +149,22 @@ void environmentClear(struct Expression *env) {
     hash = EXPRESSION_ENVIRONMENT(env)->lookup;
     keys = hashTableKeys(hash);
 
-    if(0 == keys) return;
+    if (0 == keys) return;
 
     keyIter = keys;
 
-    while(0 != *keyIter) {
-
+    while (0 != *keyIter) {
         expr = hashTableDelete(hash, *keyIter);
         assert(0 != expr);
 
         expressionDispose(env, expr);
         ++keyIter;
-
     }
 
     keyIter = 0;
 
     free(keys);
     keys = 0;
-
 }
 
 struct Expression *environmentLookup(struct Expression *env,

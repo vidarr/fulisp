@@ -159,4 +159,5 @@ int main(int argc, char **argv) {
     fuClose(env);
 
     return 0;
+
 }

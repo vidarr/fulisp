@@ -21,7 +21,8 @@
 
 #include <limits.h>
 
-#define VERSION "0.4.0"
+#define VERSION "0.4.1"
+
 #define COPYRIGHT                      \
     "Copyright (C) 2010, 2012, 2014  " \
     "Michael J. Beer <michael.josef.beer@googlemail.com>"
@@ -38,6 +39,11 @@
 /* #define DEBUG_LAMBDA */
 /* #define DEBUG_GARBAGE_COLLECTOR */
 /* #define DEBUG_TYPES */
+
+/**
+ * Where to look for files to import by default
+ */
+#define DEFAULT_LISP_LIBRARY_PATH "."
 
 /**
  * Should hash tables place strings or copies of strings as keys?
