@@ -1,0 +1,41 @@
+SYM: A
+int: 1
+int: -1
+SYM: NIL
+SYM: NIL
+SYM: NIL
+float: 1.000000
+float: -1.000000
+float: 0.000000
+float: 0.000000
+float: -0.000000
+float: -0.000000
+SYM: .
+STR: abc
+SYM: -
+(SYM: NIL)
+(SYM: NIL int: 1)
+(SYM: A)
+(SYM: A)
+(SYM: A)
+(SYM: A)
+(SYM: -)
+(SYM: A SYM: B)
+(SYM: A SYM: B)
+(SYM: A SYM: B)
+(SYM: A SYM: B)
+(SYM: A (SYM: B))
+(SYM: A SYM: B SYM: C)
+(SYM: A (SYM: B SYM: C))
+((SYM: A) SYM: B SYM: C)
+((SYM: A SYM: B) SYM: C)
+((SYM: A SYM: B SYM: C))
+((SYM: A) (SYM: B) (SYM: C))
+(SYM: A . SYM: B)
+(SYM: A SYM: B . SYM: C)
+(SYM: A SYM: B SYM: C . SYM: E)
+SYM: NIL
+SYM: NIL
+SYM: NIL
+SYM: NIL
+SYM: NIL
