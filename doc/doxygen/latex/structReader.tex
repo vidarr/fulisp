@@ -1,0 +1,68 @@
+\hypertarget{structReader}{\section{Reader Struct Reference}
+\label{structReader}\index{Reader@{Reader}}
+}
+
+
+A \hyperlink{structReader}{Reader} is a set of read macros that have been assigned a char as identifier get\+Next\+Char resembles the stream that is read from type is the current estimated type of the expression that will be returned buffer is the input buffer.  
+
+
+
+
+{\ttfamily \#include $<$reader.\+h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structReadMacroLookUp}{Read\+Macro\+Look\+Up} $\ast$ \hyperlink{structReader_ab499edf7fb5b8117242b1b786c4ab378}{lookup}
+\item 
+struct \hyperlink{structHashTable}{Hash\+Table} $\ast$ \hyperlink{structReader_ac33ce204beac27fe100f45f529a8f526}{symbol\+Table}
+\item 
+struct Expression $\ast$ \hyperlink{structReader_ac5fc65c1058404fca08c43a02aeda206}{env}
+\item 
+struct Expression $\ast$ \hyperlink{structReader_abf488edc3cddacd7890d3cbbe975a49b}{expr}
+\item 
+struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$ \hyperlink{structReader_a3f36921203dbd6ab9098f489b42b7d16}{stream}
+\item 
+char $\ast$ \hyperlink{structReader_a1c37d0d8180619f0d46e938557fc6db7}{buffer}
+\item 
+char $\ast$ \hyperlink{structReader_a04492be827cfe1cb7974b61b65291b72}{current}
+\item 
+int \hyperlink{structReader_a6c814c1cc41dd53d9a293ae410d9a30b}{type}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A \hyperlink{structReader}{Reader} is a set of read macros that have been assigned a char as identifier get\+Next\+Char resembles the stream that is read from type is the current estimated type of the expression that will be returned buffer is the input buffer. 
+
+The length of this buffer indicates the max. length of symbols/strings expr provides the posibility to handle return values every Native\+Read\+Macro can either build an expression or just transform the input from one char into some string and place it in the input buffer therefor, the results are stored within the reader rather than returning them 
+
+\subsection{Field Documentation}
+\hypertarget{structReader_a1c37d0d8180619f0d46e938557fc6db7}{\index{Reader@{Reader}!buffer@{buffer}}
+\index{buffer@{buffer}!Reader@{Reader}}
+\subsubsection[{buffer}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Reader\+::buffer}}\label{structReader_a1c37d0d8180619f0d46e938557fc6db7}
+\hypertarget{structReader_a04492be827cfe1cb7974b61b65291b72}{\index{Reader@{Reader}!current@{current}}
+\index{current@{current}!Reader@{Reader}}
+\subsubsection[{current}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Reader\+::current}}\label{structReader_a04492be827cfe1cb7974b61b65291b72}
+\hypertarget{structReader_ac5fc65c1058404fca08c43a02aeda206}{\index{Reader@{Reader}!env@{env}}
+\index{env@{env}!Reader@{Reader}}
+\subsubsection[{env}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ Reader\+::env}}\label{structReader_ac5fc65c1058404fca08c43a02aeda206}
+\hypertarget{structReader_abf488edc3cddacd7890d3cbbe975a49b}{\index{Reader@{Reader}!expr@{expr}}
+\index{expr@{expr}!Reader@{Reader}}
+\subsubsection[{expr}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ Reader\+::expr}}\label{structReader_abf488edc3cddacd7890d3cbbe975a49b}
+\hypertarget{structReader_ab499edf7fb5b8117242b1b786c4ab378}{\index{Reader@{Reader}!lookup@{lookup}}
+\index{lookup@{lookup}!Reader@{Reader}}
+\subsubsection[{lookup}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Read\+Macro\+Look\+Up}$\ast$ Reader\+::lookup}}\label{structReader_ab499edf7fb5b8117242b1b786c4ab378}
+\hypertarget{structReader_a3f36921203dbd6ab9098f489b42b7d16}{\index{Reader@{Reader}!stream@{stream}}
+\index{stream@{stream}!Reader@{Reader}}
+\subsubsection[{stream}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Char\+Read\+Stream}$\ast$ Reader\+::stream}}\label{structReader_a3f36921203dbd6ab9098f489b42b7d16}
+\hypertarget{structReader_ac33ce204beac27fe100f45f529a8f526}{\index{Reader@{Reader}!symbol\+Table@{symbol\+Table}}
+\index{symbol\+Table@{symbol\+Table}!Reader@{Reader}}
+\subsubsection[{symbol\+Table}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Hash\+Table}$\ast$ Reader\+::symbol\+Table}}\label{structReader_ac33ce204beac27fe100f45f529a8f526}
+\hypertarget{structReader_a6c814c1cc41dd53d9a293ae410d9a30b}{\index{Reader@{Reader}!type@{type}}
+\index{type@{type}!Reader@{Reader}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}int Reader\+::type}}\label{structReader_a6c814c1cc41dd53d9a293ae410d9a30b}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{reader_8h}{reader.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,138 @@
+\hypertarget{stack_8c}{\section{stack.\+c File Reference}
+\label{stack_8c}\index{stack.\+c@{stack.\+c}}
+}
+{\ttfamily \#include \char`\"{}stack.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{stack_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}stack.\+c\char`\"{}
+\begin{DoxyCompactList}\small\item\em (C) 2012 Michael J. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structStack}{Stack} $\ast$ \hyperlink{stack_8c_a6e31f664f04dbca98b0d06afecc7a4bc}{stack\+Create} (int size)
+\begin{DoxyCompactList}\small\item\em Creates a stack. \end{DoxyCompactList}\item 
+void \hyperlink{stack_8c_aa53e7be1cd872c3dbf893442e2f875b0}{stack\+Free} (struct \hyperlink{structStack}{Stack} $\ast$stack)
+\begin{DoxyCompactList}\small\item\em Frees stack structure. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{stack_8c_a9d9caea775cad3f1526829bdb978c91d}{stack\+Push} (struct \hyperlink{structStack}{Stack} $\ast$stack, \hyperlink{stack_8h_a80224846ff1c5497af1685d021a936cb}{Stack\+Entry} el)
+\begin{DoxyCompactList}\small\item\em Pushes an element onto the stack. \end{DoxyCompactList}\item 
+\hyperlink{stack_8h_a80224846ff1c5497af1685d021a936cb}{Stack\+Entry} \hyperlink{stack_8c_a57b0740adaba9de2999532644f39e8b6}{stack\+Pop} (struct \hyperlink{structStack}{Stack} $\ast$stack)
+\begin{DoxyCompactList}\small\item\em Pops an element from the stack. \end{DoxyCompactList}\item 
+int \hyperlink{stack_8c_a7e90b812609fc9ae4a7d218a646135b5}{stack\+Error} (struct \hyperlink{structStack}{Stack} $\ast$stack)
+\begin{DoxyCompactList}\small\item\em Returns error state from last stack operation. \end{DoxyCompactList}\item 
+void \hyperlink{stack_8c_a4bde0e97215d9cfa779c43429143595a}{stack\+Reset\+Error} (struct \hyperlink{structStack}{Stack} $\ast$stack)
+\begin{DoxyCompactList}\small\item\em Set error state of stack back to E\+R\+R\+\_\+\+O\+K. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{stack_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{stack.\+c@{stack.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!stack.\+c@{stack.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}stack.\+c\char`\"{}}}\label{stack_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+
+
+(C) 2012 Michael J. 
+
+Beer This program is free software; you can redistribute it and/or modify it under the terms of the G\+N\+U General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+U\+T A\+N\+Y W\+A\+R\+R\+A\+N\+T\+Y; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+T\+Y or F\+I\+T\+N\+E\+S\+S F\+O\+R A P\+A\+R\+T\+I\+C\+U\+L\+A\+R P\+U\+R\+P\+O\+S\+E. See the G\+N\+U General Public License for more details.
+
+You should have received a copy of the G\+N\+U General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, M\+A 02110-\/1301, U\+S\+A. 
+
+\subsection{Function Documentation}
+\hypertarget{stack_8c_a6e31f664f04dbca98b0d06afecc7a4bc}{\index{stack.\+c@{stack.\+c}!stack\+Create@{stack\+Create}}
+\index{stack\+Create@{stack\+Create}!stack.\+c@{stack.\+c}}
+\subsubsection[{stack\+Create}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Stack}$\ast$ stack\+Create (
+\begin{DoxyParamCaption}
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{stack_8c_a6e31f664f04dbca98b0d06afecc7a4bc}
+
+
+Creates a stack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Number of elements the stack can hold (unsupported yet) \\
+\hline
+\end{DoxyParams}
+\hypertarget{stack_8c_a7e90b812609fc9ae4a7d218a646135b5}{\index{stack.\+c@{stack.\+c}!stack\+Error@{stack\+Error}}
+\index{stack\+Error@{stack\+Error}!stack.\+c@{stack.\+c}}
+\subsubsection[{stack\+Error}]{\setlength{\rightskip}{0pt plus 5cm}int stack\+Error (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Stack} $\ast$}]{stack}
+\end{DoxyParamCaption}
+)}}\label{stack_8c_a7e90b812609fc9ae4a7d218a646135b5}
+
+
+Returns error state from last stack operation. 
+
+\hypertarget{stack_8c_aa53e7be1cd872c3dbf893442e2f875b0}{\index{stack.\+c@{stack.\+c}!stack\+Free@{stack\+Free}}
+\index{stack\+Free@{stack\+Free}!stack.\+c@{stack.\+c}}
+\subsubsection[{stack\+Free}]{\setlength{\rightskip}{0pt plus 5cm}void stack\+Free (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Stack} $\ast$}]{stack}
+\end{DoxyParamCaption}
+)}}\label{stack_8c_aa53e7be1cd872c3dbf893442e2f875b0}
+
+
+Frees stack structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stack} & The stack to be freed. \\
+\hline
+\end{DoxyParams}
+\hypertarget{stack_8c_a57b0740adaba9de2999532644f39e8b6}{\index{stack.\+c@{stack.\+c}!stack\+Pop@{stack\+Pop}}
+\index{stack\+Pop@{stack\+Pop}!stack.\+c@{stack.\+c}}
+\subsubsection[{stack\+Pop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Stack\+Entry} stack\+Pop (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Stack} $\ast$}]{stack}
+\end{DoxyParamCaption}
+)}}\label{stack_8c_a57b0740adaba9de2999532644f39e8b6}
+
+
+Pops an element from the stack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stack} & the stack to be popped from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to Stack\+Entry or N\+U\+L\+L if the stack is empty. 
+\end{DoxyReturn}
+\hypertarget{stack_8c_a9d9caea775cad3f1526829bdb978c91d}{\index{stack.\+c@{stack.\+c}!stack\+Push@{stack\+Push}}
+\index{stack\+Push@{stack\+Push}!stack.\+c@{stack.\+c}}
+\subsubsection[{stack\+Push}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ stack\+Push (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Stack} $\ast$}]{stack, }
+\item[{{\bf Stack\+Entry}}]{el}
+\end{DoxyParamCaption}
+)}}\label{stack_8c_a9d9caea775cad3f1526829bdb978c91d}
+
+
+Pushes an element onto the stack. 
+
+Any element of size of a void pointer can be pushed. 
+\begin{DoxyParams}{Parameters}
+{\em stack} & \hyperlink{structStack}{Stack} to push to \\
+\hline
+{\em el} & Element to be pushed onto the stack \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Element that has been pushed onto the stack or N\+U\+L\+L if stack is full. 
+\end{DoxyReturn}
+\hypertarget{stack_8c_a4bde0e97215d9cfa779c43429143595a}{\index{stack.\+c@{stack.\+c}!stack\+Reset\+Error@{stack\+Reset\+Error}}
+\index{stack\+Reset\+Error@{stack\+Reset\+Error}!stack.\+c@{stack.\+c}}
+\subsubsection[{stack\+Reset\+Error}]{\setlength{\rightskip}{0pt plus 5cm}void stack\+Reset\+Error (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Stack} $\ast$}]{stack}
+\end{DoxyParamCaption}
+)}}\label{stack_8c_a4bde0e97215d9cfa779c43429143595a}
+
+
+Set error state of stack back to E\+R\+R\+\_\+\+O\+K. 
+

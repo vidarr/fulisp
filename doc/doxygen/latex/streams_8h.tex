@@ -1,0 +1,286 @@
+\hypertarget{streams_8h}{\section{streams.\+h File Reference}
+\label{streams_8h}\index{streams.\+h@{streams.\+h}}
+}
+{\ttfamily \#include \char`\"{}expression.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structCharReadStream}{Char\+Read\+Stream}
+\item 
+struct \hyperlink{structCharWriteStream}{Char\+Write\+Stream}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_a7b5428edadcbeb5423719b6f25b7474b}{B\+U\+F\+F\+E\+R\+E\+D\+\_\+\+S\+T\+R\+E\+A\+M\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+T\+R\+E\+A\+M}~\hyperlink{config_8h_a46167a977503a51eb6efe97e870568c3}{R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_ae0c2ca23c4998c30374448e192a52b43}{S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T}(stream)~((stream)-\/$>$get\+Next((stream)))
+\begin{DoxyCompactList}\small\item\em In here, streams are considered streams of some data they are represented by a function returning subsequent bits of this data flow You could also call them 'iterators' All of them contain a field int\+Config, a void pointer. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_af8ba8aee498196bb8e977c090268637b}{S\+T\+R\+E\+A\+M\+\_\+\+P\+U\+S\+H\+\_\+\+B\+A\+C\+K}(s, x)~((s)-\/$>$push\+Back((s), x))
+\begin{DoxyCompactList}\small\item\em Push back a char onto a buffered stream. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_ad1eded880b945bee41e1401ea48f4f11}{S\+T\+R\+E\+A\+M\+\_\+\+D\+I\+S\+P\+O\+S\+E}(stream)~((stream)-\/$>$dispose(stream))
+\begin{DoxyCompactList}\small\item\em Get rid of a stream. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_a44a46a41686b18ebf88fe1fb166efd82}{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S}(stream)~((stream)-\/$>$status(stream))
+\begin{DoxyCompactList}\small\item\em Get status of stream. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_a6c43bf1381601c42593bdbae149fd081}{S\+T\+R\+E\+A\+M\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+C\+H\+A\+R\+\_\+\+O\+N\+\_\+\+E\+R\+R\+O\+R}~((char)0)
+\begin{DoxyCompactList}\small\item\em Character to return in case of some exceptional behaviour, i.\+e. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{S\+T\+R\+E\+A\+M\+\_\+\+W\+R\+I\+T\+E}(stream, x)~\{stream-\/$>$write(stream-\/$>$int\+Config, x);\}
+\begin{DoxyCompactList}\small\item\em Generic macro to write to a stream. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_a79f88128f79728b6d0650ad4c1a8cbdf}{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+O\+K}~((int)0)
+\begin{DoxyCompactList}\small\item\em Stream is ready to be used. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_aca6aa7bef7f3a2aa33b1b7630c72e8ee}{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+E\+O\+S}~((int)100)
+\begin{DoxyCompactList}\small\item\em Stream has reached end of stream (E\+O\+S). \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_a9e86eb41edc9d89da2a87cc9e5e8075f}{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+E\+R\+R\+O\+R}~((int)-\/1)
+\begin{DoxyCompactList}\small\item\em Stream has encountered an internal error. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{streams_8h_a4072f7c01b08d117f4874541ffb819ad}{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+G\+E\+N\+E\+R\+A\+L\+\_\+\+E\+R\+R\+O\+R}~((int)1)
+\begin{DoxyCompactList}\small\item\em Stream has encountered an error that is not further specified. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$ \hyperlink{streams_8h_a69bca5a8aaf6711e74eb6ee38bdbb060}{make\+String\+Char\+Read\+Stream} (char $\ast$s)
+\begin{DoxyCompactList}\small\item\em Create a char\+Read\+Stream to read from a C string Will read and return chars. \end{DoxyCompactList}\item 
+struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$ \hyperlink{streams_8h_a4cc5c19b1fedfbe144996a88c0186539}{make\+C\+Stream\+Char\+Read\+Stream} (F\+I\+L\+E $\ast$s)
+\begin{DoxyCompactList}\small\item\em Create a char\+Read\+Stream to read from a C-\/\+Stream Will read and return chars. \end{DoxyCompactList}\item 
+struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$ \hyperlink{streams_8h_a1b2d6bc8f72c08ec3e1c51caba94c954}{reset\+Char\+Read\+Stream} (struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$stream)
+\begin{DoxyCompactList}\small\item\em Reset \hyperlink{structCharReadStream}{Char\+Read\+Stream}. \end{DoxyCompactList}\item 
+struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$ \hyperlink{streams_8h_a4b29e7a3ae77d3c653465e292075ce9b}{make\+Char\+Read\+Stream} (struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$stream)
+\begin{DoxyCompactList}\small\item\em Create a buffered stream that wraps around a char\+Read\+Stream. \end{DoxyCompactList}\item 
+struct \hyperlink{structCharWriteStream}{Char\+Write\+Stream} $\ast$ \hyperlink{streams_8h_acbed91dd4646fd5887f8255e44a2f289}{make\+C\+Stream\+Char\+Write\+Stream} (int buffer\+Size, F\+I\+L\+E $\ast$file)
+\begin{DoxyCompactList}\small\item\em Creates a Write\+Stream that writes to a C file. \end{DoxyCompactList}\item 
+struct \hyperlink{structCharWriteStream}{Char\+Write\+Stream} $\ast$ \hyperlink{streams_8h_a41637c0266f7b066f647a0abb003bf9b}{make\+String\+Char\+Write\+Stream} (int string\+Length, char $\ast$string)
+\begin{DoxyCompactList}\small\item\em Creates a stream that writes into a string buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{streams_8h_a7b5428edadcbeb5423719b6f25b7474b}{\index{streams.\+h@{streams.\+h}!B\+U\+F\+F\+E\+R\+E\+D\+\_\+\+S\+T\+R\+E\+A\+M\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+T\+R\+E\+A\+M@{B\+U\+F\+F\+E\+R\+E\+D\+\_\+\+S\+T\+R\+E\+A\+M\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+T\+R\+E\+A\+M}}
+\index{B\+U\+F\+F\+E\+R\+E\+D\+\_\+\+S\+T\+R\+E\+A\+M\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+T\+R\+E\+A\+M@{B\+U\+F\+F\+E\+R\+E\+D\+\_\+\+S\+T\+R\+E\+A\+M\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+T\+R\+E\+A\+M}!streams.\+h@{streams.\+h}}
+\subsubsection[{B\+U\+F\+F\+E\+R\+E\+D\+\_\+\+S\+T\+R\+E\+A\+M\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+T\+R\+E\+A\+M}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} B\+U\+F\+F\+E\+R\+E\+D\+\_\+\+S\+T\+R\+E\+A\+M\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+T\+R\+E\+A\+M~{\bf R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}}\label{streams_8h_a7b5428edadcbeb5423719b6f25b7474b}
+\hypertarget{streams_8h_ad1eded880b945bee41e1401ea48f4f11}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+D\+I\+S\+P\+O\+S\+E@{S\+T\+R\+E\+A\+M\+\_\+\+D\+I\+S\+P\+O\+S\+E}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+D\+I\+S\+P\+O\+S\+E@{S\+T\+R\+E\+A\+M\+\_\+\+D\+I\+S\+P\+O\+S\+E}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+D\+I\+S\+P\+O\+S\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+D\+I\+S\+P\+O\+S\+E(
+\begin{DoxyParamCaption}
+\item[{}]{stream}
+\end{DoxyParamCaption}
+)~((stream)-\/$>$dispose(stream))}}\label{streams_8h_ad1eded880b945bee41e1401ea48f4f11}
+
+
+Get rid of a stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Pointer to a stream to dispose \\
+\hline
+\end{DoxyParams}
+\hypertarget{streams_8h_ae0c2ca23c4998c30374448e192a52b43}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T@{S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T@{S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T(
+\begin{DoxyParamCaption}
+\item[{}]{stream}
+\end{DoxyParamCaption}
+)~((stream)-\/$>$get\+Next((stream)))}}\label{streams_8h_ae0c2ca23c4998c30374448e192a52b43}
+
+
+In here, streams are considered streams of some data they are represented by a function returning subsequent bits of this data flow You could also call them 'iterators' All of them contain a field int\+Config, a void pointer. 
+
+In it, the streams internal data should be stored For example, the stream reading from a F\+I\+L\+E object keeps a pointer to its F\+I\+L\+E in it
+
+a function get\+Next(void $\ast$) returns the next element of the stream It takes the pointer stored in int\+Config, thus getting the next element collapses to the call stream-\/$>$get\+Next(stream-\/$>$int\+Config) To simpligy this call, use S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T to shorten this call\+: \hyperlink{streams_8h_ae0c2ca23c4998c30374448e192a52b43}{S\+T\+R\+E\+A\+M\+\_\+\+N\+E\+X\+T(stream)}
+
+Buffered streams provide another function\+: push\+Back(el, int\+Config) They shovel back one element into the stream to be returned as the next element
+
+If streams do not support buffering, i.\+e. do not provide the push\+Back() -\/ function, they should instead install a dummy function that signals the error E\+R\+R\+\_\+\+U\+N\+I\+M\+P\+L\+E\+M\+E\+N\+T\+E\+D. Get the next item from a stream 
+\begin{DoxyParams}{Parameters}
+{\em stream} & pointer to the Stream to be read from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+anything the stream got as return type 
+\end{DoxyReturn}
+\hypertarget{streams_8h_af8ba8aee498196bb8e977c090268637b}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+P\+U\+S\+H\+\_\+\+B\+A\+C\+K@{S\+T\+R\+E\+A\+M\+\_\+\+P\+U\+S\+H\+\_\+\+B\+A\+C\+K}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+P\+U\+S\+H\+\_\+\+B\+A\+C\+K@{S\+T\+R\+E\+A\+M\+\_\+\+P\+U\+S\+H\+\_\+\+B\+A\+C\+K}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+P\+U\+S\+H\+\_\+\+B\+A\+C\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+P\+U\+S\+H\+\_\+\+B\+A\+C\+K(
+\begin{DoxyParamCaption}
+\item[{}]{s, }
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~((s)-\/$>$push\+Back((s), x))}}\label{streams_8h_af8ba8aee498196bb8e977c090268637b}
+
+
+Push back a char onto a buffered stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & buffered read stream \\
+\hline
+{\em x} & entity to push back (in case of \hyperlink{structCharReadStream}{Char\+Read\+Stream}, a char) \\
+\hline
+\end{DoxyParams}
+\hypertarget{streams_8h_a6c43bf1381601c42593bdbae149fd081}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+C\+H\+A\+R\+\_\+\+O\+N\+\_\+\+E\+R\+R\+O\+R@{S\+T\+R\+E\+A\+M\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+C\+H\+A\+R\+\_\+\+O\+N\+\_\+\+E\+R\+R\+O\+R}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+C\+H\+A\+R\+\_\+\+O\+N\+\_\+\+E\+R\+R\+O\+R@{S\+T\+R\+E\+A\+M\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+C\+H\+A\+R\+\_\+\+O\+N\+\_\+\+E\+R\+R\+O\+R}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+C\+H\+A\+R\+\_\+\+O\+N\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+R\+E\+T\+U\+R\+N\+\_\+\+C\+H\+A\+R\+\_\+\+O\+N\+\_\+\+E\+R\+R\+O\+R~((char)0)}}\label{streams_8h_a6c43bf1381601c42593bdbae149fd081}
+
+
+Character to return in case of some exceptional behaviour, i.\+e. 
+
+an error or end of stream... \hypertarget{streams_8h_a44a46a41686b18ebf88fe1fb166efd82}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S(
+\begin{DoxyParamCaption}
+\item[{}]{stream}
+\end{DoxyParamCaption}
+)~((stream)-\/$>$status(stream))}}\label{streams_8h_a44a46a41686b18ebf88fe1fb166efd82}
+
+
+Get status of stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Pointer to a stream to dispose \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int value being the status of the stream. 
+\end{DoxyReturn}
+\hypertarget{streams_8h_aca6aa7bef7f3a2aa33b1b7630c72e8ee}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+E\+O\+S@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+E\+O\+S}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+E\+O\+S@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+E\+O\+S}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+E\+O\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+E\+O\+S~((int)100)}}\label{streams_8h_aca6aa7bef7f3a2aa33b1b7630c72e8ee}
+
+
+Stream has reached end of stream (E\+O\+S). 
+
+\hypertarget{streams_8h_a4072f7c01b08d117f4874541ffb819ad}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+G\+E\+N\+E\+R\+A\+L\+\_\+\+E\+R\+R\+O\+R@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+G\+E\+N\+E\+R\+A\+L\+\_\+\+E\+R\+R\+O\+R}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+G\+E\+N\+E\+R\+A\+L\+\_\+\+E\+R\+R\+O\+R@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+G\+E\+N\+E\+R\+A\+L\+\_\+\+E\+R\+R\+O\+R}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+G\+E\+N\+E\+R\+A\+L\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+G\+E\+N\+E\+R\+A\+L\+\_\+\+E\+R\+R\+O\+R~((int)1)}}\label{streams_8h_a4072f7c01b08d117f4874541ffb819ad}
+
+
+Stream has encountered an error that is not further specified. 
+
+\hypertarget{streams_8h_a9e86eb41edc9d89da2a87cc9e5e8075f}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+E\+R\+R\+O\+R@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+E\+R\+R\+O\+R}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+E\+R\+R\+O\+R@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+E\+R\+R\+O\+R}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+E\+R\+R\+O\+R~((int)-\/1)}}\label{streams_8h_a9e86eb41edc9d89da2a87cc9e5e8075f}
+
+
+Stream has encountered an internal error. 
+
+\hypertarget{streams_8h_a79f88128f79728b6d0650ad4c1a8cbdf}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+O\+K@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+O\+K}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+O\+K@{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+O\+K}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+O\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+S\+T\+A\+T\+U\+S\+\_\+\+O\+K~((int)0)}}\label{streams_8h_a79f88128f79728b6d0650ad4c1a8cbdf}
+
+
+Stream is ready to be used. 
+
+\hypertarget{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{\index{streams.\+h@{streams.\+h}!S\+T\+R\+E\+A\+M\+\_\+\+W\+R\+I\+T\+E@{S\+T\+R\+E\+A\+M\+\_\+\+W\+R\+I\+T\+E}}
+\index{S\+T\+R\+E\+A\+M\+\_\+\+W\+R\+I\+T\+E@{S\+T\+R\+E\+A\+M\+\_\+\+W\+R\+I\+T\+E}!streams.\+h@{streams.\+h}}
+\subsubsection[{S\+T\+R\+E\+A\+M\+\_\+\+W\+R\+I\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+E\+A\+M\+\_\+\+W\+R\+I\+T\+E(
+\begin{DoxyParamCaption}
+\item[{}]{stream, }
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~\{stream-\/$>$write(stream-\/$>$int\+Config, x);\}}}\label{streams_8h_a7901c639c70adef35e045fb6f7900e7f}
+
+
+Generic macro to write to a stream. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{streams_8h_a4b29e7a3ae77d3c653465e292075ce9b}{\index{streams.\+h@{streams.\+h}!make\+Char\+Read\+Stream@{make\+Char\+Read\+Stream}}
+\index{make\+Char\+Read\+Stream@{make\+Char\+Read\+Stream}!streams.\+h@{streams.\+h}}
+\subsubsection[{make\+Char\+Read\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Char\+Read\+Stream}$\ast$ make\+Char\+Read\+Stream (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Char\+Read\+Stream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)}}\label{streams_8h_a4b29e7a3ae77d3c653465e292075ce9b}
+
+
+Create a buffered stream that wraps around a char\+Read\+Stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Pointer to a \hyperlink{structCharReadStream}{Char\+Read\+Stream} to be wrapped within a buffered stream \\
+\hline
+\end{DoxyParams}
+\hypertarget{streams_8h_a4cc5c19b1fedfbe144996a88c0186539}{\index{streams.\+h@{streams.\+h}!make\+C\+Stream\+Char\+Read\+Stream@{make\+C\+Stream\+Char\+Read\+Stream}}
+\index{make\+C\+Stream\+Char\+Read\+Stream@{make\+C\+Stream\+Char\+Read\+Stream}!streams.\+h@{streams.\+h}}
+\subsubsection[{make\+C\+Stream\+Char\+Read\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Char\+Read\+Stream}$\ast$ make\+C\+Stream\+Char\+Read\+Stream (
+\begin{DoxyParamCaption}
+\item[{F\+I\+L\+E $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{streams_8h_a4cc5c19b1fedfbe144996a88c0186539}
+
+
+Create a char\+Read\+Stream to read from a C-\/\+Stream Will read and return chars. 
+
+\hypertarget{streams_8h_acbed91dd4646fd5887f8255e44a2f289}{\index{streams.\+h@{streams.\+h}!make\+C\+Stream\+Char\+Write\+Stream@{make\+C\+Stream\+Char\+Write\+Stream}}
+\index{make\+C\+Stream\+Char\+Write\+Stream@{make\+C\+Stream\+Char\+Write\+Stream}!streams.\+h@{streams.\+h}}
+\subsubsection[{make\+C\+Stream\+Char\+Write\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Char\+Write\+Stream}$\ast$ make\+C\+Stream\+Char\+Write\+Stream (
+\begin{DoxyParamCaption}
+\item[{int}]{buffer\+Size, }
+\item[{F\+I\+L\+E $\ast$}]{file}
+\end{DoxyParamCaption}
+)}}\label{streams_8h_acbed91dd4646fd5887f8255e44a2f289}
+
+
+Creates a Write\+Stream that writes to a C file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer\+Size} & the size for the buffer, if zero buffering is omitted \\
+\hline
+{\em file} & pointer to an open c file, must be writeable \\
+\hline
+\end{DoxyParams}
+\hypertarget{streams_8h_a69bca5a8aaf6711e74eb6ee38bdbb060}{\index{streams.\+h@{streams.\+h}!make\+String\+Char\+Read\+Stream@{make\+String\+Char\+Read\+Stream}}
+\index{make\+String\+Char\+Read\+Stream@{make\+String\+Char\+Read\+Stream}!streams.\+h@{streams.\+h}}
+\subsubsection[{make\+String\+Char\+Read\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Char\+Read\+Stream}$\ast$ make\+String\+Char\+Read\+Stream (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{streams_8h_a69bca5a8aaf6711e74eb6ee38bdbb060}
+
+
+Create a char\+Read\+Stream to read from a C string Will read and return chars. 
+
+\hypertarget{streams_8h_a41637c0266f7b066f647a0abb003bf9b}{\index{streams.\+h@{streams.\+h}!make\+String\+Char\+Write\+Stream@{make\+String\+Char\+Write\+Stream}}
+\index{make\+String\+Char\+Write\+Stream@{make\+String\+Char\+Write\+Stream}!streams.\+h@{streams.\+h}}
+\subsubsection[{make\+String\+Char\+Write\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Char\+Write\+Stream}$\ast$ make\+String\+Char\+Write\+Stream (
+\begin{DoxyParamCaption}
+\item[{int}]{string\+Length, }
+\item[{char $\ast$}]{string}
+\end{DoxyParamCaption}
+)}}\label{streams_8h_a41637c0266f7b066f647a0abb003bf9b}
+
+
+Creates a stream that writes into a string buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string\+Length} & maximum length of the string \\
+\hline
+{\em string} & buffer to write to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to \hyperlink{structCharWriteStream}{Char\+Write\+Stream} 
+\end{DoxyReturn}
+\hypertarget{streams_8h_a1b2d6bc8f72c08ec3e1c51caba94c954}{\index{streams.\+h@{streams.\+h}!reset\+Char\+Read\+Stream@{reset\+Char\+Read\+Stream}}
+\index{reset\+Char\+Read\+Stream@{reset\+Char\+Read\+Stream}!streams.\+h@{streams.\+h}}
+\subsubsection[{reset\+Char\+Read\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Char\+Read\+Stream}$\ast$ reset\+Char\+Read\+Stream (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Char\+Read\+Stream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)}}\label{streams_8h_a1b2d6bc8f72c08ec3e1c51caba94c954}
+
+
+Reset \hyperlink{structCharReadStream}{Char\+Read\+Stream}. 
+
+Next read will start from beginning of buffer again. 
+\begin{DoxyParams}{Parameters}
+{\em str} & stream to reset \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the stream that has been reset 
+\end{DoxyReturn}

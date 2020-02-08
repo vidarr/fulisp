@@ -1,0 +1,112 @@
+\hypertarget{test_8c}{\section{test.\+c File Reference}
+\label{test_8c}\index{test.\+c@{test.\+c}}
+}
+{\ttfamily \#include \char`\"{}test.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8c_adf92b4197807232b3b559b2942ed1b32}{P\+A\+S\+S\+E\+D}~\char`\"{}Passed\char`\"{}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8c_a681680feae4df4182d532564c42fa1fc}{F\+A\+I\+L\+E\+D}~\char`\"{}Failed\char`\"{}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8c_ae0233515480e60d29bcc731469976e02}{C\+R\+I\+T\+I\+C\+A\+L}~\char`\"{}Critical Fail! A\+B\+O\+R\+T\+I\+N\+G!\char`\"{}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8c_a4af1b6159e447ba72652bb7fcdfa726e}{E\+S\+C}~27
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8c_ae7c6a22c8f35dc0baf82e197bed3881f}{P\+R\+I\+N\+T\+\_\+\+O\+K}(str)~printf(\char`\"{}\%c\mbox{[}0;32;40m\%s\%c\mbox{[}0m\textbackslash{}n\char`\"{}, E\+S\+C, (str), E\+S\+C);
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8c_ad30b6378cda4f3dfaf19c71ef742da7d}{P\+R\+I\+N\+T\+\_\+\+F\+A\+I\+L}(str)~printf(\char`\"{}\%c\mbox{[}0;31;40m\%s\%c\mbox{[}0m\textbackslash{}n\char`\"{}, E\+S\+C, (str), E\+S\+C);
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8c_a0224228d3cb6087fb37c336ed3666c98}{P\+R\+I\+N\+T\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L}(str)~printf(\char`\"{}\%c\mbox{[}7;31;40m\%s\%c\mbox{[}0m\textbackslash{}n\char`\"{}, E\+S\+C, (str), E\+S\+C);
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{test_8c_a3579ec9342b5c608ec759101a87e75cf}{test} (int \hyperlink{nativefunctions_8h_ad5ef4d5555cde8090fee158b324391e8}{cond}, char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Tests condition, outputs a message according to result of test and returns result. \end{DoxyCompactList}\item 
+void \hyperlink{test_8c_a89a21d9b6c813c1d69c876805d83c150}{test\+Warn} (char $\ast$msg)
+\begin{DoxyCompactList}\small\item\em Print out warning message. \end{DoxyCompactList}\item 
+void \hyperlink{test_8c_ae49b021a82d5b81621cb6e11f8f080f0}{test\+Message} (char $\ast$msg)
+\begin{DoxyCompactList}\small\item\em Print out neutral message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{test_8c_ae0233515480e60d29bcc731469976e02}{\index{test.\+c@{test.\+c}!C\+R\+I\+T\+I\+C\+A\+L@{C\+R\+I\+T\+I\+C\+A\+L}}
+\index{C\+R\+I\+T\+I\+C\+A\+L@{C\+R\+I\+T\+I\+C\+A\+L}!test.\+c@{test.\+c}}
+\subsubsection[{C\+R\+I\+T\+I\+C\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} C\+R\+I\+T\+I\+C\+A\+L~\char`\"{}Critical Fail! A\+B\+O\+R\+T\+I\+N\+G!\char`\"{}}}\label{test_8c_ae0233515480e60d29bcc731469976e02}
+\hypertarget{test_8c_a4af1b6159e447ba72652bb7fcdfa726e}{\index{test.\+c@{test.\+c}!E\+S\+C@{E\+S\+C}}
+\index{E\+S\+C@{E\+S\+C}!test.\+c@{test.\+c}}
+\subsubsection[{E\+S\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+S\+C~27}}\label{test_8c_a4af1b6159e447ba72652bb7fcdfa726e}
+\hypertarget{test_8c_a681680feae4df4182d532564c42fa1fc}{\index{test.\+c@{test.\+c}!F\+A\+I\+L\+E\+D@{F\+A\+I\+L\+E\+D}}
+\index{F\+A\+I\+L\+E\+D@{F\+A\+I\+L\+E\+D}!test.\+c@{test.\+c}}
+\subsubsection[{F\+A\+I\+L\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} F\+A\+I\+L\+E\+D~\char`\"{}Failed\char`\"{}}}\label{test_8c_a681680feae4df4182d532564c42fa1fc}
+\hypertarget{test_8c_adf92b4197807232b3b559b2942ed1b32}{\index{test.\+c@{test.\+c}!P\+A\+S\+S\+E\+D@{P\+A\+S\+S\+E\+D}}
+\index{P\+A\+S\+S\+E\+D@{P\+A\+S\+S\+E\+D}!test.\+c@{test.\+c}}
+\subsubsection[{P\+A\+S\+S\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} P\+A\+S\+S\+E\+D~\char`\"{}Passed\char`\"{}}}\label{test_8c_adf92b4197807232b3b559b2942ed1b32}
+\hypertarget{test_8c_a0224228d3cb6087fb37c336ed3666c98}{\index{test.\+c@{test.\+c}!P\+R\+I\+N\+T\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L@{P\+R\+I\+N\+T\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L}}
+\index{P\+R\+I\+N\+T\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L@{P\+R\+I\+N\+T\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L}!test.\+c@{test.\+c}}
+\subsubsection[{P\+R\+I\+N\+T\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} P\+R\+I\+N\+T\+\_\+\+C\+R\+I\+T\+I\+C\+A\+L(
+\begin{DoxyParamCaption}
+\item[{}]{str}
+\end{DoxyParamCaption}
+)~printf(\char`\"{}\%c\mbox{[}7;31;40m\%s\%c\mbox{[}0m\textbackslash{}n\char`\"{}, E\+S\+C, (str), E\+S\+C);}}\label{test_8c_a0224228d3cb6087fb37c336ed3666c98}
+\hypertarget{test_8c_ad30b6378cda4f3dfaf19c71ef742da7d}{\index{test.\+c@{test.\+c}!P\+R\+I\+N\+T\+\_\+\+F\+A\+I\+L@{P\+R\+I\+N\+T\+\_\+\+F\+A\+I\+L}}
+\index{P\+R\+I\+N\+T\+\_\+\+F\+A\+I\+L@{P\+R\+I\+N\+T\+\_\+\+F\+A\+I\+L}!test.\+c@{test.\+c}}
+\subsubsection[{P\+R\+I\+N\+T\+\_\+\+F\+A\+I\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} P\+R\+I\+N\+T\+\_\+\+F\+A\+I\+L(
+\begin{DoxyParamCaption}
+\item[{}]{str}
+\end{DoxyParamCaption}
+)~printf(\char`\"{}\%c\mbox{[}0;31;40m\%s\%c\mbox{[}0m\textbackslash{}n\char`\"{}, E\+S\+C, (str), E\+S\+C);}}\label{test_8c_ad30b6378cda4f3dfaf19c71ef742da7d}
+\hypertarget{test_8c_ae7c6a22c8f35dc0baf82e197bed3881f}{\index{test.\+c@{test.\+c}!P\+R\+I\+N\+T\+\_\+\+O\+K@{P\+R\+I\+N\+T\+\_\+\+O\+K}}
+\index{P\+R\+I\+N\+T\+\_\+\+O\+K@{P\+R\+I\+N\+T\+\_\+\+O\+K}!test.\+c@{test.\+c}}
+\subsubsection[{P\+R\+I\+N\+T\+\_\+\+O\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} P\+R\+I\+N\+T\+\_\+\+O\+K(
+\begin{DoxyParamCaption}
+\item[{}]{str}
+\end{DoxyParamCaption}
+)~printf(\char`\"{}\%c\mbox{[}0;32;40m\%s\%c\mbox{[}0m\textbackslash{}n\char`\"{}, E\+S\+C, (str), E\+S\+C);}}\label{test_8c_ae7c6a22c8f35dc0baf82e197bed3881f}
+
+
+\subsection{Function Documentation}
+\hypertarget{test_8c_a3579ec9342b5c608ec759101a87e75cf}{\index{test.\+c@{test.\+c}!test@{test}}
+\index{test@{test}!test.\+c@{test.\+c}}
+\subsubsection[{test}]{\setlength{\rightskip}{0pt plus 5cm}int test (
+\begin{DoxyParamCaption}
+\item[{int}]{cond, }
+\item[{char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{test_8c_a3579ec9342b5c608ec759101a87e75cf}
+
+
+Tests condition, outputs a message according to result of test and returns result. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cond} & Condition, i.\+e. one of T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D or T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D \\
+\hline
+{\em name} & Name of the test, used in output message \\
+\hline
+\end{DoxyParams}
+\hypertarget{test_8c_ae49b021a82d5b81621cb6e11f8f080f0}{\index{test.\+c@{test.\+c}!test\+Message@{test\+Message}}
+\index{test\+Message@{test\+Message}!test.\+c@{test.\+c}}
+\subsubsection[{test\+Message}]{\setlength{\rightskip}{0pt plus 5cm}void test\+Message (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{test_8c_ae49b021a82d5b81621cb6e11f8f080f0}
+
+
+Print out neutral message. 
+
+\hypertarget{test_8c_a89a21d9b6c813c1d69c876805d83c150}{\index{test.\+c@{test.\+c}!test\+Warn@{test\+Warn}}
+\index{test\+Warn@{test\+Warn}!test.\+c@{test.\+c}}
+\subsubsection[{test\+Warn}]{\setlength{\rightskip}{0pt plus 5cm}void test\+Warn (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{test_8c_a89a21d9b6c813c1d69c876805d83c150}
+
+
+Print out warning message. 
+

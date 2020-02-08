@@ -1,0 +1,74 @@
+\hypertarget{printnativefunctions_8h}{\section{printnativefunctions.\+h File Reference}
+\label{printnativefunctions_8h}\index{printnativefunctions.\+h@{printnativefunctions.\+h}}
+}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{printnativefunctions_8h_abf94b004b02353ac2aca31fece0bd79b}{T\+O\+\_\+\+H\+E\+X}(x)~((x) $<$ 10 ? '0' + (x) \+: 'A' + (x) -\/ 10)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{printnativefunctions_8h_adcd38f85afb4af6501ec552a141aa2d8}{H\+E\+X\+\_\+\+L\+O\+W\+\_\+\+D\+I\+G\+I\+T}(x)~\hyperlink{printnativefunctions_8h_abf94b004b02353ac2aca31fece0bd79b}{T\+O\+\_\+\+H\+E\+X}(((x) \& (16 $\vert$ 8 $\vert$ 4 $\vert$ 2 $\vert$ 1)))
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{printnativefunctions_8h_aaea0e9e593180509ebd30126e5b9fa64}{H\+E\+X\+\_\+\+H\+I\+G\+H\+\_\+\+D\+I\+G\+I\+T}(x)~\hyperlink{printnativefunctions_8h_abf94b004b02353ac2aca31fece0bd79b}{T\+O\+\_\+\+H\+E\+X}(((x) $>$$>$ 4))
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{printnativefunctions_8h_ab72b409510d6f0dea517186c5d7e4f20}{N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+\_\+\+T\+O\+\_\+\+S\+T\+R}(func, str, buf\+Len)
+\begin{DoxyCompactList}\small\item\em This macro explicitly prints out function pointers in a compatible way -\/ so it does not respect the S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C switch. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{printnativefunctions_8h_aaea0e9e593180509ebd30126e5b9fa64}{\index{printnativefunctions.\+h@{printnativefunctions.\+h}!H\+E\+X\+\_\+\+H\+I\+G\+H\+\_\+\+D\+I\+G\+I\+T@{H\+E\+X\+\_\+\+H\+I\+G\+H\+\_\+\+D\+I\+G\+I\+T}}
+\index{H\+E\+X\+\_\+\+H\+I\+G\+H\+\_\+\+D\+I\+G\+I\+T@{H\+E\+X\+\_\+\+H\+I\+G\+H\+\_\+\+D\+I\+G\+I\+T}!printnativefunctions.\+h@{printnativefunctions.\+h}}
+\subsubsection[{H\+E\+X\+\_\+\+H\+I\+G\+H\+\_\+\+D\+I\+G\+I\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} H\+E\+X\+\_\+\+H\+I\+G\+H\+\_\+\+D\+I\+G\+I\+T(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~{\bf T\+O\+\_\+\+H\+E\+X}(((x) $>$$>$ 4))}}\label{printnativefunctions_8h_aaea0e9e593180509ebd30126e5b9fa64}
+\hypertarget{printnativefunctions_8h_adcd38f85afb4af6501ec552a141aa2d8}{\index{printnativefunctions.\+h@{printnativefunctions.\+h}!H\+E\+X\+\_\+\+L\+O\+W\+\_\+\+D\+I\+G\+I\+T@{H\+E\+X\+\_\+\+L\+O\+W\+\_\+\+D\+I\+G\+I\+T}}
+\index{H\+E\+X\+\_\+\+L\+O\+W\+\_\+\+D\+I\+G\+I\+T@{H\+E\+X\+\_\+\+L\+O\+W\+\_\+\+D\+I\+G\+I\+T}!printnativefunctions.\+h@{printnativefunctions.\+h}}
+\subsubsection[{H\+E\+X\+\_\+\+L\+O\+W\+\_\+\+D\+I\+G\+I\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} H\+E\+X\+\_\+\+L\+O\+W\+\_\+\+D\+I\+G\+I\+T(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~{\bf T\+O\+\_\+\+H\+E\+X}(((x) \& (16 $\vert$ 8 $\vert$ 4 $\vert$ 2 $\vert$ 1)))}}\label{printnativefunctions_8h_adcd38f85afb4af6501ec552a141aa2d8}
+\hypertarget{printnativefunctions_8h_ab72b409510d6f0dea517186c5d7e4f20}{\index{printnativefunctions.\+h@{printnativefunctions.\+h}!N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+\_\+\+T\+O\+\_\+\+S\+T\+R@{N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+\_\+\+T\+O\+\_\+\+S\+T\+R}}
+\index{N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+\_\+\+T\+O\+\_\+\+S\+T\+R@{N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+\_\+\+T\+O\+\_\+\+S\+T\+R}!printnativefunctions.\+h@{printnativefunctions.\+h}}
+\subsubsection[{N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+\_\+\+T\+O\+\_\+\+S\+T\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+\_\+\+T\+O\+\_\+\+S\+T\+R(
+\begin{DoxyParamCaption}
+\item[{}]{func, }
+\item[{}]{str, }
+\item[{}]{buf\+Len}
+\end{DoxyParamCaption}
+)}}\label{printnativefunctions_8h_ab72b409510d6f0dea517186c5d7e4f20}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{ \(\backslash\)
+    int i; \(\backslash\)
+    unsigned \textcolor{keywordtype}{char} *fp; \(\backslash\)
+    size\_t bufLenUsed = 3 * \textcolor{keyword}{sizeof}(\hyperlink{expression_8h_afd244e666fdee0f754105980d3412128}{NativeFunction} *); \hyperlink{safety_8h_ad00f0e45a5404249bb6dd2ce0ff395fb}{\(\backslash\)}
+\hyperlink{safety_8h_ad00f0e45a5404249bb6dd2ce0ff395fb}{    IF\_SAFETY\_CODE}(assert(bufLen >= bufLenUsed););  \(\backslash\)
+    fp = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *)&func; \(\backslash\)
+    for(i = 0; i < \textcolor{keyword}{sizeof}(\hyperlink{expression_8h_afd244e666fdee0f754105980d3412128}{NativeFunction} *); i++) \{ \(\backslash\)
+        str[3 * i] = \textcolor{charliteral}{' '}; \(\backslash\)
+        str[3 * i + 1] = \hyperlink{printnativefunctions_8h_aaea0e9e593180509ebd30126e5b9fa64}{HEX\_HIGH\_DIGIT}(fp[i]); \(\backslash\)
+        str[3 * i + 2] = \hyperlink{printnativefunctions_8h_adcd38f85afb4af6501ec552a141aa2d8}{HEX\_LOW\_DIGIT}(fp[i]); \(\backslash\)
+    \}; \(\backslash\)
+    str[bufLenUsed] = \textcolor{charliteral}{'\(\backslash\)0'}; \(\backslash\)
+\};
+\end{DoxyCode}
+
+
+This macro explicitly prints out function pointers in a compatible way -\/ so it does not respect the S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C switch. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em func} & the function pointer to print \\
+\hline
+{\em str} & the string to write result to. must provide 3 $\ast$ sizeof(function pointer) \\
+\hline
+\end{DoxyParams}
+\hypertarget{printnativefunctions_8h_abf94b004b02353ac2aca31fece0bd79b}{\index{printnativefunctions.\+h@{printnativefunctions.\+h}!T\+O\+\_\+\+H\+E\+X@{T\+O\+\_\+\+H\+E\+X}}
+\index{T\+O\+\_\+\+H\+E\+X@{T\+O\+\_\+\+H\+E\+X}!printnativefunctions.\+h@{printnativefunctions.\+h}}
+\subsubsection[{T\+O\+\_\+\+H\+E\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+O\+\_\+\+H\+E\+X(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~((x) $<$ 10 ? '0' + (x) \+: 'A' + (x) -\/ 10)}}\label{printnativefunctions_8h_abf94b004b02353ac2aca31fece0bd79b}

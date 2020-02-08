@@ -1,0 +1,44 @@
+\hypertarget{fulispreader_8c}{\section{fulispreader.\+c File Reference}
+\label{fulispreader_8c}\index{fulispreader.\+c@{fulispreader.\+c}}
+}
+{\ttfamily \#include \char`\"{}fulispreader.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{fulispreader_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}fulispreader.\+c\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structReader}{Reader} $\ast$ \hyperlink{fulispreader_8c_ae9adc36f4b2e72ce3842c3291d6fb2ce}{new\+Fu\+Lisp\+Reader} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$stream)
+\begin{DoxyCompactList}\small\item\em Create a new reader that parses fu\+Lisp code. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{fulispreader_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{fulispreader.\+c@{fulispreader.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!fulispreader.\+c@{fulispreader.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}fulispreader.\+c\char`\"{}}}\label{fulispreader_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+
+
+\subsection{Function Documentation}
+\hypertarget{fulispreader_8c_ae9adc36f4b2e72ce3842c3291d6fb2ce}{\index{fulispreader.\+c@{fulispreader.\+c}!new\+Fu\+Lisp\+Reader@{new\+Fu\+Lisp\+Reader}}
+\index{new\+Fu\+Lisp\+Reader@{new\+Fu\+Lisp\+Reader}!fulispreader.\+c@{fulispreader.\+c}}
+\subsubsection[{new\+Fu\+Lisp\+Reader}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Reader}$\ast$ new\+Fu\+Lisp\+Reader (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct {\bf Char\+Read\+Stream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)}}\label{fulispreader_8c_ae9adc36f4b2e72ce3842c3291d6fb2ce}
+
+
+Create a new reader that parses fu\+Lisp code. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & the stream to read the code from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new reader 
+\end{DoxyReturn}

@@ -1,0 +1,75 @@
+\hypertarget{repl_8c}{\section{repl.\+c File Reference}
+\label{repl_8c}\index{repl.\+c@{repl.\+c}}
+}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$errno.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}print.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}error.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fulispreader.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}environment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}eval.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}garbage\+\_\+collector.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}benchmarking.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{repl_8c_a655e95869314f4a417b5e43d1a5354d1}{welcome} (F\+I\+L\+E $\ast$out)
+\item 
+struct Expression $\ast$ \hyperlink{repl_8c_a456a72510dda5bfb1effcdc11dc38041}{license} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\item 
+struct Expression $\ast$ \hyperlink{repl_8c_afea5ca7b556644da713498d3d7de5294}{quit} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\item 
+int \hyperlink{repl_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{repl_8c_a8fc69095173d1a81441dd02c625d1b1b}{dont\+Exit}
+\begin{DoxyCompactList}\small\item\em (C) 2012 Michael J. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{repl_8c_a456a72510dda5bfb1effcdc11dc38041}{\index{repl.\+c@{repl.\+c}!license@{license}}
+\index{license@{license}!repl.\+c@{repl.\+c}}
+\subsubsection[{license}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ license (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{repl_8c_a456a72510dda5bfb1effcdc11dc38041}
+\hypertarget{repl_8c_a3c04138a5bfe5d72780bb7e82a18e627}{\index{repl.\+c@{repl.\+c}!main@{main}}
+\index{main@{main}!repl.\+c@{repl.\+c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{repl_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+\hypertarget{repl_8c_afea5ca7b556644da713498d3d7de5294}{\index{repl.\+c@{repl.\+c}!quit@{quit}}
+\index{quit@{quit}!repl.\+c@{repl.\+c}}
+\subsubsection[{quit}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ quit (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{repl_8c_afea5ca7b556644da713498d3d7de5294}
+\hypertarget{repl_8c_a655e95869314f4a417b5e43d1a5354d1}{\index{repl.\+c@{repl.\+c}!welcome@{welcome}}
+\index{welcome@{welcome}!repl.\+c@{repl.\+c}}
+\subsubsection[{welcome}]{\setlength{\rightskip}{0pt plus 5cm}void welcome (
+\begin{DoxyParamCaption}
+\item[{F\+I\+L\+E $\ast$}]{out}
+\end{DoxyParamCaption}
+)}}\label{repl_8c_a655e95869314f4a417b5e43d1a5354d1}
+
+
+\subsection{Variable Documentation}
+\hypertarget{repl_8c_a8fc69095173d1a81441dd02c625d1b1b}{\index{repl.\+c@{repl.\+c}!dont\+Exit@{dont\+Exit}}
+\index{dont\+Exit@{dont\+Exit}!repl.\+c@{repl.\+c}}
+\subsubsection[{dont\+Exit}]{\setlength{\rightskip}{0pt plus 5cm}int dont\+Exit}}\label{repl_8c_a8fc69095173d1a81441dd02c625d1b1b}
+
+
+(C) 2012 Michael J. 
+
+Beer This program is free software; you can redistribute it and/or modify $\ast$ it under the terms of the G\+N\+U General Public License as published by $\ast$ the Free Software Foundation; either version 3 of the License, or $\ast$ (at your option) any later version.\+2010 $\ast$2010 $\ast$ This program is distributed in the hope that it will be useful,2010 $\ast$ but W\+I\+T\+H\+O\+U\+T A\+N\+Y W\+A\+R\+R\+A\+N\+T\+Y; without even the implied warranty of $\ast$ M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+T\+Y or F\+I\+T\+N\+E\+S\+S F\+O\+R A P\+A\+R\+T\+I\+C\+U\+L\+A\+R P\+U\+R\+P\+O\+S\+E. See the $\ast$ G\+N\+U General Public License for more details.\+2010 2010 $\ast$ You should have received a copy of the G\+N\+U General Public License $\ast$ along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, M\+A 02110-\/1301, U\+S\+A.\+2010 

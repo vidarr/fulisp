@@ -1,0 +1,215 @@
+\hypertarget{reader_8c}{\section{reader.\+c File Reference}
+\label{reader_8c}\index{reader.\+c@{reader.\+c}}
+}
+{\ttfamily \#include \char`\"{}reader.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}error.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{reader_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}reader.\+c\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structReader}{Reader} $\ast$ \hyperlink{reader_8c_a9486daa1b3f19fc23791dcccb1108372}{new\+Reader} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct \hyperlink{structCharReadStream}{Char\+Read\+Stream} $\ast$stream)
+\begin{DoxyCompactList}\small\item\em Create a new reader environment. \end{DoxyCompactList}\item 
+void \hyperlink{reader_8c_a0ab78cb489365e71872a9083e4c00075}{delete\+Reader} (struct \hyperlink{structReader}{Reader} $\ast$reader)
+\begin{DoxyCompactList}\small\item\em Frees \hyperlink{structReader}{Reader} structure. \end{DoxyCompactList}\item 
+void \hyperlink{reader_8c_acb7f55276e81720d8fe29863c84d7187}{reset\+Reader} (struct \hyperlink{structReader}{Reader} $\ast$reader)
+\begin{DoxyCompactList}\small\item\em Resets the \hyperlink{structReader}{Reader} structure. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{reader_8c_ae3108ea251cbac9f3ad0364da74d6aaa}{fu\+Read} (struct \hyperlink{structReader}{Reader} $\ast$reader)
+\item 
+\hyperlink{reader_8h_a7424d77c135ab9f31c4317db6ac22a7d}{Native\+Read\+Macro} \hyperlink{reader_8c_a5929b23f0cc9d11e999042035b1ad54f}{lookup\+Read\+Macro} (struct \hyperlink{structReader}{Reader} $\ast$reader, char c)
+\begin{DoxyCompactList}\small\item\em Lookup the given char, if not found, the standard macro is returned. \end{DoxyCompactList}\item 
+\hyperlink{reader_8h_a7424d77c135ab9f31c4317db6ac22a7d}{Native\+Read\+Macro} \hyperlink{reader_8c_a6a32ae243dd92d321878bb7f9c3b4029}{register\+Standard\+Read\+Macro} (struct \hyperlink{structReader}{Reader} $\ast$reader, \hyperlink{reader_8h_a7424d77c135ab9f31c4317db6ac22a7d}{Native\+Read\+Macro} macro)
+\begin{DoxyCompactList}\small\item\em Registers the read macro to call if none other does apply. \end{DoxyCompactList}\item 
+\hyperlink{reader_8h_a7424d77c135ab9f31c4317db6ac22a7d}{Native\+Read\+Macro} \hyperlink{reader_8c_a6830d055198e005c2ad193d686dbb457}{register\+Read\+Macro} (struct \hyperlink{structReader}{Reader} $\ast$reader, unsigned char c, \hyperlink{reader_8h_a7424d77c135ab9f31c4317db6ac22a7d}{Native\+Read\+Macro} macro)
+\begin{DoxyCompactList}\small\item\em Inserts a read macro for sign c into reader reader if the sign has been assigned before, the assigned macro will be replaced if the given macro is 0, the entry for sign c will be removed if found. \end{DoxyCompactList}\item 
+void \hyperlink{reader_8c_a760dc79821cdff13e9ee45a7285db025}{set\+Expr\+Of\+Reader} (struct \hyperlink{structReader}{Reader} $\ast$reader)
+\begin{DoxyCompactList}\small\item\em Cast the content of reader-\/$>$buffer to whatever type is given as reader-\/$>$type and store the expression in reader-\/$>$expr. \end{DoxyCompactList}\item 
+void \hyperlink{reader_8c_a57ab60a097e67a9bb7daa3ffb1cbc677}{print\+Lookup} (struct \hyperlink{structReader}{Reader} $\ast$reader)
+\item 
+void \hyperlink{reader_8c_ac23242e917a235f8e70c87618255bbee}{rm\+Ignore} (struct \hyperlink{structReader}{Reader} $\ast$reader, char sigle)
+\begin{DoxyCompactList}\small\item\em Read\+Macro that ignores read character. \end{DoxyCompactList}\item 
+void \hyperlink{reader_8c_acb9e7dad2f33503753ad09b1483aef4a}{rm\+Identity} (struct \hyperlink{structReader}{Reader} $\ast$reader, char sigle)
+\begin{DoxyCompactList}\small\item\em Standard Read\+Macro just push read char to buffer. \end{DoxyCompactList}\item 
+void \hyperlink{reader_8c_a3c6cc7eb2542d6d6264c305303b979e5}{rm\+Terminator} (struct \hyperlink{structReader}{Reader} $\ast$reader, char sigle)
+\begin{DoxyCompactList}\small\item\em Finish reading from stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{reader_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{reader.\+c@{reader.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!reader.\+c@{reader.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}reader.\+c\char`\"{}}}\label{reader_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+
+
+\subsection{Function Documentation}
+\hypertarget{reader_8c_a0ab78cb489365e71872a9083e4c00075}{\index{reader.\+c@{reader.\+c}!delete\+Reader@{delete\+Reader}}
+\index{delete\+Reader@{delete\+Reader}!reader.\+c@{reader.\+c}}
+\subsubsection[{delete\+Reader}]{\setlength{\rightskip}{0pt plus 5cm}void delete\+Reader (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_a0ab78cb489365e71872a9083e4c00075}
+
+
+Frees \hyperlink{structReader}{Reader} structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reader} & the reader to be freed \\
+\hline
+\end{DoxyParams}
+\hypertarget{reader_8c_ae3108ea251cbac9f3ad0364da74d6aaa}{\index{reader.\+c@{reader.\+c}!fu\+Read@{fu\+Read}}
+\index{fu\+Read@{fu\+Read}!reader.\+c@{reader.\+c}}
+\subsubsection[{fu\+Read}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ fu\+Read (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_ae3108ea251cbac9f3ad0364da74d6aaa}
+\hypertarget{reader_8c_a5929b23f0cc9d11e999042035b1ad54f}{\index{reader.\+c@{reader.\+c}!lookup\+Read\+Macro@{lookup\+Read\+Macro}}
+\index{lookup\+Read\+Macro@{lookup\+Read\+Macro}!reader.\+c@{reader.\+c}}
+\subsubsection[{lookup\+Read\+Macro}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Native\+Read\+Macro} lookup\+Read\+Macro (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader, }
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_a5929b23f0cc9d11e999042035b1ad54f}
+
+
+Lookup the given char, if not found, the standard macro is returned. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reader} & the reader used \\
+\hline
+{\em c} & the character to be looked up \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the Read\+Macro associated with character c or the standard macro if none has been assigned 
+\end{DoxyReturn}
+\hypertarget{reader_8c_a9486daa1b3f19fc23791dcccb1108372}{\index{reader.\+c@{reader.\+c}!new\+Reader@{new\+Reader}}
+\index{new\+Reader@{new\+Reader}!reader.\+c@{reader.\+c}}
+\subsubsection[{new\+Reader}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Reader}$\ast$ new\+Reader (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct {\bf Char\+Read\+Stream} $\ast$}]{stream}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_a9486daa1b3f19fc23791dcccb1108372}
+
+
+Create a new reader environment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em get\+Next\+Char} & function that wraps the stream to be read from \\
+\hline
+\end{DoxyParams}
+\hypertarget{reader_8c_a57ab60a097e67a9bb7daa3ffb1cbc677}{\index{reader.\+c@{reader.\+c}!print\+Lookup@{print\+Lookup}}
+\index{print\+Lookup@{print\+Lookup}!reader.\+c@{reader.\+c}}
+\subsubsection[{print\+Lookup}]{\setlength{\rightskip}{0pt plus 5cm}void print\+Lookup (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_a57ab60a097e67a9bb7daa3ffb1cbc677}
+\hypertarget{reader_8c_a6830d055198e005c2ad193d686dbb457}{\index{reader.\+c@{reader.\+c}!register\+Read\+Macro@{register\+Read\+Macro}}
+\index{register\+Read\+Macro@{register\+Read\+Macro}!reader.\+c@{reader.\+c}}
+\subsubsection[{register\+Read\+Macro}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Native\+Read\+Macro} register\+Read\+Macro (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader, }
+\item[{unsigned char}]{c, }
+\item[{{\bf Native\+Read\+Macro}}]{macro}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_a6830d055198e005c2ad193d686dbb457}
+
+
+Inserts a read macro for sign c into reader reader if the sign has been assigned before, the assigned macro will be replaced if the given macro is 0, the entry for sign c will be removed if found. 
+
+\begin{DoxyReturn}{Returns}
+the macro found within lookup for sign c or 0 if there has not been one 
+\end{DoxyReturn}
+\hypertarget{reader_8c_a6a32ae243dd92d321878bb7f9c3b4029}{\index{reader.\+c@{reader.\+c}!register\+Standard\+Read\+Macro@{register\+Standard\+Read\+Macro}}
+\index{register\+Standard\+Read\+Macro@{register\+Standard\+Read\+Macro}!reader.\+c@{reader.\+c}}
+\subsubsection[{register\+Standard\+Read\+Macro}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Native\+Read\+Macro} register\+Standard\+Read\+Macro (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader, }
+\item[{{\bf Native\+Read\+Macro}}]{macro}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_a6a32ae243dd92d321878bb7f9c3b4029}
+
+
+Registers the read macro to call if none other does apply. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reader} & the reader to register to \\
+\hline
+{\em macro} & the macro to become the standard macro \\
+\hline
+\end{DoxyParams}
+\hypertarget{reader_8c_acb7f55276e81720d8fe29863c84d7187}{\index{reader.\+c@{reader.\+c}!reset\+Reader@{reset\+Reader}}
+\index{reset\+Reader@{reset\+Reader}!reader.\+c@{reader.\+c}}
+\subsubsection[{reset\+Reader}]{\setlength{\rightskip}{0pt plus 5cm}void reset\+Reader (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_acb7f55276e81720d8fe29863c84d7187}
+
+
+Resets the \hyperlink{structReader}{Reader} structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em reader} & the reader to be reset \\
+\hline
+\end{DoxyParams}
+\hypertarget{reader_8c_acb9e7dad2f33503753ad09b1483aef4a}{\index{reader.\+c@{reader.\+c}!rm\+Identity@{rm\+Identity}}
+\index{rm\+Identity@{rm\+Identity}!reader.\+c@{reader.\+c}}
+\subsubsection[{rm\+Identity}]{\setlength{\rightskip}{0pt plus 5cm}void rm\+Identity (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader, }
+\item[{char}]{sigle}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_acb9e7dad2f33503753ad09b1483aef4a}
+
+
+Standard Read\+Macro just push read char to buffer. 
+
+\hypertarget{reader_8c_ac23242e917a235f8e70c87618255bbee}{\index{reader.\+c@{reader.\+c}!rm\+Ignore@{rm\+Ignore}}
+\index{rm\+Ignore@{rm\+Ignore}!reader.\+c@{reader.\+c}}
+\subsubsection[{rm\+Ignore}]{\setlength{\rightskip}{0pt plus 5cm}void rm\+Ignore (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader, }
+\item[{char}]{sigle}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_ac23242e917a235f8e70c87618255bbee}
+
+
+Read\+Macro that ignores read character. 
+
+\hypertarget{reader_8c_a3c6cc7eb2542d6d6264c305303b979e5}{\index{reader.\+c@{reader.\+c}!rm\+Terminator@{rm\+Terminator}}
+\index{rm\+Terminator@{rm\+Terminator}!reader.\+c@{reader.\+c}}
+\subsubsection[{rm\+Terminator}]{\setlength{\rightskip}{0pt plus 5cm}void rm\+Terminator (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader, }
+\item[{char}]{sigle}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_a3c6cc7eb2542d6d6264c305303b979e5}
+
+
+Finish reading from stream. 
+
+\hypertarget{reader_8c_a760dc79821cdff13e9ee45a7285db025}{\index{reader.\+c@{reader.\+c}!set\+Expr\+Of\+Reader@{set\+Expr\+Of\+Reader}}
+\index{set\+Expr\+Of\+Reader@{set\+Expr\+Of\+Reader}!reader.\+c@{reader.\+c}}
+\subsubsection[{set\+Expr\+Of\+Reader}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Expr\+Of\+Reader (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Reader} $\ast$}]{reader}
+\end{DoxyParamCaption}
+)}}\label{reader_8c_a760dc79821cdff13e9ee45a7285db025}
+
+
+Cast the content of reader-\/$>$buffer to whatever type is given as reader-\/$>$type and store the expression in reader-\/$>$expr. 
+

@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['native_5ffunc_5fto_5fstr',['NATIVE_FUNC_TO_STR',['../printnativefunctions_8h.html#ab72b409510d6f0dea517186c5d7e4f20',1,'printnativefunctions.h']]],
+  ['nativefunction',['NativeFunction',['../expression_8h.html#afd244e666fdee0f754105980d3412128',1,'expression.h']]],
+  ['nativefunctionp',['nativeFunctionP',['../nativefunctions_8h.html#a54736bb6e7b3a8f4e0ba460219ab8ee9',1,'nativefunctions.h']]],
+  ['nativefunctions_2ec',['nativefunctions.c',['../nativefunctions_8c.html',1,'']]],
+  ['nativefunctions_2eh',['nativefunctions.h',['../nativefunctions_8h.html',1,'']]],
+  ['nativereadmacro',['NativeReadMacro',['../reader_8h.html#a7424d77c135ab9f31c4317db6ac22a7d',1,'reader.h']]],
+  ['newfulispreader',['newFuLispReader',['../fulispreader_8c.html#ae9adc36f4b2e72ce3842c3291d6fb2ce',1,'newFuLispReader(struct Expression *env, struct CharReadStream *stream):&#160;fulispreader.c'],['../fulispreader_8h.html#ae9adc36f4b2e72ce3842c3291d6fb2ce',1,'newFuLispReader(struct Expression *env, struct CharReadStream *stream):&#160;fulispreader.c']]],
+  ['newmemory',['newMemory',['../memory_8c.html#a7ec31fc0c1d5e7eb47ea3e98e658d4b9',1,'newMemory(void):&#160;memory.c'],['../memory_8h.html#a7ec31fc0c1d5e7eb47ea3e98e658d4b9',1,'newMemory(void):&#160;memory.c']]],
+  ['newreader',['newReader',['../reader_8c.html#a9486daa1b3f19fc23791dcccb1108372',1,'newReader(struct Expression *env, struct CharReadStream *stream):&#160;reader.c'],['../reader_8h.html#a9486daa1b3f19fc23791dcccb1108372',1,'newReader(struct Expression *env, struct CharReadStream *stream):&#160;reader.c']]],
+  ['next',['next',['../structHashEntry.html#aebaa91e676cc52b668a64f6799a1260b',1,'HashEntry::next()'],['../structReadMacroLookUp.html#a625eb8099554d48e15723ee9fe5edf83',1,'ReadMacroLookUp::next()'],['../structStack.html#a4c04e7b5364862dbdfb45fe220ab4c96',1,'Stack::next()']]],
+  ['nextcons',['nextCons',['../structMemory.html#ad2a150f5cb9c96d7b9323e50db5a921b',1,'Memory']]],
+  ['nextexpr',['nextExpr',['../structMemory.html#a588f224743248c7c430727d03aeb63f4',1,'Memory']]],
+  ['nil',['NIL',['../expression_8h.html#a263efce0e5cda1d387a1a43f94715445',1,'NIL():&#160;expression.h'],['../expression_8c.html#af4c78bf9adcdcc02356e9b943dc27adc',1,'nil():&#160;expression.c']]],
+  ['no_5fdebugging_2eh',['no_debugging.h',['../no__debugging_8h.html',1,'']]],
+  ['no_5fentries',['NO_ENTRIES',['../test-env_8c.html#a36ee53633d95184eac6b2f76e2e8bae3',1,'test-env.c']]],
+  ['no_5ferror',['NO_ERROR',['../error_8h.html#a258bb72419ef143530a2f8f55e7d57af',1,'error.h']]],
+  ['no_5fmask_5ferror',['NO_MASK_ERROR',['../config_8h.html#ae7a17edf7ef5eccb1894734951aac279',1,'config.h']]],
+  ['nomarkedexpr',['noMarkedExpr',['../structEnvGcInfo.html#ae834164a4c627e76266b25b8dd2a9999',1,'EnvGcInfo']]],
+  ['noreclaimedexpr',['noReclaimedExpr',['../structEnvGcInfo.html#a667fc98f252b80deefd6874b1bfdc6b0',1,'EnvGcInfo']]],
+  ['not',['not',['../nativefunctions_8c.html#af44861caf396ffb1ce3bcb1b10c36832',1,'not(struct Expression *env, struct Expression *expr):&#160;nativefunctions.c'],['../nativefunctions_8h.html#af44861caf396ffb1ce3bcb1b10c36832',1,'not(struct Expression *env, struct Expression *expr):&#160;nativefunctions.c']]],
+  ['numequal',['numEqual',['../nativefunctions_8c.html#a887a8e5de28d36a3d5a869d4a923261e',1,'numEqual(struct Expression *env, struct Expression *expr):&#160;nativefunctions.c'],['../nativefunctions_8h.html#a887a8e5de28d36a3d5a869d4a923261e',1,'numEqual(struct Expression *env, struct Expression *expr):&#160;nativefunctions.c']]],
+  ['numsmaller',['numSmaller',['../nativefunctions_8c.html#a07ac4954b33175e1eb77cae886c6944f',1,'numSmaller(struct Expression *env, struct Expression *expr):&#160;nativefunctions.c'],['../nativefunctions_8h.html#a07ac4954b33175e1eb77cae886c6944f',1,'numSmaller(struct Expression *env, struct Expression *expr):&#160;nativefunctions.c']]]
+];

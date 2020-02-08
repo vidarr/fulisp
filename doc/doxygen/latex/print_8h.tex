@@ -1,0 +1,89 @@
+\hypertarget{print_8h}{\section{print.\+h File Reference}
+\label{print_8h}\index{print.\+h@{print.\+h}}
+}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}expression.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}error.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lisp\+\_\+internals.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}streams.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}environment.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct Expression $\ast$ \hyperlink{print_8h_a3f1609b538cdb7dc72c34a684b27a53a}{fu\+Print} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Create textual descriptions of expressions in various ways. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{print_8h_af01d28a967b51f116ebfd90ec602d037}{expression\+To\+String} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, char $\ast$str, int size\+Of\+Buffer, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O\+: Replace by appr. \end{DoxyCompactList}\item 
+void \hyperlink{print_8h_ab091353d729aaaa9444ba18024cb9c6d}{print\+To\+Stream} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct \hyperlink{structCharWriteStream}{Char\+Write\+Stream} $\ast$stream, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em prints an expression to a write stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{print_8h_af01d28a967b51f116ebfd90ec602d037}{\index{print.\+h@{print.\+h}!expression\+To\+String@{expression\+To\+String}}
+\index{expression\+To\+String@{expression\+To\+String}!print.\+h@{print.\+h}}
+\subsubsection[{expression\+To\+String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ expression\+To\+String (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{char $\ast$}]{str, }
+\item[{int}]{size\+Of\+Buffer, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{print_8h_af01d28a967b51f116ebfd90ec602d037}
+
+
+T\+O\+D\+O\+: Replace by appr. 
+
+calls to \hyperlink{print_8h_ab091353d729aaaa9444ba18024cb9c6d}{print\+To\+Stream()} Gives a string representation of an expression 
+\begin{DoxyParams}{Parameters}
+{\em str} & pointer to a buffer to be written to. Its size wont be altered so buffer overflows are possible ! \\
+\hline
+{\em size\+Of\+Buffer} & size of the buffer if S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E is enabled, buffer overflows are prevented \\
+\hline
+{\em expr} & pointer to the expression to be printed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the string representation (should be the pointer given as 'str' 
+\end{DoxyReturn}
+\hypertarget{print_8h_a3f1609b538cdb7dc72c34a684b27a53a}{\index{print.\+h@{print.\+h}!fu\+Print@{fu\+Print}}
+\index{fu\+Print@{fu\+Print}!print.\+h@{print.\+h}}
+\subsubsection[{fu\+Print}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ fu\+Print (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{print_8h_a3f1609b538cdb7dc72c34a684b27a53a}
+
+
+Create textual descriptions of expressions in various ways. 
+
+Gives a string representation of an expression 
+\begin{DoxyParams}{Parameters}
+{\em expr} & the expression to be described \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+en expression containing an string describing the expression 
+\end{DoxyReturn}
+\hypertarget{print_8h_ab091353d729aaaa9444ba18024cb9c6d}{\index{print.\+h@{print.\+h}!print\+To\+Stream@{print\+To\+Stream}}
+\index{print\+To\+Stream@{print\+To\+Stream}!print.\+h@{print.\+h}}
+\subsubsection[{print\+To\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}void print\+To\+Stream (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct {\bf Char\+Write\+Stream} $\ast$}]{stream, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{print_8h_ab091353d729aaaa9444ba18024cb9c6d}
+
+
+prints an expression to a write stream 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & the stream to write to \\
+\hline
+{\em expr} & the expr to be printed \\
+\hline
+\end{DoxyParams}

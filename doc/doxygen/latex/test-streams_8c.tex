@@ -1,0 +1,128 @@
+\hypertarget{test-streams_8c}{\section{test-\/streams.c File Reference}
+\label{test-streams_8c}\index{test-\/streams.\+c@{test-\/streams.\+c}}
+}
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$time.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}streams.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}test.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test-streams_8c_a1b9ccf4fcafb1e54dcb6d3132ef07e08}{M\+A\+X\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+R\+U\+N\+S}~14
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{test-streams_8c_a1af844ad2671b71bc52cf4b4e91092d4}{random\+Max} (int upper)
+\item 
+int \hyperlink{test-streams_8c_a3a81a30f3b0b6f8dcf687a48d09bf100}{compare\+Strings} (char $\ast$a, char $\ast$b, int len)
+\item 
+int \hyperlink{test-streams_8c_ae2cf1752f181cbe40473261ff1e297df}{test\+String\+Char\+Write\+Stream} (char $\ast$target, char $\ast$origin, int len)
+\item 
+int \hyperlink{test-streams_8c_a5b0b2774522846e2cc57f3937a045e85}{test\+C\+Stream\+Char\+Write\+Stream} (F\+I\+L\+E $\ast$file, char $\ast$text, int len)
+\item 
+int \hyperlink{test-streams_8c_a0136d1b30a581566c09117710de754b8}{test\+C\+Stream\+Char\+Read\+Stream} (F\+I\+L\+E $\ast$file, char $\ast$text, int len)
+\item 
+int \hyperlink{test-streams_8c_ae4fd5062513fe4efb2f945f4edebae9c}{test\+Char\+Read\+Stream} (F\+I\+L\+E $\ast$file, char $\ast$text, int len)
+\item 
+int \hyperlink{test-streams_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{test-streams_8c_afa39263caa6940c140e0c51d80cb7a94}{test\+Text}
+\item 
+char $\ast$ \hyperlink{test-streams_8c_aa84296588da5228afda58b406eb63d3c}{copy\+Text} = N\+U\+L\+L
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{test-streams_8c_a1b9ccf4fcafb1e54dcb6d3132ef07e08}{\index{test-\/streams.\+c@{test-\/streams.\+c}!M\+A\+X\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+R\+U\+N\+S@{M\+A\+X\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+R\+U\+N\+S}}
+\index{M\+A\+X\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+R\+U\+N\+S@{M\+A\+X\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+R\+U\+N\+S}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{M\+A\+X\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+R\+U\+N\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+A\+X\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+R\+U\+N\+S~14}}\label{test-streams_8c_a1b9ccf4fcafb1e54dcb6d3132ef07e08}
+
+
+\subsection{Function Documentation}
+\hypertarget{test-streams_8c_a3a81a30f3b0b6f8dcf687a48d09bf100}{\index{test-\/streams.\+c@{test-\/streams.\+c}!compare\+Strings@{compare\+Strings}}
+\index{compare\+Strings@{compare\+Strings}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{compare\+Strings}]{\setlength{\rightskip}{0pt plus 5cm}int compare\+Strings (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{a, }
+\item[{char $\ast$}]{b, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{test-streams_8c_a3a81a30f3b0b6f8dcf687a48d09bf100}
+\hypertarget{test-streams_8c_a3c04138a5bfe5d72780bb7e82a18e627}{\index{test-\/streams.\+c@{test-\/streams.\+c}!main@{main}}
+\index{main@{main}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{test-streams_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+\hypertarget{test-streams_8c_a1af844ad2671b71bc52cf4b4e91092d4}{\index{test-\/streams.\+c@{test-\/streams.\+c}!random\+Max@{random\+Max}}
+\index{random\+Max@{random\+Max}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{random\+Max}]{\setlength{\rightskip}{0pt plus 5cm}int random\+Max (
+\begin{DoxyParamCaption}
+\item[{int}]{upper}
+\end{DoxyParamCaption}
+)}}\label{test-streams_8c_a1af844ad2671b71bc52cf4b4e91092d4}
+\hypertarget{test-streams_8c_ae4fd5062513fe4efb2f945f4edebae9c}{\index{test-\/streams.\+c@{test-\/streams.\+c}!test\+Char\+Read\+Stream@{test\+Char\+Read\+Stream}}
+\index{test\+Char\+Read\+Stream@{test\+Char\+Read\+Stream}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{test\+Char\+Read\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}int test\+Char\+Read\+Stream (
+\begin{DoxyParamCaption}
+\item[{F\+I\+L\+E $\ast$}]{file, }
+\item[{char $\ast$}]{text, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{test-streams_8c_ae4fd5062513fe4efb2f945f4edebae9c}
+\hypertarget{test-streams_8c_a0136d1b30a581566c09117710de754b8}{\index{test-\/streams.\+c@{test-\/streams.\+c}!test\+C\+Stream\+Char\+Read\+Stream@{test\+C\+Stream\+Char\+Read\+Stream}}
+\index{test\+C\+Stream\+Char\+Read\+Stream@{test\+C\+Stream\+Char\+Read\+Stream}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{test\+C\+Stream\+Char\+Read\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}int test\+C\+Stream\+Char\+Read\+Stream (
+\begin{DoxyParamCaption}
+\item[{F\+I\+L\+E $\ast$}]{file, }
+\item[{char $\ast$}]{text, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{test-streams_8c_a0136d1b30a581566c09117710de754b8}
+\hypertarget{test-streams_8c_a5b0b2774522846e2cc57f3937a045e85}{\index{test-\/streams.\+c@{test-\/streams.\+c}!test\+C\+Stream\+Char\+Write\+Stream@{test\+C\+Stream\+Char\+Write\+Stream}}
+\index{test\+C\+Stream\+Char\+Write\+Stream@{test\+C\+Stream\+Char\+Write\+Stream}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{test\+C\+Stream\+Char\+Write\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}int test\+C\+Stream\+Char\+Write\+Stream (
+\begin{DoxyParamCaption}
+\item[{F\+I\+L\+E $\ast$}]{file, }
+\item[{char $\ast$}]{text, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{test-streams_8c_a5b0b2774522846e2cc57f3937a045e85}
+\hypertarget{test-streams_8c_ae2cf1752f181cbe40473261ff1e297df}{\index{test-\/streams.\+c@{test-\/streams.\+c}!test\+String\+Char\+Write\+Stream@{test\+String\+Char\+Write\+Stream}}
+\index{test\+String\+Char\+Write\+Stream@{test\+String\+Char\+Write\+Stream}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{test\+String\+Char\+Write\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}int test\+String\+Char\+Write\+Stream (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{target, }
+\item[{char $\ast$}]{origin, }
+\item[{int}]{len}
+\end{DoxyParamCaption}
+)}}\label{test-streams_8c_ae2cf1752f181cbe40473261ff1e297df}
+
+
+\subsection{Variable Documentation}
+\hypertarget{test-streams_8c_aa84296588da5228afda58b406eb63d3c}{\index{test-\/streams.\+c@{test-\/streams.\+c}!copy\+Text@{copy\+Text}}
+\index{copy\+Text@{copy\+Text}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{copy\+Text}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ copy\+Text = N\+U\+L\+L}}\label{test-streams_8c_aa84296588da5228afda58b406eb63d3c}
+\hypertarget{test-streams_8c_afa39263caa6940c140e0c51d80cb7a94}{\index{test-\/streams.\+c@{test-\/streams.\+c}!test\+Text@{test\+Text}}
+\index{test\+Text@{test\+Text}!test-\/streams.\+c@{test-\/streams.\+c}}
+\subsubsection[{test\+Text}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ test\+Text}}\label{test-streams_8c_afa39263caa6940c140e0c51d80cb7a94}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=  
+\textcolor{stringliteral}{" /** \(\backslash\)n"} 
+\textcolor{stringliteral}{"  * (C) 2010,2012 Michael J. Beer \(\backslash\)n"} 
+\textcolor{stringliteral}{"  * This program is free software; you can redistribute it and/or modify \(\backslash\)n"} 
+\textcolor{stringliteral}{"  * it under the terms of the GNU General Public License as published by \(\backslash\)n"} 
+\textcolor{stringliteral}{"  * the Free Software Foundation; either version 3 of the License, or \(\backslash\)n"} 
+\textcolor{stringliteral}{"  * (at your option) any later version. \(\backslash\)n"} 
+\textcolor{stringliteral}{"  * \(\backslash\)n"} 
+\textcolor{stringliteral}{"  * This program is distributed in the hope that it will be useful, |"}
+\end{DoxyCode}

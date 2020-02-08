@@ -1,0 +1,91 @@
+\hypertarget{lambda_8c}{\section{lambda.\+c File Reference}
+\label{lambda_8c}\index{lambda.\+c@{lambda.\+c}}
+}
+{\ttfamily \#include \char`\"{}lambda.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}cons.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{lambda_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}lambda.\+c\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct Expression $\ast$ \hyperlink{lambda_8c_a4a10ebba4d14a7760b066723b994cee7}{lambda\+Create} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Create a new lambda form. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{lambda_8c_a0705bdb27baa1063d5f566785ab95b83}{lambda\+Invoke} (struct Expression $\ast$old\+Env, struct \hyperlink{structLambda}{Lambda} $\ast$lambda, struct Expression $\ast$args)
+\begin{DoxyCompactList}\small\item\em Invoke lambda form on concrete arguments. \end{DoxyCompactList}\item 
+void \hyperlink{lambda_8c_abf4a4b0a68f8bdc28fce78c773b6b03f}{lambda\+Dispose} (struct \hyperlink{structLambda}{Lambda} $\ast$lambda)
+\begin{DoxyCompactList}\small\item\em Delete a lambda form. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{lambda_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{lambda.\+c@{lambda.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!lambda.\+c@{lambda.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}lambda.\+c\char`\"{}}}\label{lambda_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+
+
+\subsection{Function Documentation}
+\hypertarget{lambda_8c_a4a10ebba4d14a7760b066723b994cee7}{\index{lambda.\+c@{lambda.\+c}!lambda\+Create@{lambda\+Create}}
+\index{lambda\+Create@{lambda\+Create}!lambda.\+c@{lambda.\+c}}
+\subsubsection[{lambda\+Create}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ lambda\+Create (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{lambda_8c_a4a10ebba4d14a7760b066723b994cee7}
+
+
+Create a new lambda form. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & \hyperlink{structEnvironment}{Environment} this lambda form should be created int \\
+\hline
+{\em expr} & Cons cell containing as car list of parameters and as cadr the body. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a new lambda form 
+\end{DoxyReturn}
+\hypertarget{lambda_8c_abf4a4b0a68f8bdc28fce78c773b6b03f}{\index{lambda.\+c@{lambda.\+c}!lambda\+Dispose@{lambda\+Dispose}}
+\index{lambda\+Dispose@{lambda\+Dispose}!lambda.\+c@{lambda.\+c}}
+\subsubsection[{lambda\+Dispose}]{\setlength{\rightskip}{0pt plus 5cm}void lambda\+Dispose (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Lambda} $\ast$}]{lambda}
+\end{DoxyParamCaption}
+)}}\label{lambda_8c_abf4a4b0a68f8bdc28fce78c773b6b03f}
+
+
+Delete a lambda form. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lambda} & the lambda form to dispose \\
+\hline
+\end{DoxyParams}
+\hypertarget{lambda_8c_a0705bdb27baa1063d5f566785ab95b83}{\index{lambda.\+c@{lambda.\+c}!lambda\+Invoke@{lambda\+Invoke}}
+\index{lambda\+Invoke@{lambda\+Invoke}!lambda.\+c@{lambda.\+c}}
+\subsubsection[{lambda\+Invoke}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ lambda\+Invoke (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{old\+Env, }
+\item[{struct {\bf Lambda} $\ast$}]{lambda, }
+\item[{struct Expression $\ast$}]{args}
+\end{DoxyParamCaption}
+)}}\label{lambda_8c_a0705bdb27baa1063d5f566785ab95b83}
+
+
+Invoke lambda form on concrete arguments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lambda} & lambda form to evaluate \\
+\hline
+{\em args} & list of values for the arguments to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+expression being the result of the evaluation 
+\end{DoxyReturn}

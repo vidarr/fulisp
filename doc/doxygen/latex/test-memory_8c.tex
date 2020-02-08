@@ -1,0 +1,148 @@
+\hypertarget{test-memory_8c}{\section{test-\/memory.c File Reference}
+\label{test-memory_8c}\index{test-\/memory.\+c@{test-\/memory.\+c}}
+}
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$time.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}memory.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}test.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test-memory_8c_a253272fd1353a150c52d57751467b30a}{A\+D\+A\+P\+T\+\_\+\+I\+N\+D\+E\+X}(i, j)
+\begin{DoxyCompactList}\small\item\em (C) 2012 Michael J. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test-memory_8c_a3af42f4efb21e67ccbbd5ca06e61eb4f}{G\+E\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}(m, e, i, j)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{test-memory_8c_a42207ed0452830cb0d9181cba9139fab}{init\+Random} (void)
+\item 
+int \hyperlink{test-memory_8c_ad49986cf85aabfe12c417f9de20a1658}{get\+True\+Or\+False} (void)
+\item 
+void \hyperlink{test-memory_8c_a68b66dbbce3f700f34e0343bba340560}{set\+Out\+Of\+Memory} (void)
+\item 
+struct Expression $\ast$ \hyperlink{test-memory_8c_a71df17d1c52b97b8d73ceb49ea93ad22}{allocate} (struct \hyperlink{structMemory}{Memory} $\ast$mem, int no)
+\item 
+int \hyperlink{test-memory_8c_a7c45e19d9441666135d93d9070240b3c}{verify} (struct Expression $\ast$expr, int no)
+\item 
+int \hyperlink{test-memory_8c_a148449e5b04534ab012b8cd29e8e312f}{release\+Some} (struct \hyperlink{structMemory}{Memory} $\ast$mem, struct Expression $\ast$expr)
+\item 
+int \hyperlink{test-memory_8c_a0b2b51cf5e1ecdaa3d1a6971fe2e7cae}{test\+Allocation} (struct \hyperlink{structMemory}{Memory} $\ast$mem, int no)
+\item 
+int \hyperlink{test-memory_8c_a14e24b215ce748649b5294f4801f4a8e}{test\+Release\+And\+Alloc} (struct \hyperlink{structMemory}{Memory} $\ast$mem)
+\item 
+int \hyperlink{test-memory_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{test-memory_8c_a253272fd1353a150c52d57751467b30a}{\index{test-\/memory.\+c@{test-\/memory.\+c}!A\+D\+A\+P\+T\+\_\+\+I\+N\+D\+E\+X@{A\+D\+A\+P\+T\+\_\+\+I\+N\+D\+E\+X}}
+\index{A\+D\+A\+P\+T\+\_\+\+I\+N\+D\+E\+X@{A\+D\+A\+P\+T\+\_\+\+I\+N\+D\+E\+X}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{A\+D\+A\+P\+T\+\_\+\+I\+N\+D\+E\+X}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} A\+D\+A\+P\+T\+\_\+\+I\+N\+D\+E\+X(
+\begin{DoxyParamCaption}
+\item[{}]{i, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a253272fd1353a150c52d57751467b30a}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{comment}{/* if i flows over, ensure that numbers dont repeat with period 255 */} \(\backslash\)
+    if(j > i) \{  \(\backslash\)
+        i += 256 - j; \(\backslash\)
+    \}
+\end{DoxyCode}
+
+
+(C) 2012 Michael J. 
+
+Beer This program is free software; you can redistribute it and/or modify it under the terms of the G\+N\+U General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but W\+I\+T\+H\+O\+U\+T A\+N\+Y W\+A\+R\+R\+A\+N\+T\+Y; without even the implied warranty of M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+T\+Y or F\+I\+T\+N\+E\+S\+S F\+O\+R A P\+A\+R\+T\+I\+C\+U\+L\+A\+R P\+U\+R\+P\+O\+S\+E. See the G\+N\+U General Public License for more details.
+
+You should have received a copy of the G\+N\+U General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, M\+A 02110-\/1301, U\+S\+A. \hypertarget{test-memory_8c_a3af42f4efb21e67ccbbd5ca06e61eb4f}{\index{test-\/memory.\+c@{test-\/memory.\+c}!G\+E\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N@{G\+E\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}}
+\index{G\+E\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N@{G\+E\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{G\+E\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+E\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N(
+\begin{DoxyParamCaption}
+\item[{}]{m, }
+\item[{}]{e, }
+\item[{}]{i, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a3af42f4efb21e67ccbbd5ca06e61eb4f}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\hyperlink{test-memory_8c_a253272fd1353a150c52d57751467b30a}{ADAPT\_INDEX}(i, j) \hyperlink{memory_8h_af5aa096cd3f8955ee8137b8e505557b2}{\(\backslash\)}
+\hyperlink{memory_8h_af5aa096cd3f8955ee8137b8e505557b2}{    MEMORY\_GET\_EXPRESSION}(m, e); \(\backslash\)
+    e->type = i;
+\end{DoxyCode}
+
+
+\subsection{Function Documentation}
+\hypertarget{test-memory_8c_a71df17d1c52b97b8d73ceb49ea93ad22}{\index{test-\/memory.\+c@{test-\/memory.\+c}!allocate@{allocate}}
+\index{allocate@{allocate}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{allocate}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ allocate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Memory} $\ast$}]{mem, }
+\item[{int}]{no}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a71df17d1c52b97b8d73ceb49ea93ad22}
+\hypertarget{test-memory_8c_ad49986cf85aabfe12c417f9de20a1658}{\index{test-\/memory.\+c@{test-\/memory.\+c}!get\+True\+Or\+False@{get\+True\+Or\+False}}
+\index{get\+True\+Or\+False@{get\+True\+Or\+False}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{get\+True\+Or\+False}]{\setlength{\rightskip}{0pt plus 5cm}int get\+True\+Or\+False (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_ad49986cf85aabfe12c417f9de20a1658}
+\hypertarget{test-memory_8c_a42207ed0452830cb0d9181cba9139fab}{\index{test-\/memory.\+c@{test-\/memory.\+c}!init\+Random@{init\+Random}}
+\index{init\+Random@{init\+Random}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{init\+Random}]{\setlength{\rightskip}{0pt plus 5cm}void init\+Random (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a42207ed0452830cb0d9181cba9139fab}
+\hypertarget{test-memory_8c_a3c04138a5bfe5d72780bb7e82a18e627}{\index{test-\/memory.\+c@{test-\/memory.\+c}!main@{main}}
+\index{main@{main}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+\hypertarget{test-memory_8c_a148449e5b04534ab012b8cd29e8e312f}{\index{test-\/memory.\+c@{test-\/memory.\+c}!release\+Some@{release\+Some}}
+\index{release\+Some@{release\+Some}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{release\+Some}]{\setlength{\rightskip}{0pt plus 5cm}int release\+Some (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Memory} $\ast$}]{mem, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a148449e5b04534ab012b8cd29e8e312f}
+\hypertarget{test-memory_8c_a68b66dbbce3f700f34e0343bba340560}{\index{test-\/memory.\+c@{test-\/memory.\+c}!set\+Out\+Of\+Memory@{set\+Out\+Of\+Memory}}
+\index{set\+Out\+Of\+Memory@{set\+Out\+Of\+Memory}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{set\+Out\+Of\+Memory}]{\setlength{\rightskip}{0pt plus 5cm}void set\+Out\+Of\+Memory (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a68b66dbbce3f700f34e0343bba340560}
+\hypertarget{test-memory_8c_a0b2b51cf5e1ecdaa3d1a6971fe2e7cae}{\index{test-\/memory.\+c@{test-\/memory.\+c}!test\+Allocation@{test\+Allocation}}
+\index{test\+Allocation@{test\+Allocation}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{test\+Allocation}]{\setlength{\rightskip}{0pt plus 5cm}int test\+Allocation (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Memory} $\ast$}]{mem, }
+\item[{int}]{no}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a0b2b51cf5e1ecdaa3d1a6971fe2e7cae}
+\hypertarget{test-memory_8c_a14e24b215ce748649b5294f4801f4a8e}{\index{test-\/memory.\+c@{test-\/memory.\+c}!test\+Release\+And\+Alloc@{test\+Release\+And\+Alloc}}
+\index{test\+Release\+And\+Alloc@{test\+Release\+And\+Alloc}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{test\+Release\+And\+Alloc}]{\setlength{\rightskip}{0pt plus 5cm}int test\+Release\+And\+Alloc (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Memory} $\ast$}]{mem}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a14e24b215ce748649b5294f4801f4a8e}
+\hypertarget{test-memory_8c_a7c45e19d9441666135d93d9070240b3c}{\index{test-\/memory.\+c@{test-\/memory.\+c}!verify@{verify}}
+\index{verify@{verify}!test-\/memory.\+c@{test-\/memory.\+c}}
+\subsubsection[{verify}]{\setlength{\rightskip}{0pt plus 5cm}int verify (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{expr, }
+\item[{int}]{no}
+\end{DoxyParamCaption}
+)}}\label{test-memory_8c_a7c45e19d9441666135d93d9070240b3c}

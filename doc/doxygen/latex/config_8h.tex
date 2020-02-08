@@ -1,0 +1,154 @@
+\hypertarget{config_8h}{\section{config.\+h File Reference}
+\label{config_8h}\index{config.\+h@{config.\+h}}
+}
+{\ttfamily \#include $<$limits.\+h$>$}\\*
+{\ttfamily \#include $<$time.\+h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a1c6d5de492ac61ad29aec7aa9a436bbf}{V\+E\+R\+S\+I\+O\+N}~\char`\"{}0.\+4.\+0\char`\"{}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a6247bc79b0a606bddbf5a90fc3a03194}{C\+O\+P\+Y\+R\+I\+G\+H\+T}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a3a73ad1da5d547e0acbb078427798eac}{H\+A\+S\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+A\+F\+E\+\_\+\+K\+E\+Y\+S}
+\begin{DoxyCompactList}\small\item\em Should hash tables place strings or copies of strings as keys? \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_abb9503b533435673b946a18e1dad2cd9}{G\+E\+N\+E\+R\+A\+T\+E\+\_\+\+S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E}
+\begin{DoxyCompactList}\small\item\em Should additional error-\/checking code be generated? \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a85f9edccb2b24ccda45573f01eff38c9}{T\+E\+S\+T\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R}
+\begin{DoxyCompactList}\small\item\em Should test use A\+N\+S\+I Escapes to color output? \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a32566d66db970844545a5a763de7bef2}{B\+E\+N\+C\+H\+M\+A\+R\+K}
+\begin{DoxyCompactList}\small\item\em Should lisp abort on lisp error? \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_ae7a17edf7ef5eccb1894734951aac279}{N\+O\+\_\+\+M\+A\+S\+K\+\_\+\+E\+R\+R\+O\+R}
+\begin{DoxyCompactList}\small\item\em Should subsequent errors mask older errors? I.\+e. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a46167a977503a51eb6efe97e870568c3}{R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~(int)(16000)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a4724cb7d73c991e1fc236f6aa9c3d15d}{P\+R\+I\+N\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}~100
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_add55624170e6366d96baf14cac17962a}{S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+Z\+E}~20
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a6711927048bf46d56b032f82fe39ff37}{C\+A\+L\+L\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E}~200
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a23da24ab92e9e4d709796ece94205a99}{M\+E\+M\+O\+R\+Y\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E}~20000
+\begin{DoxyCompactList}\small\item\em size of one mem block in expressions/cons structs \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_aefdee3c6cdd10d0333c65f564eb4734a}{M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N}
+\begin{DoxyCompactList}\small\item\em Use preallocated memory instead of malloc/free whenever an expression is created. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a968b3bd5697b218af56720b3051bda4a}{S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+S}
+\begin{DoxyCompactList}\small\item\em Should the memory be expanded automatically? Will only have effect if M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N is set. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_abf348628d270c7a946c41001801cd410}{G\+A\+R\+B\+A\+G\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+O\+R}~\hyperlink{config_8h_a11df8fff96eeb90d98194580ca986e78}{G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P}
+\begin{DoxyCompactList}\small\item\em Which kind of garbage collection to use. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a49510b8c2e9bed19397ae22f77e2c826}{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+F\+O\+R\+M\+A\+T}~True\+Lies
+\begin{DoxyCompactList}\small\item\em Kind of format to use for expressions. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a5b07376eb5fd213b57d7946b6d695896}{G\+C\+\_\+\+R\+E\+F\+E\+R\+E\+N\+C\+E\+\_\+\+C\+O\+U\+N\+T\+I\+N\+G}~1
+\begin{DoxyCompactList}\small\item\em Reference counting garbage collector. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{config_8h_a11df8fff96eeb90d98194580ca986e78}{G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P}~2
+\begin{DoxyCompactList}\small\item\em Reference counting garbage collector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{config_8h_a32566d66db970844545a5a763de7bef2}{\index{config.\+h@{config.\+h}!B\+E\+N\+C\+H\+M\+A\+R\+K@{B\+E\+N\+C\+H\+M\+A\+R\+K}}
+\index{B\+E\+N\+C\+H\+M\+A\+R\+K@{B\+E\+N\+C\+H\+M\+A\+R\+K}!config.\+h@{config.\+h}}
+\subsubsection[{B\+E\+N\+C\+H\+M\+A\+R\+K}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} B\+E\+N\+C\+H\+M\+A\+R\+K}}\label{config_8h_a32566d66db970844545a5a763de7bef2}
+
+
+Should lisp abort on lisp error? 
+
+Should be benchmarked? \hypertarget{config_8h_a6711927048bf46d56b032f82fe39ff37}{\index{config.\+h@{config.\+h}!C\+A\+L\+L\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E@{C\+A\+L\+L\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E}}
+\index{C\+A\+L\+L\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E@{C\+A\+L\+L\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E}!config.\+h@{config.\+h}}
+\subsubsection[{C\+A\+L\+L\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} C\+A\+L\+L\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E~200}}\label{config_8h_a6711927048bf46d56b032f82fe39ff37}
+\hypertarget{config_8h_a6247bc79b0a606bddbf5a90fc3a03194}{\index{config.\+h@{config.\+h}!C\+O\+P\+Y\+R\+I\+G\+H\+T@{C\+O\+P\+Y\+R\+I\+G\+H\+T}}
+\index{C\+O\+P\+Y\+R\+I\+G\+H\+T@{C\+O\+P\+Y\+R\+I\+G\+H\+T}!config.\+h@{config.\+h}}
+\subsubsection[{C\+O\+P\+Y\+R\+I\+G\+H\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} C\+O\+P\+Y\+R\+I\+G\+H\+T}}\label{config_8h_a6247bc79b0a606bddbf5a90fc3a03194}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{stringliteral}{"Copyright (C) 2010, 2012, 2014  "}                          \(\backslash\)
+                  \textcolor{stringliteral}{"Michael J. Beer <michael.josef.beer@googlemail.com>"}
+\end{DoxyCode}
+\hypertarget{config_8h_a49510b8c2e9bed19397ae22f77e2c826}{\index{config.\+h@{config.\+h}!E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+F\+O\+R\+M\+A\+T@{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+F\+O\+R\+M\+A\+T}}
+\index{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+F\+O\+R\+M\+A\+T@{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+F\+O\+R\+M\+A\+T}!config.\+h@{config.\+h}}
+\subsubsection[{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+F\+O\+R\+M\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+F\+O\+R\+M\+A\+T~True\+Lies}}\label{config_8h_a49510b8c2e9bed19397ae22f77e2c826}
+
+
+Kind of format to use for expressions. 
+
+\hypertarget{config_8h_abf348628d270c7a946c41001801cd410}{\index{config.\+h@{config.\+h}!G\+A\+R\+B\+A\+G\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+O\+R@{G\+A\+R\+B\+A\+G\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+O\+R}}
+\index{G\+A\+R\+B\+A\+G\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+O\+R@{G\+A\+R\+B\+A\+G\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+O\+R}!config.\+h@{config.\+h}}
+\subsubsection[{G\+A\+R\+B\+A\+G\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+A\+R\+B\+A\+G\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+O\+R~{\bf G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P}}}\label{config_8h_abf348628d270c7a946c41001801cd410}
+
+
+Which kind of garbage collection to use. 
+
+This constant could be set to any of the values G\+C\+\_\+$\ast$. \hypertarget{config_8h_a11df8fff96eeb90d98194580ca986e78}{\index{config.\+h@{config.\+h}!G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P@{G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P}}
+\index{G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P@{G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P}!config.\+h@{config.\+h}}
+\subsubsection[{G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+M\+A\+R\+K\+\_\+\+A\+N\+D\+\_\+\+S\+W\+E\+E\+P~2}}\label{config_8h_a11df8fff96eeb90d98194580ca986e78}
+
+
+Reference counting garbage collector. 
+
+\hypertarget{config_8h_a5b07376eb5fd213b57d7946b6d695896}{\index{config.\+h@{config.\+h}!G\+C\+\_\+\+R\+E\+F\+E\+R\+E\+N\+C\+E\+\_\+\+C\+O\+U\+N\+T\+I\+N\+G@{G\+C\+\_\+\+R\+E\+F\+E\+R\+E\+N\+C\+E\+\_\+\+C\+O\+U\+N\+T\+I\+N\+G}}
+\index{G\+C\+\_\+\+R\+E\+F\+E\+R\+E\+N\+C\+E\+\_\+\+C\+O\+U\+N\+T\+I\+N\+G@{G\+C\+\_\+\+R\+E\+F\+E\+R\+E\+N\+C\+E\+\_\+\+C\+O\+U\+N\+T\+I\+N\+G}!config.\+h@{config.\+h}}
+\subsubsection[{G\+C\+\_\+\+R\+E\+F\+E\+R\+E\+N\+C\+E\+\_\+\+C\+O\+U\+N\+T\+I\+N\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+R\+E\+F\+E\+R\+E\+N\+C\+E\+\_\+\+C\+O\+U\+N\+T\+I\+N\+G~1}}\label{config_8h_a5b07376eb5fd213b57d7946b6d695896}
+
+
+Reference counting garbage collector. 
+
+\hypertarget{config_8h_abb9503b533435673b946a18e1dad2cd9}{\index{config.\+h@{config.\+h}!G\+E\+N\+E\+R\+A\+T\+E\+\_\+\+S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E@{G\+E\+N\+E\+R\+A\+T\+E\+\_\+\+S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E}}
+\index{G\+E\+N\+E\+R\+A\+T\+E\+\_\+\+S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E@{G\+E\+N\+E\+R\+A\+T\+E\+\_\+\+S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E}!config.\+h@{config.\+h}}
+\subsubsection[{G\+E\+N\+E\+R\+A\+T\+E\+\_\+\+S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+E\+N\+E\+R\+A\+T\+E\+\_\+\+S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E}}\label{config_8h_abb9503b533435673b946a18e1dad2cd9}
+
+
+Should additional error-\/checking code be generated? 
+
+\hypertarget{config_8h_a3a73ad1da5d547e0acbb078427798eac}{\index{config.\+h@{config.\+h}!H\+A\+S\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+A\+F\+E\+\_\+\+K\+E\+Y\+S@{H\+A\+S\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+A\+F\+E\+\_\+\+K\+E\+Y\+S}}
+\index{H\+A\+S\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+A\+F\+E\+\_\+\+K\+E\+Y\+S@{H\+A\+S\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+A\+F\+E\+\_\+\+K\+E\+Y\+S}!config.\+h@{config.\+h}}
+\subsubsection[{H\+A\+S\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+A\+F\+E\+\_\+\+K\+E\+Y\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} H\+A\+S\+H\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+A\+F\+E\+\_\+\+K\+E\+Y\+S}}\label{config_8h_a3a73ad1da5d547e0acbb078427798eac}
+
+
+Should hash tables place strings or copies of strings as keys? 
+
+\hypertarget{config_8h_a23da24ab92e9e4d709796ece94205a99}{\index{config.\+h@{config.\+h}!M\+E\+M\+O\+R\+Y\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E@{M\+E\+M\+O\+R\+Y\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E}}
+\index{M\+E\+M\+O\+R\+Y\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E@{M\+E\+M\+O\+R\+Y\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E}!config.\+h@{config.\+h}}
+\subsubsection[{M\+E\+M\+O\+R\+Y\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+E\+M\+O\+R\+Y\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+Z\+E~20000}}\label{config_8h_a23da24ab92e9e4d709796ece94205a99}
+
+
+size of one mem block in expressions/cons structs 
+
+\hypertarget{config_8h_aefdee3c6cdd10d0333c65f564eb4734a}{\index{config.\+h@{config.\+h}!M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N@{M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N}}
+\index{M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N@{M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N}!config.\+h@{config.\+h}}
+\subsubsection[{M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N}}\label{config_8h_aefdee3c6cdd10d0333c65f564eb4734a}
+
+
+Use preallocated memory instead of malloc/free whenever an expression is created. 
+
+\hypertarget{config_8h_ae7a17edf7ef5eccb1894734951aac279}{\index{config.\+h@{config.\+h}!N\+O\+\_\+\+M\+A\+S\+K\+\_\+\+E\+R\+R\+O\+R@{N\+O\+\_\+\+M\+A\+S\+K\+\_\+\+E\+R\+R\+O\+R}}
+\index{N\+O\+\_\+\+M\+A\+S\+K\+\_\+\+E\+R\+R\+O\+R@{N\+O\+\_\+\+M\+A\+S\+K\+\_\+\+E\+R\+R\+O\+R}!config.\+h@{config.\+h}}
+\subsubsection[{N\+O\+\_\+\+M\+A\+S\+K\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} N\+O\+\_\+\+M\+A\+S\+K\+\_\+\+E\+R\+R\+O\+R}}\label{config_8h_ae7a17edf7ef5eccb1894734951aac279}
+
+
+Should subsequent errors mask older errors? I.\+e. 
+
+if one error occured, thus \char`\"{}lisp\+Error != E\+R\+R\+\_\+\+O\+K\char`\"{}, should another error overwrite error reporting variables? If set, this won't happen. \hypertarget{config_8h_a4724cb7d73c991e1fc236f6aa9c3d15d}{\index{config.\+h@{config.\+h}!P\+R\+I\+N\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{P\+R\+I\+N\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{P\+R\+I\+N\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{P\+R\+I\+N\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!config.\+h@{config.\+h}}
+\subsubsection[{P\+R\+I\+N\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} P\+R\+I\+N\+T\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~100}}\label{config_8h_a4724cb7d73c991e1fc236f6aa9c3d15d}
+\hypertarget{config_8h_a46167a977503a51eb6efe97e870568c3}{\index{config.\+h@{config.\+h}!R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}}
+\index{R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E@{R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}!config.\+h@{config.\+h}}
+\subsubsection[{R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} R\+E\+A\+D\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+Z\+E~(int)(16000)}}\label{config_8h_a46167a977503a51eb6efe97e870568c3}
+\hypertarget{config_8h_a968b3bd5697b218af56720b3051bda4a}{\index{config.\+h@{config.\+h}!S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+S@{S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+S}}
+\index{S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+S@{S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+S}!config.\+h@{config.\+h}}
+\subsubsection[{S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+I\+C\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+S}}\label{config_8h_a968b3bd5697b218af56720b3051bda4a}
+
+
+Should the memory be expanded automatically? Will only have effect if M\+E\+M\+O\+R\+Y\+\_\+\+U\+S\+E\+\_\+\+P\+R\+E\+A\+L\+L\+O\+C\+A\+T\+I\+O\+N is set. 
+
+Should native functions be handled strictly? Strictly spoken, this is only necessary on architectures where sizeof(void $\ast$) != sizeof(\+Native\+Func $\ast$) holds. \hypertarget{config_8h_add55624170e6366d96baf14cac17962a}{\index{config.\+h@{config.\+h}!S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+Z\+E@{S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+Z\+E}}
+\index{S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+Z\+E@{S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+Z\+E}!config.\+h@{config.\+h}}
+\subsubsection[{S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+Y\+M\+B\+O\+L\+\_\+\+T\+A\+B\+L\+E\+\_\+\+S\+I\+Z\+E~20}}\label{config_8h_add55624170e6366d96baf14cac17962a}
+\hypertarget{config_8h_a85f9edccb2b24ccda45573f01eff38c9}{\index{config.\+h@{config.\+h}!T\+E\+S\+T\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R@{T\+E\+S\+T\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R}}
+\index{T\+E\+S\+T\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R@{T\+E\+S\+T\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R}!config.\+h@{config.\+h}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+E\+S\+T\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+A\+N\+S\+I\+\_\+\+C\+O\+L\+O\+R}}\label{config_8h_a85f9edccb2b24ccda45573f01eff38c9}
+
+
+Should test use A\+N\+S\+I Escapes to color output? 
+
+\hypertarget{config_8h_a1c6d5de492ac61ad29aec7aa9a436bbf}{\index{config.\+h@{config.\+h}!V\+E\+R\+S\+I\+O\+N@{V\+E\+R\+S\+I\+O\+N}}
+\index{V\+E\+R\+S\+I\+O\+N@{V\+E\+R\+S\+I\+O\+N}!config.\+h@{config.\+h}}
+\subsubsection[{V\+E\+R\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} V\+E\+R\+S\+I\+O\+N~\char`\"{}0.\+4.\+0\char`\"{}}}\label{config_8h_a1c6d5de492ac61ad29aec7aa9a436bbf}

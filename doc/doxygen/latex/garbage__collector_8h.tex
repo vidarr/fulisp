@@ -1,0 +1,236 @@
+\hypertarget{garbage__collector_8h}{\section{garbage\+\_\+collector.\+h File Reference}
+\label{garbage__collector_8h}\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}environment.\+h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structEnvGcInfo}{Env\+Gc\+Info}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a93a5e66b6dc96c5c36c093992e7fa63c}{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}~\hyperlink{garbage__collector_8h_a7bc9867f576a0f671541c6cd70225795}{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}
+\begin{DoxyCompactList}\small\item\em struct in the environment reserved for the G\+C to store whatever data it requires. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a775341c7057480741685d9a300812523}{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}~\hyperlink{garbage__collector_8h_a3f373d8929f4bfe80addbe363b802a0b}{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}
+\begin{DoxyCompactList}\small\item\em struct in each expression reserved for the G\+C to store whatever data it requires. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a162f92afe04173d0e57331bf830248d7}{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}(initcounter)~\hyperlink{garbage__collector_8h_ab18765a4914ef6eebc075316e7c681b8}{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}(initcounter)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_aa4d35da8605f2fe4e0d7fd637eda3306}{G\+C\+\_\+\+R\+U\+N}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})~\hyperlink{garbage__collector_8h_a5314392e70b24fb120e8ea1f90858c83}{\+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\begin{DoxyCompactList}\small\item\em Invoke the garbage collector. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_ad14dd8d32cd51792a4a19ed8d7e8bf25}{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)~\hyperlink{garbage__collector_8h_a1384ac5fc979f90ed2820c8f3d2cff89}{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)
+\begin{DoxyCompactList}\small\item\em Initialize expression after creation. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a5e93a93a1e36400f71f77761b49247bb}{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})~\hyperlink{garbage__collector_8h_aa7a7d0824ef649d5be6b65c2540f60e9}{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\begin{DoxyCompactList}\small\item\em Initialize expression after creation. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a2fbf44a4d5ab400346e3d8c5a2232f02}{G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)~\hyperlink{garbage__collector_8h_aeb37e610dc06d06ac8f9507edaaa946d}{\+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)
+\begin{DoxyCompactList}\small\item\em Return current ref counter of expr. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a82f74224de21dda8e91615e12179d5d3}{G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)~\hyperlink{garbage__collector_8h_a721ae5dbce522a2055e7eebe840d2834}{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)
+\begin{DoxyCompactList}\small\item\em Decrease ref counter of expr. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a7a185eb8c6428f5572d5ff8641d5c613}{G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)~\hyperlink{garbage__collector_8h_a642603f57db6011830afed73f9dedb2d}{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)
+\begin{DoxyCompactList}\small\item\em Increase ref counter of expr. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a7bc9867f576a0f671541c6cd70225795}{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}~struct \hyperlink{structEnvGcInfo}{Env\+Gc\+Info} gc\+Info;
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a3f373d8929f4bfe80addbe363b802a0b}{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_ab18765a4914ef6eebc075316e7c681b8}{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}(initcounter)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a5314392e70b24fb120e8ea1f90858c83}{\+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})~\hyperlink{garbage__collector_8h_aea47e2bcff35833703c0965ec01115d6}{gc\+Mark\+And\+Sweep}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a1384ac5fc979f90ed2820c8f3d2cff89}{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)~\hyperlink{garbage__collector_8h_ab03610c45e1fe5d329a6538868bf45e0}{gc\+Mark\+Expression}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_aa7a7d0824ef649d5be6b65c2540f60e9}{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})~\hyperlink{garbage__collector_8h_a7b969adea355c0316b90714d2dd85a8c}{gc\+Init\+Environment}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_aeb37e610dc06d06ac8f9507edaaa946d}{\+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)~1
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a721ae5dbce522a2055e7eebe840d2834}{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)~while(0) \{\}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8h_a642603f57db6011830afed73f9dedb2d}{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, expr)~while(0) \{\}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct Expression $\ast$ \hyperlink{garbage__collector_8h_aea47e2bcff35833703c0965ec01115d6}{gc\+Mark\+And\+Sweep} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\item 
+struct Expression $\ast$ \hyperlink{garbage__collector_8h_ab03610c45e1fe5d329a6538868bf45e0}{gc\+Mark\+Expression} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\item 
+struct Expression $\ast$ \hyperlink{garbage__collector_8h_a7b969adea355c0316b90714d2dd85a8c}{gc\+Init\+Environment} (struct \hyperlink{structEnvironment}{Environment} $\ast$environ)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{garbage__collector_8h_a721ae5dbce522a2055e7eebe840d2834}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~while(0) \{\}}}\label{garbage__collector_8h_a721ae5dbce522a2055e7eebe840d2834}
+\hypertarget{garbage__collector_8h_a7bc9867f576a0f671541c6cd70225795}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O@{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O@{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O~struct {\bf Env\+Gc\+Info} gc\+Info;}}\label{garbage__collector_8h_a7bc9867f576a0f671541c6cd70225795}
+\hypertarget{garbage__collector_8h_a3f373d8929f4bfe80addbe363b802a0b}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O@{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O@{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}}\label{garbage__collector_8h_a3f373d8929f4bfe80addbe363b802a0b}
+\hypertarget{garbage__collector_8h_aeb37e610dc06d06ac8f9507edaaa946d}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{\+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{\+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~1}}\label{garbage__collector_8h_aeb37e610dc06d06ac8f9507edaaa946d}
+\hypertarget{garbage__collector_8h_a642603f57db6011830afed73f9dedb2d}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~while(0) \{\}}}\label{garbage__collector_8h_a642603f57db6011830afed73f9dedb2d}
+\hypertarget{garbage__collector_8h_aa7a7d0824ef649d5be6b65c2540f60e9}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}}
+\end{DoxyParamCaption}
+)~{\bf gc\+Init\+Environment}({\bf env})}}\label{garbage__collector_8h_aa7a7d0824ef649d5be6b65c2540f60e9}
+\hypertarget{garbage__collector_8h_ab18765a4914ef6eebc075316e7c681b8}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O@{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O@{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O(
+\begin{DoxyParamCaption}
+\item[{}]{initcounter}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8h_ab18765a4914ef6eebc075316e7c681b8}
+\hypertarget{garbage__collector_8h_a1384ac5fc979f90ed2820c8f3d2cff89}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N@{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N@{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf gc\+Mark\+Expression}({\bf env}, expr)}}\label{garbage__collector_8h_a1384ac5fc979f90ed2820c8f3d2cff89}
+\hypertarget{garbage__collector_8h_a5314392e70b24fb120e8ea1f90858c83}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!\+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N@{\+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N}}
+\index{\+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N@{\+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{\+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}}
+\end{DoxyParamCaption}
+)~{\bf gc\+Mark\+And\+Sweep}({\bf env})}}\label{garbage__collector_8h_a5314392e70b24fb120e8ea1f90858c83}
+\hypertarget{garbage__collector_8h_a82f74224de21dda8e91615e12179d5d3}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}}
+\index{G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}({\bf env}, expr)}}\label{garbage__collector_8h_a82f74224de21dda8e91615e12179d5d3}
+
+
+Decrease ref counter of expr. 
+
+\hypertarget{garbage__collector_8h_a93a5e66b6dc96c5c36c093992e7fa63c}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O@{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}}
+\index{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O@{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+N\+V\+\_\+\+I\+N\+F\+O}}}\label{garbage__collector_8h_a93a5e66b6dc96c5c36c093992e7fa63c}
+
+
+struct in the environment reserved for the G\+C to store whatever data it requires. 
+
+Actual appearance depends on G\+C used. \hypertarget{garbage__collector_8h_a775341c7057480741685d9a300812523}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O@{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}}
+\index{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O@{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+D\+E\+F\+I\+N\+E\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}}}\label{garbage__collector_8h_a775341c7057480741685d9a300812523}
+
+
+struct in each expression reserved for the G\+C to store whatever data it requires. 
+
+Actual appearance depends on G\+C used. \hypertarget{garbage__collector_8h_a2fbf44a4d5ab400346e3d8c5a2232f02}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}}
+\index{G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+G\+E\+T\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}({\bf env}, expr)}}\label{garbage__collector_8h_a2fbf44a4d5ab400346e3d8c5a2232f02}
+
+
+Return current ref counter of expr. 
+
+\hypertarget{garbage__collector_8h_a7a185eb8c6428f5572d5ff8641d5c613}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}}
+\index{G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T@{G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+C\+\_\+\+R\+E\+F\+\_\+\+C\+O\+U\+N\+T}({\bf env}, expr)}}\label{garbage__collector_8h_a7a185eb8c6428f5572d5ff8641d5c613}
+
+
+Increase ref counter of expr. 
+
+\hypertarget{garbage__collector_8h_a5e93a93a1e36400f71f77761b49247bb}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}}
+\index{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}({\bf env})}}\label{garbage__collector_8h_a5e93a93a1e36400f71f77761b49247bb}
+
+
+Initialize expression after creation. 
+
+\hypertarget{garbage__collector_8h_a162f92afe04173d0e57331bf830248d7}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O@{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}}
+\index{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O@{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O(
+\begin{DoxyParamCaption}
+\item[{}]{initcounter}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+\_\+\+I\+N\+F\+O}(initcounter)}}\label{garbage__collector_8h_a162f92afe04173d0e57331bf830248d7}
+\hypertarget{garbage__collector_8h_ad14dd8d32cd51792a4a19ed8d7e8bf25}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N@{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}}
+\index{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N@{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+I\+N\+I\+T\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}({\bf env}, expr)}}\label{garbage__collector_8h_ad14dd8d32cd51792a4a19ed8d7e8bf25}
+
+
+Initialize expression after creation. 
+
+\hypertarget{garbage__collector_8h_aa4d35da8605f2fe4e0d7fd637eda3306}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!G\+C\+\_\+\+R\+U\+N@{G\+C\+\_\+\+R\+U\+N}}
+\index{G\+C\+\_\+\+R\+U\+N@{G\+C\+\_\+\+R\+U\+N}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{G\+C\+\_\+\+R\+U\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} G\+C\+\_\+\+R\+U\+N(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+\_\+\+G\+C\+\_\+\+R\+U\+N}({\bf env})}}\label{garbage__collector_8h_aa4d35da8605f2fe4e0d7fd637eda3306}
+
+
+Invoke the garbage collector. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{garbage__collector_8h_a7b969adea355c0316b90714d2dd85a8c}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!gc\+Init\+Environment@{gc\+Init\+Environment}}
+\index{gc\+Init\+Environment@{gc\+Init\+Environment}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{gc\+Init\+Environment}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ gc\+Init\+Environment (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Environment} $\ast$}]{environ}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8h_a7b969adea355c0316b90714d2dd85a8c}
+\hypertarget{garbage__collector_8h_aea47e2bcff35833703c0965ec01115d6}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!gc\+Mark\+And\+Sweep@{gc\+Mark\+And\+Sweep}}
+\index{gc\+Mark\+And\+Sweep@{gc\+Mark\+And\+Sweep}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{gc\+Mark\+And\+Sweep}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ gc\+Mark\+And\+Sweep (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8h_aea47e2bcff35833703c0965ec01115d6}
+\hypertarget{garbage__collector_8h_ab03610c45e1fe5d329a6538868bf45e0}{\index{garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}!gc\+Mark\+Expression@{gc\+Mark\+Expression}}
+\index{gc\+Mark\+Expression@{gc\+Mark\+Expression}!garbage\+\_\+collector.\+h@{garbage\+\_\+collector.\+h}}
+\subsubsection[{gc\+Mark\+Expression}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ gc\+Mark\+Expression (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8h_ab03610c45e1fe5d329a6538868bf45e0}

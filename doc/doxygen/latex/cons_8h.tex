@@ -1,0 +1,233 @@
+\hypertarget{cons_8h}{\section{cons.\+h File Reference}
+\label{cons_8h}\index{cons.\+h@{cons.\+h}}
+}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}safety.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}stdlib.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}expression.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}error.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lisp\+\_\+internals.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}streams.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}nativefunctions.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memory.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{cons_8h_a5006808378326bc40873d6d46f26b6d6}{I\+T\+E\+R\+A\+T\+E\+\_\+\+L\+I\+S\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, list, run\+Var, code)
+\begin{DoxyCompactList}\small\item\em Accessing cons cells. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct Expression $\ast$ \hyperlink{cons_8h_a006359eb4975c93fdafc6898383bb126}{cons} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Creates a cons cell. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{cons_8h_a820d6aaed83cf85ab550ef5676892c9f}{int\+Car} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$args)
+\begin{DoxyCompactList}\small\item\em Returnes the C\+A\+R of a Cons cell or N\+I\+L if something goes wrong Does not increase the ref counter! \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{cons_8h_a37b9d2ab24e09417becfdd4e7c760d19}{car} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$args)
+\begin{DoxyCompactList}\small\item\em Returnes the C\+A\+R of a Cons cell or N\+I\+L if something goes wrong. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{cons_8h_a93ab6c8e1963e8fe134709ff8f5e9b87}{int\+Cdr} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$args)
+\begin{DoxyCompactList}\small\item\em Returnes the C\+D\+R of a Cons cell or N\+I\+L if something goes wrong Does not increase the ref counter! \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{cons_8h_a417610d5c602cca8068f97964f3f237a}{cdr} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$args)
+\begin{DoxyCompactList}\small\item\em Returnes the C\+D\+R of a Cons cell or N\+I\+L if something goes wrong. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{cons_8h_af1f3216e21ac23b963292750b5f813de}{set\+Car} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Takes two arguments. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{cons_8h_a66585179cba12630777140f9cbfe5c54}{set\+Cdr} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Takes two arguments. \end{DoxyCompactList}\item 
+struct Cons $\ast$ \hyperlink{cons_8h_ab52f9ab153ba084800817d19a737b0cb}{int\+Cons} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$\hyperlink{cons_8h_a37b9d2ab24e09417becfdd4e7c760d19}{car}, struct Expression $\ast$\hyperlink{cons_8h_a417610d5c602cca8068f97964f3f237a}{cdr})
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{cons_8h_a5006808378326bc40873d6d46f26b6d6}{\index{cons.\+h@{cons.\+h}!I\+T\+E\+R\+A\+T\+E\+\_\+\+L\+I\+S\+T@{I\+T\+E\+R\+A\+T\+E\+\_\+\+L\+I\+S\+T}}
+\index{I\+T\+E\+R\+A\+T\+E\+\_\+\+L\+I\+S\+T@{I\+T\+E\+R\+A\+T\+E\+\_\+\+L\+I\+S\+T}!cons.\+h@{cons.\+h}}
+\subsubsection[{I\+T\+E\+R\+A\+T\+E\+\_\+\+L\+I\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} I\+T\+E\+R\+A\+T\+E\+\_\+\+L\+I\+S\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{list, }
+\item[{}]{run\+Var, }
+\item[{}]{code}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_a5006808378326bc40873d6d46f26b6d6}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{ \(\backslash\)
+    struct Expression *next; \(\backslash\)
+    runVar = list; \(\backslash\)
+    while(runVar != \hyperlink{expression_8h_a263efce0e5cda1d387a1a43f94715445}{NIL}) \{ \(\backslash\)
+        if(!\hyperlink{expression_8h_aa49402c6118dd7875bad987760e1de4e}{EXPR\_OF\_TYPE}(runVar, \hyperlink{expression_8h_a60b436a98bed05a75fe3aa3a2f59a764}{EXPR\_CONS})) \{ \hyperlink{error_8h_aa9b54f8989d5418237e9535091f3a629}{\(\backslash\)}
+\hyperlink{error_8h_aa9b54f8989d5418237e9535091f3a629}{            ERROR}(\hyperlink{error_8h_a7a53797861113dc2724f82efc1634e22}{ERR\_UNEXPECTED\_TYPE}, \textcolor{stringliteral}{"list is not regular"}); \(\backslash\)
+            return \hyperlink{expression_8h_a263efce0e5cda1d387a1a43f94715445}{NIL}; \(\backslash\)
+        \} \(\backslash\)
+        next = \hyperlink{cons_8h_a93ab6c8e1963e8fe134709ff8f5e9b87}{intCdr}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, runVar); \(\backslash\)
+        runVar = \hyperlink{cons_8h_a820d6aaed83cf85ab550ef5676892c9f}{intCar}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, runVar); \(\backslash\)
+        code; \(\backslash\)
+        runVar = next; \(\backslash\)
+    \} \(\backslash\)
+\}
+\end{DoxyCode}
+
+
+Accessing cons cells. 
+
+Iterate over list of cons cells and execute code on every single car (eqv. of Common Lisp's \char`\"{}mapcar\char`\"{}). Iterates over the list, assigns first car to run\+Var, then executes \char`\"{}code\char`\"{}, then assigns next car to run\+Var and goes on like this until the end of the list has been reached. \char`\"{}code\char`\"{} can use \char`\"{}run\+Var\char`\"{} to subsequently access every car. 
+\begin{DoxyParams}{Parameters}
+{\em env} & current environment \\
+\hline
+{\em list} & consed list \\
+\hline
+{\em run\+Var} & variable to use as iterator. Must be type \char`\"{}struct Expression $\ast$\char`\"{} \\
+\hline
+{\em code} & the code to map onto the list's entries \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Function Documentation}
+\hypertarget{cons_8h_a37b9d2ab24e09417becfdd4e7c760d19}{\index{cons.\+h@{cons.\+h}!car@{car}}
+\index{car@{car}!cons.\+h@{cons.\+h}}
+\subsubsection[{car}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ car (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{args}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_a37b9d2ab24e09417becfdd4e7c760d19}
+
+
+Returnes the C\+A\+R of a Cons cell or N\+I\+L if something goes wrong. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & a cons cell \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the C\+A\+R of args or N\+I\+L 
+\end{DoxyReturn}
+\hypertarget{cons_8h_a417610d5c602cca8068f97964f3f237a}{\index{cons.\+h@{cons.\+h}!cdr@{cdr}}
+\index{cdr@{cdr}!cons.\+h@{cons.\+h}}
+\subsubsection[{cdr}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ cdr (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{args}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_a417610d5c602cca8068f97964f3f237a}
+
+
+Returnes the C\+D\+R of a Cons cell or N\+I\+L if something goes wrong. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & a cons cell \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the C\+D\+R of args or N\+I\+L 
+\end{DoxyReturn}
+\hypertarget{cons_8h_a006359eb4975c93fdafc6898383bb126}{\index{cons.\+h@{cons.\+h}!cons@{cons}}
+\index{cons@{cons}!cons.\+h@{cons.\+h}}
+\subsubsection[{cons}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ cons (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_a006359eb4975c93fdafc6898383bb126}
+
+
+Creates a cons cell. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em expr} & list containing two elements\+: car and cdr of new cons cell \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a new expression resembling the cons cell 
+\end{DoxyReturn}
+\hypertarget{cons_8h_a820d6aaed83cf85ab550ef5676892c9f}{\index{cons.\+h@{cons.\+h}!int\+Car@{int\+Car}}
+\index{int\+Car@{int\+Car}!cons.\+h@{cons.\+h}}
+\subsubsection[{int\+Car}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ int\+Car (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{args}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_a820d6aaed83cf85ab550ef5676892c9f}
+
+
+Returnes the C\+A\+R of a Cons cell or N\+I\+L if something goes wrong Does not increase the ref counter! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & a cons cell \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the C\+A\+R of args or N\+I\+L 
+\end{DoxyReturn}
+\hypertarget{cons_8h_a93ab6c8e1963e8fe134709ff8f5e9b87}{\index{cons.\+h@{cons.\+h}!int\+Cdr@{int\+Cdr}}
+\index{int\+Cdr@{int\+Cdr}!cons.\+h@{cons.\+h}}
+\subsubsection[{int\+Cdr}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ int\+Cdr (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{args}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_a93ab6c8e1963e8fe134709ff8f5e9b87}
+
+
+Returnes the C\+D\+R of a Cons cell or N\+I\+L if something goes wrong Does not increase the ref counter! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & a cons cell \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the C\+D\+R of args or N\+I\+L 
+\end{DoxyReturn}
+\hypertarget{cons_8h_ab52f9ab153ba084800817d19a737b0cb}{\index{cons.\+h@{cons.\+h}!int\+Cons@{int\+Cons}}
+\index{int\+Cons@{int\+Cons}!cons.\+h@{cons.\+h}}
+\subsubsection[{int\+Cons}]{\setlength{\rightskip}{0pt plus 5cm}struct Cons$\ast$ int\+Cons (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{car, }
+\item[{struct Expression $\ast$}]{cdr}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_ab52f9ab153ba084800817d19a737b0cb}
+\hypertarget{cons_8h_af1f3216e21ac23b963292750b5f813de}{\index{cons.\+h@{cons.\+h}!set\+Car@{set\+Car}}
+\index{set\+Car@{set\+Car}!cons.\+h@{cons.\+h}}
+\subsubsection[{set\+Car}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ set\+Car (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_af1f3216e21ac23b963292750b5f813de}
+
+
+Takes two arguments. 
+
+Second argument needs to be a list with two elements. First element needs to be a cons cell. Second one can be of any kind. Tries to set the car of the first element to the second argument. 
+\begin{DoxyParams}{Parameters}
+{\em env} & Current environment \\
+\hline
+{\em expr} & list with two elements. \\
+\hline
+\end{DoxyParams}
+\hypertarget{cons_8h_a66585179cba12630777140f9cbfe5c54}{\index{cons.\+h@{cons.\+h}!set\+Cdr@{set\+Cdr}}
+\index{set\+Cdr@{set\+Cdr}!cons.\+h@{cons.\+h}}
+\subsubsection[{set\+Cdr}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ set\+Cdr (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{cons_8h_a66585179cba12630777140f9cbfe5c54}
+
+
+Takes two arguments. 
+
+Second argument needs to be a list with two elements. First element needs to be a cons cell. Second one can be of any kind. Tries to set the cdr of the first element to the second argument. 
+\begin{DoxyParams}{Parameters}
+{\em env} & Current environment \\
+\hline
+{\em expr} & list with two elements. \\
+\hline
+\end{DoxyParams}

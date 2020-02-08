@@ -1,0 +1,333 @@
+\hypertarget{environment_8h}{\section{environment.\+h File Reference}
+\label{environment_8h}\index{environment.\+h@{environment.\+h}}
+}
+{\ttfamily \#include \char`\"{}lisp\+\_\+internals.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}hash.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}error.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}expression.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}memory.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}garbage\+\_\+collector.\+h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structEnvironment}{Environment}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{environment_8h_a22ae9ea48ee62abe7b75259cd0d6c4d3}{E\+N\+S\+U\+R\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}(expr)
+\begin{DoxyCompactList}\small\item\em Check if expr is of type environment and if not, set error appropriately and return N\+I\+L. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{environment_8h_aea7b5b48c3489a0bfb801f7a7f6892a4}{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+P\+A\+R\+E\+N\+T}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})~((\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})-\/$>$parent)
+\begin{DoxyCompactList}\small\item\em Get parent environment of env. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{environment_8h_a9e34c6026a14409c4a041e70f39d66e8}{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+M\+E\+M\+O\+R\+Y}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})~((E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}))-\/$>$memory)
+\begin{DoxyCompactList}\small\item\em Get pointer to the \hyperlink{structMemory}{Memory} struct. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{environment_8h_a0f5784df84bbf5fcf7d3cf9628ca4221}{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+L\+O\+O\+K\+U\+P}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, sym)~\hyperlink{environment_8h_a48f3e5d2c5c2f8a0d6114ac6c641afe3}{environment\+Lookup}((\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}), (sym))
+\begin{DoxyCompactList}\small\item\em Try to resolve a symbol within an environment. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{environment_8h_ab8e42df7ade613e97d7aeb7fe0ef0b9a}{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+L\+O\+O\+K\+U\+P}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, sym)~(\hyperlink{hash_8h_a36331c57eef8a33512c68b70fb32a44b}{hash\+Table\+Get}((E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}))-\/$>$\hyperlink{test-env_8c_a32b53c3ec08a510d87bfedc8c6789353}{lookup}, (sym)))
+\begin{DoxyCompactList}\small\item\em Try to resolve a string within an environment. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{environment_8h_a12ba013ee3ac320dee4ebe793f2882c5}{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, string, expr)
+\begin{DoxyCompactList}\small\item\em Define a symbol within environment Does not check whether the symbol already exists. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{environment_8h_a1d391b517679e22560d2bd232dfeb60e}{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+Y\+M\+B\+O\+L}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, sym, expr)~\hyperlink{environment_8h_a12ba013ee3ac320dee4ebe793f2882c5}{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+S\+T\+R\+I\+N\+G(sym), (expr))
+\begin{DoxyCompactList}\small\item\em Define a symbol within environment Does not check whether the symbol already exists. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{environment_8h_ad8f79edb87c5dc9c5888f5191820c69c}{A\+D\+D\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, string, func)
+\begin{DoxyCompactList}\small\item\em Create a new expression containing a native function and insert it into the lookup table of an environment. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct Expression $\ast$ \hyperlink{environment_8h_af69aff6198e55555e3f4014c808b60cc}{environment\+Create} (struct Expression $\ast$parent, struct \hyperlink{structMemory}{Memory} $\ast$mem)
+\begin{DoxyCompactList}\small\item\em Create new empty environment. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{environment_8h_a835c3fc0597fa8435ed7d4622c588e8b}{environment\+Create\+Std\+Env} (struct \hyperlink{structMemory}{Memory} $\ast$mem)
+\begin{DoxyCompactList}\small\item\em Create new environment with standard symbols defined. \end{DoxyCompactList}\item 
+void \hyperlink{environment_8h_a1ccdc267f29779fb9a1946c5713efe15}{environment\+Dispose} (struct Expression $\ast$surr\+Env, struct \hyperlink{structEnvironment}{Environment} $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\begin{DoxyCompactList}\small\item\em Disposes of an environment. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{environment_8h_a48f3e5d2c5c2f8a0d6114ac6c641afe3}{environment\+Lookup} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$sym)
+\begin{DoxyCompactList}\small\item\em Look up the binding of a symbol within the current environment. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{environment_8h_ac5eece09addf747ade1019b33ac6c2f9}{environment\+Update} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$sym, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Look up the binding of a symbol within the current environment. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{environment_8h_ad8f79edb87c5dc9c5888f5191820c69c}{\index{environment.\+h@{environment.\+h}!A\+D\+D\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N@{A\+D\+D\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}}
+\index{A\+D\+D\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N@{A\+D\+D\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}!environment.\+h@{environment.\+h}}
+\subsubsection[{A\+D\+D\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} A\+D\+D\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{string, }
+\item[{}]{func}
+\end{DoxyParamCaption}
+)}}\label{environment_8h_ad8f79edb87c5dc9c5888f5191820c69c}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{\(\backslash\)
+    struct Expression *f = \hyperlink{expression_8c_ac91a3fa5894c699f5adf95bcdd3a4ddb}{expressionCreateNativeFunc}((
+      \hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}), (func)); \hyperlink{environment_8h_a12ba013ee3ac320dee4ebe793f2882c5}{\(\backslash\)}
+\hyperlink{environment_8h_a12ba013ee3ac320dee4ebe793f2882c5}{    ENVIRONMENT\_ADD\_STRING}((\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}), (\textcolor{keywordtype}{string}), f); 
+      \hyperlink{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}{expressionDispose}((\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}), f); \}
+\end{DoxyCode}
+
+
+Create a new expression containing a native function and insert it into the lookup table of an environment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to instert to \\
+\hline
+{\em string} & name of the function \\
+\hline
+{\em func} & the function to add \\
+\hline
+\end{DoxyParams}
+\hypertarget{environment_8h_a22ae9ea48ee62abe7b75259cd0d6c4d3}{\index{environment.\+h@{environment.\+h}!E\+N\+S\+U\+R\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{E\+N\+S\+U\+R\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}}
+\index{E\+N\+S\+U\+R\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{E\+N\+S\+U\+R\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}!environment.\+h@{environment.\+h}}
+\subsubsection[{E\+N\+S\+U\+R\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+N\+S\+U\+R\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)}}\label{environment_8h_a22ae9ea48ee62abe7b75259cd0d6c4d3}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\hyperlink{safety_8h_ad00f0e45a5404249bb6dd2ce0ff395fb}{IF\_SAFETY\_CODE}(\textcolor{keywordflow}{if}(!\hyperlink{expression_8h_aa49402c6118dd7875bad987760e1de4e}{EXPR\_OF\_TYPE}((expr), 
+      \hyperlink{expression_8h_a6b9d755b6ef8fbd7b5f48f1ba5006e3b}{EXPR\_ENVIRONMENT})) \{ \hyperlink{error_8h_aa9b54f8989d5418237e9535091f3a629}{\(\backslash\)}
+\hyperlink{error_8h_aa9b54f8989d5418237e9535091f3a629}{        ERROR}(\hyperlink{error_8h_a7a53797861113dc2724f82efc1634e22}{ERR\_UNEXPECTED\_TYPE}, \textcolor{stringliteral}{"Expected Environment"}); \(\backslash\)
+        return \hyperlink{expression_8h_a263efce0e5cda1d387a1a43f94715445}{NIL}; \(\backslash\)
+\})
+\end{DoxyCode}
+
+
+Check if expr is of type environment and if not, set error appropriately and return N\+I\+L. 
+
+\hypertarget{environment_8h_a12ba013ee3ac320dee4ebe793f2882c5}{\index{environment.\+h@{environment.\+h}!E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G}}
+\index{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G}!environment.\+h@{environment.\+h}}
+\subsubsection[{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{string, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)}}\label{environment_8h_a12ba013ee3ac320dee4ebe793f2882c5}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{\(\backslash\)
+    void *old = \hyperlink{hash_8c_a3969ca3ba6a04e304ec9fefb24bce35e}{hashTableSet}((EXPRESSION\_ENVIRONMENT(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}))->
+      \hyperlink{test-env_8c_a32b53c3ec08a510d87bfedc8c6789353}{lookup}, (\textcolor{keywordtype}{string}), (expr)); \(\backslash\)
+    if(old != NULL) \hyperlink{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}{expressionDispose}(\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, (struct Expression *)old); \(\backslash\)
+    \hyperlink{expression_8c_ae2816962fd2386031520040a3747ca47}{expressionAssign}((env), (expr)); \(\backslash\)
+\};
+\end{DoxyCode}
+
+
+Define a symbol within environment Does not check whether the symbol already exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to define the symbol in \\
+\hline
+{\em string} & the name of the new symbol \\
+\hline
+{\em expr} & the expression to set the symbol to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+old value of the symbol or N\+U\+L\+L if previously not set 
+\end{DoxyReturn}
+\hypertarget{environment_8h_a1d391b517679e22560d2bd232dfeb60e}{\index{environment.\+h@{environment.\+h}!E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+Y\+M\+B\+O\+L@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+Y\+M\+B\+O\+L@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+Y\+M\+B\+O\+L}!environment.\+h@{environment.\+h}}
+\subsubsection[{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+Y\+M\+B\+O\+L(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{sym, }
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+A\+D\+D\+\_\+\+S\+T\+R\+I\+N\+G}({\bf env}, E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+S\+T\+R\+I\+N\+G(sym), (expr))}}\label{environment_8h_a1d391b517679e22560d2bd232dfeb60e}
+
+
+Define a symbol within environment Does not check whether the symbol already exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to define the symbol in \\
+\hline
+{\em sym} & the symbol \\
+\hline
+{\em expression} & the epxression to set the symbol to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+old value of the symbol or N\+U\+L\+L if previously not set 
+\end{DoxyReturn}
+\hypertarget{environment_8h_a9e34c6026a14409c4a041e70f39d66e8}{\index{environment.\+h@{environment.\+h}!E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+M\+E\+M\+O\+R\+Y@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+M\+E\+M\+O\+R\+Y}}
+\index{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+M\+E\+M\+O\+R\+Y@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+M\+E\+M\+O\+R\+Y}!environment.\+h@{environment.\+h}}
+\subsubsection[{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+M\+E\+M\+O\+R\+Y}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+M\+E\+M\+O\+R\+Y(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}}
+\end{DoxyParamCaption}
+)~((E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T({\bf env}))-\/$>$memory)}}\label{environment_8h_a9e34c6026a14409c4a041e70f39d66e8}
+
+
+Get pointer to the \hyperlink{structMemory}{Memory} struct. 
+
+\hypertarget{environment_8h_aea7b5b48c3489a0bfb801f7a7f6892a4}{\index{environment.\+h@{environment.\+h}!E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+P\+A\+R\+E\+N\+T@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+P\+A\+R\+E\+N\+T}}
+\index{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+P\+A\+R\+E\+N\+T@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+P\+A\+R\+E\+N\+T}!environment.\+h@{environment.\+h}}
+\subsubsection[{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+P\+A\+R\+E\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+G\+E\+T\+\_\+\+P\+A\+R\+E\+N\+T(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}}
+\end{DoxyParamCaption}
+)~(({\bf env})-\/$>$parent)}}\label{environment_8h_aea7b5b48c3489a0bfb801f7a7f6892a4}
+
+
+Get parent environment of env. 
+
+\hypertarget{environment_8h_ab8e42df7ade613e97d7aeb7fe0ef0b9a}{\index{environment.\+h@{environment.\+h}!E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+L\+O\+O\+K\+U\+P@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+L\+O\+O\+K\+U\+P}}
+\index{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+L\+O\+O\+K\+U\+P@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+L\+O\+O\+K\+U\+P}!environment.\+h@{environment.\+h}}
+\subsubsection[{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+L\+O\+O\+K\+U\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+L\+O\+O\+K\+U\+P(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{sym}
+\end{DoxyParamCaption}
+)~({\bf hash\+Table\+Get}((E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T({\bf env}))-\/$>${\bf lookup}, (sym)))}}\label{environment_8h_ab8e42df7ade613e97d7aeb7fe0ef0b9a}
+
+
+Try to resolve a string within an environment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to use \\
+\hline
+{\em sym} & the string to look up \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+whatever sym resolves to 
+\end{DoxyReturn}
+\hypertarget{environment_8h_a0f5784df84bbf5fcf7d3cf9628ca4221}{\index{environment.\+h@{environment.\+h}!E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+L\+O\+O\+K\+U\+P@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+L\+O\+O\+K\+U\+P}}
+\index{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+L\+O\+O\+K\+U\+P@{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+L\+O\+O\+K\+U\+P}!environment.\+h@{environment.\+h}}
+\subsubsection[{E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+L\+O\+O\+K\+U\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L\+\_\+\+L\+O\+O\+K\+U\+P(
+\begin{DoxyParamCaption}
+\item[{}]{{\bf env}, }
+\item[{}]{sym}
+\end{DoxyParamCaption}
+)~{\bf environment\+Lookup}(({\bf env}), (sym))}}\label{environment_8h_a0f5784df84bbf5fcf7d3cf9628ca4221}
+
+
+Try to resolve a symbol within an environment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & expression containing the environment to use \\
+\hline
+{\em sym} & the symbol to look up \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+whatever sym resolves to 
+\end{DoxyReturn}
+
+
+\subsection{Function Documentation}
+\hypertarget{environment_8h_af69aff6198e55555e3f4014c808b60cc}{\index{environment.\+h@{environment.\+h}!environment\+Create@{environment\+Create}}
+\index{environment\+Create@{environment\+Create}!environment.\+h@{environment.\+h}}
+\subsubsection[{environment\+Create}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ environment\+Create (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{parent, }
+\item[{struct {\bf Memory} $\ast$}]{mem}
+\end{DoxyParamCaption}
+)}}\label{environment_8h_af69aff6198e55555e3f4014c808b60cc}
+
+
+Create new empty environment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & either expression containing parent environment or 0 \\
+\hline
+{\em mem} & pointer to a \hyperlink{structMemory}{Memory} struct \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new environment 
+\end{DoxyReturn}
+\hypertarget{environment_8h_a835c3fc0597fa8435ed7d4622c588e8b}{\index{environment.\+h@{environment.\+h}!environment\+Create\+Std\+Env@{environment\+Create\+Std\+Env}}
+\index{environment\+Create\+Std\+Env@{environment\+Create\+Std\+Env}!environment.\+h@{environment.\+h}}
+\subsubsection[{environment\+Create\+Std\+Env}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ environment\+Create\+Std\+Env (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Memory} $\ast$}]{mem}
+\end{DoxyParamCaption}
+)}}\label{environment_8h_a835c3fc0597fa8435ed7d4622c588e8b}
+
+
+Create new environment with standard symbols defined. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mem} & pointer to a \hyperlink{structMemory}{Memory} struct \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new environment 
+\end{DoxyReturn}
+\hypertarget{environment_8h_a1ccdc267f29779fb9a1946c5713efe15}{\index{environment.\+h@{environment.\+h}!environment\+Dispose@{environment\+Dispose}}
+\index{environment\+Dispose@{environment\+Dispose}!environment.\+h@{environment.\+h}}
+\subsubsection[{environment\+Dispose}]{\setlength{\rightskip}{0pt plus 5cm}void environment\+Dispose (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{surr\+Env, }
+\item[{struct {\bf Environment} $\ast$}]{env}
+\end{DoxyParamCaption}
+)}}\label{environment_8h_a1ccdc267f29779fb9a1946c5713efe15}
+
+
+Disposes of an environment. 
+
+{\bfseries If you want to get rid of a environment, use expression\+Dispose. This function is to be used internally/by expression\+Dispose only!} 
+\begin{DoxyParams}{Parameters}
+{\em surr\+Env} & surrounding environment \\
+\hline
+{\em env} & the environment to dispose \\
+\hline
+\end{DoxyParams}
+\hypertarget{environment_8h_a48f3e5d2c5c2f8a0d6114ac6c641afe3}{\index{environment.\+h@{environment.\+h}!environment\+Lookup@{environment\+Lookup}}
+\index{environment\+Lookup@{environment\+Lookup}!environment.\+h@{environment.\+h}}
+\subsubsection[{environment\+Lookup}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ environment\+Lookup (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{sym}
+\end{DoxyParamCaption}
+)}}\label{environment_8h_a48f3e5d2c5c2f8a0d6114ac6c641afe3}
+
+
+Look up the binding of a symbol within the current environment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to look up symbol \\
+\hline
+{\em sym} & the symbol to look up \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+expression bound to the symbol or N\+I\+L if not found 
+\end{DoxyReturn}
+\hypertarget{environment_8h_ac5eece09addf747ade1019b33ac6c2f9}{\index{environment.\+h@{environment.\+h}!environment\+Update@{environment\+Update}}
+\index{environment\+Update@{environment\+Update}!environment.\+h@{environment.\+h}}
+\subsubsection[{environment\+Update}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ environment\+Update (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{sym, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{environment_8h_ac5eece09addf747ade1019b33ac6c2f9}
+
+
+Look up the binding of a symbol within the current environment. 
+
+if found, bind expr to that symbol. If not found, return N\+U\+L\+L. 
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to look up symbol \\
+\hline
+{\em sym} & the symbol to look up \\
+\hline
+{\em expr} & Expression to bind to sym \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+expression bound to the symbol or N\+U\+L\+L if not found 
+\end{DoxyReturn}

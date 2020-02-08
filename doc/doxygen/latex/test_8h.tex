@@ -1,0 +1,90 @@
+\hypertarget{test_8h}{\section{test.\+h File Reference}
+\label{test_8h}\index{test.\+h@{test.\+h}}
+}
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8h_aa32fdbbaa82deb9075bcc51baecec61c}{D\+E\+C\+L\+A\+R\+E\+\_\+\+T\+E\+S\+T}(name)~printf(\char`\"{}\textbackslash{}n\+Testing \char`\"{} \#name \char`\"{}\textbackslash{}n\textbackslash{}n\char`\"{});
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8h_a562e15dd66cf158c98dbfec9f6afa1ae}{T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D}~0
+\begin{DoxyCompactList}\small\item\em Indicates successful test result. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test_8h_a8b8b91205df891e2c7837bd03795306f}{T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D}~1
+\begin{DoxyCompactList}\small\item\em Indicates failed test result. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{test_8h_a3579ec9342b5c608ec759101a87e75cf}{test} (int \hyperlink{nativefunctions_8h_ad5ef4d5555cde8090fee158b324391e8}{cond}, char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Tests condition, outputs a message according to result of test and returns result. \end{DoxyCompactList}\item 
+void \hyperlink{test_8h_a89a21d9b6c813c1d69c876805d83c150}{test\+Warn} (char $\ast$msg)
+\begin{DoxyCompactList}\small\item\em Print out warning message. \end{DoxyCompactList}\item 
+void \hyperlink{test_8h_ae49b021a82d5b81621cb6e11f8f080f0}{test\+Message} (char $\ast$msg)
+\begin{DoxyCompactList}\small\item\em Print out neutral message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{test_8h_aa32fdbbaa82deb9075bcc51baecec61c}{\index{test.\+h@{test.\+h}!D\+E\+C\+L\+A\+R\+E\+\_\+\+T\+E\+S\+T@{D\+E\+C\+L\+A\+R\+E\+\_\+\+T\+E\+S\+T}}
+\index{D\+E\+C\+L\+A\+R\+E\+\_\+\+T\+E\+S\+T@{D\+E\+C\+L\+A\+R\+E\+\_\+\+T\+E\+S\+T}!test.\+h@{test.\+h}}
+\subsubsection[{D\+E\+C\+L\+A\+R\+E\+\_\+\+T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} D\+E\+C\+L\+A\+R\+E\+\_\+\+T\+E\+S\+T(
+\begin{DoxyParamCaption}
+\item[{}]{name}
+\end{DoxyParamCaption}
+)~printf(\char`\"{}\textbackslash{}n\+Testing \char`\"{} \#name \char`\"{}\textbackslash{}n\textbackslash{}n\char`\"{});}}\label{test_8h_aa32fdbbaa82deb9075bcc51baecec61c}
+\hypertarget{test_8h_a8b8b91205df891e2c7837bd03795306f}{\index{test.\+h@{test.\+h}!T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D@{T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D}}
+\index{T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D@{T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D}!test.\+h@{test.\+h}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D~1}}\label{test_8h_a8b8b91205df891e2c7837bd03795306f}
+
+
+Indicates failed test result. 
+
+\hypertarget{test_8h_a562e15dd66cf158c98dbfec9f6afa1ae}{\index{test.\+h@{test.\+h}!T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D@{T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D}}
+\index{T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D@{T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D}!test.\+h@{test.\+h}}
+\subsubsection[{T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D~0}}\label{test_8h_a562e15dd66cf158c98dbfec9f6afa1ae}
+
+
+Indicates successful test result. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{test_8h_a3579ec9342b5c608ec759101a87e75cf}{\index{test.\+h@{test.\+h}!test@{test}}
+\index{test@{test}!test.\+h@{test.\+h}}
+\subsubsection[{test}]{\setlength{\rightskip}{0pt plus 5cm}int test (
+\begin{DoxyParamCaption}
+\item[{int}]{cond, }
+\item[{char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{test_8h_a3579ec9342b5c608ec759101a87e75cf}
+
+
+Tests condition, outputs a message according to result of test and returns result. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cond} & Condition, i.\+e. one of T\+E\+S\+T\+\_\+\+P\+A\+S\+S\+E\+D or T\+E\+S\+T\+\_\+\+F\+A\+I\+L\+E\+D \\
+\hline
+{\em name} & Name of the test, used in output message \\
+\hline
+\end{DoxyParams}
+\hypertarget{test_8h_ae49b021a82d5b81621cb6e11f8f080f0}{\index{test.\+h@{test.\+h}!test\+Message@{test\+Message}}
+\index{test\+Message@{test\+Message}!test.\+h@{test.\+h}}
+\subsubsection[{test\+Message}]{\setlength{\rightskip}{0pt plus 5cm}void test\+Message (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{test_8h_ae49b021a82d5b81621cb6e11f8f080f0}
+
+
+Print out neutral message. 
+
+\hypertarget{test_8h_a89a21d9b6c813c1d69c876805d83c150}{\index{test.\+h@{test.\+h}!test\+Warn@{test\+Warn}}
+\index{test\+Warn@{test\+Warn}!test.\+h@{test.\+h}}
+\subsubsection[{test\+Warn}]{\setlength{\rightskip}{0pt plus 5cm}void test\+Warn (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}}\label{test_8h_a89a21d9b6c813c1d69c876805d83c150}
+
+
+Print out warning message. 
+

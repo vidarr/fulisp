@@ -1,0 +1,554 @@
+\hypertarget{expression_8h}{\section{expression.\+h File Reference}
+\label{expression_8h}\index{expression.\+h@{expression.\+h}}
+}
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}safety.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lisp\+\_\+internals.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}garbage\+\_\+collector.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}environment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lambda.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a263efce0e5cda1d387a1a43f94715445}{N\+I\+L}~\+\_\+\+\_\+\+N\+I\+L
+\begin{DoxyCompactList}\small\item\em The N\+I\+L atom. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a0acb682b8260ab1c60b918599864e2e5}{T}~\+\_\+\+\_\+\+T
+\begin{DoxyCompactList}\small\item\em The T atom. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_af61315e1c4a04436923a5c52196cdd3c}{R\+E\+S\+T}~\+\_\+\+\_\+\+R\+E\+S\+T
+\begin{DoxyCompactList}\small\item\em The symbol that denotes the variable to store abundand arguments of lambda calls. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a929147425bf7969fe1d0e33716d02bc8}{T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'I\+N\+T\+E\+G\+E\+R'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a105c7addfad52601f4d079673eae7982}{T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'F\+L\+O\+A\+T'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a5a4406276699220845a41c26d7c288b2}{T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'C\+H\+A\+R'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a4e4e428e3a6a191834e3ff63bd301866}{T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'S\+T\+R\+I\+N\+G'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a95d59fcf83e6db5484b6061303de871f}{T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'S\+Y\+M\+B\+O\+L'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a27260a1de1eac0fbd70e6b97d6cb857e}{T\+Y\+P\+E\+\_\+\+C\+O\+N\+S}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+C\+O\+N\+S
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'C\+O\+N\+S'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a0ae408abf1e18ea354bfc90545c930eb}{T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'L\+A\+M\+B\+D\+A'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a00d3e56ef09f8aa367d16e93aede9491}{T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'N\+A\+T\+I\+V\+E F\+U\+N\+C\+T\+I\+O\+N'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a269b18528bd2f23af354d410b509804d}{T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T
+\begin{DoxyCompactList}\small\item\em Symbol that denotes the type 'E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T'. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_ad98307afcdca214d959502a2780d7b38}{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E}(x)~\+\_\+\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E(x)
+\begin{DoxyCompactList}\small\item\em Gives the type of the expression. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_aa49402c6118dd7875bad987760e1de4e}{E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}(x, y)~\+\_\+\+\_\+\+E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E(x, y)
+\begin{DoxyCompactList}\small\item\em Checks whether a given expression is of a certain kind This macro takes any kind of the following constants, so one can check whether the expression contains a pointer by providing E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R, one can check whether the expression is particular pointer type like a string by providing E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G e.\+g. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a76d77f84c3b61761ad1ec405e999de4f}{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R}(x)~\+\_\+\+\_\+\+E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R(x)
+\begin{DoxyCompactList}\small\item\em Checks whether x is a pointer type. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a87249cf1309b36bac7ae02b0256fb212}{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+C\+O\+N\+S}(x)~\hyperlink{expression_8h_aa49402c6118dd7875bad987760e1de4e}{E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}(x, \hyperlink{expression_8h_a60b436a98bed05a75fe3aa3a2f59a764}{E\+X\+P\+R\+\_\+\+C\+O\+N\+S})
+\begin{DoxyCompactList}\small\item\em Checks whether x is a Cons cell. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a5b0059b28a9ed23bb4bc140169c47d59}{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L}(x)~\+\_\+\+\_\+\+E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L(x)
+\begin{DoxyCompactList}\small\item\em Checks whether x is N\+I\+L. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_abf91289c546bf41d45f01958ed0ef9b7}{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+V\+A\+L\+I\+D}(x)
+\begin{DoxyCompactList}\small\item\em Checks whether x is a valid (initialized) expression. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_adf8a600542e2e792b4164131d787ce19}{E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E}(expr, type)~\+\_\+\+\_\+\+E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E(expr, type)
+\begin{DoxyCompactList}\small\item\em Sets the type of the expression. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_aea7d7e35f2e236ad06035716becd1363}{E\+X\+P\+R\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+R\+E\+A\+L}
+\begin{DoxyCompactList}\small\item\em Defines the bytes to be used for determining the type. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a8bb9b2fba688ff7f7504568e07a7aa85}{E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}~(1 $<$$<$ 7)
+\begin{DoxyCompactList}\small\item\em The bit used for the G\+C to mark expressions. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_abdf496c9178baf1a8bc6f9a676b63beb}{E\+X\+P\+R\+\_\+\+N\+O\+\_\+\+T\+Y\+P\+E}~0
+\begin{DoxyCompactList}\small\item\em This represents just an uninitialised expression. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a76b9fb5aaa45fe2a0532392af9e6f831}{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R}~(1 $<$$<$ 6)
+\begin{DoxyCompactList}\small\item\em Expression contains a pointer (to be freed) \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a74318bac7c24342297b703043b91acc0}{E\+X\+P\+R\+\_\+\+A\+T\+O\+M}~(1 $<$$<$ 5)
+\begin{DoxyCompactList}\small\item\em Expression contains a an atomar value (not to be freed) \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_afdedf975b98a2f55ab6aea4e8a0a3265}{E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R}~(\hyperlink{expression_8h_a74318bac7c24342297b703043b91acc0}{E\+X\+P\+R\+\_\+\+A\+T\+O\+M} $\vert$ 1)
+\begin{DoxyCompactList}\small\item\em Expression is an integer. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_abcaf9ce2f68abdec20fcfcdf20537c14}{E\+X\+P\+R\+\_\+\+F\+L\+O\+A\+T}~(\hyperlink{expression_8h_a74318bac7c24342297b703043b91acc0}{E\+X\+P\+R\+\_\+\+A\+T\+O\+M} $\vert$ 2)
+\begin{DoxyCompactList}\small\item\em Expression is a float. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a06581d67961aec184e198d48ea9fdd9e}{E\+X\+P\+R\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}~(\hyperlink{expression_8h_a74318bac7c24342297b703043b91acc0}{E\+X\+P\+R\+\_\+\+A\+T\+O\+M} $\vert$ 3)
+\begin{DoxyCompactList}\small\item\em Expression is an character. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a7ee7bbf3dcf400b395ab841ee7188d8c}{E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G}~(\hyperlink{expression_8h_a76b9fb5aaa45fe2a0532392af9e6f831}{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 1)
+\begin{DoxyCompactList}\small\item\em Expression is an string. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a60b436a98bed05a75fe3aa3a2f59a764}{E\+X\+P\+R\+\_\+\+C\+O\+N\+S}~(\hyperlink{expression_8h_a76b9fb5aaa45fe2a0532392af9e6f831}{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 3)
+\begin{DoxyCompactList}\small\item\em Expression is an cons cell. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_ada3571af706afcd76e54f6bf69c63847}{E\+X\+P\+R\+\_\+\+L\+A\+M\+B\+D\+A}~(\hyperlink{expression_8h_a76b9fb5aaa45fe2a0532392af9e6f831}{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 5)
+\begin{DoxyCompactList}\small\item\em Expression is a lambda expression. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a850563b8850a9f5609faa9441e740016}{E\+X\+P\+R\+\_\+\+S\+Y\+M\+B\+O\+L}~(\hyperlink{expression_8h_a76b9fb5aaa45fe2a0532392af9e6f831}{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 2)
+\begin{DoxyCompactList}\small\item\em Expression is asymbol. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a067607b2a33fd175897aa240abbe0720}{E\+X\+P\+R\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}~(\hyperlink{expression_8h_a74318bac7c24342297b703043b91acc0}{E\+X\+P\+R\+\_\+\+A\+T\+O\+M} $\vert$ 4)
+\begin{DoxyCompactList}\small\item\em Expression is an native function. \end{DoxyCompactList}\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8h_a6b9d755b6ef8fbd7b5f48f1ba5006e3b}{E\+X\+P\+R\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}~(\hyperlink{expression_8h_a76b9fb5aaa45fe2a0532392af9e6f831}{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 6)
+\begin{DoxyCompactList}\small\item\em Expression is an hash table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct Expression $\ast$( \hyperlink{expression_8h_afd244e666fdee0f754105980d3412128}{Native\+Function} )(struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{expression_8h_aa5aeb02f553f40afeb95f95ff33d6fac}{expression\+Dispose} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em disposes an expression Takes care of the reference count \end{DoxyCompactList}\item 
+void \hyperlink{expression_8h_ac75e0c1badf13952206eb4fb9b11417f}{expression\+Force\+Dispose} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Dispose an expression, bypass any kind of garbage collector. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8h_ad7fc5c395494b487b9cfc9988658b79a}{expression\+Create} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, unsigned char type, void $\ast$content, void $\ast$extension)
+\begin{DoxyCompactList}\small\item\em Creates an expression. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8h_ac91a3fa5894c699f5adf95bcdd3a4ddb}{expression\+Create\+Native\+Func} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, \hyperlink{expression_8h_afd244e666fdee0f754105980d3412128}{Native\+Function} $\ast$content)
+\begin{DoxyCompactList}\small\item\em Creates an expression. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8h_ad7c5680596bbde2e728ab5a2b90947d1}{create\+Environment\+Expression} (struct \hyperlink{structEnvironment}{Environment} $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\begin{DoxyCompactList}\small\item\em Create an Expression struct around an environment struct. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8h_ae2816962fd2386031520040a3747ca47}{expression\+Assign} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Takes care of the modification necessary to an expression that is going to be assigned to anything. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8h_ac8df41538e25c3384e7aeef228d3aabe}{expression\+Create\+String} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, char $\ast$str)
+\begin{DoxyCompactList}\small\item\em Creates a expression containing a string. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8h_a2b34a0bdb1ecc715f99c59399ec5a765}{create\+Symbol} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, char $\ast$str)
+\begin{DoxyCompactList}\small\item\em Creates a symbol. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{expression_8h_a74318bac7c24342297b703043b91acc0}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+A\+T\+O\+M@{E\+X\+P\+R\+\_\+\+A\+T\+O\+M}}
+\index{E\+X\+P\+R\+\_\+\+A\+T\+O\+M@{E\+X\+P\+R\+\_\+\+A\+T\+O\+M}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+A\+T\+O\+M}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+A\+T\+O\+M~(1 $<$$<$ 5)}}\label{expression_8h_a74318bac7c24342297b703043b91acc0}
+
+
+Expression contains a an atomar value (not to be freed) 
+
+\hypertarget{expression_8h_a06581d67961aec184e198d48ea9fdd9e}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R@{E\+X\+P\+R\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}}
+\index{E\+X\+P\+R\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R@{E\+X\+P\+R\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R~({\bf E\+X\+P\+R\+\_\+\+A\+T\+O\+M} $\vert$ 3)}}\label{expression_8h_a06581d67961aec184e198d48ea9fdd9e}
+
+
+Expression is an character. 
+
+\hypertarget{expression_8h_a60b436a98bed05a75fe3aa3a2f59a764}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+C\+O\+N\+S@{E\+X\+P\+R\+\_\+\+C\+O\+N\+S}}
+\index{E\+X\+P\+R\+\_\+\+C\+O\+N\+S@{E\+X\+P\+R\+\_\+\+C\+O\+N\+S}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+C\+O\+N\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+C\+O\+N\+S~({\bf E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 3)}}\label{expression_8h_a60b436a98bed05a75fe3aa3a2f59a764}
+
+
+Expression is an cons cell. 
+
+\hypertarget{expression_8h_a6b9d755b6ef8fbd7b5f48f1ba5006e3b}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{E\+X\+P\+R\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}}
+\index{E\+X\+P\+R\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{E\+X\+P\+R\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T~({\bf E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 6)}}\label{expression_8h_a6b9d755b6ef8fbd7b5f48f1ba5006e3b}
+
+
+Expression is an hash table. 
+
+\hypertarget{expression_8h_abcaf9ce2f68abdec20fcfcdf20537c14}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+F\+L\+O\+A\+T@{E\+X\+P\+R\+\_\+\+F\+L\+O\+A\+T}}
+\index{E\+X\+P\+R\+\_\+\+F\+L\+O\+A\+T@{E\+X\+P\+R\+\_\+\+F\+L\+O\+A\+T}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+F\+L\+O\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+F\+L\+O\+A\+T~({\bf E\+X\+P\+R\+\_\+\+A\+T\+O\+M} $\vert$ 2)}}\label{expression_8h_abcaf9ce2f68abdec20fcfcdf20537c14}
+
+
+Expression is a float. 
+
+\hypertarget{expression_8h_a8bb9b2fba688ff7f7504568e07a7aa85}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T@{E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}}
+\index{E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T@{E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T~(1 $<$$<$ 7)}}\label{expression_8h_a8bb9b2fba688ff7f7504568e07a7aa85}
+
+
+The bit used for the G\+C to mark expressions. 
+
+\hypertarget{expression_8h_afdedf975b98a2f55ab6aea4e8a0a3265}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R@{E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R}}
+\index{E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R@{E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R~({\bf E\+X\+P\+R\+\_\+\+A\+T\+O\+M} $\vert$ 1)}}\label{expression_8h_afdedf975b98a2f55ab6aea4e8a0a3265}
+
+
+Expression is an integer. 
+
+\hypertarget{expression_8h_a87249cf1309b36bac7ae02b0256fb212}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+C\+O\+N\+S@{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+C\+O\+N\+S}}
+\index{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+C\+O\+N\+S@{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+C\+O\+N\+S}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+C\+O\+N\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+C\+O\+N\+S(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~{\bf E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}(x, {\bf E\+X\+P\+R\+\_\+\+C\+O\+N\+S})}}\label{expression_8h_a87249cf1309b36bac7ae02b0256fb212}
+
+
+Checks whether x is a Cons cell. 
+
+\hypertarget{expression_8h_a5b0059b28a9ed23bb4bc140169c47d59}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L@{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L}}
+\index{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L@{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~\+\_\+\+\_\+\+E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+N\+I\+L(x)}}\label{expression_8h_a5b0059b28a9ed23bb4bc140169c47d59}
+
+
+Checks whether x is N\+I\+L. 
+
+\hypertarget{expression_8h_a76d77f84c3b61761ad1ec405e999de4f}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R@{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R}}
+\index{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R@{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~\+\_\+\+\_\+\+E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+P\+O\+I\+N\+T\+E\+R(x)}}\label{expression_8h_a76d77f84c3b61761ad1ec405e999de4f}
+
+
+Checks whether x is a pointer type. 
+
+\hypertarget{expression_8h_abf91289c546bf41d45f01958ed0ef9b7}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+V\+A\+L\+I\+D@{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+V\+A\+L\+I\+D}}
+\index{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+V\+A\+L\+I\+D@{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+V\+A\+L\+I\+D}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+V\+A\+L\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+I\+S\+\_\+\+V\+A\+L\+I\+D(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_abf91289c546bf41d45f01958ed0ef9b7}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+(x && \(\backslash\)
+        !\hyperlink{expression_8h_aa49402c6118dd7875bad987760e1de4e}{EXPR\_OF\_TYPE}(x, \hyperlink{expression_8h_abdf496c9178baf1a8bc6f9a676b63beb}{EXPR\_NO\_TYPE}))
+\end{DoxyCode}
+
+
+Checks whether x is a valid (initialized) expression. 
+
+\hypertarget{expression_8h_ada3571af706afcd76e54f6bf69c63847}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+L\+A\+M\+B\+D\+A@{E\+X\+P\+R\+\_\+\+L\+A\+M\+B\+D\+A}}
+\index{E\+X\+P\+R\+\_\+\+L\+A\+M\+B\+D\+A@{E\+X\+P\+R\+\_\+\+L\+A\+M\+B\+D\+A}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+L\+A\+M\+B\+D\+A}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+L\+A\+M\+B\+D\+A~({\bf E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 5)}}\label{expression_8h_ada3571af706afcd76e54f6bf69c63847}
+
+
+Expression is a lambda expression. 
+
+\hypertarget{expression_8h_a067607b2a33fd175897aa240abbe0720}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C@{E\+X\+P\+R\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}}
+\index{E\+X\+P\+R\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C@{E\+X\+P\+R\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C~({\bf E\+X\+P\+R\+\_\+\+A\+T\+O\+M} $\vert$ 4)}}\label{expression_8h_a067607b2a33fd175897aa240abbe0720}
+
+
+Expression is an native function. 
+
+\hypertarget{expression_8h_abdf496c9178baf1a8bc6f9a676b63beb}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+N\+O\+\_\+\+T\+Y\+P\+E@{E\+X\+P\+R\+\_\+\+N\+O\+\_\+\+T\+Y\+P\+E}}
+\index{E\+X\+P\+R\+\_\+\+N\+O\+\_\+\+T\+Y\+P\+E@{E\+X\+P\+R\+\_\+\+N\+O\+\_\+\+T\+Y\+P\+E}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+N\+O\+\_\+\+T\+Y\+P\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+N\+O\+\_\+\+T\+Y\+P\+E~0}}\label{expression_8h_abdf496c9178baf1a8bc6f9a676b63beb}
+
+
+This represents just an uninitialised expression. 
+
+\hypertarget{expression_8h_aa49402c6118dd7875bad987760e1de4e}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E@{E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}}
+\index{E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E@{E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E(
+\begin{DoxyParamCaption}
+\item[{}]{x, }
+\item[{}]{y}
+\end{DoxyParamCaption}
+)~\+\_\+\+\_\+\+E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E(x, y)}}\label{expression_8h_aa49402c6118dd7875bad987760e1de4e}
+
+
+Checks whether a given expression is of a certain kind This macro takes any kind of the following constants, so one can check whether the expression contains a pointer by providing E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R, one can check whether the expression is particular pointer type like a string by providing E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G e.\+g. 
+
+Attention\+: This macro cannot be used to detect N\+I\+L as this could be represented by 0x0 pointer. 
+\begin{DoxyParams}{Parameters}
+{\em x} & a pointer to an expression \\
+\hline
+{\em y} & unsigned integer indicating the type \\
+\hline
+\end{DoxyParams}
+\hypertarget{expression_8h_a76b9fb5aaa45fe2a0532392af9e6f831}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R@{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R}}
+\index{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R@{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R~(1 $<$$<$ 6)}}\label{expression_8h_a76b9fb5aaa45fe2a0532392af9e6f831}
+
+
+Expression contains a pointer (to be freed) 
+
+\hypertarget{expression_8h_adf8a600542e2e792b4164131d787ce19}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E@{E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E}}
+\index{E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E@{E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E(
+\begin{DoxyParamCaption}
+\item[{}]{expr, }
+\item[{}]{type}
+\end{DoxyParamCaption}
+)~\+\_\+\+\_\+\+E\+X\+P\+R\+\_\+\+S\+E\+T\+\_\+\+T\+Y\+P\+E(expr, type)}}\label{expression_8h_adf8a600542e2e792b4164131d787ce19}
+
+
+Sets the type of the expression. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em expr} & pointer to expression \\
+\hline
+{\em type} & the new type \\
+\hline
+\end{DoxyParams}
+\hypertarget{expression_8h_a7ee7bbf3dcf400b395ab841ee7188d8c}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G@{E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G}}
+\index{E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G@{E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+S\+T\+R\+I\+N\+G~({\bf E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 1)}}\label{expression_8h_a7ee7bbf3dcf400b395ab841ee7188d8c}
+
+
+Expression is an string. 
+
+\hypertarget{expression_8h_a850563b8850a9f5609faa9441e740016}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+S\+Y\+M\+B\+O\+L@{E\+X\+P\+R\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{E\+X\+P\+R\+\_\+\+S\+Y\+M\+B\+O\+L@{E\+X\+P\+R\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+S\+Y\+M\+B\+O\+L~({\bf E\+X\+P\+R\+\_\+\+P\+O\+I\+N\+T\+E\+R} $\vert$ 2)}}\label{expression_8h_a850563b8850a9f5609faa9441e740016}
+
+
+Expression is asymbol. 
+
+\hypertarget{expression_8h_aea7d7e35f2e236ad06035716becd1363}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+R\+E\+A\+L@{E\+X\+P\+R\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+R\+E\+A\+L}}
+\index{E\+X\+P\+R\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+R\+E\+A\+L@{E\+X\+P\+R\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+R\+E\+A\+L}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+R\+E\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+\_\+\+T\+Y\+P\+E\+\_\+\+A\+R\+E\+A\+L}}\label{expression_8h_aea7d7e35f2e236ad06035716becd1363}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+((1 << 6) | (1 << 5) | (1 << 4) | \(\backslash\)
+     (1 << 3) | (1 << 2) | 2 | 1)
+\end{DoxyCode}
+
+
+Defines the bytes to be used for determining the type. 
+
+\hypertarget{expression_8h_ad98307afcdca214d959502a2780d7b38}{\index{expression.\+h@{expression.\+h}!E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E@{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E}}
+\index{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E@{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E}!expression.\+h@{expression.\+h}}
+\subsubsection[{E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~\+\_\+\+\_\+\+E\+X\+P\+R\+E\+S\+S\+I\+O\+N\+\_\+\+T\+Y\+P\+E(x)}}\label{expression_8h_ad98307afcdca214d959502a2780d7b38}
+
+
+Gives the type of the expression. 
+
+\hypertarget{expression_8h_a263efce0e5cda1d387a1a43f94715445}{\index{expression.\+h@{expression.\+h}!N\+I\+L@{N\+I\+L}}
+\index{N\+I\+L@{N\+I\+L}!expression.\+h@{expression.\+h}}
+\subsubsection[{N\+I\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} N\+I\+L~\+\_\+\+\_\+\+N\+I\+L}}\label{expression_8h_a263efce0e5cda1d387a1a43f94715445}
+
+
+The N\+I\+L atom. 
+
+\hypertarget{expression_8h_af61315e1c4a04436923a5c52196cdd3c}{\index{expression.\+h@{expression.\+h}!R\+E\+S\+T@{R\+E\+S\+T}}
+\index{R\+E\+S\+T@{R\+E\+S\+T}!expression.\+h@{expression.\+h}}
+\subsubsection[{R\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} R\+E\+S\+T~\+\_\+\+\_\+\+R\+E\+S\+T}}\label{expression_8h_af61315e1c4a04436923a5c52196cdd3c}
+
+
+The symbol that denotes the variable to store abundand arguments of lambda calls. 
+
+\hypertarget{expression_8h_a0acb682b8260ab1c60b918599864e2e5}{\index{expression.\+h@{expression.\+h}!T@{T}}
+\index{T@{T}!expression.\+h@{expression.\+h}}
+\subsubsection[{T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T~\+\_\+\+\_\+\+T}}\label{expression_8h_a0acb682b8260ab1c60b918599864e2e5}
+
+
+The T atom. 
+
+\hypertarget{expression_8h_a5a4406276699220845a41c26d7c288b2}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R@{T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}}
+\index{T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R@{T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+C\+H\+A\+R\+A\+C\+T\+E\+R}}\label{expression_8h_a5a4406276699220845a41c26d7c288b2}
+
+
+Symbol that denotes the type 'C\+H\+A\+R'. 
+
+\hypertarget{expression_8h_a27260a1de1eac0fbd70e6b97d6cb857e}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+C\+O\+N\+S@{T\+Y\+P\+E\+\_\+\+C\+O\+N\+S}}
+\index{T\+Y\+P\+E\+\_\+\+C\+O\+N\+S@{T\+Y\+P\+E\+\_\+\+C\+O\+N\+S}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+C\+O\+N\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+C\+O\+N\+S~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+C\+O\+N\+S}}\label{expression_8h_a27260a1de1eac0fbd70e6b97d6cb857e}
+
+
+Symbol that denotes the type 'C\+O\+N\+S'. 
+
+\hypertarget{expression_8h_a269b18528bd2f23af354d410b509804d}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}}
+\index{T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T@{T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T}}\label{expression_8h_a269b18528bd2f23af354d410b509804d}
+
+
+Symbol that denotes the type 'E\+N\+V\+I\+R\+O\+N\+M\+E\+N\+T'. 
+
+\hypertarget{expression_8h_a105c7addfad52601f4d079673eae7982}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T@{T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T}}
+\index{T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T@{T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+F\+L\+O\+A\+T}}\label{expression_8h_a105c7addfad52601f4d079673eae7982}
+
+
+Symbol that denotes the type 'F\+L\+O\+A\+T'. 
+
+\hypertarget{expression_8h_a929147425bf7969fe1d0e33716d02bc8}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R@{T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R}}
+\index{T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R@{T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+I\+N\+T\+E\+G\+E\+R}}\label{expression_8h_a929147425bf7969fe1d0e33716d02bc8}
+
+
+Symbol that denotes the type 'I\+N\+T\+E\+G\+E\+R'. 
+
+\hypertarget{expression_8h_a0ae408abf1e18ea354bfc90545c930eb}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A@{T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A}}
+\index{T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A@{T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+L\+A\+M\+B\+D\+A}}\label{expression_8h_a0ae408abf1e18ea354bfc90545c930eb}
+
+
+Symbol that denotes the type 'L\+A\+M\+B\+D\+A'. 
+
+\hypertarget{expression_8h_a00d3e56ef09f8aa367d16e93aede9491}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C@{T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}}
+\index{T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C@{T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}}\label{expression_8h_a00d3e56ef09f8aa367d16e93aede9491}
+
+
+Symbol that denotes the type 'N\+A\+T\+I\+V\+E F\+U\+N\+C\+T\+I\+O\+N'. 
+
+\hypertarget{expression_8h_a4e4e428e3a6a191834e3ff63bd301866}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G@{T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G}}
+\index{T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G@{T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+S\+T\+R\+I\+N\+G}}\label{expression_8h_a4e4e428e3a6a191834e3ff63bd301866}
+
+
+Symbol that denotes the type 'S\+T\+R\+I\+N\+G'. 
+
+\hypertarget{expression_8h_a95d59fcf83e6db5484b6061303de871f}{\index{expression.\+h@{expression.\+h}!T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L@{T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L@{T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+h@{expression.\+h}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L~\+\_\+\+\_\+\+T\+Y\+P\+E\+\_\+\+S\+Y\+M\+B\+O\+L}}\label{expression_8h_a95d59fcf83e6db5484b6061303de871f}
+
+
+Symbol that denotes the type 'S\+Y\+M\+B\+O\+L'. 
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{expression_8h_afd244e666fdee0f754105980d3412128}{\index{expression.\+h@{expression.\+h}!Native\+Function@{Native\+Function}}
+\index{Native\+Function@{Native\+Function}!expression.\+h@{expression.\+h}}
+\subsubsection[{Native\+Function}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct Expression$\ast$( Native\+Function)(struct Expression $\ast${\bf env}, struct Expression $\ast$)}}\label{expression_8h_afd244e666fdee0f754105980d3412128}
+
+
+\subsection{Function Documentation}
+\hypertarget{expression_8h_ad7c5680596bbde2e728ab5a2b90947d1}{\index{expression.\+h@{expression.\+h}!create\+Environment\+Expression@{create\+Environment\+Expression}}
+\index{create\+Environment\+Expression@{create\+Environment\+Expression}!expression.\+h@{expression.\+h}}
+\subsubsection[{create\+Environment\+Expression}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ create\+Environment\+Expression (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Environment} $\ast$}]{env}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_ad7c5680596bbde2e728ab5a2b90947d1}
+
+
+Create an Expression struct around an environment struct. 
+
+Needed to create root environment \hypertarget{expression_8h_a2b34a0bdb1ecc715f99c59399ec5a765}{\index{expression.\+h@{expression.\+h}!create\+Symbol@{create\+Symbol}}
+\index{create\+Symbol@{create\+Symbol}!expression.\+h@{expression.\+h}}
+\subsubsection[{create\+Symbol}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ create\+Symbol (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_a2b34a0bdb1ecc715f99c59399ec5a765}
+
+
+Creates a symbol. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & the string resembling the symbol \\
+\hline
+\end{DoxyParams}
+\hypertarget{expression_8h_ae2816962fd2386031520040a3747ca47}{\index{expression.\+h@{expression.\+h}!expression\+Assign@{expression\+Assign}}
+\index{expression\+Assign@{expression\+Assign}!expression.\+h@{expression.\+h}}
+\subsubsection[{expression\+Assign}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ expression\+Assign (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_ae2816962fd2386031520040a3747ca47}
+
+
+Takes care of the modification necessary to an expression that is going to be assigned to anything. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em expr} & the expression that should be assigned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a pointer to the expression that is ready to be assigned to whatever 
+\end{DoxyReturn}
+\hypertarget{expression_8h_ad7fc5c395494b487b9cfc9988658b79a}{\index{expression.\+h@{expression.\+h}!expression\+Create@{expression\+Create}}
+\index{expression\+Create@{expression\+Create}!expression.\+h@{expression.\+h}}
+\subsubsection[{expression\+Create}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ expression\+Create (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{unsigned char}]{type, }
+\item[{void $\ast$}]{content, }
+\item[{void $\ast$}]{extension}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_ad7fc5c395494b487b9cfc9988658b79a}
+
+
+Creates an expression. 
+
+To create an expression containing a native function, usage of
+\begin{DoxyCode}
+1 expressionCreateNativeFunc 
+\end{DoxyCode}
+ is recommended. 
+\begin{DoxyParams}{Parameters}
+{\em type} & type of the content \\
+\hline
+{\em content} & pointer to the content that should go into the new expression \\
+\hline
+{\em extension} & in case of cons cell, here goes the pointer to the cdr \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new expression or null in case of an error 
+\end{DoxyReturn}
+\hypertarget{expression_8h_ac91a3fa5894c699f5adf95bcdd3a4ddb}{\index{expression.\+h@{expression.\+h}!expression\+Create\+Native\+Func@{expression\+Create\+Native\+Func}}
+\index{expression\+Create\+Native\+Func@{expression\+Create\+Native\+Func}!expression.\+h@{expression.\+h}}
+\subsubsection[{expression\+Create\+Native\+Func}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ expression\+Create\+Native\+Func (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{{\bf Native\+Function} $\ast$}]{content}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_ac91a3fa5894c699f5adf95bcdd3a4ddb}
+
+
+Creates an expression. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & type of the content \\
+\hline
+{\em content} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new expression or null in case of an error 
+\end{DoxyReturn}
+\hypertarget{expression_8h_ac8df41538e25c3384e7aeef228d3aabe}{\index{expression.\+h@{expression.\+h}!expression\+Create\+String@{expression\+Create\+String}}
+\index{expression\+Create\+String@{expression\+Create\+String}!expression.\+h@{expression.\+h}}
+\subsubsection[{expression\+Create\+String}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ expression\+Create\+String (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_ac8df41538e25c3384e7aeef228d3aabe}
+
+
+Creates a expression containing a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & the string \\
+\hline
+\end{DoxyParams}
+\hypertarget{expression_8h_aa5aeb02f553f40afeb95f95ff33d6fac}{\index{expression.\+h@{expression.\+h}!expression\+Dispose@{expression\+Dispose}}
+\index{expression\+Dispose@{expression\+Dispose}!expression.\+h@{expression.\+h}}
+\subsubsection[{expression\+Dispose}]{\setlength{\rightskip}{0pt plus 5cm}void expression\+Dispose (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_aa5aeb02f553f40afeb95f95ff33d6fac}
+
+
+disposes an expression Takes care of the reference count 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment currently valid \\
+\hline
+{\em expr} & the expression to dispose \\
+\hline
+\end{DoxyParams}
+\hypertarget{expression_8h_ac75e0c1badf13952206eb4fb9b11417f}{\index{expression.\+h@{expression.\+h}!expression\+Force\+Dispose@{expression\+Force\+Dispose}}
+\index{expression\+Force\+Dispose@{expression\+Force\+Dispose}!expression.\+h@{expression.\+h}}
+\subsubsection[{expression\+Force\+Dispose}]{\setlength{\rightskip}{0pt plus 5cm}void expression\+Force\+Dispose (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{expression_8h_ac75e0c1badf13952206eb4fb9b11417f}
+
+
+Dispose an expression, bypass any kind of garbage collector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment currently valid \\
+\hline
+{\em expr} & the expression to dispose \\
+\hline
+\end{DoxyParams}

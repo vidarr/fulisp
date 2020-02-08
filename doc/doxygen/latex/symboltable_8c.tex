@@ -1,0 +1,78 @@
+\hypertarget{symboltable_8c}{\section{symboltable.\+c File Reference}
+\label{symboltable_8c}\index{symboltable.\+c@{symboltable.\+c}}
+}
+{\ttfamily \#include \char`\"{}symboltable.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{symboltable_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}symboltable.\+h\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structHashTable}{Hash\+Table} $\ast$ \hyperlink{symboltable_8c_a0599a4b3a42a0def981b32d622dd7b2d}{symbol\+Table\+Create} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\begin{DoxyCompactList}\small\item\em Creates a new clean symbol table. \end{DoxyCompactList}\item 
+void \hyperlink{symboltable_8c_a4897656e60dd8fc2c0fd73bb136dd5fe}{symbol\+Table\+Dispose} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash)
+\begin{DoxyCompactList}\small\item\em Disposes the symbol table and the underlying structure Gets rid of every symbol contained within the table. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{symboltable_8c_a8f37e5dbc10728b6d1b9cd4d5c475ad1}{symbol\+Table\+Get\+Symbol} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash, char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Resolves the name of a symbol to the symbol itself if not existent, the symbol is created. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{symboltable_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{symboltable.\+c@{symboltable.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!symboltable.\+c@{symboltable.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}symboltable.\+h\char`\"{}}}\label{symboltable_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+
+
+\subsection{Function Documentation}
+\hypertarget{symboltable_8c_a0599a4b3a42a0def981b32d622dd7b2d}{\index{symboltable.\+c@{symboltable.\+c}!symbol\+Table\+Create@{symbol\+Table\+Create}}
+\index{symbol\+Table\+Create@{symbol\+Table\+Create}!symboltable.\+c@{symboltable.\+c}}
+\subsubsection[{symbol\+Table\+Create}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Hash\+Table}$\ast$ symbol\+Table\+Create (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env}
+\end{DoxyParamCaption}
+)}}\label{symboltable_8c_a0599a4b3a42a0def981b32d622dd7b2d}
+
+
+Creates a new clean symbol table. 
+
+\hypertarget{symboltable_8c_a4897656e60dd8fc2c0fd73bb136dd5fe}{\index{symboltable.\+c@{symboltable.\+c}!symbol\+Table\+Dispose@{symbol\+Table\+Dispose}}
+\index{symbol\+Table\+Dispose@{symbol\+Table\+Dispose}!symboltable.\+c@{symboltable.\+c}}
+\subsubsection[{symbol\+Table\+Dispose}]{\setlength{\rightskip}{0pt plus 5cm}void symbol\+Table\+Dispose (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct {\bf Hash\+Table} $\ast$}]{hash}
+\end{DoxyParamCaption}
+)}}\label{symboltable_8c_a4897656e60dd8fc2c0fd73bb136dd5fe}
+
+
+Disposes the symbol table and the underlying structure Gets rid of every symbol contained within the table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash} & the symbol table to dispose \\
+\hline
+\end{DoxyParams}
+\hypertarget{symboltable_8c_a8f37e5dbc10728b6d1b9cd4d5c475ad1}{\index{symboltable.\+c@{symboltable.\+c}!symbol\+Table\+Get\+Symbol@{symbol\+Table\+Get\+Symbol}}
+\index{symbol\+Table\+Get\+Symbol@{symbol\+Table\+Get\+Symbol}!symboltable.\+c@{symboltable.\+c}}
+\subsubsection[{symbol\+Table\+Get\+Symbol}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ symbol\+Table\+Get\+Symbol (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct {\bf Hash\+Table} $\ast$}]{hash, }
+\item[{char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{symboltable_8c_a8f37e5dbc10728b6d1b9cd4d5c475ad1}
+
+
+Resolves the name of a symbol to the symbol itself if not existent, the symbol is created. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & the name of the symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the expression repr. the symbol 
+\end{DoxyReturn}

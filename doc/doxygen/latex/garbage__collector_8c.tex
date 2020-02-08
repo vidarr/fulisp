@@ -1,0 +1,121 @@
+\hypertarget{garbage__collector_8c}{\section{garbage\+\_\+collector.\+c File Reference}
+\label{garbage__collector_8c}\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+}
+{\ttfamily \#include \char`\"{}garbage\+\_\+collector.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}hash.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}garbage\+\_\+collector.\+c\char`\"{}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8c_aa1739bb3cf3ad519f1cbb789f086c0a5}{M\+A\+R\+K\+\_\+\+E\+X\+P\+R}(expr)~\hyperlink{garbage__collector_8c_ac5a1b134e03f70c5b7b904ab4f3cd485}{S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}(expr)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8c_a2333e1435520d04c3576fbb193cb489c}{U\+N\+M\+A\+R\+K\+\_\+\+E\+X\+P\+R}(expr)~\hyperlink{garbage__collector_8c_ae007fabfa5ee3235a9b4f25dd43f03a9}{U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}(expr)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8c_ac5a1b134e03f70c5b7b904ab4f3cd485}{S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}(expr)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8c_ae007fabfa5ee3235a9b4f25dd43f03a9}{U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}(expr)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8c_a944a3239c5b60a7c00d233601adf993f}{I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T}(expr)~((expr)-\/$>$type \& \hyperlink{expression_8h_a8bb9b2fba688ff7f7504568e07a7aa85}{E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T})
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{garbage__collector_8c_a6fef812084be8f94c20f87ee3509aba6}{I\+S\+\_\+\+M\+A\+R\+K\+E\+D}(expr)~\hyperlink{garbage__collector_8c_a944a3239c5b60a7c00d233601adf993f}{I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T}(expr)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct Expression $\ast$ \hyperlink{garbage__collector_8c_aea47e2bcff35833703c0965ec01115d6}{gc\+Mark\+And\+Sweep} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\item 
+struct Expression $\ast$ \hyperlink{garbage__collector_8c_ab03610c45e1fe5d329a6538868bf45e0}{gc\+Mark\+Expression} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\item 
+struct Expression $\ast$ \hyperlink{garbage__collector_8c_a7b969adea355c0316b90714d2dd85a8c}{gc\+Init\+Environment} (struct \hyperlink{structEnvironment}{Environment} $\ast$environ)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{garbage__collector_8c_a6fef812084be8f94c20f87ee3509aba6}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!I\+S\+\_\+\+M\+A\+R\+K\+E\+D@{I\+S\+\_\+\+M\+A\+R\+K\+E\+D}}
+\index{I\+S\+\_\+\+M\+A\+R\+K\+E\+D@{I\+S\+\_\+\+M\+A\+R\+K\+E\+D}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{I\+S\+\_\+\+M\+A\+R\+K\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} I\+S\+\_\+\+M\+A\+R\+K\+E\+D(
+\begin{DoxyParamCaption}
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T}(expr)}}\label{garbage__collector_8c_a6fef812084be8f94c20f87ee3509aba6}
+\hypertarget{garbage__collector_8c_a944a3239c5b60a7c00d233601adf993f}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T@{I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T}}
+\index{I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T@{I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} I\+S\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T\+\_\+\+S\+E\+T(
+\begin{DoxyParamCaption}
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~((expr)-\/$>$type \& {\bf E\+X\+P\+R\+\_\+\+G\+C\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T})}}\label{garbage__collector_8c_a944a3239c5b60a7c00d233601adf993f}
+\hypertarget{garbage__collector_8c_aa1739bb3cf3ad519f1cbb789f086c0a5}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!M\+A\+R\+K\+\_\+\+E\+X\+P\+R@{M\+A\+R\+K\+\_\+\+E\+X\+P\+R}}
+\index{M\+A\+R\+K\+\_\+\+E\+X\+P\+R@{M\+A\+R\+K\+\_\+\+E\+X\+P\+R}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{M\+A\+R\+K\+\_\+\+E\+X\+P\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+A\+R\+K\+\_\+\+E\+X\+P\+R(
+\begin{DoxyParamCaption}
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}(expr)}}\label{garbage__collector_8c_aa1739bb3cf3ad519f1cbb789f086c0a5}
+\hypertarget{garbage__collector_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}garbage\+\_\+collector.\+c\char`\"{}}}\label{garbage__collector_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+\hypertarget{garbage__collector_8c_ac5a1b134e03f70c5b7b904ab4f3cd485}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T@{S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}}
+\index{S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T@{S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T(
+\begin{DoxyParamCaption}
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8c_ac5a1b134e03f70c5b7b904ab4f3cd485}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{ \(\backslash\)
+    int type = (expr)->type; \(\backslash\)
+    type |= \hyperlink{expression_8h_a8bb9b2fba688ff7f7504568e07a7aa85}{EXPR\_GC\_MARKER\_BIT}; \(\backslash\)
+    (expr)->type = type; \(\backslash\)
+\}
+\end{DoxyCode}
+\hypertarget{garbage__collector_8c_a2333e1435520d04c3576fbb193cb489c}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!U\+N\+M\+A\+R\+K\+\_\+\+E\+X\+P\+R@{U\+N\+M\+A\+R\+K\+\_\+\+E\+X\+P\+R}}
+\index{U\+N\+M\+A\+R\+K\+\_\+\+E\+X\+P\+R@{U\+N\+M\+A\+R\+K\+\_\+\+E\+X\+P\+R}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{U\+N\+M\+A\+R\+K\+\_\+\+E\+X\+P\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} U\+N\+M\+A\+R\+K\+\_\+\+E\+X\+P\+R(
+\begin{DoxyParamCaption}
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)~{\bf U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}(expr)}}\label{garbage__collector_8c_a2333e1435520d04c3576fbb193cb489c}
+\hypertarget{garbage__collector_8c_ae007fabfa5ee3235a9b4f25dd43f03a9}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T@{U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}}
+\index{U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T@{U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} U\+N\+S\+E\+T\+\_\+\+M\+A\+R\+K\+E\+R\+\_\+\+B\+I\+T(
+\begin{DoxyParamCaption}
+\item[{}]{expr}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8c_ae007fabfa5ee3235a9b4f25dd43f03a9}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{ \(\backslash\)
+    int type = (expr)->type; \(\backslash\)
+    type &= ~\hyperlink{expression_8h_a8bb9b2fba688ff7f7504568e07a7aa85}{EXPR\_GC\_MARKER\_BIT}; \(\backslash\)
+    (expr)->type = type; \(\backslash\)
+\}
+\end{DoxyCode}
+
+
+\subsection{Function Documentation}
+\hypertarget{garbage__collector_8c_a7b969adea355c0316b90714d2dd85a8c}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!gc\+Init\+Environment@{gc\+Init\+Environment}}
+\index{gc\+Init\+Environment@{gc\+Init\+Environment}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{gc\+Init\+Environment}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ gc\+Init\+Environment (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Environment} $\ast$}]{environ}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8c_a7b969adea355c0316b90714d2dd85a8c}
+\hypertarget{garbage__collector_8c_aea47e2bcff35833703c0965ec01115d6}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!gc\+Mark\+And\+Sweep@{gc\+Mark\+And\+Sweep}}
+\index{gc\+Mark\+And\+Sweep@{gc\+Mark\+And\+Sweep}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{gc\+Mark\+And\+Sweep}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ gc\+Mark\+And\+Sweep (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8c_aea47e2bcff35833703c0965ec01115d6}
+\hypertarget{garbage__collector_8c_ab03610c45e1fe5d329a6538868bf45e0}{\index{garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}!gc\+Mark\+Expression@{gc\+Mark\+Expression}}
+\index{gc\+Mark\+Expression@{gc\+Mark\+Expression}!garbage\+\_\+collector.\+c@{garbage\+\_\+collector.\+c}}
+\subsubsection[{gc\+Mark\+Expression}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ gc\+Mark\+Expression (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{garbage__collector_8c_ab03610c45e1fe5d329a6538868bf45e0}

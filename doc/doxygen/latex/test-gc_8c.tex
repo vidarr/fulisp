@@ -1,0 +1,60 @@
+\hypertarget{test-gc_8c}{\section{test-\/gc.c File Reference}
+\label{test-gc_8c}\index{test-\/gc.\+c@{test-\/gc.\+c}}
+}
+{\ttfamily \#include \char`\"{}streams.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}fulispreader.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}eval.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}benchmarking.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}test.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}garbage\+\_\+collector.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}expression.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test-gc_8c_aaba93a4db475db0253cf8e1ce05151cd}{S\+T\+R\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N}~255
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{test-gc_8c_a4dabf563a9ae05ca715ea6a4598e4919}{C\+H\+E\+C\+K\+\_\+\+S\+T\+R\+I\+C\+T\+\_\+\+S\+M\+A\+L\+L\+E\+R}(a, b, c, message)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{test-gc_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{test-gc_8c_a4dabf563a9ae05ca715ea6a4598e4919}{\index{test-\/gc.\+c@{test-\/gc.\+c}!C\+H\+E\+C\+K\+\_\+\+S\+T\+R\+I\+C\+T\+\_\+\+S\+M\+A\+L\+L\+E\+R@{C\+H\+E\+C\+K\+\_\+\+S\+T\+R\+I\+C\+T\+\_\+\+S\+M\+A\+L\+L\+E\+R}}
+\index{C\+H\+E\+C\+K\+\_\+\+S\+T\+R\+I\+C\+T\+\_\+\+S\+M\+A\+L\+L\+E\+R@{C\+H\+E\+C\+K\+\_\+\+S\+T\+R\+I\+C\+T\+\_\+\+S\+M\+A\+L\+L\+E\+R}!test-\/gc.\+c@{test-\/gc.\+c}}
+\subsubsection[{C\+H\+E\+C\+K\+\_\+\+S\+T\+R\+I\+C\+T\+\_\+\+S\+M\+A\+L\+L\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} C\+H\+E\+C\+K\+\_\+\+S\+T\+R\+I\+C\+T\+\_\+\+S\+M\+A\+L\+L\+E\+R(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b, }
+\item[{}]{c, }
+\item[{}]{message}
+\end{DoxyParamCaption}
+)}}\label{test-gc_8c_a4dabf563a9ae05ca715ea6a4598e4919}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keywordflow}{if}(a < b && b < c) \{                                                      \(\backslash\)
+        return \hyperlink{test_8h_a562e15dd66cf158c98dbfec9f6afa1ae}{TEST\_PASSED};                                                \(\backslash\)
+    \} \textcolor{keywordflow}{else} \{                                                                  \hyperlink{test_8c_a89a21d9b6c813c1d69c876805d83c150}{\(\backslash\)}
+\hyperlink{test_8c_a89a21d9b6c813c1d69c876805d83c150}{        testWarn}(message);                                                 \(\backslash\)
+        return \hyperlink{test_8h_a8b8b91205df891e2c7837bd03795306f}{TEST\_FAILED};                                                   \(\backslash\)
+    \}
+\end{DoxyCode}
+\hypertarget{test-gc_8c_aaba93a4db475db0253cf8e1ce05151cd}{\index{test-\/gc.\+c@{test-\/gc.\+c}!S\+T\+R\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N@{S\+T\+R\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N}}
+\index{S\+T\+R\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N@{S\+T\+R\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N}!test-\/gc.\+c@{test-\/gc.\+c}}
+\subsubsection[{S\+T\+R\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N~255}}\label{test-gc_8c_aaba93a4db475db0253cf8e1ce05151cd}
+
+
+\subsection{Function Documentation}
+\hypertarget{test-gc_8c_a3c04138a5bfe5d72780bb7e82a18e627}{\index{test-\/gc.\+c@{test-\/gc.\+c}!main@{main}}
+\index{main@{main}!test-\/gc.\+c@{test-\/gc.\+c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{test-gc_8c_a3c04138a5bfe5d72780bb7e82a18e627}

@@ -1,0 +1,372 @@
+\hypertarget{expression_8c}{\section{expression.\+c File Reference}
+\label{expression_8c}\index{expression.\+c@{expression.\+c}}
+}
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}expression.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}print.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}environment.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}expression.\+c\char`\"{}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{expression_8c_a7a18319f849777c4b963f2a7592659ae}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}(constant\+Name, Symbol\+Name)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}{expression\+Dispose} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em disposes an expression Takes care of the reference count \end{DoxyCompactList}\item 
+void \hyperlink{expression_8c_ac75e0c1badf13952206eb4fb9b11417f}{expression\+Force\+Dispose} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Dispose an expression, bypass any kind of garbage collector. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8c_ad7fc5c395494b487b9cfc9988658b79a}{expression\+Create} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, unsigned char type, void $\ast$content, void $\ast$extension)
+\begin{DoxyCompactList}\small\item\em Creates an expression. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8c_ac91a3fa5894c699f5adf95bcdd3a4ddb}{expression\+Create\+Native\+Func} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, \hyperlink{expression_8h_afd244e666fdee0f754105980d3412128}{Native\+Function} $\ast$content)
+\begin{DoxyCompactList}\small\item\em Creates an expression. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8c_ac8df41538e25c3384e7aeef228d3aabe}{expression\+Create\+String} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, char $\ast$str)
+\begin{DoxyCompactList}\small\item\em Creates a expression containing a string. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8c_a2b34a0bdb1ecc715f99c59399ec5a765}{create\+Symbol} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, char $\ast$str)
+\begin{DoxyCompactList}\small\item\em Creates a symbol. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8c_ae2816962fd2386031520040a3747ca47}{expression\+Assign} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Takes care of the modification necessary to an expression that is going to be assigned to anything. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{expression_8c_ad7c5680596bbde2e728ab5a2b90947d1}{create\+Environment\+Expression} (struct \hyperlink{structEnvironment}{Environment} $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env})
+\begin{DoxyCompactList}\small\item\em Create an Expression struct around an environment struct. \end{DoxyCompactList}\item 
+\hyperlink{expression_8c_a14d36c2be52376cd26c2160ea60f4fda}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+Integer,\char`\"{}\+:I\+N\+T\char`\"{})
+\item 
+\hyperlink{expression_8c_a889e56cdd19f2fc34ec29683e2d97cae}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+Float,\char`\"{}\+:F\+L\+O\+A\+T\char`\"{})
+\item 
+\hyperlink{expression_8c_afb8f649168223ac22d45998219d6d541}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+Character,\char`\"{}\+:C\+H\+A\+R\char`\"{})
+\item 
+\hyperlink{expression_8c_ad361ded2bf9b5f022d553245f080f076}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+String,\char`\"{}\+:S\+T\+R\+I\+N\+G\char`\"{})
+\item 
+\hyperlink{expression_8c_ac10ee1b7e079edacc168cd0658f4bc83}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+Symbol,\char`\"{}\+:S\+Y\+M\+B\+O\+L\char`\"{})
+\item 
+\hyperlink{expression_8c_a97d5948a12e67528ed7894be05e29cd0}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+Cons,\char`\"{}\+:C\+O\+N\+S\char`\"{})
+\item 
+\hyperlink{expression_8c_a2352a157a6fcd9824242d2e1cfaab53c}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+Lambda,\char`\"{}\+:L\+A\+M\+B\+D\+A\char`\"{})
+\item 
+\hyperlink{expression_8c_a2269befa1b06e39b170ed725d159e389}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+Native\+Func,\char`\"{}\+:N\+A\+T\+I\+V\+E\+F\+U\+N\+C\char`\"{})
+\item 
+\hyperlink{expression_8c_ab1b04ed850071bbe9ff3775112a9296e}{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L} (expression\+Environment,\char`\"{}\+:E\+N\+V\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char \hyperlink{expression_8c_af4c78bf9adcdcc02356e9b943dc27adc}{nil} \mbox{[}$\,$\mbox{]} = \char`\"{}N\+I\+L\char`\"{}
+\item 
+char \hyperlink{expression_8c_a3d99df6406e279d37a43c1c2bbc36e82}{true} \mbox{[}$\,$\mbox{]} = \char`\"{}T\char`\"{}
+\item 
+char \hyperlink{expression_8c_aa2aa6ba323b80f9d40b5f4c1120681e2}{rest} \mbox{[}$\,$\mbox{]} = \char`\"{}\&R\+E\+S\+T\char`\"{}
+\item 
+struct Expression \hyperlink{expression_8c_a35aa7f37b42a0880a67f67807d038615}{expression\+Nil}
+\item 
+struct Expression \hyperlink{expression_8c_a6c3815f136a8fcfb5286227eb9eb6b04}{expression\+T}
+\item 
+struct Expression \hyperlink{expression_8c_acfb8a8cefb7d2d5f3e59389cf9d57efa}{expression\+Rest}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{expression_8c_a7a18319f849777c4b963f2a7592659ae}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L(
+\begin{DoxyParamCaption}
+\item[{}]{constant\+Name, }
+\item[{}]{Symbol\+Name}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_a7a18319f849777c4b963f2a7592659ae}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keywordtype}{char} \textcolor{keywordtype}{char}##constantName [] = SymbolName; \(\backslash\)
+    struct Expression constantName = \{ \hyperlink{expression_8h_a850563b8850a9f5609faa9441e740016}{\(\backslash\)}
+\hyperlink{expression_8h_a850563b8850a9f5609faa9441e740016}{        EXPR\_SYMBOL}, \(\backslash\)
+        \{\textcolor{keywordtype}{char}##constantName\}, \(\backslash\)
+        \{NULL\}  \hyperlink{garbage__collector_8h_a162f92afe04173d0e57331bf830248d7}{\(\backslash\)}
+\hyperlink{garbage__collector_8h_a162f92afe04173d0e57331bf830248d7}{        GC\_INIT\_EXPR\_INFO}(1) \(\backslash\)
+    \}
+\end{DoxyCode}
+\hypertarget{expression_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{expression.\+c@{expression.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!expression.\+c@{expression.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}expression.\+c\char`\"{}}}\label{expression_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+
+
+\subsection{Function Documentation}
+\hypertarget{expression_8c_ad7c5680596bbde2e728ab5a2b90947d1}{\index{expression.\+c@{expression.\+c}!create\+Environment\+Expression@{create\+Environment\+Expression}}
+\index{create\+Environment\+Expression@{create\+Environment\+Expression}!expression.\+c@{expression.\+c}}
+\subsubsection[{create\+Environment\+Expression}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ create\+Environment\+Expression (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Environment} $\ast$}]{env}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ad7c5680596bbde2e728ab5a2b90947d1}
+
+
+Create an Expression struct around an environment struct. 
+
+Needed to create root environment \hypertarget{expression_8c_a2b34a0bdb1ecc715f99c59399ec5a765}{\index{expression.\+c@{expression.\+c}!create\+Symbol@{create\+Symbol}}
+\index{create\+Symbol@{create\+Symbol}!expression.\+c@{expression.\+c}}
+\subsubsection[{create\+Symbol}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ create\+Symbol (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_a2b34a0bdb1ecc715f99c59399ec5a765}
+
+
+Creates a symbol. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & the string resembling the symbol \\
+\hline
+\end{DoxyParams}
+\hypertarget{expression_8c_a14d36c2be52376cd26c2160ea60f4fda}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+Integer}]{, }
+\item[{\char`\"{}\+:I\+N\+T\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_a14d36c2be52376cd26c2160ea60f4fda}
+\hypertarget{expression_8c_a889e56cdd19f2fc34ec29683e2d97cae}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+Float}]{, }
+\item[{\char`\"{}\+:F\+L\+O\+A\+T\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_a889e56cdd19f2fc34ec29683e2d97cae}
+\hypertarget{expression_8c_afb8f649168223ac22d45998219d6d541}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+Character}]{, }
+\item[{\char`\"{}\+:C\+H\+A\+R\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_afb8f649168223ac22d45998219d6d541}
+\hypertarget{expression_8c_ad361ded2bf9b5f022d553245f080f076}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+String}]{, }
+\item[{\char`\"{}\+:S\+T\+R\+I\+N\+G\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ad361ded2bf9b5f022d553245f080f076}
+\hypertarget{expression_8c_ac10ee1b7e079edacc168cd0658f4bc83}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+Symbol}]{, }
+\item[{\char`\"{}\+:S\+Y\+M\+B\+O\+L\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ac10ee1b7e079edacc168cd0658f4bc83}
+\hypertarget{expression_8c_a97d5948a12e67528ed7894be05e29cd0}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+Cons}]{, }
+\item[{\char`\"{}\+:C\+O\+N\+S\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_a97d5948a12e67528ed7894be05e29cd0}
+\hypertarget{expression_8c_a2352a157a6fcd9824242d2e1cfaab53c}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+Lambda}]{, }
+\item[{\char`\"{}\+:L\+A\+M\+B\+D\+A\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_a2352a157a6fcd9824242d2e1cfaab53c}
+\hypertarget{expression_8c_a2269befa1b06e39b170ed725d159e389}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+Native\+Func}]{, }
+\item[{\char`\"{}\+:N\+A\+T\+I\+V\+E\+F\+U\+N\+C\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_a2269befa1b06e39b170ed725d159e389}
+\hypertarget{expression_8c_ab1b04ed850071bbe9ff3775112a9296e}{\index{expression.\+c@{expression.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L@{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}!expression.\+c@{expression.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+C\+O\+N\+S\+T\+A\+N\+T\+\_\+\+S\+Y\+M\+B\+O\+L (
+\begin{DoxyParamCaption}
+\item[{expression\+Environment}]{, }
+\item[{\char`\"{}\+:E\+N\+V\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ab1b04ed850071bbe9ff3775112a9296e}
+\hypertarget{expression_8c_ae2816962fd2386031520040a3747ca47}{\index{expression.\+c@{expression.\+c}!expression\+Assign@{expression\+Assign}}
+\index{expression\+Assign@{expression\+Assign}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+Assign}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ expression\+Assign (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ae2816962fd2386031520040a3747ca47}
+
+
+Takes care of the modification necessary to an expression that is going to be assigned to anything. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em expr} & the expression that should be assigned \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a pointer to the expression that is ready to be assigned to whatever 
+\end{DoxyReturn}
+\hypertarget{expression_8c_ad7fc5c395494b487b9cfc9988658b79a}{\index{expression.\+c@{expression.\+c}!expression\+Create@{expression\+Create}}
+\index{expression\+Create@{expression\+Create}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+Create}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ expression\+Create (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{unsigned char}]{type, }
+\item[{void $\ast$}]{content, }
+\item[{void $\ast$}]{extension}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ad7fc5c395494b487b9cfc9988658b79a}
+
+
+Creates an expression. 
+
+To create an expression containing a native function, usage of
+\begin{DoxyCode}
+1 expressionCreateNativeFunc 
+\end{DoxyCode}
+ is recommended. 
+\begin{DoxyParams}{Parameters}
+{\em type} & type of the content \\
+\hline
+{\em content} & pointer to the content that should go into the new expression \\
+\hline
+{\em extension} & in case of cons cell, here goes the pointer to the cdr \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new expression or null in case of an error 
+\end{DoxyReturn}
+\hypertarget{expression_8c_ac91a3fa5894c699f5adf95bcdd3a4ddb}{\index{expression.\+c@{expression.\+c}!expression\+Create\+Native\+Func@{expression\+Create\+Native\+Func}}
+\index{expression\+Create\+Native\+Func@{expression\+Create\+Native\+Func}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+Create\+Native\+Func}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ expression\+Create\+Native\+Func (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{{\bf Native\+Function} $\ast$}]{content}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ac91a3fa5894c699f5adf95bcdd3a4ddb}
+
+
+Creates an expression. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & type of the content \\
+\hline
+{\em content} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new expression or null in case of an error 
+\end{DoxyReturn}
+\hypertarget{expression_8c_ac8df41538e25c3384e7aeef228d3aabe}{\index{expression.\+c@{expression.\+c}!expression\+Create\+String@{expression\+Create\+String}}
+\index{expression\+Create\+String@{expression\+Create\+String}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+Create\+String}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ expression\+Create\+String (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{char $\ast$}]{str}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ac8df41538e25c3384e7aeef228d3aabe}
+
+
+Creates a expression containing a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & the string \\
+\hline
+\end{DoxyParams}
+\hypertarget{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}{\index{expression.\+c@{expression.\+c}!expression\+Dispose@{expression\+Dispose}}
+\index{expression\+Dispose@{expression\+Dispose}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+Dispose}]{\setlength{\rightskip}{0pt plus 5cm}void expression\+Dispose (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}
+
+
+disposes an expression Takes care of the reference count 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment currently valid \\
+\hline
+{\em expr} & the expression to dispose \\
+\hline
+\end{DoxyParams}
+\hypertarget{expression_8c_ac75e0c1badf13952206eb4fb9b11417f}{\index{expression.\+c@{expression.\+c}!expression\+Force\+Dispose@{expression\+Force\+Dispose}}
+\index{expression\+Force\+Dispose@{expression\+Force\+Dispose}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+Force\+Dispose}]{\setlength{\rightskip}{0pt plus 5cm}void expression\+Force\+Dispose (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{expression_8c_ac75e0c1badf13952206eb4fb9b11417f}
+
+
+Dispose an expression, bypass any kind of garbage collector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment currently valid \\
+\hline
+{\em expr} & the expression to dispose \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\hypertarget{expression_8c_a35aa7f37b42a0880a67f67807d038615}{\index{expression.\+c@{expression.\+c}!expression\+Nil@{expression\+Nil}}
+\index{expression\+Nil@{expression\+Nil}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+Nil}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression expression\+Nil}}\label{expression_8c_a35aa7f37b42a0880a67f67807d038615}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{ 
+    \hyperlink{expression_8h_a850563b8850a9f5609faa9441e740016}{EXPR\_SYMBOL},
+    \{\hyperlink{expression_8c_af4c78bf9adcdcc02356e9b943dc27adc}{nil}\}, 
+    \{NULL\}
+
+\}
+\end{DoxyCode}
+\hypertarget{expression_8c_acfb8a8cefb7d2d5f3e59389cf9d57efa}{\index{expression.\+c@{expression.\+c}!expression\+Rest@{expression\+Rest}}
+\index{expression\+Rest@{expression\+Rest}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+Rest}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression expression\+Rest}}\label{expression_8c_acfb8a8cefb7d2d5f3e59389cf9d57efa}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    \hyperlink{expression_8h_a850563b8850a9f5609faa9441e740016}{EXPR\_SYMBOL},
+    \{\hyperlink{expression_8c_aa2aa6ba323b80f9d40b5f4c1120681e2}{rest}\},
+    \{NULL\} 
+
+\}
+\end{DoxyCode}
+\hypertarget{expression_8c_a6c3815f136a8fcfb5286227eb9eb6b04}{\index{expression.\+c@{expression.\+c}!expression\+T@{expression\+T}}
+\index{expression\+T@{expression\+T}!expression.\+c@{expression.\+c}}
+\subsubsection[{expression\+T}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression expression\+T}}\label{expression_8c_a6c3815f136a8fcfb5286227eb9eb6b04}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    \hyperlink{expression_8h_a850563b8850a9f5609faa9441e740016}{EXPR\_SYMBOL},
+    \{\textcolor{keyword}{true}\},
+    \{NULL\} 
+
+\}
+\end{DoxyCode}
+\hypertarget{expression_8c_af4c78bf9adcdcc02356e9b943dc27adc}{\index{expression.\+c@{expression.\+c}!nil@{nil}}
+\index{nil@{nil}!expression.\+c@{expression.\+c}}
+\subsubsection[{nil}]{\setlength{\rightskip}{0pt plus 5cm}char nil\mbox{[}$\,$\mbox{]} = \char`\"{}N\+I\+L\char`\"{}}}\label{expression_8c_af4c78bf9adcdcc02356e9b943dc27adc}
+\hypertarget{expression_8c_aa2aa6ba323b80f9d40b5f4c1120681e2}{\index{expression.\+c@{expression.\+c}!rest@{rest}}
+\index{rest@{rest}!expression.\+c@{expression.\+c}}
+\subsubsection[{rest}]{\setlength{\rightskip}{0pt plus 5cm}char rest\mbox{[}$\,$\mbox{]} = \char`\"{}\&R\+E\+S\+T\char`\"{}}}\label{expression_8c_aa2aa6ba323b80f9d40b5f4c1120681e2}
+\hypertarget{expression_8c_a3d99df6406e279d37a43c1c2bbc36e82}{\index{expression.\+c@{expression.\+c}!true@{true}}
+\index{true@{true}!expression.\+c@{expression.\+c}}
+\subsubsection[{true}]{\setlength{\rightskip}{0pt plus 5cm}char true\mbox{[}$\,$\mbox{]} = \char`\"{}T\char`\"{}}}\label{expression_8c_a3d99df6406e279d37a43c1c2bbc36e82}

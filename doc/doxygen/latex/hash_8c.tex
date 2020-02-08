@@ -1,0 +1,163 @@
+\hypertarget{hash_8c}{\section{hash.\+c File Reference}
+\label{hash_8c}\index{hash.\+c@{hash.\+c}}
+}
+{\ttfamily \#include \char`\"{}hash.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structHashTable}{Hash\+Table} $\ast$ \hyperlink{hash_8c_a86c795eed3894d44d5da57df52e8d37a}{hash\+Table\+Create} (unsigned int n, unsigned int($\ast$hash\+Func)(struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash, char $\ast$))
+\item 
+void \hyperlink{hash_8c_a78f390a5865f4406a254ac1fdc2130d4}{hash\+Table\+Dispose} (struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash)
+\begin{DoxyCompactList}\small\item\em Deletes an hash table. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{hash_8c_a3969ca3ba6a04e304ec9fefb24bce35e}{hash\+Table\+Set} (struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash\+Table, char $\ast$key, void $\ast$val)
+\begin{DoxyCompactList}\small\item\em Associates a key eith a value If existent, the old value will be deleted If not existent, an entry will be created. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{hash_8c_a0774128a8d7de839d8d612f772f25468}{hash\+Table\+Delete} (struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash\+Table, char $\ast$key)
+\begin{DoxyCompactList}\small\item\em Deletes an entry of an hash table. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{hash_8c_a36331c57eef8a33512c68b70fb32a44b}{hash\+Table\+Get} (struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash\+Table, char $\ast$key)
+\begin{DoxyCompactList}\small\item\em Returns the value associated to a key. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{hash_8c_a8c54e579b03b0e02d3d810824b1183e4}{std\+Hash\+Function} (struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash, char $\ast$key)
+\begin{DoxyCompactList}\small\item\em Standard hash function. \end{DoxyCompactList}\item 
+char $\ast$$\ast$ \hyperlink{hash_8c_a930b88d902c5190f764194a09ae3ebfe}{hash\+Table\+Keys} (struct \hyperlink{structHashTable}{Hash\+Table} $\ast$hash)
+\begin{DoxyCompactList}\small\item\em Returns an array containing pointers to all keys of a paticular hash table The array is terminated by a null pointer The keys themselves will not be copied! \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{hash_8c_a86c795eed3894d44d5da57df52e8d37a}{\index{hash.\+c@{hash.\+c}!hash\+Table\+Create@{hash\+Table\+Create}}
+\index{hash\+Table\+Create@{hash\+Table\+Create}!hash.\+c@{hash.\+c}}
+\subsubsection[{hash\+Table\+Create}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf Hash\+Table}$\ast$ hash\+Table\+Create (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{n, }
+\item[{unsigned }]{int$\ast$hash\+Func)(struct Hash\+Table $\ast$hash, char $\ast$}
+\end{DoxyParamCaption}
+)}}\label{hash_8c_a86c795eed3894d44d5da57df52e8d37a}
+\hypertarget{hash_8c_a0774128a8d7de839d8d612f772f25468}{\index{hash.\+c@{hash.\+c}!hash\+Table\+Delete@{hash\+Table\+Delete}}
+\index{hash\+Table\+Delete@{hash\+Table\+Delete}!hash.\+c@{hash.\+c}}
+\subsubsection[{hash\+Table\+Delete}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hash\+Table\+Delete (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Hash\+Table} $\ast$}]{hash\+Table, }
+\item[{char $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{hash_8c_a0774128a8d7de839d8d612f772f25468}
+
+
+Deletes an entry of an hash table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash\+Table} & The hash to be used \\
+\hline
+{\em hash\+Table} & the hash table to be used \\
+\hline
+{\em key} & the key of the entry to be deleted \\
+\hline
+{\em delete} & if != 0, the key will be freed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the value that has been deleted, or 0 if entry not found 
+\end{DoxyReturn}
+\hypertarget{hash_8c_a78f390a5865f4406a254ac1fdc2130d4}{\index{hash.\+c@{hash.\+c}!hash\+Table\+Dispose@{hash\+Table\+Dispose}}
+\index{hash\+Table\+Dispose@{hash\+Table\+Dispose}!hash.\+c@{hash.\+c}}
+\subsubsection[{hash\+Table\+Dispose}]{\setlength{\rightskip}{0pt plus 5cm}void hash\+Table\+Dispose (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Hash\+Table} $\ast$}]{hash}
+\end{DoxyParamCaption}
+)}}\label{hash_8c_a78f390a5865f4406a254ac1fdc2130d4}
+
+
+Deletes an hash table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em delete} & if != 0 the key will be freed \\
+\hline
+\end{DoxyParams}
+\hypertarget{hash_8c_a36331c57eef8a33512c68b70fb32a44b}{\index{hash.\+c@{hash.\+c}!hash\+Table\+Get@{hash\+Table\+Get}}
+\index{hash\+Table\+Get@{hash\+Table\+Get}!hash.\+c@{hash.\+c}}
+\subsubsection[{hash\+Table\+Get}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hash\+Table\+Get (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Hash\+Table} $\ast$}]{hash\+Table, }
+\item[{char $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{hash_8c_a36331c57eef8a33512c68b70fb32a44b}
+
+
+Returns the value associated to a key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash\+Table} & the hash to be used \\
+\hline
+{\em key} & the key to be searched\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the value ass. to the key, or 0 if not found 
+\end{DoxyReturn}
+\hypertarget{hash_8c_a930b88d902c5190f764194a09ae3ebfe}{\index{hash.\+c@{hash.\+c}!hash\+Table\+Keys@{hash\+Table\+Keys}}
+\index{hash\+Table\+Keys@{hash\+Table\+Keys}!hash.\+c@{hash.\+c}}
+\subsubsection[{hash\+Table\+Keys}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ hash\+Table\+Keys (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Hash\+Table} $\ast$}]{hash}
+\end{DoxyParamCaption}
+)}}\label{hash_8c_a930b88d902c5190f764194a09ae3ebfe}
+
+
+Returns an array containing pointers to all keys of a paticular hash table The array is terminated by a null pointer The keys themselves will not be copied! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash} & the hash table to be evaluated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an array containing pointers to every key kept within the hash 
+\end{DoxyReturn}
+\hypertarget{hash_8c_a3969ca3ba6a04e304ec9fefb24bce35e}{\index{hash.\+c@{hash.\+c}!hash\+Table\+Set@{hash\+Table\+Set}}
+\index{hash\+Table\+Set@{hash\+Table\+Set}!hash.\+c@{hash.\+c}}
+\subsubsection[{hash\+Table\+Set}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ hash\+Table\+Set (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Hash\+Table} $\ast$}]{hash\+Table, }
+\item[{char $\ast$}]{key, }
+\item[{void $\ast$}]{val}
+\end{DoxyParamCaption}
+)}}\label{hash_8c_a3969ca3ba6a04e304ec9fefb24bce35e}
+
+
+Associates a key eith a value If existent, the old value will be deleted If not existent, an entry will be created. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em hash\+Table} & the hash table to be used \\
+\hline
+{\em key} & \\
+\hline
+{\em val} & Pointer to the value (void)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the old value or N\+U\+L\+L if previously not set 
+\end{DoxyReturn}
+\hypertarget{hash_8c_a8c54e579b03b0e02d3d810824b1183e4}{\index{hash.\+c@{hash.\+c}!std\+Hash\+Function@{std\+Hash\+Function}}
+\index{std\+Hash\+Function@{std\+Hash\+Function}!hash.\+c@{hash.\+c}}
+\subsubsection[{std\+Hash\+Function}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int std\+Hash\+Function (
+\begin{DoxyParamCaption}
+\item[{struct {\bf Hash\+Table} $\ast$}]{hash, }
+\item[{char $\ast$}]{key}
+\end{DoxyParamCaption}
+)}}\label{hash_8c_a8c54e579b03b0e02d3d810824b1183e4}
+
+
+Standard hash function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key to be mapped onto a number\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an hash function suited for n buckets 
+\end{DoxyReturn}

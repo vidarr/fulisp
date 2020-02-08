@@ -1,0 +1,108 @@
+\hypertarget{safety_8c}{\section{safety.\+c File Reference}
+\label{safety_8c}\index{safety.\+c@{safety.\+c}}
+}
+{\ttfamily \#include \char`\"{}safety.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$stdarg.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}error.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{safety_8c_a25693aafa8694e115a54245c5585fb16}{\+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C}~\hyperlink{safety_8h_acf143577800376dd931c059ecc61ba06}{malloc}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{safety_8c_acf143577800376dd931c059ecc61ba06}{malloc}~\hyperlink{safety_8c_a25693aafa8694e115a54245c5585fb16}{\+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C} /$\ast$ Prevent further use of malloc(3) $\ast$/
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \hyperlink{safety_8c_ae5ca028a980b55e5e604f0a62b764267}{safe\+Malloc} (size\+\_\+t no\+Bytes)
+\item 
+char $\ast$ \hyperlink{safety_8c_a282e9155e3ecb6fdbdf0821ccb6e1fbc}{string\+New} (size\+\_\+t length)
+\item 
+int \hyperlink{safety_8c_a74bdc879eba92f4f6570db4b8f5c8232}{string\+Is\+Tainted} (char $\ast$str, size\+\_\+t length)
+\item 
+int \hyperlink{safety_8c_a10c4962298b7d1950e0352ec64f4dff1}{safe\+Sprintf} (char $\ast$str, size\+\_\+t buf\+Len, const char $\ast$format,...)
+\item 
+size\+\_\+t \hyperlink{safety_8c_a8115908b90b4341868cbf0b12533fe0d}{safe\+Strlen} (const char $\ast$str, size\+\_\+t max\+Len)
+\item 
+char $\ast$ \hyperlink{safety_8c_ab427efd4e6c73ffae2f1f562de8f7da6}{safe\+Strcpy} (char $\ast$dest, const char $\ast$src, size\+\_\+t max\+Len)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{safety_8c_ab257a700d0acb27f66f97f394785e474}{safety\+Level} = \hyperlink{safety_8h_aa0074b4342039f86e5c2e74f480ae5dc}{S\+A\+F\+E\+T\+Y\+\_\+\+H\+I\+G\+H}
+\begin{DoxyCompactList}\small\item\em This determines the number of safety checks that will be performed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{safety_8c_a25693aafa8694e115a54245c5585fb16}{\index{safety.\+c@{safety.\+c}!\+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C@{\+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C}}
+\index{\+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C@{\+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C}!safety.\+c@{safety.\+c}}
+\subsubsection[{\+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} \+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C~{\bf malloc}}}\label{safety_8c_a25693aafa8694e115a54245c5585fb16}
+\hypertarget{safety_8c_acf143577800376dd931c059ecc61ba06}{\index{safety.\+c@{safety.\+c}!malloc@{malloc}}
+\index{malloc@{malloc}!safety.\+c@{safety.\+c}}
+\subsubsection[{malloc}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} malloc~{\bf \+\_\+\+\_\+\+O\+L\+D\+\_\+\+M\+A\+L\+L\+O\+C} /$\ast$ Prevent further use of malloc(3) $\ast$/}}\label{safety_8c_acf143577800376dd931c059ecc61ba06}
+
+
+\subsection{Function Documentation}
+\hypertarget{safety_8c_ae5ca028a980b55e5e604f0a62b764267}{\index{safety.\+c@{safety.\+c}!safe\+Malloc@{safe\+Malloc}}
+\index{safe\+Malloc@{safe\+Malloc}!safety.\+c@{safety.\+c}}
+\subsubsection[{safe\+Malloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ safe\+Malloc (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{no\+Bytes}
+\end{DoxyParamCaption}
+)}}\label{safety_8c_ae5ca028a980b55e5e604f0a62b764267}
+\hypertarget{safety_8c_a10c4962298b7d1950e0352ec64f4dff1}{\index{safety.\+c@{safety.\+c}!safe\+Sprintf@{safe\+Sprintf}}
+\index{safe\+Sprintf@{safe\+Sprintf}!safety.\+c@{safety.\+c}}
+\subsubsection[{safe\+Sprintf}]{\setlength{\rightskip}{0pt plus 5cm}int safe\+Sprintf (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str, }
+\item[{size\+\_\+t}]{buf\+Len, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{safety_8c_a10c4962298b7d1950e0352ec64f4dff1}
+\hypertarget{safety_8c_ab427efd4e6c73ffae2f1f562de8f7da6}{\index{safety.\+c@{safety.\+c}!safe\+Strcpy@{safe\+Strcpy}}
+\index{safe\+Strcpy@{safe\+Strcpy}!safety.\+c@{safety.\+c}}
+\subsubsection[{safe\+Strcpy}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ safe\+Strcpy (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dest, }
+\item[{const char $\ast$}]{src, }
+\item[{size\+\_\+t}]{max\+Len}
+\end{DoxyParamCaption}
+)}}\label{safety_8c_ab427efd4e6c73ffae2f1f562de8f7da6}
+\hypertarget{safety_8c_a8115908b90b4341868cbf0b12533fe0d}{\index{safety.\+c@{safety.\+c}!safe\+Strlen@{safe\+Strlen}}
+\index{safe\+Strlen@{safe\+Strlen}!safety.\+c@{safety.\+c}}
+\subsubsection[{safe\+Strlen}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t safe\+Strlen (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str, }
+\item[{size\+\_\+t}]{max\+Len}
+\end{DoxyParamCaption}
+)}}\label{safety_8c_a8115908b90b4341868cbf0b12533fe0d}
+\hypertarget{safety_8c_a74bdc879eba92f4f6570db4b8f5c8232}{\index{safety.\+c@{safety.\+c}!string\+Is\+Tainted@{string\+Is\+Tainted}}
+\index{string\+Is\+Tainted@{string\+Is\+Tainted}!safety.\+c@{safety.\+c}}
+\subsubsection[{string\+Is\+Tainted}]{\setlength{\rightskip}{0pt plus 5cm}int string\+Is\+Tainted (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str, }
+\item[{size\+\_\+t}]{length}
+\end{DoxyParamCaption}
+)}}\label{safety_8c_a74bdc879eba92f4f6570db4b8f5c8232}
+\hypertarget{safety_8c_a282e9155e3ecb6fdbdf0821ccb6e1fbc}{\index{safety.\+c@{safety.\+c}!string\+New@{string\+New}}
+\index{string\+New@{string\+New}!safety.\+c@{safety.\+c}}
+\subsubsection[{string\+New}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ string\+New (
+\begin{DoxyParamCaption}
+\item[{size\+\_\+t}]{length}
+\end{DoxyParamCaption}
+)}}\label{safety_8c_a282e9155e3ecb6fdbdf0821ccb6e1fbc}
+
+
+\subsection{Variable Documentation}
+\hypertarget{safety_8c_ab257a700d0acb27f66f97f394785e474}{\index{safety.\+c@{safety.\+c}!safety\+Level@{safety\+Level}}
+\index{safety\+Level@{safety\+Level}!safety.\+c@{safety.\+c}}
+\subsubsection[{safety\+Level}]{\setlength{\rightskip}{0pt plus 5cm}int safety\+Level = {\bf S\+A\+F\+E\+T\+Y\+\_\+\+H\+I\+G\+H}}}\label{safety_8c_ab257a700d0acb27f66f97f394785e474}
+
+
+This determines the number of safety checks that will be performed. 
+

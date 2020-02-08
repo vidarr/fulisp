@@ -1,0 +1,399 @@
+\hypertarget{nativefunctions_8c}{\section{nativefunctions.\+c File Reference}
+\label{nativefunctions_8c}\index{nativefunctions.\+c@{nativefunctions.\+c}}
+}
+{\ttfamily \#include \char`\"{}nativefunctions.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}expression.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}error.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}safety.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}garbage\+\_\+collector.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{nativefunctions_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}nativefunctions.\+c\char`\"{}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{nativefunctions_8c_a3de67d8b9e9f9a1867967c8f773a5ed5}{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}(predicate\+Name, iterator, \hyperlink{test_8h_a3579ec9342b5c608ec759101a87e75cf}{test})
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_ada2a5fc6b33cc45e68904a68217bba26}{quote} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Identity Returnes the expression given to this functions without alteration  env the environment to be used. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a6ca90d0445899ed4a9e11337a075fa65}{set} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Bind symbol to a value. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a06f28a72fd48e4a07d1d9e541bad304a}{define} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Bind a symbol to a value within current environment, if it exists already, create new binding. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_ad5ef4d5555cde8090fee158b324391e8}{cond} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Takes lists of two elements. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a4c2fa9fe738194bb69f96b9370139674}{begin} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_ab97e2d8614b7fe7b74d69df38b27c313}{gc\+Run} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Enforces run of garbage collector. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a1cb251e0a8401cb13917d27250ace021}{add} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returns the sum of the arguments given. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a255cf009089dae84dea092d9c78df9ab}{mul} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returnes the product of the arguments given. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a310cc60e5ed31c8017da1c6c953e3508}{divide} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returnes the result of dividing the car by all the other numbers given as arguments. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_aeb975cfaa8f009df3a9ec3fa503964e5}{and} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returnes true if all the parameters evaluates to not N\+I\+L. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a81bd1bacf348c51544cfb20bb552964a}{or} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returnes true if one of the parameters evaluates to !\+N\+I\+L. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_af44861caf396ffb1ce3bcb1b10c36832}{not} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returnes T only if sole argument evaluates not to N\+I\+L;. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a887a8e5de28d36a3d5a869d4a923261e}{num\+Equal} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returns T if and only if all numbers given to this function are equal. \end{DoxyCompactList}\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a07ac4954b33175e1eb77cae886c6944f}{num\+Smaller} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returns T if and only if all numbers given to this function are ordered in a strictly descending manner, i.\+e. \end{DoxyCompactList}\item 
+\hyperlink{nativefunctions_8c_aa932cc34c213b3c89d686d7d3593cea4}{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N} (\hyperlink{nativefunctions_8h_acb7ef108b0b6a6cda03f8a8cb196d097}{integer\+P}, D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N(iter,(\hyperlink{expression_8h_aa49402c6118dd7875bad987760e1de4e}{E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}(iter, \hyperlink{expression_8h_afdedf975b98a2f55ab6aea4e8a0a3265}{E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R})))
+\item 
+\hyperlink{nativefunctions_8c_a9d150381e99fc991ea621e74e2baa969}{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N} (\hyperlink{nativefunctions_8h_ab41483021cf5a62d9de86028accc2ec9}{cons\+P}, D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N(iter,(\hyperlink{expression_8h_aa49402c6118dd7875bad987760e1de4e}{E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}(iter, \hyperlink{expression_8h_a60b436a98bed05a75fe3aa3a2f59a764}{E\+X\+P\+R\+\_\+\+C\+O\+N\+S})))
+\item 
+struct Expression $\ast$ \hyperlink{nativefunctions_8c_a9483acfb53f4c302539b43edb3b2e898}{get\+Parent\+Env} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Returns the parent environment of expr . \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{nativefunctions_8c_a3de67d8b9e9f9a1867967c8f773a5ed5}{\index{nativefunctions.\+c@{nativefunctions.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N@{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N@{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N(
+\begin{DoxyParamCaption}
+\item[{}]{predicate\+Name, }
+\item[{}]{iterator, }
+\item[{}]{{\bf test}}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a3de67d8b9e9f9a1867967c8f773a5ed5}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keyword}{struct }Expression * predicateName (\textcolor{keyword}{struct} Expression *\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env},                \(\backslash\)
+                                       \textcolor{keyword}{struct} Expression *expr) \{             \(\backslash\)
+        struct Expression *iterator;                                          \hyperlink{nativefunctions_8h_a46c2eab62e72d9b9ef8e29b3e52749c8}{\(\backslash\)}
+\hyperlink{nativefunctions_8h_a46c2eab62e72d9b9ef8e29b3e52749c8}{        INIT\_NATIVE\_FUNCTION}(#predicateName, env, expr);                      
+      \hyperlink{cons_8h_a5006808378326bc40873d6d46f26b6d6}{\(\backslash\)}
+\hyperlink{cons_8h_a5006808378326bc40873d6d46f26b6d6}{        ITERATE\_LIST}(env, expr, iterator,\{ iterator = \hyperlink{eval_8c_a8a64e7b0ef97a1a39353a116744f07bd}{eval}(env, iterator);    \(\backslash\)
+                if(\hyperlink{expression_8h_a5b0059b28a9ed23bb4bc140169c47d59}{EXPR\_IS\_NIL}(iterator) || !(\hyperlink{test_8c_a3579ec9342b5c608ec759101a87e75cf}{test}))\{ \hyperlink{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}{\(\backslash\)}
+\hyperlink{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}{                    expressionDispose}(env, iterator); \(\backslash\)
+                    return \hyperlink{expression_8h_a263efce0e5cda1d387a1a43f94715445}{NIL}; \(\backslash\)
+                \} \hyperlink{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}{\(\backslash\)}
+\hyperlink{expression_8c_aa5aeb02f553f40afeb95f95ff33d6fac}{                expressionDispose}(env, iterator); \(\backslash\)
+            \});        \(\backslash\)
+        return \hyperlink{expression_8h_a0acb682b8260ab1c60b918599864e2e5}{T};  \(\backslash\)
+    \}
+\end{DoxyCode}
+\hypertarget{nativefunctions_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{nativefunctions.\+c@{nativefunctions.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}nativefunctions.\+c\char`\"{}}}\label{nativefunctions_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+
+
+\subsection{Function Documentation}
+\hypertarget{nativefunctions_8c_a1cb251e0a8401cb13917d27250ace021}{\index{nativefunctions.\+c@{nativefunctions.\+c}!add@{add}}
+\index{add@{add}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{add}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ add (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a1cb251e0a8401cb13917d27250ace021}
+
+
+Returns the sum of the arguments given. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to be used \\
+\hline
+{\em a} & list of numbers  sum of the arguments \\
+\hline
+\end{DoxyParams}
+\hypertarget{nativefunctions_8c_aeb975cfaa8f009df3a9ec3fa503964e5}{\index{nativefunctions.\+c@{nativefunctions.\+c}!and@{and}}
+\index{and@{and}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{and}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ and (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_aeb975cfaa8f009df3a9ec3fa503964e5}
+
+
+Returnes true if all the parameters evaluates to not N\+I\+L. 
+
+Does not guarantee to evaluate all of the parameters! 
+\begin{DoxyParams}{Parameters}
+{\em env} & Current environment \\
+\hline
+{\em list} & of expressions that are evaluated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+T if one of the parameters is not N\+I\+L. N\+I\+L else. 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_a4c2fa9fe738194bb69f96b9370139674}{\index{nativefunctions.\+c@{nativefunctions.\+c}!begin@{begin}}
+\index{begin@{begin}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{begin}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ begin (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a4c2fa9fe738194bb69f96b9370139674}
+\hypertarget{nativefunctions_8c_ad5ef4d5555cde8090fee158b324391e8}{\index{nativefunctions.\+c@{nativefunctions.\+c}!cond@{cond}}
+\index{cond@{cond}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{cond}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ cond (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_ad5ef4d5555cde8090fee158b324391e8}
+
+
+Takes lists of two elements. 
+
+Iterates over the lists in the order given. If one list's car evaluates to something not equal to N\+I\+L, the cadr is evaluated and returned. 
+\begin{DoxyParams}{Parameters}
+{\em env} & Current environment \\
+\hline
+{\em expr} & list of lists of two elements. \\
+\hline
+\end{DoxyParams}
+\hypertarget{nativefunctions_8c_a06f28a72fd48e4a07d1d9e541bad304a}{\index{nativefunctions.\+c@{nativefunctions.\+c}!define@{define}}
+\index{define@{define}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{define}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ define (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a06f28a72fd48e4a07d1d9e541bad304a}
+
+
+Bind a symbol to a value within current environment, if it exists already, create new binding. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & environment create binding within \\
+\hline
+{\em expr} & list of two elements. Car is the symbol to bind to, cadr is the value to be bound. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new value 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_aa932cc34c213b3c89d686d7d3593cea4}{\index{nativefunctions.\+c@{nativefunctions.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N@{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N@{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N (
+\begin{DoxyParamCaption}
+\item[{{\bf integer\+P}}]{, }
+\item[{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N(}]{iter, }
+\item[{({\bf E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}(iter, {\bf E\+X\+P\+R\+\_\+\+I\+N\+T\+E\+G\+E\+R}))}]{}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_aa932cc34c213b3c89d686d7d3593cea4}
+\hypertarget{nativefunctions_8c_a9d150381e99fc991ea621e74e2baa969}{\index{nativefunctions.\+c@{nativefunctions.\+c}!D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N@{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}}
+\index{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N@{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N (
+\begin{DoxyParamCaption}
+\item[{{\bf cons\+P}}]{, }
+\item[{D\+E\+F\+I\+N\+E\+\_\+\+P\+R\+E\+D\+I\+C\+A\+T\+E\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N(}]{iter, }
+\item[{({\bf E\+X\+P\+R\+\_\+\+O\+F\+\_\+\+T\+Y\+P\+E}(iter, {\bf E\+X\+P\+R\+\_\+\+C\+O\+N\+S}))}]{}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a9d150381e99fc991ea621e74e2baa969}
+\hypertarget{nativefunctions_8c_a310cc60e5ed31c8017da1c6c953e3508}{\index{nativefunctions.\+c@{nativefunctions.\+c}!divide@{divide}}
+\index{divide@{divide}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{divide}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ divide (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a310cc60e5ed31c8017da1c6c953e3508}
+
+
+Returnes the result of dividing the car by all the other numbers given as arguments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & environment to be used \\
+\hline
+{\em expr} & list of numbers \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result of division 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_ab97e2d8614b7fe7b74d69df38b27c313}{\index{nativefunctions.\+c@{nativefunctions.\+c}!gc\+Run@{gc\+Run}}
+\index{gc\+Run@{gc\+Run}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{gc\+Run}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ gc\+Run (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_ab97e2d8614b7fe7b74d69df38b27c313}
+
+
+Enforces run of garbage collector. 
+
+\hypertarget{nativefunctions_8c_a9483acfb53f4c302539b43edb3b2e898}{\index{nativefunctions.\+c@{nativefunctions.\+c}!get\+Parent\+Env@{get\+Parent\+Env}}
+\index{get\+Parent\+Env@{get\+Parent\+Env}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{get\+Parent\+Env}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ get\+Parent\+Env (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a9483acfb53f4c302539b43edb3b2e898}
+
+
+Returns the parent environment of expr . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the current environment \\
+\hline
+{\em expr} & an environment \\
+\hline
+\end{DoxyParams}
+\hypertarget{nativefunctions_8c_a255cf009089dae84dea092d9c78df9ab}{\index{nativefunctions.\+c@{nativefunctions.\+c}!mul@{mul}}
+\index{mul@{mul}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{mul}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ mul (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a255cf009089dae84dea092d9c78df9ab}
+
+
+Returnes the product of the arguments given. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & environment to be used \\
+\hline
+{\em expr} & list of numbers to be multiplied together \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+product of the arguments 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_af44861caf396ffb1ce3bcb1b10c36832}{\index{nativefunctions.\+c@{nativefunctions.\+c}!not@{not}}
+\index{not@{not}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{not}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ not (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_af44861caf396ffb1ce3bcb1b10c36832}
+
+
+Returnes T only if sole argument evaluates not to N\+I\+L;. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & Current environment \\
+\hline
+{\em expr} & argument list \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+T exactly if sole argument evaluates not to N\+I\+L 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_a887a8e5de28d36a3d5a869d4a923261e}{\index{nativefunctions.\+c@{nativefunctions.\+c}!num\+Equal@{num\+Equal}}
+\index{num\+Equal@{num\+Equal}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{num\+Equal}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ num\+Equal (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a887a8e5de28d36a3d5a869d4a923261e}
+
+
+Returns T if and only if all numbers given to this function are equal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to be used \\
+\hline
+{\em expr} & list of numbers \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+T if all given arguments are numbers and equal, N\+I\+L otherwise 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_a07ac4954b33175e1eb77cae886c6944f}{\index{nativefunctions.\+c@{nativefunctions.\+c}!num\+Smaller@{num\+Smaller}}
+\index{num\+Smaller@{num\+Smaller}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{num\+Smaller}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ num\+Smaller (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a07ac4954b33175e1eb77cae886c6944f}
+
+
+Returns T if and only if all numbers given to this function are ordered in a strictly descending manner, i.\+e. 
+
+if for ($<$ a b c ...) holds a $<$ b $<$ c $<$ ...  env environment to be used 
+\begin{DoxyParams}{Parameters}
+{\em expr} & list of numbers \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+T if if numbers are ordered strictly ascending 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_a81bd1bacf348c51544cfb20bb552964a}{\index{nativefunctions.\+c@{nativefunctions.\+c}!or@{or}}
+\index{or@{or}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{or}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ or (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a81bd1bacf348c51544cfb20bb552964a}
+
+
+Returnes true if one of the parameters evaluates to !\+N\+I\+L. 
+
+Does not guarantee to evaluate all of the parameters! 
+\begin{DoxyParams}{Parameters}
+{\em env} & Current environment \\
+\hline
+{\em list} & of expressions that are evaluated \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+T if one of the parameters is not N\+I\+L. N\+I\+L else. 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_ada2a5fc6b33cc45e68904a68217bba26}{\index{nativefunctions.\+c@{nativefunctions.\+c}!quote@{quote}}
+\index{quote@{quote}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{quote}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ quote (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_ada2a5fc6b33cc45e68904a68217bba26}
+
+
+Identity Returnes the expression given to this functions without alteration  env the environment to be used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em expr} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+expr 
+\end{DoxyReturn}
+\hypertarget{nativefunctions_8c_a6ca90d0445899ed4a9e11337a075fa65}{\index{nativefunctions.\+c@{nativefunctions.\+c}!set@{set}}
+\index{set@{set}!nativefunctions.\+c@{nativefunctions.\+c}}
+\subsubsection[{set}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ set (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{nativefunctions_8c_a6ca90d0445899ed4a9e11337a075fa65}
+
+
+Bind symbol to a value. 
+
+Currently, if there is no binding for this symbol yet, a new binding is created, thus explicit call to \char`\"{}define\char`\"{} or something is unneccessary. 
+\begin{DoxyParams}{Parameters}
+{\em env} & the environment to be used \\
+\hline
+{\em expr} & a cons list with two entries\+: first one should be the symbol to bind, second the value to be bound to the symbol. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new value bound to the symbol 
+\end{DoxyReturn}

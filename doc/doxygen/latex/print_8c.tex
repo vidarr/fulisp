@@ -1,0 +1,175 @@
+\hypertarget{print_8c}{\section{print.\+c File Reference}
+\label{print_8c}\index{print.\+c@{print.\+c}}
+}
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}print.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}expression.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}cons.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}constants.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}no\+\_\+debugging.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}printnativefunctions.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{print_8c_a14ded244c47bbba850a8a4be6d16c7e3}{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}~\char`\"{}print.\+c\char`\"{}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{print_8c_a35305d1c019c6981d1800922930143ce}{S\+T\+R\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+T\+O\+\_\+\+E\+N\+D}(str)~\{while($\ast$(str++) != 0); str-\/-\/;\}
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{print_8c_a69cc2768865c0701858bc70e2d6fb5e0}{P\+R\+I\+N\+T\+\_\+\+S\+T\+R\+E\+A\+M}(x)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{print_8c_a95ee1ee527628963550dd70a6a4c16a8}{P\+R\+I\+N\+T\+\_\+\+E\+X\+P\+R}(type, str\+Type, data)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{print_8c_a2e3cd76c2fa9717ecb395f760eb2eae5}{P\+R\+I\+N\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}(x)
+\item 
+\#\hyperlink{nativefunctions_8h_a06f28a72fd48e4a07d1d9e541bad304a}{define} \hyperlink{print_8c_a4362a8e7b373b6c383d1807261f1e9ec}{B\+U\+F\+T\+O\+W\+R\+I\+T\+E\+T\+O\+\_\+\+L\+E\+N\+G\+T\+H}~200
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct Expression $\ast$ \hyperlink{print_8c_a3f1609b538cdb7dc72c34a684b27a53a}{fu\+Print} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em Create textual descriptions of expressions in various ways. \end{DoxyCompactList}\item 
+char $\ast$ \hyperlink{print_8c_af01d28a967b51f116ebfd90ec602d037}{expression\+To\+String} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, char $\ast$str, int size\+Of\+Buffer, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O\+: Replace by appr. \end{DoxyCompactList}\item 
+void \hyperlink{print_8c_ab091353d729aaaa9444ba18024cb9c6d}{print\+To\+Stream} (struct Expression $\ast$\hyperlink{test-env_8c_a57378699c80a40509e334ce55c228738}{env}, struct \hyperlink{structCharWriteStream}{Char\+Write\+Stream} $\ast$stream, struct Expression $\ast$expr)
+\begin{DoxyCompactList}\small\item\em prints an expression to a write stream \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{print_8c_a4362a8e7b373b6c383d1807261f1e9ec}{\index{print.\+c@{print.\+c}!B\+U\+F\+T\+O\+W\+R\+I\+T\+E\+T\+O\+\_\+\+L\+E\+N\+G\+T\+H@{B\+U\+F\+T\+O\+W\+R\+I\+T\+E\+T\+O\+\_\+\+L\+E\+N\+G\+T\+H}}
+\index{B\+U\+F\+T\+O\+W\+R\+I\+T\+E\+T\+O\+\_\+\+L\+E\+N\+G\+T\+H@{B\+U\+F\+T\+O\+W\+R\+I\+T\+E\+T\+O\+\_\+\+L\+E\+N\+G\+T\+H}!print.\+c@{print.\+c}}
+\subsubsection[{B\+U\+F\+T\+O\+W\+R\+I\+T\+E\+T\+O\+\_\+\+L\+E\+N\+G\+T\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} B\+U\+F\+T\+O\+W\+R\+I\+T\+E\+T\+O\+\_\+\+L\+E\+N\+G\+T\+H~200}}\label{print_8c_a4362a8e7b373b6c383d1807261f1e9ec}
+\hypertarget{print_8c_a14ded244c47bbba850a8a4be6d16c7e3}{\index{print.\+c@{print.\+c}!M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}}
+\index{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E@{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}!print.\+c@{print.\+c}}
+\subsubsection[{M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} M\+O\+D\+U\+L\+E\+\_\+\+N\+A\+M\+E~\char`\"{}print.\+c\char`\"{}}}\label{print_8c_a14ded244c47bbba850a8a4be6d16c7e3}
+\hypertarget{print_8c_a95ee1ee527628963550dd70a6a4c16a8}{\index{print.\+c@{print.\+c}!P\+R\+I\+N\+T\+\_\+\+E\+X\+P\+R@{P\+R\+I\+N\+T\+\_\+\+E\+X\+P\+R}}
+\index{P\+R\+I\+N\+T\+\_\+\+E\+X\+P\+R@{P\+R\+I\+N\+T\+\_\+\+E\+X\+P\+R}!print.\+c@{print.\+c}}
+\subsubsection[{P\+R\+I\+N\+T\+\_\+\+E\+X\+P\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} P\+R\+I\+N\+T\+\_\+\+E\+X\+P\+R(
+\begin{DoxyParamCaption}
+\item[{}]{type, }
+\item[{}]{str\+Type, }
+\item[{}]{data}
+\end{DoxyParamCaption}
+)}}\label{print_8c_a95ee1ee527628963550dd70a6a4c16a8}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{\(\backslash\)
+    size\_t bufLen = MAX\_BYTES\_PER\_##type + 6 + 2; \(\backslash\)
+    buf = \hyperlink{safety_8h_a3aa4c97be2b9c08ddf39ea699a5e5bd4}{SAFE\_STRING\_NEW}(bufLen); \hyperlink{safety_8h_a6872f0a98cbe5307885ff439efacb753}{\(\backslash\)}
+\hyperlink{safety_8h_a6872f0a98cbe5307885ff439efacb753}{    SAFE\_SPRINTF}(buf, bufLen, #type \textcolor{stringliteral}{": "}  #strType, data); \hyperlink{print_8c_a69cc2768865c0701858bc70e2d6fb5e0}{\(\backslash\)}
+\hyperlink{print_8c_a69cc2768865c0701858bc70e2d6fb5e0}{    PRINT\_STREAM}(buf); \(\backslash\)
+    free(buf); \(\backslash\)
+\}
+\end{DoxyCode}
+\hypertarget{print_8c_a2e3cd76c2fa9717ecb395f760eb2eae5}{\index{print.\+c@{print.\+c}!P\+R\+I\+N\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C@{P\+R\+I\+N\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}}
+\index{P\+R\+I\+N\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C@{P\+R\+I\+N\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}!print.\+c@{print.\+c}}
+\subsubsection[{P\+R\+I\+N\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} P\+R\+I\+N\+T\+\_\+\+N\+A\+T\+I\+V\+E\+\_\+\+F\+U\+N\+C(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)}}\label{print_8c_a2e3cd76c2fa9717ecb395f760eb2eae5}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{ \(\backslash\)
+    fp = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *) &(x); \(\backslash\)
+    for(i = 0; i < \textcolor{keyword}{sizeof}(\hyperlink{expression_8h_afd244e666fdee0f754105980d3412128}{NativeFunction} *); i++) \{ \(\backslash\)
+        \textcolor{comment}{/* Convert char to hex representation */} \(\backslash\)
+        low = fp[i] & (16 | 8 | 4 | 2 | 1); \(\backslash\)
+        high = fp[i] >> 4; \(\backslash\)
+        low = \hyperlink{printnativefunctions_8h_abf94b004b02353ac2aca31fece0bd79b}{TO\_HEX}(low); \(\backslash\)
+        high = \hyperlink{printnativefunctions_8h_abf94b004b02353ac2aca31fece0bd79b}{TO\_HEX}(high); \hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{\(\backslash\)}
+\hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{        STREAM\_WRITE}(stream, \textcolor{charliteral}{' '}); \hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{\(\backslash\)}
+\hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{        STREAM\_WRITE}(stream, high); \hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{\(\backslash\)}
+\hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{        STREAM\_WRITE}(stream, low); \(\backslash\)
+    \}; \hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{\(\backslash\)}
+\hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{    STREAM\_WRITE}(stream, \textcolor{charliteral}{'\(\backslash\)0'}); \(\backslash\)
+\}
+\end{DoxyCode}
+\hypertarget{print_8c_a69cc2768865c0701858bc70e2d6fb5e0}{\index{print.\+c@{print.\+c}!P\+R\+I\+N\+T\+\_\+\+S\+T\+R\+E\+A\+M@{P\+R\+I\+N\+T\+\_\+\+S\+T\+R\+E\+A\+M}}
+\index{P\+R\+I\+N\+T\+\_\+\+S\+T\+R\+E\+A\+M@{P\+R\+I\+N\+T\+\_\+\+S\+T\+R\+E\+A\+M}!print.\+c@{print.\+c}}
+\subsubsection[{P\+R\+I\+N\+T\+\_\+\+S\+T\+R\+E\+A\+M}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} P\+R\+I\+N\+T\+\_\+\+S\+T\+R\+E\+A\+M(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)}}\label{print_8c_a69cc2768865c0701858bc70e2d6fb5e0}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\{\textcolor{keywordtype}{char} *b = x; \textcolor{keywordflow}{for}(; *b != 0; b++) \(\backslash\)
+    \hyperlink{streams_8h_a7901c639c70adef35e045fb6f7900e7f}{STREAM\_WRITE}(stream, *b);\}
+\end{DoxyCode}
+\hypertarget{print_8c_a35305d1c019c6981d1800922930143ce}{\index{print.\+c@{print.\+c}!S\+T\+R\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+T\+O\+\_\+\+E\+N\+D@{S\+T\+R\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+T\+O\+\_\+\+E\+N\+D}}
+\index{S\+T\+R\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+T\+O\+\_\+\+E\+N\+D@{S\+T\+R\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+T\+O\+\_\+\+E\+N\+D}!print.\+c@{print.\+c}}
+\subsubsection[{S\+T\+R\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+T\+O\+\_\+\+E\+N\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#{\bf define} S\+T\+R\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+T\+O\+\_\+\+E\+N\+D(
+\begin{DoxyParamCaption}
+\item[{}]{str}
+\end{DoxyParamCaption}
+)~\{while($\ast$(str++) != 0); str-\/-\/;\}}}\label{print_8c_a35305d1c019c6981d1800922930143ce}
+
+
+\subsection{Function Documentation}
+\hypertarget{print_8c_af01d28a967b51f116ebfd90ec602d037}{\index{print.\+c@{print.\+c}!expression\+To\+String@{expression\+To\+String}}
+\index{expression\+To\+String@{expression\+To\+String}!print.\+c@{print.\+c}}
+\subsubsection[{expression\+To\+String}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ expression\+To\+String (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{char $\ast$}]{str, }
+\item[{int}]{size\+Of\+Buffer, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{print_8c_af01d28a967b51f116ebfd90ec602d037}
+
+
+T\+O\+D\+O\+: Replace by appr. 
+
+calls to \hyperlink{print_8h_ab091353d729aaaa9444ba18024cb9c6d}{print\+To\+Stream()} Gives a string representation of an expression 
+\begin{DoxyParams}{Parameters}
+{\em str} & pointer to a buffer to be written to. Its size wont be altered so buffer overflows are possible ! \\
+\hline
+{\em size\+Of\+Buffer} & size of the buffer if S\+A\+F\+E\+T\+Y\+\_\+\+C\+O\+D\+E is enabled, buffer overflows are prevented \\
+\hline
+{\em expr} & pointer to the expression to be printed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to the string representation (should be the pointer given as 'str' 
+\end{DoxyReturn}
+\hypertarget{print_8c_a3f1609b538cdb7dc72c34a684b27a53a}{\index{print.\+c@{print.\+c}!fu\+Print@{fu\+Print}}
+\index{fu\+Print@{fu\+Print}!print.\+c@{print.\+c}}
+\subsubsection[{fu\+Print}]{\setlength{\rightskip}{0pt plus 5cm}struct Expression$\ast$ fu\+Print (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{print_8c_a3f1609b538cdb7dc72c34a684b27a53a}
+
+
+Create textual descriptions of expressions in various ways. 
+
+Gives a string representation of an expression 
+\begin{DoxyParams}{Parameters}
+{\em expr} & the expression to be described \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+en expression containing an string describing the expression 
+\end{DoxyReturn}
+\hypertarget{print_8c_ab091353d729aaaa9444ba18024cb9c6d}{\index{print.\+c@{print.\+c}!print\+To\+Stream@{print\+To\+Stream}}
+\index{print\+To\+Stream@{print\+To\+Stream}!print.\+c@{print.\+c}}
+\subsubsection[{print\+To\+Stream}]{\setlength{\rightskip}{0pt plus 5cm}void print\+To\+Stream (
+\begin{DoxyParamCaption}
+\item[{struct Expression $\ast$}]{env, }
+\item[{struct {\bf Char\+Write\+Stream} $\ast$}]{stream, }
+\item[{struct Expression $\ast$}]{expr}
+\end{DoxyParamCaption}
+)}}\label{print_8c_ab091353d729aaaa9444ba18024cb9c6d}
+
+
+prints an expression to a write stream 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & the stream to write to \\
+\hline
+{\em expr} & the expr to be printed \\
+\hline
+\end{DoxyParams}
