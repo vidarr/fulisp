@@ -129,6 +129,7 @@ static void gcIntUnmarkAll(struct Environment *env) {
     assert(env);
 
     memory = env->memory;
+
     assert(env);
     block = memory->exprBlocks;
     assert(block);

@@ -23,6 +23,7 @@
 #include "fulispreader.h"
 #include "garbage_collector.h"
 #include "print.h"
+#include "fulisp.h"
 
 #ifdef DEBUG
 #include "debugging.h"
@@ -87,7 +88,6 @@ struct Expression *quit(struct Expression *env, struct Expression *expr) {
 int main(int argc, char **argv) {
     struct Expression *env;
     struct Expression *expr, *res;
-    struct Memory *mem;
     struct CharWriteStream *outStream;
     struct CharReadStream *bufStream;
     struct CharReadStream *readStream;
@@ -102,8 +102,8 @@ int main(int argc, char **argv) {
 
     welcome(stdout);
 
-    mem = newMemory();
-    env = environmentCreateStdEnv(mem);
+    env = fuOpen();
+
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "QUIT", quit);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LICENSE", license);
 
@@ -153,10 +153,8 @@ int main(int argc, char **argv) {
      * reference to the env it has been created in
      */
 
-    environmentClear(env);
-    GC_RUN(env); /* Required to recursively free all resources */
-    expressionForceDispose(env, env);
-    deleteMemory(mem);
+    fuClose(env);
+
     free(readStream);
     return 0;
 }
