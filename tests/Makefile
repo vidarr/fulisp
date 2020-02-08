@@ -58,7 +58,7 @@ $(BUILD_DIR)/tests_repl: $(OBJECT_FILES) $(BUILD_DIR)/tests_repl.o
 
 
 clean:
-	@echo "REMOVING BINARIES..."; rm  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*
+	@echo "REMOVING BINARIES..."; rm -f  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*
 
 
 tags: $(wildcard *.c) $(wildcard *.h)

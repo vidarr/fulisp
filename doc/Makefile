@@ -10,5 +10,5 @@ pdf: ${TEX_FILES}
 
 clean:
 	@echo "REMOVING BUILT DOCUMENTATION..." && \
-    rm *.aux && rm *.log && rm *.pdf
+    rm -f *.aux && rm -f *.log && rm -f *.pdf
 
