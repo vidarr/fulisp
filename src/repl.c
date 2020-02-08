@@ -108,12 +108,15 @@ int main(int argc, char **argv) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "LICENSE", license);
 
     readStream = makeCStreamCharReadStream(stdin);
-    expr = 0;
-    bufStream = makeCharReadStream(readStream);
     outStream = makeCStreamCharWriteStream(1024, stdout);
+
+    bufStream = makeCharReadStream(readStream);
     reader = newFuLispReader(env, bufStream);
+
+    expr = 0;
     dontExit = 1;
-    while (dontExit) { /* Loop until "quit" is called */
+
+    while (dontExit) { /* Loop until "quit" is called  */
         printf("\nfuLisp:%i$ ", lastError);
         expr = fuRead(reader);
         resetCharReadStream(bufStream);
@@ -124,11 +127,8 @@ int main(int argc, char **argv) {
             ERROR_RESET;
         } else {
             BENCHMARK_CONTINUE(bmTime, bmTemp, bmTimeSt);
-
             res = eval(env, expr);
-
             BENCHMARK_INTERRUPT(bmTime, bmTemp, bmTimeSt);
-
             expressionDispose(env, expr);
             if (!NO_ERROR) {
                 fprintf(stderr, "    FUBAR: %s\n\n", lispErrorMessage);
@@ -145,8 +145,11 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Benchmark: Total time measured: %li \n", bmTime));
 
     deleteReader(reader);
+
     STREAM_DISPOSE(bufStream);
+    STREAM_DISPOSE(readStream);
     STREAM_DISPOSE(outStream);
+
     /* Actually, if lambda expressions have been bound to variables, the
      * environment wont be disposed as it will have some cicular structure:
      * The env contains a reference to a lambda, this lambda contains a
@@ -155,6 +158,5 @@ int main(int argc, char **argv) {
 
     fuClose(env);
 
-    free(readStream);
     return 0;
 }
