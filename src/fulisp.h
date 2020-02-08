@@ -36,6 +36,7 @@
 #define FULISP_H
 
 #include "expression.h"
+#include "streams.h"
 
 /*----------------------------------------------------------------------------*/
 
@@ -43,6 +44,8 @@ struct Expression *fuOpen(void);
 
 void fuClose(struct Expression *env);
 
+int fuEvalStream(struct Expression *env, struct CharReadStream *instream,
+                  struct CharWriteStream *outStream);
+
 /*----------------------------------------------------------------------------*/
 #endif
-
