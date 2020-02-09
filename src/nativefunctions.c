@@ -21,6 +21,9 @@
 #include "expression.h"
 #include "garbage_collector.h"
 #include "safety.h"
+#include "operating_system.h"
+#include "fulisp.h"
+#include <errno.h>
 
 #define MODULE_NAME "nativefunctions.c"
 
@@ -439,27 +442,55 @@ struct Expression *getParentEnv(struct Expression *env,
     return envToReturn;
 }
 
-struct Expression *importFile(struct Expression *env,
-        char const *libraryPath, char const *fileName) {
+/******************************************************************************
+ *                                   IMPORT 
+ ******************************************************************************/
+
+static struct Expression *importFile(struct Expression *env,
+                                     char const *libraryPath,
+                                     char const *fileName) {
+
+    struct CharReadStream *fileStream = 0;
+    struct Expression *retVal = NIL;
 
     assert(0 != libraryPath);
-    assert(0 !=  fileName);
+    assert(0 != fileName);
 
     FILE *f = file_open(libraryPath, fileName, "r");
-    if(0 == f) {
+    if (0 == f) {
         DEBUG_PRINT_PARAM("Reading file %s failed\n", fileName);
         ERROR(ERR_NO_RESOURCE, strerror(errno));
         return NIL;
     }
 
+    fileStream = makeCStreamCharReadStream(stdin);
+
+    if(0 == fileStream) {
+        ERROR(ERR_NIL_VALUE, "Could not create file stream");
+        goto error;
+    }
+
+    fuEvalStream(env, fileStream, 0);
+
+    if(NO_ERROR) {
+        retVal = T;
+    }
+
+error:
+
+    if (0 != fileStream) {
+        STREAM_DISPOSE(fileStream);
+        fileStream = 0;
+    }
+
     fclose(f);
 
-    return T;
-
+    return retVal;
 }
 
 struct Expression *import(struct Expression *env, struct Expression *expr) {
     struct Expression *res = 0;
+    struct Expression *importResult = 0;
     struct Expression *fileName = 0;
     struct Expression *fileNameEval = 0;
     struct Expression *libraryPath = 0;
