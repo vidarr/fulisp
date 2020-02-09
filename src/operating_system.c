@@ -28,27 +28,6 @@
 
 #include <string.h>
 
-
-/*----------------------------------------------------------------------------*/
-
-#if ! defined (__unix__)
-
-#error("No POSIX compatible operating system found")
-
-#endif
-
-#include <unistd.h>
-
-#ifndef _POSIX_VERSION
-
-#error("No POSIX compatible operating system found")
-
-#endif
-
-/*----------------------------------------------------------------------------*/
-
-#include <linux/limits.h>
-
 /*----------------------------------------------------------------------------*/
 
 #if _POSIX_VERSION < 200809L

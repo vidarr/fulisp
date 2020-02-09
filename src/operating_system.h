@@ -18,6 +18,42 @@
 #ifndef OPERATING_SYSTEM_H
 #define OPERATING_SYSTEM_H
 
+/******************************************************************************
+ *                           OS Compliance checking
+ ******************************************************************************/
+
+#if ! defined (__unix__)
+
+#error("No POSIX compatible operating system found")
+
+#endif
+
+#include <unistd.h>
+
+#ifndef _POSIX_VERSION
+
+#error("No POSIX compatible operating system found")
+
+#endif
+
+/*----------------------------------------------------------------------------*/
+
+#ifdef __linux__
+
+#include <linux/limits.h>
+
+#endif
+
+#ifndef PATH_MAX
+
+#define PATH_MAX _POSIX_PATH_MAX
+
+#endif
+
+/******************************************************************************
+ *                                   Actual
+ ******************************************************************************/
+
 #include <stdio.h>
 
 /*----------------------------------------------------------------------------*/
