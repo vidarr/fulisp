@@ -1,8 +1,0 @@
-This is fuLisp, a minimalistic Lisp interpreter.
-
-fuLisp currently provides a interactive interpreter, with a minimum, although
-turing-complete and functional language support. 
-the documentation currently has barely begun, but the core documents are located
-under `doc/'.
-For installation/compilation instructions, see `INSTALL'.
-
