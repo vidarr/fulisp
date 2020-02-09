@@ -439,13 +439,32 @@ struct Expression *getParentEnv(struct Expression *env,
     return envToReturn;
 }
 
-struct Expression *import(struct Expression *env,
-                                struct Expression *expr) {
+struct Expression *importFile(struct Expression *env,
+        char const *libraryPath, char const *fileName) {
 
+    assert(0 != libraryPath);
+    assert(0 !=  fileName);
+
+    FILE *f = file_open(libraryPath, fileName, "r");
+    if(0 == f) {
+        DEBUG_PRINT_PARAM("Reading file %s failed\n", fileName);
+        ERROR(ERR_NO_RESOURCE, strerror(errno));
+        return NIL;
+    }
+
+    fclose(f);
+
+    return T;
+
+}
+
+struct Expression *import(struct Expression *env, struct Expression *expr) {
     struct Expression *res = 0;
     struct Expression *fileName = 0;
+    struct Expression *fileNameEval = 0;
     struct Expression *libraryPath = 0;
 
+    char const *fileNameStr = 0;
     char const *libraryPathStr = 0;
 
     INIT_NATIVE_FUNCTION("import", env, expr);
@@ -462,15 +481,19 @@ struct Expression *import(struct Expression *env,
         libraryPathStr = EXPRESSION_STRING(libraryPath);
     }
 
-    printf("Library path:%s\n",libraryPathStr);
-
     ITERATE_LIST(env, expr, fileName, {
         expressionDispose(env, res);
         res = eval(env, fileName);
         if (!EXPR_OF_TYPE(res, EXPR_STRING)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Expected string as file name");
         }
-        /*---*/
+        fileNameStr = EXPRESSION_STRING(res);
+        importResult = importFile(env, libraryPathStr, fileNameStr);
+        expressionDispose(env, res);
+        if (NIL == importResult) {
+            expressionDispose(env, libraryPath);
+            return NIL;
+        }
     });
 
     expressionDispose(env, libraryPath);
