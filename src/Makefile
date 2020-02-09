@@ -16,18 +16,7 @@
 # usa.
 
 include ../config.mk
-
-SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c  \
-			  nativefunctions.c print.c reader.c safety.c streams.c \
-			  symboltable.c  test.c environment.c eval.c stack.c lambda.c \
-			  benchmarking.c memory.c garbage_collector.c futypes.c fulisp.c \
-			  operating_system.c
-
-HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h \
-			  nativefunctions.h print.h reader.h safety.h streams.h \
-			  symboltable.h test.h environment.h eval.h stack.h lambda.h  \
-			  benchmarking.h memory.h garbage_collector.h futypes.h fulisp.h \
-			  operating_system.h
+include ../files.mk
 
 HEADER_FILES += $(VERSION_FILE)
 

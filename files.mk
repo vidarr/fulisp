@@ -1,4 +1,4 @@
-# (C) 2020 Michael J. Beer
+# (c) 2020 michael j. beer
 #
 # this program is free software; you can redistribute it and/or modify
 # it under the terms of the gnu general public license as published by
@@ -15,35 +15,14 @@
 # foundation, inc., 51 franklin street, fifth floor, boston, ma  02110-1301,
 # usa.
 
-include config.mk
+SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c  \
+			  nativefunctions.c print.c reader.c safety.c streams.c \
+			  symboltable.c  test.c environment.c eval.c stack.c lambda.c \
+			  benchmarking.c memory.c garbage_collector.c futypes.c fulisp.c \
+			  operating_system.c
 
-.PHONY: all fulisp tests check clean preprocess tarball release
-
-all:
-	cd src && make all
-
-fulisp:
-	cd src && make fulisp
-
-tests: all
-	cd tests && make tests
-
-check: tests
-	cd src && make check
-
-clean:
-	echo "REMOVING $(RELEASE_DIR) ..."
-	if [ -d $(RELEASE_DIR) ]; then  rm -r $(RELEASE_DIR); fi; \
-	cd src && make clean && \
-		cd ../doc && make clean
-
-preprocess:
-	cd src && make preprocess
-
-tarball:
-	git archive --prefix=fulisp/ --format tar HEAD | gzip > fulisp.tar.gz
-
-release: tarball
-	bash bin/release.sh $(RELEASE_DIR)
-
-
+HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h \
+			  nativefunctions.h print.h reader.h safety.h streams.h \
+			  symboltable.h test.h environment.h eval.h stack.h lambda.h  \
+			  benchmarking.h memory.h garbage_collector.h futypes.h fulisp.h \
+			  operating_system.h

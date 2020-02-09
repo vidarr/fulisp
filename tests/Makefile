@@ -17,54 +17,37 @@
 # usa.
 #
 include ../config.mk
+include ../files.mk
 
 INCLUDE_DIR=../src
 SOURCE_DIR=../src
 
-SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c nativefunctions.c print.c reader.c safety.c streams.c symboltable.c  test.c environment.c eval.c stack.c lambda.c
-
-HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h nativefunctions.h print.h reader.h safety.h streams.h symboltable.h test.h environment.h eval.h stack.h lambda.h
+TESTS= test-hash test-env test-memory test-expression test-streams test-reader \
+	   test-eval test-gc
 
 OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
 ABS_HEADER_FILES=$(addprefix $(INCLUDE_DIR)/, $(HEADER_FILES))
-ABS_SOURCE_FILES=$(addprefix $(SOURCE_DIR)/, $(SOURCE_FILES))
 
+TESTS_FILES=$(addprefix $(BUILD_DIR)/, $TESTS)
 
 all: tests
 
 
-.PHONY: clean tests exec-tests repl
+.PHONY: clean tests check
 
 
-tests: $(BUILD_DIR)/tests_reader
-
-
-repl: $(BUILD_DIR)/tests_repl
+tests: $(TEST_FILES)
 
 
 exec-tests: tests
-	$(CALL_PREFIX)$(BUILD_DIR)/reader
+	$(CALL_PREFIX)$(LAUNCHER) $(BUILD_DIR)/reader
 
 
-$(BUILD_DIR)/tests_reader.o: reader.c $(ABS_HEADER_FILES)
+$(BUILD_DIR)/tests_%.o: %.c $(ABS_HEADER_FILES)
 	$(CALL_PREFIX)echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -I $(INCLUDE_DIR) -o $@ -c $<
-
-
-$(BUILD_DIR)/tests_repl.o: repl.c $(ABS_HEADER_FILES)
-	$(CALL_PREFIX)echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -I $(INCLUDE_DIR) -o $@ -c $<
-
 
 $(BUILD_DIR)/%.o:$(SOURCE_DIR)/%.c $(ABS_HEADER_FILES)
 	$(CALL_PREFIX)echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -I $(INCLUDE_DIR) -o $@ -c $<
-    
-
-$(BUILD_DIR)/tests_reader: $(OBJECT_FILES) $(BUILD_DIR)/tests_reader.o
-	$(CALL_PREFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/tests_reader  $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/tests_repl: $(OBJECT_FILES) $(BUILD_DIR)/tests_repl.o
-	$(CALL_PREFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/tests_repl  $^ $(LDFLAGS)
-
 
 clean:
 	$(CALL_PREFIX)echo "REMOVING BINARIES..."; rm -f  $(BUILD_DIR)/* # $(OBJECT_FILES) $(BUILD_DIR)/*
@@ -73,3 +56,7 @@ clean:
 tags: $(wildcard *.c) $(wildcard *.h)
 	$(CALL_PREFIX)ctags -R *.c *.h > $(TAGS_FILE)
 
+check: tests
+	$(CALL_REFIX)for test_file in $TEST_FILES; do \
+		$(LAUNCHER) $test_file; \
+		done
