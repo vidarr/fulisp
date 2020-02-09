@@ -19,7 +19,8 @@ VERSION=0.4.1
 
 # For debug, best way is to source in debug.sh in your compile shell and modify
 # the CFLAGS export
-CFLAGS+=-Wstrict-prototypes --pedantic -Wall -march=native -ansi
+CFLAGS+=-Wstrict-prototypes --pedantic -Wall -march=native -ansi -fPIC
+CFLAGS_NO_FLAGS= $(CFLAGS) -Wstrict-prototypes --pedantic -Wall -march=native -fPIC
 LDFLAGS+=-lm -lrt
 
 MKDIR=mkdir -p
@@ -28,7 +29,6 @@ LAUNCHER=
 BUILD_DIR=../build
 PREPROCESS_DIR=../preprocessed
 TAGS_FILE=tags
-
 
 ifdef SILENT
 	CALL_PREFIX=@

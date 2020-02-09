@@ -26,8 +26,8 @@ fulisp:
 	cd src && make fulisp
 
 tests: all
-	cd src && make tests; \
-	cd ../tests && make tests
+	make -C src tests; \
+	make -C tests
 
 check: tests
 	cd src && make check
@@ -47,4 +47,7 @@ tarball:
 release: tarball
 	bash bin/release.sh $(RELEASE_DIR)
 
+print:
+	echo "root $(CFLAGS)"; \
+	cd src && make src print
 

@@ -47,7 +47,7 @@ check: tests
 
 $(BUILD_DIR)/%.o: %.c $(HEADER_FILES) $(BUILD_DIR)
 	$(CALL_REFIX)echo "COMPILING \033[01;32m$<\033[00m\n";\
-	   	$(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
+	   	$(CC) $(CFLAGS) -I . -o $@ -c $<
 
 
 $(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES) $(BUILD_DIR)
@@ -80,4 +80,5 @@ $(PREPROCESS_DIR)/%.i : %.c
 
 preprocess: $(PREPROCESS_DIR) $(PREPROCESSED_FILES)
 
-print-%:
+print:
+	echo "src $(CFLAGS)"

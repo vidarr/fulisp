@@ -88,7 +88,9 @@ struct Expression *fuRead(struct Reader *reader) {
     assert(0 == reader->expr);
 
     while (0 != (readChar = READ_NEXT_CHAR(reader))) {
+
         DEBUG_PRINT_PARAM(" Got '%c'\n", readChar);
+
         macro = LOOKUP_READ_MACRO((char)readChar, reader);
         DEBUG_PRINT_NATIVE_FUNC(macro);
         if (macro) {

@@ -28,7 +28,7 @@
     "Michael J. Beer <michael.josef.beer@googlemail.com>"
 
 /* #define DEBUG_READER */
-#define DEBUG_EVAL
+/* #define DEBUG_EVAL */
 /* #define DEVUG_ENVIRONMENT*/
 /* #define DEBUG_NATIVE_FUNCTIONS */
 /* #define DEBUG_CONS */

@@ -178,9 +178,11 @@ void rmTerminator(struct Reader *reader, char sigle);
     }
 
 #define DEBUG_PRINT_MACRO_LOOKUP(r) printLookup(r)
+
+#endif
 #endif
 
-#else
+#ifndef DEBUG
 
 #define PUSH_INTO_BUFFER(x, r) \
     {                          \

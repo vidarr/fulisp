@@ -130,7 +130,7 @@ char getNextCharFromCFile(struct CharReadStream *stream) {
     if (feof((FILE *)stream->intConfig)) {
         got = STREAM_RETURN_CHAR_ON_ERROR;
     } else {
-        got = getc((FILE *)(stream->intConfig));
+        got = fgetc((FILE *)(stream->intConfig));
         if (got == EOF) {
             got = STREAM_RETURN_CHAR_ON_ERROR;
         };

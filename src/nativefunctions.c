@@ -452,25 +452,34 @@ static struct Expression *importFile(struct Expression *env,
 
     struct CharReadStream *fileStream = 0;
     struct Expression *retVal = NIL;
+    FILE *f = 0;
 
     assert(0 != libraryPath);
     assert(0 != fileName);
 
-    FILE *f = file_open(libraryPath, fileName, "r");
+    printf("importing %s/%s\n", libraryPath, fileName);
+
+    f = file_open(libraryPath, fileName, "r");
     if (0 == f) {
         DEBUG_PRINT_PARAM("Reading file %s failed\n", fileName);
         ERROR(ERR_NO_RESOURCE, strerror(errno));
         return NIL;
     }
 
-    fileStream = makeCStreamCharReadStream(stdin);
+    printf("Opened %s/%s\n", libraryPath, fileName);
+
+    fileStream = makeCStreamCharReadStream(f);
 
     if(0 == fileStream) {
         ERROR(ERR_NIL_VALUE, "Could not create file stream");
         goto error;
     }
 
+    printf("Built CStreamCharReadStream %s/%s\n", libraryPath, fileName);
+
     fuEvalStream(env, fileStream, 0);
+
+    printf("Evaluated\n");
 
     if(NO_ERROR) {
         retVal = T;
@@ -492,7 +501,6 @@ struct Expression *import(struct Expression *env, struct Expression *expr) {
     struct Expression *res = 0;
     struct Expression *importResult = 0;
     struct Expression *fileName = 0;
-    struct Expression *fileNameEval = 0;
     struct Expression *libraryPath = 0;
 
     char const *fileNameStr = 0;

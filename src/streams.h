@@ -79,7 +79,7 @@
 
 /**
  * Get status of stream.
- * @param stream Pointer to a stream to dispose
+ * @param stream Pointer
  * @return int value being the status of the stream.
  */
 #define STREAM_STATUS(stream) ((stream)->status(stream))

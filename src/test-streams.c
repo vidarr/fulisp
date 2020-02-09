@@ -83,7 +83,7 @@ int testCStreamCharWriteStream(FILE *file, char *text, int len) {
      * should be used to indicate end of stream rather than anything else... */
     STREAM_WRITE(stream, '\0');
     STREAM_DISPOSE(stream);
-    return 0;
+    return TEST_PASSED;
 }
 
 int testCStreamCharReadStream(FILE *file, char *text, int len) {
@@ -99,7 +99,7 @@ int testCStreamCharReadStream(FILE *file, char *text, int len) {
     while (STREAM_STATUS(stream) == STREAM_STATUS_OK) {
         if (next != *reference++) {
             STREAM_DISPOSE(stream);
-            return 1;
+            return TEST_FAILED;
         }
         next = STREAM_NEXT(stream);
         readChars++;
@@ -107,14 +107,14 @@ int testCStreamCharReadStream(FILE *file, char *text, int len) {
 
     if (next != 0 || STREAM_STATUS(stream) != STREAM_STATUS_EOS) {
         STREAM_DISPOSE(stream);
-        return 1;
+        return TEST_FAILED;
     }
 
     STREAM_DISPOSE(stream);
 
-    if (readChars != textLen) return 1;
+    if (readChars != textLen) return TEST_FAILED;
 
-    return 0;
+    return TEST_PASSED;
 }
 
 int testCharReadStream(FILE *file, char *text, int len) {

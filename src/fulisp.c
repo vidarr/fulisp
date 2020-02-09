@@ -87,26 +87,26 @@ int fuEvalStream(struct Expression *env, struct CharReadStream *instream,
     reader = newFuLispReader(env, bufStream);
 
     while (0 != (expr = fuRead(reader))) {
+
         resetCharReadStream(bufStream);
         resetReader(reader);
         if (!NO_ERROR) {
             fprintf(stderr, "    FUBAR: %s\n\n", lispErrorMessage);
             goto ret_from_func;
-        } else {
-            res = eval(env, expr);
-
-            expressionDispose(env, expr);
-            if (!NO_ERROR) {
-                fprintf(stderr, "    FUBAR: %s\n\n", lispErrorMessage);
-                goto ret_from_func;
-            }
-
-            if (0 != outStream) {
-                printToStream(env, outStream, res);
-            }
-
-            expressionDispose(env, res);
         }
+        res = eval(env, expr);
+
+        expressionDispose(env, expr);
+        if (!NO_ERROR) {
+            fprintf(stderr, "    FUBAR: %s\n\n", lispErrorMessage);
+            goto ret_from_func;
+        }
+
+        if (0 != outStream) {
+            printToStream(env, outStream, res);
+        }
+
+        expressionDispose(env, res);
     }
 
 ret_from_func:
