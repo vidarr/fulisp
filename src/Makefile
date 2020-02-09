@@ -19,19 +19,13 @@ include ../config.mk
 include ../files.mk
 
 HEADER_FILES += $(VERSION_FILE)
-
 OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
-
 PREPROCESSED_FILES=$(addprefix $(PREPROCESS_DIR)/, $(SOURCE_FILES:.c=.i))
-
-
+TEST_BINARIES_ABS=$(addprefix $(BUILD_DIR)/, $(TEST_BINARIES))
 
 all: $(BUILD_DIR)/fulisp
 
-
-
 .PHONY: clean tests check fulisp preprocess
-
 
 $(VERSION_FILE):
 	$(CALL_PREFIX)echo "#define VERSION $(VERSION)" > $VERSION_FILE
@@ -43,62 +37,20 @@ $(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)
 
 
-tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $(BUILD_DIR)/test-hash $(BUILD_DIR)/test-expression $(BUILD_DIR)/test-env  $(BUILD_DIR)/test-streams $(BUILD_DIR)/test-memory $(BUILD_DIR)/test-gc
+tests: $(TEST_BINARIES_ABS)
 
 
 check: tests
-	$(CALL_REFIX)$(LAUNCHER) $(BUILD_DIR)/test-stack && \
-		$(LAUNCHER) $(BUILD_DIR)/test-hash && \
-		$(LAUNCHER) $(BUILD_DIR)/test-env && \
-		$(LAUNCHER) $(BUILD_DIR)/test-memory && \
-		$(LAUNCHER) $(BUILD_DIR)/test-expression && \
-		$(LAUNCHER) $(BUILD_DIR)/test-streams && \
-		$(LAUNCHER) $(BUILD_DIR)/test-reader && \
-		$(LAUNCHER) $(BUILD_DIR)/test-eval && \
-		$(LAUNCHER) $(BUILD_DIR)/test-gc
+	$(CALL_PREFIX)for test in $(addprefix $(BUILD_DIR)/, $(TEST_BINARIES)); do \
+	$(CALL_REFIX)$(LAUNCHER) $(TEST); \
+	done
 
 
 $(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES) $(BUILD_DIR)
 	$(CALL_REFIX)echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
 
-$(BUILD_DIR)/%.o:%.c $(HEADER_FILES) $(BUILD_DIR)
-	$(CALL_REFIX)echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -o $@ -c $<
-
-$(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o  $(BUILD_DIR)/testfileinput.o 
-	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-reader  $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o $(BUILD_DIR)/testfileinput.o
-	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/test-gc: $(OBJECT_FILES)  $(BUILD_DIR)/test-gc.o
-	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-gc  $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/test-stack: $(OBJECT_FILES) $(BUILD_DIR)/test-stack.o
-	$(CALL_REFIX)echo "Linking \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/test-hash: $(OBJECT_FILES)  $(BUILD_DIR)/test-hash.o
-	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-hash  $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/test-expression: $(OBJECT_FILES)  $(BUILD_DIR)/test-expression.o
-	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-expression  $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/test-env: $(OBJECT_FILES)  $(BUILD_DIR)/test-env.o
-	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-env  $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/test-streams: $(OBJECT_FILES)  $(BUILD_DIR)/test-streams.o
-	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-streams  $^ $(LDFLAGS)
-
-
-$(BUILD_DIR)/test-memory: $(OBJECT_FILES) $(BUILD_DIR)/test-memory.o
-	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-memory  $^ $(LDFLAGS)
-
+$(BUILD_DIR)/test-%: $(BUILD_DIR)/test-%.o $(OBJECT_FILES)  $(BUILD_DIR)/testfileinput.o
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $@  $^ $(LDFLAGS)
 
 $(BUILD_DIR)/fulisp: $(OBJECT_FILES) $(BUILD_DIR)/repl.o
 	$(CALL_PREFIX)echo "LINKING \033[01;32m$@\033[00m\n";\
@@ -119,7 +71,7 @@ $(PREPROCESS_DIR):
 	$(CALL_PREFIX)$(MKDIR) $(PREPROCESS_DIR)
 
 $(PREPROCESS_DIR)/%.i : %.c
-	$(CALL_PREFIX)$(CC) -E $< -o $$(CALL_REFIX)
+	$(CALL_PREFIX)$(CC) -E $< -o $@
 
 preprocess: $(PREPROCESS_DIR) $(PREPROCESSED_FILES)
 

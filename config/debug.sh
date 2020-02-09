@@ -16,10 +16,15 @@
 # foundation, inc., 51 franklin street, fifth floor, boston, ma  02110-1301,
 # usa.
 
-CFLAGS=-g -DDEBUG
+CC=gcc
+LAUNCHER=valgrind
+
+CFLAGS="-g -DDEBUG"
 LDFLAGS=
 SILENT=
 
+export CC
+export LAUNCHER
 export CFLAGS
 export LDFLAGS
 export SILENT

@@ -26,3 +26,6 @@ HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h \
 			  symboltable.h test.h environment.h eval.h stack.h lambda.h  \
 			  benchmarking.h memory.h garbage_collector.h futypes.h fulisp.h \
 			  operating_system.h
+
+TEST_BINARIES= test-stack test-hash test-env test-memory test-expression \
+			   test-streams test-reader test-eval test-gc

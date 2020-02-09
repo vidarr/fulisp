@@ -26,7 +26,8 @@ fulisp:
 	cd src && make fulisp
 
 tests: all
-	cd tests && make tests
+	cd src && make tests; \
+	cd ../tests && make tests
 
 check: tests
 	cd src && make check
