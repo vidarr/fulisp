@@ -363,6 +363,11 @@ struct Expression *lambdaP(struct Expression *env, struct Expression *expr);
 struct Expression *environmentP(struct Expression *env,
                                 struct Expression *expr);
 
+
+/******************************************************************************
+ *                           INFRASTRUCTURAL STUFF
+ ******************************************************************************/
+
 /**
  * Returns the current environment
  * @param env the current environment
@@ -376,4 +381,11 @@ struct Expression *getEnv(struct Expression *env, struct Expression *expr);
  */
 struct Expression *getParentEnv(struct Expression *env,
                                 struct Expression *expr);
+
+/**
+ * Tries to read in a file whose path is given as argument.
+ * Searches underneath "LISP-LIBRARY-PATH"
+ */
+struct Expression *import(struct Expression *env, struct Expression *expr);
+
 #endif

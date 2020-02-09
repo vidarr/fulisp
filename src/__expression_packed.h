@@ -99,6 +99,7 @@ extern struct Expression expressionCons;
 extern struct Expression expressionLambda;
 extern struct Expression expressionNativeFunc;
 extern struct Expression expressionEnvironment;
+extern struct Expression lispLibraryPath;
 
 #define __TYPE_INTEGER (&expressionInteger)
 #define __TYPE_FLOAT (&expressionFloat)

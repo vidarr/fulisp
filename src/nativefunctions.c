@@ -438,3 +438,42 @@ struct Expression *getParentEnv(struct Expression *env,
     expressionDispose(env, envToLookAt);
     return envToReturn;
 }
+
+struct Expression *import(struct Expression *env,
+                                struct Expression *expr) {
+
+    struct Expression *res = 0;
+    struct Expression *fileName = 0;
+    struct Expression *libraryPath = 0;
+
+    char const *libraryPathStr = 0;
+
+    INIT_NATIVE_FUNCTION("import", env, expr);
+
+    libraryPath = eval(env, &lispLibraryPath);
+
+    if ((NIL != libraryPath) && (!EXPR_OF_TYPE(libraryPath, EXPR_STRING))) {
+        expressionDispose(env, libraryPath);
+        ERROR(ERR_UNEXPECTED_TYPE,
+              "LISP-LIBRARY-PATH is not defined / not a String");
+    }
+
+    if (NIL != libraryPath) {
+        libraryPathStr = EXPRESSION_STRING(libraryPath);
+    }
+
+    printf("Library path:%s\n",libraryPathStr);
+
+    ITERATE_LIST(env, expr, fileName, {
+        expressionDispose(env, res);
+        res = eval(env, fileName);
+        if (!EXPR_OF_TYPE(res, EXPR_STRING)) {
+            ERROR(ERR_UNEXPECTED_TYPE, "Expected string as file name");
+        }
+        /*---*/
+    });
+
+    expressionDispose(env, libraryPath);
+
+    return T;
+}

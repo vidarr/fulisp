@@ -105,9 +105,11 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
     ENVIRONMENT_ADD_STRING(env, ((TYPE_ENVIRONMENT)->data.string),
                            TYPE_ENVIRONMENT);
 
-    ENVIRONMENT_ADD_STRING(
-        env, "LISP-LIBRARY-PATH",
+    ENVIRONMENT_ADD_SYMBOL(
+        env, &lispLibraryPath,
         CREATE_STRING_EXPRESSION(env, DEFAULT_LISP_LIBRARY_PATH));
+
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "IMPORT", import);
 
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "TYPE", fuType);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "INTEGER", fuInt);
