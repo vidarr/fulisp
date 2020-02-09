@@ -1,34 +1,35 @@
-#CC=clang
-CC=gcc
-MKDIR=mkdir
-#LAUNCHER=valgrind --leak-check=full
-LAUNCHER=
+# (C) 2020 Michael J. Beer
+#
+# this program is free software; you can redistribute it and/or modify
+# it under the terms of the gnu general public license as published by
+# the free software foundation; either version 3 of the license, or
+# (at your option) any later version.
+#
+# this program is distributed in the hope that it will be useful,
+# but without any warranty; without even the implied warranty of
+# merchantability or fitness for a particular purpose.  see the
+# gnu general public license for more details.
+#
+# you should have received a copy of the gnu general public license
+# along with this program; if not, write to the free software
+# foundation, inc., 51 franklin street, fifth floor, boston, ma  02110-1301,
+# usa.
 
-CLANG=$(shell echo "$(CC)"  | sed -ne 's/.*\(clang\).*/\1/p')
-GCC=$(shell echo "$(CC)"  | sed -ne 's/.*\(gcc\).*/\1/p')
-ifeq ($(GCC), gcc)
-	include ../config/gcc.mk
-else ifeq ($(CLANG), clang)
-	include ../config/clang.mk
-else
-	$(error CC variable not set to supported compiler)
-endif
-
-BUILD_DIR=../build
-
-PREPROCESS_DIR=../preprocessed
-
-TAGS_FILE=tags
+include ../config.mk
 
 SOURCE_FILES= cons.c error.c expression.c fulispreader.c hash.c  \
 			  nativefunctions.c print.c reader.c safety.c streams.c \
 			  symboltable.c  test.c environment.c eval.c stack.c lambda.c \
-			  benchmarking.c memory.c garbage_collector.c futypes.c fulisp.c
+			  benchmarking.c memory.c garbage_collector.c futypes.c fulisp.c \
+			  operating_system.c
 
 HEADER_FILES= config.h cons.h error.h expression.h fulispreader.h hash.h \
 			  nativefunctions.h print.h reader.h safety.h streams.h \
 			  symboltable.h test.h environment.h eval.h stack.h lambda.h  \
-			  benchmarking.h memory.h garbage_collector.h futypes.h fulisp.h
+			  benchmarking.h memory.h garbage_collector.h futypes.h fulisp.h \
+			  operating_system.h
+
+HEADER_FILES += $(VERSION_FILE)
 
 OBJECT_FILES=$(addprefix $(BUILD_DIR)/, $(SOURCE_FILES:.c=.o))
 
@@ -43,11 +44,13 @@ all: $(BUILD_DIR)/fulisp
 .PHONY: clean tests check fulisp preprocess
 
 
+$(VERSION_FILE):
+	$(CALL_PREFIX)echo "#define VERSION $(VERSION)" > $VERSION_FILE
 
 fulisp: $(BUILD_DIR)/fulisp
 
 
-$(BUILD_DIR): 
+$(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)
 
 
@@ -55,7 +58,7 @@ tests: $(BUILD_DIR)/test-eval $(BUILD_DIR)/test-reader $(BUILD_DIR)/test-stack $
 
 
 check: tests
-	@$(LAUNCHER) $(BUILD_DIR)/test-stack && \
+	$(CALL_REFIX)$(LAUNCHER) $(BUILD_DIR)/test-stack && \
 		$(LAUNCHER) $(BUILD_DIR)/test-hash && \
 		$(LAUNCHER) $(BUILD_DIR)/test-env && \
 		$(LAUNCHER) $(BUILD_DIR)/test-memory && \
@@ -66,67 +69,69 @@ check: tests
 		$(LAUNCHER) $(BUILD_DIR)/test-gc
 
 
-$(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES)
-	@echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
+$(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES) $(BUILD_DIR)
+	$(CALL_REFIX)echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
 
 $(BUILD_DIR)/%.o:%.c $(HEADER_FILES) $(BUILD_DIR)
-	@echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -o $@ -c $<
+	$(CALL_REFIX)echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS) -I . -o $@ -c $<
 
 $(BUILD_DIR)/test-reader: $(OBJECT_FILES) $(BUILD_DIR)/test-reader.o  $(BUILD_DIR)/testfileinput.o 
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-reader  $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-reader  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-eval: $(OBJECT_FILES)  $(BUILD_DIR)/test-eval.o $(BUILD_DIR)/testfileinput.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-eval  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-gc: $(OBJECT_FILES)  $(BUILD_DIR)/test-gc.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-gc  $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-gc  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-stack: $(OBJECT_FILES) $(BUILD_DIR)/test-stack.o
-	@echo "Linking \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "Linking \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-stack $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-hash: $(OBJECT_FILES)  $(BUILD_DIR)/test-hash.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-hash  $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-hash  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-expression: $(OBJECT_FILES)  $(BUILD_DIR)/test-expression.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-expression  $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-expression  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-env: $(OBJECT_FILES)  $(BUILD_DIR)/test-env.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-env  $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-env  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-streams: $(OBJECT_FILES)  $(BUILD_DIR)/test-streams.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-streams  $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-streams  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/test-memory: $(OBJECT_FILES) $(BUILD_DIR)/test-memory.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-memory  $^ $(LDFLAGS)
+	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/test-memory  $^ $(LDFLAGS)
 
 
 $(BUILD_DIR)/fulisp: $(OBJECT_FILES) $(BUILD_DIR)/repl.o
-	@echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $(BUILD_DIR)/fulisp $^ $(LDFLAGS)
+	$(CALL_PREFIX)echo "LINKING \033[01;32m$@\033[00m\n";\
+		$(LN) -o $(BUILD_DIR)/fulisp $^ $(LDFLAGS)
 
 
 clean:
-	@echo "REMOVING BINARIES..."; \
+	$(CALL_REFIX)echo "REMOVING BINARIES..."; \
 		if [ -d $(BUILD_DIR) ]; then  rm -r $(BUILD_DIR); fi; \
 		echo "REMOVING PREPROCESSED SOURCES...";  \
 		if [ -d $(PREPROCESS_DIR) ]; then rm -r $(PREPROCESS_DIR); fi
 
 
 tags: $(wildcard *.c) $(wildcard *.h)
-	ctags -R *.c *.h > $(TAGS_FILE)
+	$(CALL_PREFIX)ctags -R *.c *.h > $(TAGS_FILE)
 
 $(PREPROCESS_DIR):
-	mkdir $(PREPROCESS_DIR)
+	$(CALL_PREFIX)$(MKDIR) $(PREPROCESS_DIR)
 
 $(PREPROCESS_DIR)/%.i : %.c
-	$(CC) -E $< -o $@
+	$(CALL_PREFIX)$(CC) -E $< -o $$(CALL_REFIX)
 
 preprocess: $(PREPROCESS_DIR) $(PREPROCESSED_FILES)
 
+print-%:

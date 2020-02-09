@@ -21,15 +21,14 @@
 
 #include <limits.h>
 
-#define VERSION "0.4.1"
+#include "../.version.h"
 
 #define COPYRIGHT                      \
     "Copyright (C) 2010, 2012, 2014  " \
     "Michael J. Beer <michael.josef.beer@googlemail.com>"
 
-/* #define DEBUG */
 /* #define DEBUG_READER */
-/* #define DEBUG_EVAL */
+#define DEBUG_EVAL
 /* #define DEVUG_ENVIRONMENT*/
 /* #define DEBUG_NATIVE_FUNCTIONS */
 /* #define DEBUG_CONS */

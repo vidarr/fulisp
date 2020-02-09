@@ -1,4 +1,4 @@
-# (C) 2020 Michael J. Beer
+# (c) 2020 michael j. beer
 #
 # this program is free software; you can redistribute it and/or modify
 # it under the terms of the gnu general public license as published by
@@ -15,35 +15,31 @@
 # foundation, inc., 51 franklin street, fifth floor, boston, ma  02110-1301,
 # usa.
 
-include config.mk
+VERSION=0.4.1
 
-.PHONY: all fulisp tests check clean preprocess tarball release
+# For debug, best way is to source in debug.sh in your compile shell and modify
+# the CFLAGS export
+CFLAGS+=-Wstrict-prototypes --pedantic -Wall -march=native -ansi
+LDFLAGS+=-lm -lrt
 
-all:
-	cd src && make all
+MKDIR=mkdir -p
 
-fulisp:
-	cd src && make fulisp
+LAUNCHER=
+BUILD_DIR=../build
+PREPROCESS_DIR=../preprocessed
+TAGS_FILE=tags
 
-tests:
-	cd src && make tests
 
-check:
-	cd src && make check
+ifdef SILENT
+	CALL_PREFIX=@
+endif
 
-clean:
-	echo "REMOVING $(RELEASE_DIR) ..."
-	if [ -d $(RELEASE_DIR) ]; then  rm -r $(RELEASE_DIR); fi; \
-	cd src && make clean && \
-		cd ../doc && make clean
 
-preprocess:
-	cd src && make preprocess
+ifndef CC
+	CC=gcc
+endif
 
-tarball:
-	git archive --prefix=fulisp/ --format tar HEAD | gzip > fulisp.tar.gz
-
-release: tarball
-	bash bin/release.sh $(RELEASE_DIR)
-
+ifndef LN
+	LN=gcc
+endif
 
