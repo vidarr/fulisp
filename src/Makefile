@@ -45,9 +45,14 @@ check: tests
 	$(CALL_REFIX)$(LAUNCHER) $(TEST); \
 	done
 
+$(BUILD_DIR)/%.o: %.c $(HEADER_FILES) $(BUILD_DIR)
+	$(CALL_REFIX)echo "COMPILING \033[01;32m$<\033[00m\n";\
+	   	$(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
+
 
 $(BUILD_DIR)/benchmarking.o:benchmarking.c $(HEADER_FILES) $(BUILD_DIR)
-	$(CALL_REFIX)echo "COMPILING \033[01;32m$<\033[00m\n"; $(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
+	$(CALL_REFIX)echo "COMPILING \033[01;32m$<\033[00m\n";\
+	   	$(CC) $(CFLAGS_NO_ANSI) -I . -o $@ -c $<
 
 $(BUILD_DIR)/test-%: $(BUILD_DIR)/test-%.o $(OBJECT_FILES)  $(BUILD_DIR)/testfileinput.o
 	$(CALL_REFIX)echo "LINKING \033[01;32m$@\033[00m\n"; $(LN) -o $@  $^ $(LDFLAGS)
