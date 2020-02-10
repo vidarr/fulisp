@@ -148,5 +148,6 @@ There are no dedicated loop mechanisms - use recursion instead:
 # Licensing
 
 fuLisp is free software and might be distributed under the terms of the
-GPL version 3.
+BSD 3-Clause-License.
+
 Have a look at the file `Copying` for details.
