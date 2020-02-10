@@ -197,7 +197,7 @@ void rmTerminator(struct Reader *reader, char sigle);
 #endif
 #endif
 
-#ifndef DEBUG
+#ifndef PUSH_INTO_BUFFER
 
 #define PUSH_INTO_BUFFER(x, r) \
     {                          \
