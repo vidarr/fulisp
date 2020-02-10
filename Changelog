@@ -21,3 +21,6 @@
 
 0.4.1 * Introduced comments (started with ';' until end of line)
       * Fixed memleaks on exit
+
+0.4.2 * Added `import` expression to read in Lisp files in the REPL
+      * Changed License to BSD 3-Clause

@@ -30,7 +30,7 @@
 # GENCE  OR  OTHERWISE)  ARISING  IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-VERSION=0.4.1
+VERSION=0.4.2
 
 # For debug, best way is to source in debug.sh in your compile shell and modify
 # the CFLAGS export
