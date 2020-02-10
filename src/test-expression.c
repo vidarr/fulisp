@@ -23,6 +23,7 @@
 #include "cons.h"
 #include "expression.h"
 #include "print.h"
+#include "fulisp.h"
 #include "test.h"
 
 #define MAX_STR_BUFFER 65000
@@ -93,6 +94,8 @@ int main(int argc, char **argv) {
        within testExpression */
     expressionDispose(env, cons);
     expressionDispose(env, env);
-    deleteMemory(mem);
+
+    fuClose(env);
+
     return res;
 }
