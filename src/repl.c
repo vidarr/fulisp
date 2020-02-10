@@ -1,18 +1,36 @@
-/**
+/*
  * (C) 2012 Michael J. Beer
- * This program is free software; you can
- * redistribute it and/or modify * it under the terms of the GNU General Public
- * License as published by * the Free Software Foundation; either version 3 of
- * the License, or * (at your option) any later version.2010 *2010 * This
- * program is distributed in the hope that it will be useful,2010 * but WITHOUT
- * ANY WARRANTY; without even the implied warranty of * MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the * GNU General Public License for
- * more details.2010 2010 * You should have received a copy of the GNU General
- * Public License * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
- * USA.2010
+ * All rights reserved.
+ *
+ * Redistribution  and use in source and binary forms, with or with‐
+ * out modification, are permitted provided that the following  con‐
+ * ditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above  copy‐
+ * right  notice,  this  list  of  conditions and the following dis‐
+ * claimer in the documentation and/or other materials provided with
+ * the distribution.
+ *
+ * 3.  Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote  products  derived
+ * from this software without specific prior written permission.
+ *
+ * THIS  SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBU‐
+ * TORS "AS IS" AND ANY EXPRESS OR  IMPLIED  WARRANTIES,  INCLUDING,
+ * BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE  ARE  DISCLAIMED.  IN  NO  EVENT
+ * SHALL  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DI‐
+ * RECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR  CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS IN‐
+ * TERRUPTION)  HOWEVER  CAUSED  AND  ON  ANY  THEORY  OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING  NEGLI‐
+ * GENCE  OR  OTHERWISE)  ARISING  IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #include <errno.h>
 #include <stdio.h>
 #include "benchmarking.h"
@@ -59,23 +77,43 @@ struct Expression *license(struct Expression *env, struct Expression *expr) {
         "   " COPYRIGHT
         "\n"
         "\n"
-        "   This program is free software: you can redistribute it and/or "
-        "modify\n"
-        "   it under the terms of the GNU General Public License as published "
-        "by\n"
-        "   Free Software Foundation, either version 3 of the License, or\n"
-        "   your option) any later version.\n");
+        "(C) 2012 Michael J. Beer\n"
+         "All rights reserved.\n");
     printf(
-        "\n"
-        "   This program is distributed in the hope that it will be useful,\n"
-        "   WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-        "   HANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-        "   General Public License for more details.\n"
-        "\n"
-        "   should have received a copy of the GNU General Public License\n"
-        "   along with this program.  If not, see "
-        "<http://www.gnu.org/licenses/>.\n"
-        "\n");
+                 "Redistribution  and use in source and binary forms, with or with‐\n"
+         "out modification, are permitted provided that the following  con‐\n"
+         "ditions are met:\n"
+         "\n");
+    printf(
+         "1. Redistributions of source code must retain the above copyright\n"
+         "notice, this list of conditions and the following disclaimer.\n"
+         "\n");
+    printf(
+         "2. Redistributions in binary form must reproduce the above  copy‐\n"
+         "right  notice,  this  list  of  conditions and the following dis‐\n"
+         "claimer in the documentation and/or other materials provided with\n"
+         "the distribution.\n"
+         "\n");
+    printf(
+         "3.  Neither the name of the copyright holder nor the names of its\n"
+         "contributors may be used to endorse or promote  products  derived\n"
+         "from this software without specific prior written permission.\n"
+         "\n");
+    printf(
+         "THIS  SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBU‐\n"
+         "TORS \"AS IS\" AND ANY EXPRESS OR  IMPLIED  WARRANTIES,  INCLUDING,\n"
+         "BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND\n"
+         "FITNESS FOR A PARTICULAR PURPOSE  ARE  DISCLAIMED.  IN  NO  EVENT\n"
+         "SHALL  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DI‐\n"
+         "RECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR  CONSEQUENTIAL\n");
+    printf(
+         "DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE\n"
+         "GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS IN‐\n"
+         "TERRUPTION)  HOWEVER  CAUSED  AND  ON  ANY  THEORY  OF LIABILITY,\n"
+         "WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING  NEGLI‐\n"
+         "GENCE  OR  OTHERWISE)  ARISING  IN ANY WAY OUT OF THE USE OF THIS\n"
+         "SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\n");
+
     return T;
 }
 
