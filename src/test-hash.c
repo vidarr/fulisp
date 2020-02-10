@@ -92,6 +92,8 @@ int testHashTable(int n, int m) {
         result = result || !(val == NULL);
         val = hashTableSet(hash, str, getVal(i));
         result = result || !(val == NULL);
+        free(str);
+        str = 0;
     };
 
     keys = hashTableKeys(hash);
