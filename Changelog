@@ -1,26 +1,35 @@
 0.1.0 Initial Version
 
-0.2.0 * Refined stream interface
+0.2.0
+      * Refined stream interface
       * Restricted 'define' to operate on global environment only
         Local environment now unexpandable.
-	  * Introduced parameter lists with variable length through &REST
-	  * Introduced support for dotted pair notation  using '.'
+      * Introduced parameter lists with variable length through &REST
+      * Introduced support for dotted pair notation  using '.'
 
-0.3.0 * Some adaptions towards portability to OpenBSD
+0.3.0
+      * Some adaptions towards portability to OpenBSD
       * Introduced preallocated memory for Expressions
       * Introduced packed structure format for Expressions
-	  * Added functions: /
-	  * Added predicats to check for type of an expression
-	  * Added automatism for creating releases
+      * Added functions: /
+      * Added predicats to check for type of an expression
+      * Added automatism for creating releases
 
-0.4.0 * Adaptions to support LLVM/clang
+0.4.0
+      * Adaptions to support LLVM/clang
       * Added Garbage Collector MARK_AND_SWEEP
-	  * Added cast functions INTEGER / FLOAT
-	  * FIX: Integer overflow/underrun while parsing integers
-	  * FIX: Parsing of empty string ""
+      * Added cast functions INTEGER / FLOAT
+      * FIX: Integer overflow/underrun while parsing integers
+      * FIX: Parsing of empty string ""
 
-0.4.1 * Introduced comments (started with ';' until end of line)
+0.4.1
+      * Introduced comments (started with ';' until end of line)
       * Fixed memleaks on exit
 
-0.4.2 * Added `import` expression to read in Lisp files in the REPL
+0.4.2
+      * Added `import` expression to read in Lisp files in the REPL
       * Changed License to BSD 3-Clause
+
+Next
+      * Added `eq` lisp function
+      * Added Lisp implementation of a dict
