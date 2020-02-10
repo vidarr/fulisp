@@ -39,9 +39,9 @@
 #include "error.h"
 #include "eval.h"
 #include "fulispreader.h"
-#include "garbage_collector.h"
 #include "print.h"
 #include "fulisp.h"
+#include "operating_system.h"
 
 #ifdef DEBUG
 #include "debugging.h"
@@ -68,6 +68,8 @@ void welcome(FILE *out) {
             "    under certain conditions;"
             " type `(license)' for details.\n");
 }
+
+/*----------------------------------------------------------------------------*/
 
 struct Expression *license(struct Expression *env, struct Expression *expr) {
     printf(
@@ -123,7 +125,10 @@ struct Expression *quit(struct Expression *env, struct Expression *expr) {
     return NIL;
 }
 
-int main(int argc, char **argv) {
+/*----------------------------------------------------------------------------*/
+
+void repl(void) {
+
     struct Expression *env;
     struct Expression *expr, *res;
     struct CharWriteStream *outStream;
@@ -196,6 +201,79 @@ int main(int argc, char **argv) {
 
     fuClose(env);
 
-    return 0;
+}
+
+/*----------------------------------------------------------------------------*/
+
+int execute_file(char const*filePath) {
+
+    struct CharReadStream *fileStream = 0;
+    FILE *f = 0;
+    int retVal = EXIT_FAILURE;
+    struct Expression *env = 0;
+
+    assert(0 != filePath);
+
+    f = file_open(0, filePath, "r");
+
+    if (0 == f) {
+        fprintf(stderr, "Reading file %s failed\n", filePath);
+        goto error;
+    }
+
+    fileStream = makeCStreamCharReadStream(f);
+
+    if(0 == fileStream) {
+        fprintf(stderr, "Could not create file stream\n");
+        goto error;
+    }
+
+    env = fuOpen();
+
+    if(0 == env) {
+        fprintf(stderr, "Could not create fulisp environment\n");
+        goto error;
+    }
+
+    fuEvalStream(env, fileStream, 0);
+
+    if(NO_ERROR) {
+        retVal = EXIT_SUCCESS;
+    }
+
+error:
+
+    if (0 != fileStream) {
+        STREAM_DISPOSE(fileStream);
+        fileStream = 0;
+    }
+
+    fclose(f);
+
+    f = 0;
+
+    if(0 != env) {
+        fuClose(env);
+        env = 0;
+    }
+
+    return retVal;
+}
+
+/*----------------------------------------------------------------------------*/
+
+int main(int argc, char **argv) {
+
+    if (1 == argc) {
+        repl();
+        return EXIT_SUCCESS;
+    }
+
+    if (2 < argc) {
+        fprintf(stderr, "\nUsage: %s [LISP-FILE]\n\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    return execute_file(argv[1]);
 
 }
