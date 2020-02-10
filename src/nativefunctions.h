@@ -279,6 +279,8 @@ struct Expression * not(struct Expression * env, struct Expression *expr);
  *                            COMPARISON OPERATORS
  *****************************************************************************/
 
+struct Expression *stringEqual(struct Expression *env, struct Expression *expr);
+
 /**
  * Returns T if and only if all numbers given to this function are equal.
  * @param env the environment to be used

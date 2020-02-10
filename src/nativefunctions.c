@@ -299,6 +299,74 @@ struct Expression * not(struct Expression * env, struct Expression *expr) {
  *                            COMPARISON OPERATORS
  *****************************************************************************/
 
+struct Expression *stringEqual(struct Expression *env,
+                               struct Expression *expr) {
+
+    struct Expression *car = NULL;
+    struct Expression *first = NULL;
+    struct Expression *retVal = NIL;
+    char const *firstString = 0;
+    char const *carString = 0;
+
+    INIT_NATIVE_FUNCTION("stringEqual", env, expr);
+
+    SECURE_CARCDR(env, expr, first, expr, "Flawed argument list");
+    first = eval(env, first);
+    if ((first == NIL) ||  !NO_ERROR) {
+        goto error;
+    }
+
+    if (!EXPR_OF_TYPE(first, EXPR_STRING)) {
+        ERROR(ERR_UNEXPECTED_TYPE, "Expect String as argument");
+    }
+
+    firstString = EXPRESSION_STRING(first);
+
+    if (0 == firstString) {
+        ERROR(ERR_UNEXPECTED_TYPE, "Expect String as argument");
+        goto error;
+    }
+
+    ITERATE_LIST(env, expr, car, {
+        car = eval(env, car);
+
+        if (!EXPR_OF_TYPE(car, EXPR_STRING)) {
+            ERROR(ERR_UNEXPECTED_TYPE, "Expect String as argument");
+            expressionDispose(env, car);
+            goto error;
+        }
+
+        carString = EXPRESSION_STRING(car);
+
+        if (0 == carString) {
+            ERROR(ERR_UNEXPECTED_TYPE, "Expect String as argument");
+            expressionDispose(env, car);
+            goto error;
+        }
+
+        if ((0 != strcmp(firstString, carString)) || !NO_ERROR) {
+            expressionDispose(env, car);
+            goto error;
+        }
+        expressionDispose(env, car);
+        car = 0;
+        carString = 0;
+    });
+
+    retVal = T;
+
+error:
+
+    if (0 != first) {
+        expressionDispose(env, first);
+    }
+
+    first = 0;
+    firstString = 0;
+
+    return retVal;
+}
+
 struct Expression *numEqual(struct Expression *env, struct Expression *expr) {
     struct Expression *car = NULL;
     struct Expression *first = NULL;
@@ -459,13 +527,12 @@ struct Expression *getParentEnv(struct Expression *env,
 }
 
 /******************************************************************************
- *                                   IMPORT 
+ *                                   IMPORT
  ******************************************************************************/
 
 static struct Expression *importFile(struct Expression *env,
                                      char const *libraryPath,
                                      char const *fileName) {
-
     struct CharReadStream *fileStream = 0;
     struct Expression *retVal = NIL;
     FILE *f = 0;
@@ -486,7 +553,7 @@ static struct Expression *importFile(struct Expression *env,
 
     fileStream = makeCStreamCharReadStream(f);
 
-    if(0 == fileStream) {
+    if (0 == fileStream) {
         ERROR(ERR_NIL_VALUE, "Could not create file stream");
         goto error;
     }
@@ -497,7 +564,7 @@ static struct Expression *importFile(struct Expression *env,
 
     printf("Evaluated\n");
 
-    if(NO_ERROR) {
+    if (NO_ERROR) {
         retVal = T;
     }
 

@@ -87,6 +87,7 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "OR", or);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "AND", and);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "NOT", not);
+    ADD_NATIVE_FUNCTION_EXPRESSION(env, "EQ", stringEqual);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "+", add);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "*", mul);
     ADD_NATIVE_FUNCTION_EXPRESSION(env, "/", divide);
