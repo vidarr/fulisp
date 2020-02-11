@@ -115,6 +115,54 @@ struct Expression *lambdaCreate(struct Expression *env,
     return EXPRESSION_CREATE_ATOM(env, EXPR_LAMBDA, lambda);
 }
 
+/*----------------------------------------------------------------------------*/
+
+static struct Expression *evalList(struct Expression *env,
+                                   struct Expression *l) {
+    struct Expression *result = 0;
+    struct Expression *tail = 0;
+    struct Expression *temp = 0;
+
+    DEBUG_PRINT_EXPR(env, l);
+    DEBUG_PRINT_EXPR(env, env);
+
+    if (EXPR_IS_NIL(l)) return NIL;
+
+    if (!EXPR_OF_TYPE(l, EXPR_CONS)) {
+        return eval(env, l);
+    }
+
+    if(EXPR_IS_NIL(intCdr(env, l))) {
+        return eval(env, intCar(env, l));
+    }
+
+    result = EXPRESSION_CREATE_CONS(env, NIL, NIL);
+
+    EXPRESSION_SET_CAR(result, eval(env, intCar(env, l)));
+    DEBUG_PRINT_EXPR(env, intCar(env, l));
+    DEBUG_PRINT_EXPR(env, eval(env, intCar(env, l)));
+
+    DEBUG_PRINT_EXPR(env, result);
+
+    tail = result;
+    l = intCdr(env, l);
+
+    while (!EXPR_IS_NIL(l) && EXPR_OF_TYPE(l, EXPR_CONS)) {
+        DEBUG_PRINT_EXPR(env, l);
+        temp = EXPRESSION_CREATE_CONS(env, NIL, NIL);
+        EXPRESSION_SET_CAR(temp, eval(env, intCar(env, l)));
+        EXPRESSION_SET_CDR(tail, temp);
+        l = intCdr(env, l);
+        tail = temp;
+    }
+
+    DEBUG_PRINT_EXPR(env, result);
+
+    return result;
+}
+
+/*----------------------------------------------------------------------------*/
+
 struct Expression *lambdaInvoke(struct Expression *oldEnv,
                                 struct Lambda *lambda,
                                 struct Expression *args) {
@@ -129,9 +177,11 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
     /* 2nd step: Fill in arguments */
     sym = lambda->argList;
     val = args;
+    DEBUG_PRINT_EXPR(env, ENVIRONMENT_SYMBOL_LOOKUP(oldEnv, lambda->rest));
     DEBUG_PRINT("sym ");
     DEBUG_PRINT_EXPR(env, sym);
     DEBUG_PRINT_EXPR(env, val);
+
     while (!EXPR_IS_NIL(sym) && !EXPR_IS_NIL(val)) {
         if (!EXPR_OF_TYPE(sym, EXPR_CONS) || !EXPR_OF_TYPE(val, EXPR_CONS)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Argument list is flawed");
@@ -150,16 +200,19 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
     DEBUG_PRINT_EXPR(env, val);
     DEBUG_PRINT("sym is   ");
     DEBUG_PRINT_EXPR(env, sym);
+    DEBUG_PRINT("rest is   ");
+    DEBUG_PRINT_EXPR(env, lambda->rest);
 
     if (!EXPR_IS_NIL(lambda->rest)) {
-        if (EXPR_IS_NIL(val)) {
-            ENVIRONMENT_ADD_SYMBOL(env, lambda->rest, NIL);
-        } else {
-            ENVIRONMENT_ADD_SYMBOL(env, lambda->rest, val);
-        }
+        exprBuf = evalList(oldEnv, val);
+        DEBUG_PRINT_EXPR(env, exprBuf);
+        ENVIRONMENT_ADD_SYMBOL(env, lambda->rest, exprBuf);
+        expressionDispose(env, exprBuf);
     } else {
         IF_SAFETY_CODE(if (!EXPR_IS_NIL(val)) {
             expressionDispose(lambda->env, env);
+            DEBUG_PRINT("Rest is   ");
+            DEBUG_PRINT_EXPR(env, exprBuf);
             ERROR(ERR_UNEVEN_SYM_VAL, "too many arguments given!");
             goto ret_from_func;
         });
@@ -170,8 +223,13 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
         ERROR(ERR_UNEVEN_SYM_VAL, "too few arguments given!");
         goto ret_from_func;
     }
+
+    DEBUG_PRINT_EXPR(env, lambda->rest);
+    DEBUG_PRINT_EXPR(env, ENVIRONMENT_SYMBOL_LOOKUP(env, lambda->rest));
+
     /* 3rd step: Evaluate body within new environment */
     retval = eval(env, lambda->body);
+
     /* 4th step: Get rid of new environment */
 
 ret_from_func:
