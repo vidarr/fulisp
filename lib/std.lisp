@@ -14,6 +14,19 @@
     )
   )
 
+(define list
+ (lambda (a &rest b)
+  (cons a
+   (cond
+    ((cons? b) b)
+    (T (cons b nil))))))
+
+(define last
+  (lambda (a &rest b)
+    (cond
+      ((nil? b) a)
+      ((not (cons? b)) b)
+      (T (d (car b) (cdr b))))))
 
 ;; Draft implementation of a dictionary - purely functional, thus a bit
 ;awkward to use:
@@ -35,17 +48,17 @@
 ;(dict-get my-dict "b")
 
 (define dict-set! (lambda (dict key value)
-                   (cons
-                    (cons key value) dict)))
+                    (cons
+                      (cons key value) dict)))
 
 (define dict-get (lambda (dict key)
-                  (cond
-                   ((nil? dict) nil)
-                   (
-                    (and
-                     (cons? dict)
-                     (cons? (car dict))
-                     (eq key (car (car dict))))
-                    (cdr (car dict)))
-                   (T (dict-get (cdr dict))))))
+                   (cond
+                     ((nil? dict) nil)
+                     (
+                      (and
+                        (cons? dict)
+                        (cons? (car dict))
+                        (eq key (car (car dict))))
+                      (cdr (car dict)))
+                     (T (dict-get (cdr dict))))))
 
