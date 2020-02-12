@@ -40,7 +40,7 @@
 #include "../.version.h"
 
 #define COPYRIGHT                      \
-    "Copyright (C) 2010, 2012, 2014  " \
+    "Copyright (C) 2010, 2012, 2014, 2019, 2020  " \
     "Michael J. Beer <michael.josef.beer@googlemail.com>"
 
 /* #define DEBUG_READER */
@@ -107,14 +107,7 @@
 #define MEMORY_BLOCK_SIZE 200
 
 /**
- * Use preallocated memory instead of malloc/free whenever an expression is
- * created
- */
-#define MEMORY_USE_PREALLOCATION
-
-/**
  * Should the memory be expanded automatically?
- * Will only have effect if MEMORY_USE_PREALLOCATION is set.
  */
 #define MEMORY_AUTOEXTEND
 
@@ -160,12 +153,6 @@
 #error("GARBAGE_COLLECTOR has not been defined!")
 
 #elif GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
-
-#ifndef MEMORY_USE_PREALLOCATION
-
-#error("MARK_AND_SWEEP requires MEMORY_USE_PREALLOCATION");
-
-#endif /* MEMORY_USE_PREALLOCATION */
 
 #endif /* GARBAGE_COLLECTION */
 

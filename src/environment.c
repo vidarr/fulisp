@@ -156,7 +156,7 @@ void environmentDispose(struct Expression *surrEnv, struct Environment *env) {
 
 /*----------------------------------------------------------------------------*/
 
-void environmentRelease(struct Environment *env) {
+void environmentRelease(struct Expression *surrEnv, struct Environment *env) {
 
     int i = 0;
     char **keys;

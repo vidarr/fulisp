@@ -92,8 +92,6 @@ void dumpFreeExpressions(struct Memory *mem);
                                    INTERNALS
  *****************************************************************************/
 
-#ifdef MEMORY_USE_PREALLOCATION
-
 #ifdef MEMORY_AUTOEXTEND
 
 void allocateNewExpressionBlock(struct Memory *mem);
@@ -133,13 +131,6 @@ void allocateNewConsBlock(struct Memory *mem);
         IF_SAFETY_CODE(expr->type = 0;);                                \
     }
 
-#else /* MEMORY_USE_PREALLOCATION */
-
-#define __MEMORY_GET_EXPRESSION(mem, expr) \
-    { expr = (struct Expression *)SAFE_MALLOC(sizeof(struct Expression)); }
-
-#define __MEMORY_DISPOSE_EXPRESSION(mem, expr) free(expr)
-
-#endif /* MEMORY_USE_PREALLOCATION */
+/*----------------------------------------------------------------------------*/
 
 #endif

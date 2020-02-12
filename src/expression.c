@@ -101,15 +101,11 @@ void expressionForceDispose(struct Expression *env, struct Expression *expr) {
 
 #if GARBAGE_COLLECTOR == GC_REFERENCE_COUNTING
 
-#ifdef MEMORY_USE_PREALLOCATION
     struct Memory *mem;
-#endif
 
     DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));
 
-#ifdef MEMORY_USE_PREALLOCATION
     mem = ENVIRONMENT_GET_MEMORY(env);
-#endif
 
     if(EXPR_DONT_FREE & expr->type) return;
 

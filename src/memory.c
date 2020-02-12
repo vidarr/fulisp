@@ -77,20 +77,15 @@ void allocateNewExpressionBlock(struct Memory *mem) {
 }
 
 struct Memory *newMemory(void) {
-#ifdef MEMORY_USE_PREALLOCATION
     struct Memory *mem = (struct Memory *)SAFE_MALLOC(sizeof(struct Memory));
     if (mem == NULL) outOfMemory();
     mem->exprBlocks = NULL;
     allocateNewExpressionBlock(mem);
     mem->outOfMemory = outOfMemory;
     return mem;
-#else
-    return NULL;
-#endif
 }
 
 void deleteMemory(struct Memory *mem) {
-#ifdef MEMORY_USE_PREALLOCATION
 
     assert(mem);
 
@@ -99,7 +94,7 @@ void deleteMemory(struct Memory *mem) {
         free(mem->exprBlocks);
     }
     free(mem);
-#endif /* MEMORY_USE_PREALLOCATION */
+
 }
 
 void resetMemory(struct Memory *mem) {
