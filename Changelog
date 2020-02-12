@@ -30,7 +30,10 @@
       * Added `import` expression to read in Lisp files in the REPL
       * Changed License to BSD 3-Clause
 
-Next
+0.4.3
       * Added `eq` lisp function
       * Added Lisp implementation of a dict, functions `list`, `last`
-	  * Fix in lambda: &rest treatment
+	  * FIX: test-reader
+	  * FIX: test-gc (Still memleak: Keys in global lookup table not freed)
+	  * FIX: LAMBDA  &rest treatment
+	  * FIX: Mark & Sweep Garbage Collector
