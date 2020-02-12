@@ -167,6 +167,8 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem);
  */
 void environmentDispose(struct Expression *surrEnv, struct Environment *env);
 
+void environmentRelease(struct Expression *surrEnv, struct Environment *env);
+
 /**
  * Remove all exressions from environment
  */

@@ -50,20 +50,20 @@
 
 void expressionRelease(struct Expression *env, struct Expression *expr) {
 
-    if(0 == expr) return;
-
     struct Memory *mem = ENVIRONMENT_GET_MEMORY(env);
+
+    if(0 == expr) return;
 
     if(EXPR_DONT_FREE & expr->type) return;
 
     if (EXPR_IS_POINTER(expr)) {
         if (EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
-/*            environmentRelease(env, EXPRESSION_ENVIRONMENT(expr)); */
+            environmentRelease(env, EXPRESSION_ENVIRONMENT(expr));
         } else if (EXPR_OF_TYPE(expr, EXPR_STRING) ||
                    EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
             free(EXPRESSION_STRING(expr));
         } else if (EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
-/*            lambdaDispose(env, EXPRESSION_LAMBDA(expr)); */
+            lambdaRelease(env, EXPRESSION_LAMBDA(expr));
         }
     }
 

@@ -62,7 +62,7 @@ void fuClose(struct Expression *env) {
 
     environmentClear(env);
     GC_RUN(env); /* Required to recursively free all resources */
-    expressionForceDispose(env, env);
+    environmentRelease(env, EXPRESSION_ENVIRONMENT(env));
 
     env = 0;
 

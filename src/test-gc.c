@@ -217,9 +217,11 @@ static int testEnvironment(struct Expression *env) {
      * 15 * 6 - 1 should be garbage-collected */
     freeNo -= 15;
     usedNo += 15;
+
     for (index = 0; index < 15; index++) {
         createLookupEntry(env, index + 111);
     }
+
     GC_RUN(env);
     result = ensureMarked(env, usedNo);
     if (result != TEST_PASSED) return result;

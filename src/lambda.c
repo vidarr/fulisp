@@ -249,3 +249,18 @@ void lambdaDispose(struct Expression *env, struct Lambda *lambda) {
     } else
         DEBUG_PRINT("lambda is already NIL");
 }
+
+/*----------------------------------------------------------------------------*/
+
+void lambdaRelease(struct Expression *env, struct Lambda *lambda) {
+
+    DEBUG_PRINT("lamdaRelease called");
+
+    if (0 == lambda) {
+        DEBUG_PRINT("lambda is already NIL");
+        return;
+    }
+
+    free(lambda);
+
+}

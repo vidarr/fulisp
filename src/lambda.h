@@ -83,4 +83,6 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
  */
 void lambdaDispose(struct Expression *env, struct Lambda *lambda);
 
+void lambdaRelease(struct Expression *env, struct Lambda *lambda);
+
 #endif
