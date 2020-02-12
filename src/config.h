@@ -119,13 +119,6 @@
 #define STRICT_NATIVE_FUNCS
 
 /**
- * Which kind of garbage collection to use.
- * This constant could be set to any of the values GC_*.
- */
-/* #define GARBAGE_COLLECTOR GC_REFERENCE_COUNTING */
-#define GARBAGE_COLLECTOR GC_MARK_AND_SWEEP
-
-/**
  * Kind of format to use for expressions
  */
 #define EXPRESSION_FORMAT TrueLies
@@ -147,16 +140,6 @@
 /******************************************************************************
  *                   CHECK WHETHER SET OPTIONS ARE POSSIBLE
  ******************************************************************************/
-
-#if !defined(GARBAGE_COLLECTOR)
-
-#error("GARBAGE_COLLECTOR has not been defined!")
-
-#elif GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
-
-#endif /* GARBAGE_COLLECTION */
-
-/*----------------------------------------------------------------------------*/
 
 #ifdef BENCHMARK
 

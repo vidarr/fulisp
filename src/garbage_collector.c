@@ -42,8 +42,6 @@
 #include "no_debugging.h"
 #endif
 
-#if GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
-
 /******************************************************************************
  *                                   MACROS
  ******************************************************************************/
@@ -308,5 +306,3 @@ static struct Expression *gcIntSweep(struct Expression *env) {
 #undef IS_MARKER_BIT_SET
 #undef IS_MARKED
 #undef IS_SET_DONT_FREE
-
-#endif

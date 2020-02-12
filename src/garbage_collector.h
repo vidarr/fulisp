@@ -87,33 +87,6 @@ struct Environment;
  * Implementation details
  ******************************************************************************/
 
-#if !defined(GARBAGE_COLLECTOR)
-
-#error("GARBAGE_COLLECTOR has not been defined!")
-
-#elif GARBAGE_COLLECTOR == GC_REFERENCE_COUNTING
-
-struct ExprGcInfo {
-    unsigned int counter;
-};
-
-#define __GC_DEFINE_ENV_INFO
-#define __GC_DEFINE_EXPR_INFO struct ExprGcInfo gcInfo;
-#define __GC_INIT_EXPR_INFO(initcounter) \
-    , { initcounter }
-#define __GC_RUN(env) T
-#define __GC_INIT_EXPRESSION(env, expr) \
-    do {                                \
-        (expr)->gcInfo.counter = 0;     \
-    } while (0)
-#define __GC_INIT_ENVIRONMENT(env) \
-    while (0) {                    \
-    }
-#define __GC_GET_REF_COUNT(env, expr) ((expr)->gcInfo.counter)
-#define __GC_DEC_REF_COUNT(env, expr) ((expr)->gcInfo.counter--)
-#define __GC_INC_REF_COUNT(env, expr) ((expr)->gcInfo.counter++)
-
-#elif GARBAGE_COLLECTOR == GC_MARK_AND_SWEEP
 
 struct EnvGcInfo {
     size_t noReclaimedExpr; /* Number of expressions reclaimed dur. last run */
@@ -145,12 +118,10 @@ struct Expression *gcMarkExpression(struct Expression *env,
 
 struct Expression *gcInitEnvironment(struct Environment *environ);
 
-#else
-
-#error("GARBAGE_COLLECTOR not set!")
-
-#endif
+/*----------------------------------------------------------------------------*/
 
 #include "environment.h"
+
+/*----------------------------------------------------------------------------*/
 
 #endif

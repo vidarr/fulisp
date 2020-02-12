@@ -73,63 +73,9 @@ void expressionRelease(struct Expression *env, struct Expression *expr) {
 
 void expressionDispose(struct Expression *env, struct Expression *expr) {
 
-#if GARBAGE_COLLECTOR == GC_REFERENCE_COUNTING
-
-    if (!expr || EXPR_IS_NIL(expr) || expr == T) return;
-    if (!EXPR_IS_VALID(expr)) {
-        MEMORY_DISPOSE_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
-        return;
-    }
-    /* ALERT: Does not work with non-valid expressions - occur together with
-     * parsing of conses */
-    DEBUG_PRINT_PARAM("Dispose: Old counter : %u\n",
-                      GC_GET_REF_COUNT(env, expr));
-    DEBUG_PRINT_PARAM("   type %u \n", (int)EXPRESSION_TYPE(expr));
-    DEBUG_PRINT_EXPR(env, expr);
-
-    if (GC_GET_REF_COUNT(env, expr) > 0) {
-        GC_DEC_REF_COUNT(env, expr);
-    } else {
-        expressionForceDispose(env, expr);
-    }
-
-#endif
-
 }
 
 void expressionForceDispose(struct Expression *env, struct Expression *expr) {
-
-#if GARBAGE_COLLECTOR == GC_REFERENCE_COUNTING
-
-    struct Memory *mem;
-
-    DEBUG_PRINT_PARAM("Disposing type %u \n", (int)EXPRESSION_TYPE(expr));
-
-    mem = ENVIRONMENT_GET_MEMORY(env);
-
-    if(EXPR_DONT_FREE & expr->type) return;
-
-    if (EXPR_IS_POINTER(expr)) {
-        if (EXPR_OF_TYPE(expr, EXPR_CONS)) {
-            DEBUG_PRINT("   expr is a cons cell - recursive disposing...\n");
-            if (EXPRESSION_CAR(expr))
-                expressionDispose(env, EXPRESSION_CAR(expr));
-            if (EXPRESSION_CDR(expr))
-                expressionDispose(env, EXPRESSION_CDR(expr));
-            __EXPRESSION_DISPOSE_CONS_STRUCT(mem, expr);
-        } else if (EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
-            environmentDispose(env, EXPRESSION_ENVIRONMENT(expr));
-        } else if (EXPR_OF_TYPE(expr, EXPR_STRING) ||
-                   EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
-            free(EXPRESSION_STRING(expr));
-        } else if (EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
-            lambdaDispose(env, EXPRESSION_LAMBDA(expr));
-        }
-    }
-
-    MEMORY_DISPOSE_EXPRESSION(mem, expr);
-
-#endif
 
 }
 
