@@ -57,7 +57,7 @@ void allocateNewExpressionBlock(struct Memory *mem) {
     int i;
     struct ExpressionBlock *block;
 
-    fprintf(stderr, "allocating one more block ...\n");
+    DEBUG_PRINT("allocating one more block ...\n");
 
     block =
         (struct ExpressionBlock *)SAFE_MALLOC(sizeof(struct ExpressionBlock));
@@ -74,7 +74,6 @@ void allocateNewExpressionBlock(struct Memory *mem) {
         MEMORY_DISPOSE_EXPRESSION(mem, (block->memory + i));
     }
 
-    fprintf(stderr, "----------------------------------------------------\n");
 }
 
 struct Memory *newMemory(void) {
@@ -106,11 +105,11 @@ void deleteMemory(struct Memory *mem) {
 void resetMemory(struct Memory *mem) {
 
     (mem)->nextExpr = 0;
-    fprintf(stderr, "After reset %p\n", (mem)->nextExpr);
 
 }
 
 void dumpFreeExpressions(struct Memory *mem) {
+
     struct Expression *expr = 0;
     assert(mem);
 

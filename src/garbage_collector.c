@@ -102,8 +102,6 @@ struct Expression *gcMarkAndSweep(struct Expression *env) {
     environ->gcInfo.noReclaimedExpr = 0;
 
     DEBUG_PRINT("Resetting memory\n");
-    fprintf("Before reset: nextExpr: %p   outOfMemory: %p   Ref: %p\n",
-            environ->memory, environ->memory->outOfMemory, outOfMemory);
 
     assert(0 != environ->memory);
     resetMemory(environ->memory);

@@ -540,16 +540,12 @@ static struct Expression *importFile(struct Expression *env,
     assert(0 != libraryPath);
     assert(0 != fileName);
 
-    printf("importing %s/%s\n", libraryPath, fileName);
-
     f = file_open(libraryPath, fileName, "r");
     if (0 == f) {
         DEBUG_PRINT_PARAM("Reading file %s failed\n", fileName);
         ERROR(ERR_NO_RESOURCE, strerror(errno));
         return NIL;
     }
-
-    printf("Opened %s/%s\n", libraryPath, fileName);
 
     fileStream = makeCStreamCharReadStream(f);
 
@@ -558,11 +554,7 @@ static struct Expression *importFile(struct Expression *env,
         goto error;
     }
 
-    printf("Built CStreamCharReadStream %s/%s\n", libraryPath, fileName);
-
     fuEvalStream(env, fileStream, 0);
-
-    printf("Evaluated\n");
 
     if (NO_ERROR) {
         retVal = T;
