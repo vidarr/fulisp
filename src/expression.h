@@ -267,6 +267,8 @@ typedef struct Expression *(NativeFunction)(struct Expression *env,
                      C R E A T I O N   &   D I S P O S A L
  ******************************************************************************/
 
+void expressionRelease(struct Expression *env, struct Expression *expr);
+
 /**
  * disposes an expression
  * Takes care of the reference count

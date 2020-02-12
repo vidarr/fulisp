@@ -22,6 +22,7 @@
 #include "expression.h"
 #include "fulispreader.h"
 #include "garbage_collector.h"
+#include "fulisp.h"
 #include "streams.h"
 #include "test.h"
 
@@ -48,17 +49,14 @@ static void getGcBenchmarkVars(struct Expression *env, size_t *reclaimed,
 static int performTest(int(check)(struct Expression *)) {
     int result;
     struct Expression *env;
-    struct Memory *mem;
 
-    mem = newMemory();
-    env = environmentCreateStdEnv(mem);
+    env = fuOpen();
 
     BENCHMARK_INIT(bmTime, bmTemp, bmTimeSt);
     result = check(env);
     BENCHMARK_DO();
 
-    expressionDispose(env, env);
-    deleteMemory(mem);
+    fuClose(env);
 
     return result;
 }
@@ -242,6 +240,10 @@ static struct Expression *execute(struct Expression *env, char *statement) {
     bufStream = makeCharReadStream(stream);
     reader = newFuLispReader(env, bufStream);
     expr = fuRead(reader);
+
+    /* expressionToString(env, buffer, sizeof(buffer), expr);
+    fprintf(stderr, "Read '%s'\n", buffer); */
+
     assert(expr);
     expr = eval(env, expr);
     deleteReader(reader);
@@ -275,7 +277,7 @@ static int testComplex(struct Expression *env) {
         testWarn("Marked number unexpected\n");
         return TEST_FAILED;
     }
-    execute(env, "(+ 4 5)");
+    execute(env, "(+ 17 5)");
     DEBUG_PRINT("execute(env, \"(+ 4 5)\")\n");
     GC_RUN(env);
     getGcBenchmarkVars(env, &reclaimed2, &marked2);

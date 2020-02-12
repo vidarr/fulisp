@@ -104,7 +104,7 @@
 /**
  * size of one mem block in expressions/cons structs
  */
-#define MEMORY_BLOCK_SIZE 20000
+#define MEMORY_BLOCK_SIZE 200
 
 /**
  * Use preallocated memory instead of malloc/free whenever an expression is
@@ -116,7 +116,7 @@
  * Should the memory be expanded automatically?
  * Will only have effect if MEMORY_USE_PREALLOCATION is set.
  */
-/* #define MEMORY_AUTOEXTEND */
+#define MEMORY_AUTOEXTEND
 
 /**
  * Should native functions be handled strictly?

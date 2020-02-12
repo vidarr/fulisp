@@ -48,7 +48,33 @@
 #include "no_debugging.h"
 #endif
 
+void expressionRelease(struct Expression *env, struct Expression *expr) {
+
+    if(0 == expr) return;
+
+    struct Memory *mem = ENVIRONMENT_GET_MEMORY(env);
+
+    if(EXPR_DONT_FREE & expr->type) return;
+
+    if (EXPR_IS_POINTER(expr)) {
+        if (EXPR_OF_TYPE(expr, EXPR_ENVIRONMENT)) {
+/*            environmentRelease(env, EXPRESSION_ENVIRONMENT(expr)); */
+        } else if (EXPR_OF_TYPE(expr, EXPR_STRING) ||
+                   EXPR_OF_TYPE(expr, EXPR_SYMBOL)) {
+            free(EXPRESSION_STRING(expr));
+        } else if (EXPR_OF_TYPE(expr, EXPR_LAMBDA)) {
+/*            lambdaDispose(env, EXPRESSION_LAMBDA(expr)); */
+        }
+    }
+
+    MEMORY_DISPOSE_EXPRESSION(mem, expr);
+
+}
+
 void expressionDispose(struct Expression *env, struct Expression *expr) {
+
+#if GARBAGE_COLLECTOR == GC_REFERENCE_COUNTING
+
     if (!expr || EXPR_IS_NIL(expr) || expr == T) return;
     if (!EXPR_IS_VALID(expr)) {
         MEMORY_DISPOSE_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
@@ -66,9 +92,15 @@ void expressionDispose(struct Expression *env, struct Expression *expr) {
     } else {
         expressionForceDispose(env, expr);
     }
+
+#endif
+
 }
 
 void expressionForceDispose(struct Expression *env, struct Expression *expr) {
+
+#if GARBAGE_COLLECTOR == GC_REFERENCE_COUNTING
+
 #ifdef MEMORY_USE_PREALLOCATION
     struct Memory *mem;
 #endif
@@ -100,11 +132,14 @@ void expressionForceDispose(struct Expression *env, struct Expression *expr) {
     }
 
     MEMORY_DISPOSE_EXPRESSION(mem, expr);
+
+#endif
+
 }
 
 struct Expression *expressionCreate(struct Expression *env, unsigned char type,
                                     void *content, void *extension) {
-    struct Expression *expr;
+    struct Expression *expr = 0;
     /* expr = malloc(sizeof(struct Expression)); */
     MEMORY_GET_EXPRESSION(ENVIRONMENT_GET_MEMORY(env), expr);
     GC_INIT_EXPRESSION(env, expr);

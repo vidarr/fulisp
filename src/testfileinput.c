@@ -67,10 +67,8 @@ static int checkInput(struct Expression *env, struct Expression *expr,
     if (strcmp(reference, IGNORE_SIGLE) == 0) return 0;
     expressionToString(env, inputBuffer, INPUT_BUFFER_SIZE, expr);
     if (strcmp(inputBuffer, reference) == 0) {
-        /* expressionDispose(env, printed); */
         return 0;
     }
-    /* expressionDispose(env, printed); */
     return 1;
 }
 

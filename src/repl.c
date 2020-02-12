@@ -182,6 +182,7 @@ void repl(void) {
             expressionDispose(env, res);
         }
         printf("\n");
+        /* GC_RUN(env); */
     }
 
     BENCHMARK_DO(

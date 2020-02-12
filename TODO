@@ -1,3 +1,4 @@
+* FAILING tests: test-eval, test-gc, test-reader, test-streams
 * BUG: Parser: "" does not parse to empty string
 * BUG:
     fuLisp:100$ (integer 541234513123124)

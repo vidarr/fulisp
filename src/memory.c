@@ -48,7 +48,7 @@
 
 static char *outOfMemoryMessage = "Ran out of Memory!";
 
-static void outOfMemory(void) {
+void outOfMemory(void) {
     fprintf(stderr, "%s", outOfMemoryMessage);
     exit(EXIT_FAILURE);
 }
@@ -57,6 +57,8 @@ void allocateNewExpressionBlock(struct Memory *mem) {
     int i;
     struct ExpressionBlock *block;
 
+    fprintf(stderr, "allocating one more block ...\n");
+
     block =
         (struct ExpressionBlock *)SAFE_MALLOC(sizeof(struct ExpressionBlock));
     if (block == NULL) outOfMemory();
@@ -64,15 +66,15 @@ void allocateNewExpressionBlock(struct Memory *mem) {
                                                      MEMORY_BLOCK_SIZE);
     if (block->memory == NULL) outOfMemory();
 
-#ifdef MEMORY_AUTOEXTEND
     block->nextBlock = mem->exprBlocks;
-#endif
     mem->exprBlocks = block;
 
     mem->nextExpr = NULL;
     for (i = 0; i < MEMORY_BLOCK_SIZE; i++) {
         MEMORY_DISPOSE_EXPRESSION(mem, (block->memory + i));
     }
+
+    fprintf(stderr, "----------------------------------------------------\n");
 }
 
 struct Memory *newMemory(void) {
@@ -99,4 +101,26 @@ void deleteMemory(struct Memory *mem) {
     }
     free(mem);
 #endif /* MEMORY_USE_PREALLOCATION */
+}
+
+void resetMemory(struct Memory *mem) {
+
+    (mem)->nextExpr = 0;
+    fprintf(stderr, "After reset %p\n", (mem)->nextExpr);
+
+}
+
+void dumpFreeExpressions(struct Memory *mem) {
+    struct Expression *expr = 0;
+    assert(mem);
+
+    fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
+
+    for (expr = mem->nextExpr; 0 != expr;
+         expr = (void *)EXPRESSION_STRING(expr)) {
+        fprintf(stderr, "Free mem: %p\n", expr);
+    }
+
+    fprintf(stderr, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+
 }

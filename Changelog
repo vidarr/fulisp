@@ -32,4 +32,5 @@
 
 Next
       * Added `eq` lisp function
-      * Added Lisp implementation of a dict
+      * Added Lisp implementation of a dict, functions `list`, `last`
+	  * Fix in lambda: &rest treatment
