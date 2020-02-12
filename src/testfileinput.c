@@ -120,6 +120,7 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName,
     deleteReader(reader);
     STREAM_DISPOSE(bufStream);
     fclose(inFile);
+    fclose(refFile);
     free(readStream);
 
     free(refBuffer);

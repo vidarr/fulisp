@@ -15,6 +15,7 @@
 
 #include "config.h"
 #include "fulispreader.h"
+#include "fulisp.h"
 #include "testfileinput.h"
 #include "test.h"
 
@@ -22,25 +23,25 @@
 #define INPUT_FILE     "../tests/test-reader.in"
 #define INPUT_REF_FILE "../tests/test-reader.ref"
 
+struct Expression *env;
 
 struct Expression *getNextExpression(struct Reader *reader) {
+    char buffer[4096] = {0};
     struct Expression *expr = fuRead(reader);
+    expressionToString(env, buffer, sizeof(buffer), expr);
+    fprintf(stderr, "Read '%s'\n", buffer);
     return expr;
 }
 
 
 int main(int argc, char **argv) {
     int result;
-    struct Expression *env;
-    struct Memory *mem;
 
     DECLARE_TEST(reader.c);
 
-    mem = newMemory();
-    env = environmentCreateStdEnv(mem);
+    env = fuOpen();
     result = checkFromFiles(env, INPUT_FILE, INPUT_REF_FILE, getNextExpression);
-    expressionDispose(env, env);
-    deleteMemory(mem);
+    fuClose(env);
+
     return result;
 }
-
