@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     env = fuOpen();
 
     result = test(fillEnvironment0(), "not stacked environment");
-    env1 = environmentCreate(env, mem);
+    env1 = environmentCreate(env, EXPRESSION_ENVIRONMENT(env)->mem;
     result += test(fillEnvironment1(), "stacked environment (level 2)");
     env2 = environmentCreate(env1, mem);
     result += test(fillEnvironment2(), "stacked environment (level 3)");
