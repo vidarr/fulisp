@@ -32,13 +32,6 @@ struct HashTable *symbolTableCreate(struct Expression *env) {
 }
 
 void symbolTableDispose(struct Expression *env, struct HashTable *hash) {
-    int i;
-    char *sym;
-    char **symbols = hashTableKeys(hash);
-    i = 0;
-    while ((sym = symbols[i++]))
-        expressionDispose(env, (struct Expression *)hashTableGet(hash, sym));
-    free(symbols);
     hashTableDispose(hash);
 }
 

@@ -96,7 +96,6 @@ int fuEvalStream(struct Expression *env, struct CharReadStream *instream,
         }
         res = eval(env, expr);
 
-        expressionDispose(env, expr);
         if (!NO_ERROR) {
             fprintf(stderr, "    FUBAR: %s\n\n", lispErrorMessage);
             goto ret_from_func;
@@ -106,7 +105,6 @@ int fuEvalStream(struct Expression *env, struct CharReadStream *instream,
             printToStream(env, outStream, res);
         }
 
-        expressionDispose(env, res);
     }
 
 ret_from_func:

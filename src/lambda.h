@@ -78,11 +78,8 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
                                 struct Lambda *lambda, struct Expression *args);
 
 /**
- * Delete a lambda form
- * @param lambda the lambda form to dispose
+ * Release resources directly held by Lambda struct, currently the memory itself
  */
-void lambdaDispose(struct Expression *env, struct Lambda *lambda);
-
 void lambdaRelease(struct Expression *env, struct Lambda *lambda);
 
 #endif

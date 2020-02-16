@@ -123,20 +123,6 @@
  */
 #define EXPRESSION_FORMAT TrueLies
 
-/*******************************************************************************
- *                        TYPES OF GARBAGE COLLECTION
- *******************************************************************************/
-
-/**
- * Reference counting garbage collector
- */
-#define GC_REFERENCE_COUNTING 1
-
-/**
- * Reference counting garbage collector
- */
-#define GC_MARK_AND_SWEEP 2
-
 /******************************************************************************
  *                   CHECK WHETHER SET OPTIONS ARE POSSIBLE
  ******************************************************************************/

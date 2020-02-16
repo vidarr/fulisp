@@ -105,13 +105,8 @@ struct Environment {
  * @param expr the expression to set the symbol to
  * @return old value of the symbol or NULL if previously not set
  */
-#define ENVIRONMENT_ADD_STRING(env, string, expr)                          \
-    {                                                                      \
-        void *old = hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup,    \
-                                 (string), (expr));                        \
-        if (old != NULL) expressionDispose(env, (struct Expression *)old); \
-        expressionAssign((env), (expr));                                   \
-    };
+#define ENVIRONMENT_ADD_STRING(env, string, expr) \
+    hashTableSet((EXPRESSION_ENVIRONMENT(env))->lookup, (string), (expr))
 
 /**
  * Define a symbol within environment
@@ -135,7 +130,6 @@ struct Environment {
     {                                                                     \
         struct Expression *f = expressionCreateNativeFunc((env), (func)); \
         ENVIRONMENT_ADD_STRING((env), (string), f);                       \
-        expressionDispose((env), f);                                      \
     }
 
 /*******************************************************************************
@@ -159,14 +153,11 @@ struct Expression *environmentCreate(struct Expression *parent,
 struct Expression *environmentCreateStdEnv(struct Memory *mem);
 
 /**
- * Disposes of an environment. <b>If you want to get rid of a environment, use
- * expressionDispose. This function is to be used internally/by
- * expressionDispose only!</b>
+ * Releases resources  directly held by an environment.
+ * This function is to be used internally
  * @param surrEnv surrounding environment
  * @param env the environment to dispose
  */
-void environmentDispose(struct Expression *surrEnv, struct Environment *env);
-
 void environmentRelease(struct Expression *surrEnv, struct Environment *env);
 
 /**

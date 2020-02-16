@@ -81,7 +81,6 @@ void deleteReader(struct Reader *reader) {
             };
         };
         if (reader->buffer) free(reader->buffer);
-        /* free all stored symbols */
         symbolTableDispose(READER_GET_ENVIRONMENT(reader), reader->symbolTable);
         free(reader);
     };
@@ -91,7 +90,6 @@ void deleteReader(struct Reader *reader) {
 void resetReader(struct Reader *reader) {
     assert(reader);
     if (reader->expr) {
-        expressionDispose(READER_GET_ENVIRONMENT(reader), reader->expr);
         reader->expr = (void *)0;
     };
     reader->type = EXPR_NO_TYPE;

@@ -110,25 +110,27 @@ void allocateNewConsBlock(struct Memory *mem);
 
 #endif /* MEMORY_AUTOEXTEND */
 
-#define __MEMORY_GET_EXPRESSION(mem, expr)                           \
-    {                                                                \
-        fprintf(stderr, "mem: %p   mem->nextExpr: %p\n", mem,        \
-                (mem)->nextExpr);                                    \
-        if ((mem)->nextExpr == NULL) __HANDLE_OUT_OF_EXPR_MEM(mem);  \
-        expr = (mem)->nextExpr;                                      \
-        fprintf(stderr, "new mem->nextExpr: %p\n",                   \
-                EXPRESSION_STRING((mem)->nextExpr));                 \
-        (mem)->nextExpr =                                            \
-            (struct Expression *)EXPRESSION_STRING((mem)->nextExpr); \
+#define __MEMORY_GET_EXPRESSION(mem, expr)                            \
+    {                                                                 \
+        fprintf(stderr, "mem: %p   mem->nextExpr: %p\n", (void *)mem, \
+                (void *)(mem)->nextExpr);                             \
+        if ((mem)->nextExpr == NULL) __HANDLE_OUT_OF_EXPR_MEM(mem);   \
+        expr = (mem)->nextExpr;                                       \
+        fprintf(stderr, "new mem->nextExpr: %p\n",                    \
+                (void *)EXPRESSION_STRING((mem)->nextExpr));          \
+        (mem)->nextExpr =                                             \
+            (struct Expression *)EXPRESSION_STRING((mem)->nextExpr);  \
     }
 
-#define __MEMORY_DISPOSE_EXPRESSION(mem, expr)                          \
-    {                                                                   \
-        fprintf(stderr, "(1)   expr->string: %p\n", EXPRESSION_STRING(expr)); \
-        EXPRESSION_STRING(expr) = (char *)((mem)->nextExpr);            \
-        fprintf(stderr, "(2)   expr->string: %p\n", EXPRESSION_STRING(expr)); \
-        (mem)->nextExpr = expr;                                         \
-        IF_SAFETY_CODE(expr->type = 0;);                                \
+#define __MEMORY_DISPOSE_EXPRESSION(mem, expr)               \
+    {                                                        \
+        fprintf(stderr, "(1)   expr->string: %p\n",          \
+                (void *)EXPRESSION_STRING(expr));            \
+        EXPRESSION_STRING(expr) = (char *)((mem)->nextExpr); \
+        fprintf(stderr, "(2)   expr->string: %p\n",          \
+                (void *)EXPRESSION_STRING(expr));            \
+        (mem)->nextExpr = expr;                              \
+        IF_SAFETY_CODE(expr->type = 0;);                     \
     }
 
 /*----------------------------------------------------------------------------*/

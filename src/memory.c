@@ -112,7 +112,7 @@ void dumpFreeExpressions(struct Memory *mem) {
 
     for (expr = mem->nextExpr; 0 != expr;
          expr = (void *)EXPRESSION_STRING(expr)) {
-        fprintf(stderr, "Free mem: %p\n", expr);
+        fprintf(stderr, "Free mem: %p\n", (void *)expr);
     }
 
     fprintf(stderr, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");

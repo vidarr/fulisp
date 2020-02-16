@@ -172,14 +172,12 @@ void repl(void) {
             BENCHMARK_CONTINUE(bmTime, bmTemp, bmTimeSt);
             res = eval(env, expr);
             BENCHMARK_INTERRUPT(bmTime, bmTemp, bmTimeSt);
-            expressionDispose(env, expr);
             if (!NO_ERROR) {
                 fprintf(stderr, "    FUBAR: %s\n\n", lispErrorMessage);
                 lastError = lispError;
                 ERROR_RESET;
             }
             printToStream(env, outStream, res);
-            expressionDispose(env, res);
         }
         printf("\n");
         /* GC_RUN(env); */

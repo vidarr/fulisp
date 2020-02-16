@@ -57,7 +57,7 @@ struct Expression *quote(struct Expression *env, struct Expression *expr) {
     INIT_NATIVE_FUNCTION("quote", env, expr);
     DEBUG_PRINT_EXPR(env, expr);
     if (EXPR_IS_NIL(expr)) return NIL;
-    return expressionAssign(env, intCar(env, expr));
+    return intCar(env, expr);
 }
 
 struct Expression *set(struct Expression *env, struct Expression *expr) {
@@ -81,13 +81,11 @@ struct Expression *set(struct Expression *env, struct Expression *expr) {
         DEBUG_PRINT("set(): Using non-standard environment");
         rest = eval(env, rest);
         if (!EXPR_OF_TYPE(rest, EXPR_ENVIRONMENT)) {
-            expressionDispose(env, rest);
             ERROR(ERR_UNEXPECTED_TYPE,
                   "set(): expects ENVIRONMENT VALUE as argument");
             return NIL;
         }
         environmentUpdate(rest, sym, val);
-        expressionDispose(env, rest);
     } else {
         environmentUpdate(env, sym, val);
     }
@@ -119,13 +117,11 @@ struct Expression *define(struct Expression *env, struct Expression *expr) {
         DEBUG_PRINT("define(): Environment expression evaluated to\n");
         DEBUG_PRINT_EXPR(env, rest);
         if (!EXPR_OF_TYPE(rest, EXPR_ENVIRONMENT)) {
-            expressionDispose(env, rest);
             ERROR(ERR_UNEXPECTED_TYPE,
                   "define(): expects ENVIRONMENT VALUE as argument");
             return NIL;
         }
         ENVIRONMENT_ADD_SYMBOL(rest, sym, val);
-        expressionDispose(env, rest);
     } else {
         /* Use global environment */
         rest = env;
@@ -148,7 +144,6 @@ struct Expression *cond(struct Expression *env, struct Expression *expr) {
         condition = eval(env, condition);
         IF_SAFETY_CODE(if (!condition) return NIL;)
         if (!EXPR_IS_NIL(condition)) {
-            expressionDispose(env, condition);
             body = eval(env, body);
             IF_SAFETY_CODE(if (!body) return NIL;);
             return body;
@@ -163,7 +158,6 @@ struct Expression *begin(struct Expression *env, struct Expression *expr) {
     INIT_NATIVE_FUNCTION("begin", env, expr);
 
     ITERATE_LIST(env, expr, iter, {
-        expressionDispose(env, res);
         res = eval(env, iter);
     });
 
@@ -189,7 +183,6 @@ struct Expression *add(struct Expression *env, struct Expression *expr) {
     ITERATE_LIST(env, expr, car, { /* TODO: Check for conversion errors */
                                    car = eval(env, car);
                                    res += EXPR_TO_FLOAT(car);
-                                   expressionDispose(env, car);
                                    DEBUG_PRINT_PARAM(
                                        "add():   IN while: res = %f\n", res);
     });
@@ -208,7 +201,6 @@ struct Expression *mul(struct Expression *env, struct Expression *expr) {
     ITERATE_LIST(env, expr, car, { /* TODO: Check for conversion errors */
                                    car = eval(env, car);
                                    res *= EXPR_TO_FLOAT(car);
-                                   expressionDispose(env, car);
                                    DEBUG_PRINT_PARAM(
                                        "mul():   IN while: res = %f\n", res);
     });
@@ -228,7 +220,6 @@ struct Expression *divide(struct Expression *env, struct Expression *expr) {
     SECURE_CAR(env, expr, car, "Argument list flawed");
     car = eval(env, car);
     divident = EXPR_TO_FLOAT(car);
-    expressionDispose(env, car);
 
     SECURE_CDR(env, expr, cdr, "Argument list flawed");
     if (EXPR_IS_NIL(cdr)) {
@@ -265,7 +256,6 @@ struct Expression * and (struct Expression * env, struct Expression *expr) {
     ITERATE_LIST(env, expr, car, {
         car = eval(env, car);
         if (EXPR_IS_NIL(car)) return NIL;
-        expressionDispose(env, car);
     });
     return T;
 }
@@ -276,7 +266,6 @@ struct Expression * or (struct Expression * env, struct Expression *expr) {
     ITERATE_LIST(env, expr, car, {
         car = eval(env, car);
         if (!EXPR_IS_NIL(car)) {
-            expressionDispose(env, car);
             return T;
         }
     });
@@ -291,7 +280,6 @@ struct Expression * not(struct Expression * env, struct Expression *expr) {
     if (EXPR_IS_NIL(car)) {
         res = T;
     }
-    expressionDispose(env, car);
     return res;
 }
 
@@ -332,7 +320,6 @@ struct Expression *stringEqual(struct Expression *env,
 
         if (!EXPR_OF_TYPE(car, EXPR_STRING)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Expect String as argument");
-            expressionDispose(env, car);
             goto error;
         }
 
@@ -340,15 +327,12 @@ struct Expression *stringEqual(struct Expression *env,
 
         if (0 == carString) {
             ERROR(ERR_UNEXPECTED_TYPE, "Expect String as argument");
-            expressionDispose(env, car);
             goto error;
         }
 
         if ((0 != strcmp(firstString, carString)) || !NO_ERROR) {
-            expressionDispose(env, car);
             goto error;
         }
-        expressionDispose(env, car);
         car = 0;
         carString = 0;
     });
@@ -356,10 +340,6 @@ struct Expression *stringEqual(struct Expression *env,
     retVal = T;
 
 error:
-
-    if (0 != first) {
-        expressionDispose(env, first);
-    }
 
     first = 0;
     firstString = 0;
@@ -380,15 +360,12 @@ struct Expression *numEqual(struct Expression *env, struct Expression *expr) {
         return first;
     }
     res = EXPR_TO_FLOAT(first);
-    expressionDispose(env, first);
     if (!NO_ERROR) return NIL;
     ITERATE_LIST(env, expr, car, {
         car = eval(env, car);
         if ((res != EXPR_TO_FLOAT(car)) || !NO_ERROR) {
-            expressionDispose(env, car);
             return NIL;
         }
-        expressionDispose(env, car);
         DEBUG_PRINT_PARAM("numEqual():   IN while: res = %f\n", res);
     });
 
@@ -410,13 +387,11 @@ struct Expression *numSmaller(struct Expression *env, struct Expression *expr) {
         return first;
     }
     res = EXPR_TO_FLOAT(first);
-    expressionDispose(env, first);
     if (!NO_ERROR) return NIL;
 
     ITERATE_LIST(env, expr, car, {
         car = eval(env, car);
         nextRes = EXPR_TO_FLOAT(car);
-        expressionDispose(env, car);
         if ((res >= nextRes) || !NO_ERROR) {
             return NIL;
         }
@@ -439,10 +414,8 @@ struct Expression *nilP(struct Expression *env, struct Expression *expr) {
     ITERATE_LIST(env, expr, iterator, {
         iterator = eval(env, iterator);
         if (!EXPR_IS_NIL(iterator)) {
-            expressionDispose(env, iterator);
             return NIL;
         }
-        expressionDispose(env, iterator);
     });
     return T;
 }
@@ -455,10 +428,8 @@ struct Expression *nilP(struct Expression *env, struct Expression *expr) {
         ITERATE_LIST(env, expr, iterator, {                      \
             iterator = eval(env, iterator);                      \
             if (EXPR_IS_NIL(iterator) || !(test)) {              \
-                expressionDispose(env, iterator);                \
                 return NIL;                                      \
             }                                                    \
-            expressionDispose(env, iterator);                    \
         });                                                      \
         return T;                                                \
     }
@@ -483,10 +454,8 @@ struct Expression *symbolP(struct Expression *env, struct Expression *expr) {
     ITERATE_LIST(env, expr, iterator, {
         iterator = eval(env, iterator);
         if (!(EXPR_OF_TYPE(iterator, EXPR_SYMBOL))) {
-            expressionDispose(env, iterator);
             return NIL;
         }
-        expressionDispose(env, iterator);
     });
     return T;
 }
@@ -516,13 +485,11 @@ struct Expression *getParentEnv(struct Expression *env,
     if (EXPR_IS_NIL(envToLookAt)) {
         return NIL;
     } else if (!EXPR_OF_TYPE(envToLookAt, EXPR_ENVIRONMENT)) {
-        expressionDispose(env, envToLookAt);
         ERROR(ERR_UNEXPECTED_TYPE,
               "getParentEnvironment expects ENVIRONMENT VALUE as argument");
         return NIL;
     }
     envToReturn = ENVIRONMENT_GET_PARENT(EXPRESSION_ENVIRONMENT(envToLookAt));
-    expressionDispose(env, envToLookAt);
     return envToReturn;
 }
 
@@ -586,7 +553,6 @@ struct Expression *import(struct Expression *env, struct Expression *expr) {
     libraryPath = eval(env, &lispLibraryPath);
 
     if ((NIL != libraryPath) && (!EXPR_OF_TYPE(libraryPath, EXPR_STRING))) {
-        expressionDispose(env, libraryPath);
         ERROR(ERR_UNEXPECTED_TYPE,
               "LISP-LIBRARY-PATH is not defined / not a String");
     }
@@ -596,21 +562,16 @@ struct Expression *import(struct Expression *env, struct Expression *expr) {
     }
 
     ITERATE_LIST(env, expr, fileName, {
-        expressionDispose(env, res);
         res = eval(env, fileName);
         if (!EXPR_OF_TYPE(res, EXPR_STRING)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Expected string as file name");
         }
         fileNameStr = EXPRESSION_STRING(res);
         importResult = importFile(env, libraryPathStr, fileNameStr);
-        expressionDispose(env, res);
         if (NIL == importResult) {
-            expressionDispose(env, libraryPath);
             return NIL;
         }
     });
-
-    expressionDispose(env, libraryPath);
 
     return T;
 }

@@ -267,22 +267,12 @@ typedef struct Expression *(NativeFunction)(struct Expression *env,
                      C R E A T I O N   &   D I S P O S A L
  ******************************************************************************/
 
+/**
+ * Release all resources DIRECTLY held by `expr`, that is the memory allocated
+ * for the Expression struct itself, and possibly direct content kept outside
+ * the preallocated memory like the string in a STRING expression.
+ */
 void expressionRelease(struct Expression *env, struct Expression *expr);
-
-/**
- * disposes an expression
- * Takes care of the reference count
- * @param env the environment currently valid
- * @param expr the expression to dispose
- */
-void expressionDispose(struct Expression *env, struct Expression *expr);
-
-/**
- * Dispose an expression, bypass any kind of garbage collector.
- * @param env the environment currently valid
- * @param expr the expression to dispose
- */
-void expressionForceDispose(struct Expression *env, struct Expression *expr);
 
 /**
  * Creates an expression. To create an expression containing a native function,

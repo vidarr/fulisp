@@ -100,7 +100,6 @@ int fillEnvironment(struct Expression *env, int level, int no) {
         expr = CREATE_STRING_EXPRESSION(env, str);
         ENVIRONMENT_ADD_STRING(env, symNamesLvl[level][i], expr);
         ENVIRONMENT_ADD_STRING(env, symNames[level][i], expr);
-        expressionDispose(env, expr);
     }
     return 0;
 }
@@ -116,15 +115,12 @@ int lookup(struct Expression *env, char *str, char *reference) {
     struct Expression *expr;
     expr = CREATE_STRING_EXPRESSION(env, str);
     res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
-    expressionDispose(env, expr);
     if (EXPR_IS_NIL(res)) return 1;
     if (!strcmp(EXPRESSION_STRING(res), reference)) {
-        expressionDispose(env, res);
         return 1;
-    } else {
-        expressionDispose(env, res);
-        return 0;
     }
+
+    return 0;
 }
 
 int testLookup(void) {
@@ -140,22 +136,21 @@ int testLookup(void) {
 
 int main(int argc, char **argv) {
     int result;
-    struct Memory *mem = newMemory();
 
     DECLARE_TEST(environment.c);
 
     createStrings(NO_ENTRIES);
-    env = environmentCreate(0, mem);
+    env = fuOpen();
+
     result = test(fillEnvironment0(), "not stacked environment");
     env1 = environmentCreate(env, mem);
-    expressionDispose(env, env);
     result += test(fillEnvironment1(), "stacked environment (level 2)");
     env2 = environmentCreate(env1, mem);
-    expressionDispose(env, env1);
     result += test(fillEnvironment2(), "stacked environment (level 3)");
     test(testLookup(), "look ups in stacked environment");
-    expressionDispose(env, env2);
-    deleteMemory(mem);
+
+    fuClose(env);
+
     deleteStrings(NO_ENTRIES);
     return result;
 }

@@ -71,14 +71,6 @@ void expressionRelease(struct Expression *env, struct Expression *expr) {
 
 }
 
-void expressionDispose(struct Expression *env, struct Expression *expr) {
-
-}
-
-void expressionForceDispose(struct Expression *env, struct Expression *expr) {
-
-}
-
 struct Expression *expressionCreate(struct Expression *env, unsigned char type,
                                     void *content, void *extension) {
     struct Expression *expr = 0;

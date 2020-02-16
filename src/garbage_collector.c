@@ -248,7 +248,6 @@ static struct Expression *gcIntMarkExpression(struct Expression *env,
 static int gcIntReclaimExpressionsFromBlock(struct Expression *env,
                                             struct Memory *memory,
                                             struct Expression *block) {
-    char buffer[4096];
     struct Expression *expr;
     size_t indexExpr;
     size_t noReclaimed = 0;

@@ -322,13 +322,11 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
     resetReader(reader);
     expr = fuRead(reader);
     if (!NO_ERROR) {
-        expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
         /* counter of nil has already the correct value */
         reader->expr = nil;
         return;
     }
     if (!EXPR_IS_VALID(expr)) {
-        expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
         reader->expr =
             EXPRESSION_CREATE_CONS(READER_GET_ENVIRONMENT(reader), NIL, NIL);
         return;
@@ -336,15 +334,12 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
     DEBUG_PRINT(" Create first cons...");
     retVal = current =
         EXPRESSION_CREATE_CONS(READER_GET_ENVIRONMENT(reader), expr, NIL);
-    expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
 
     resetReader(reader);
     while ((expr = fuRead(reader)) && EXPR_IS_VALID(expr)) {
         resetReader(reader);
 
         if (!NO_ERROR) {
-            expressionDispose(READER_GET_ENVIRONMENT(reader), retVal);
-            expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
             reader->expr = NIL;
             return;
         }
@@ -352,12 +347,8 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
         /* If dottedPair >= 2, it means that there have been more than one
          * expression behind the 'dot' of a dotted pair */
         if ((dottedPair >= 2)) {
-            expressionDispose(READER_GET_ENVIRONMENT(reader), retVal);
-            expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
-            /* Dispose of rest of this list ... */
             while ((expr = fuRead(reader)) && EXPR_IS_VALID(expr)) {
                 resetReader(reader);
-                expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
             };
             reader->expr = NIL;
             ERROR(ERR_SYNTAX_ERROR,
@@ -375,16 +366,10 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
                            DOTTED_PAIR_MARKER_STRING) == 0)) {
             dottedPair = 1;
         } else {
-            /* Here, the counter of nil is raised. It has been one too much
-             * already, so remember to perform one expressionDispose on it after
-             * the loop or recycle nil somehow without raising the counter */
             next = EXPRESSION_CREATE_CONS(READER_GET_ENVIRONMENT(reader), expr,
                                           NIL);
-            expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
-            expressionAssign(READER_GET_ENVIRONMENT(reader), next);
             EXPRESSION_SET_CDR(current, next);
             current = next;
-            expressionDispose(READER_GET_ENVIRONMENT(reader), next);
             DEBUG_PRINT_EXPR(READER_GET_ENVIRONMENT(reader), retVal);
         }
     }
@@ -392,8 +377,6 @@ static void rmOpeningBraket(struct Reader *reader, char sigle) {
     /* Prevent nested brakets to get confused, e.g. if '))' is encountered */
     *reader->current = 0;
     /* Get rid of the last 'empty' expr that signaled the end of list  */
-    expressionDispose(READER_GET_ENVIRONMENT(reader), expr);
-    expressionDispose(READER_GET_ENVIRONMENT(reader), nil);
     reader->expr = retVal;
 
     /* Restore old terminal macro */

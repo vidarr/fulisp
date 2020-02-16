@@ -57,8 +57,6 @@ struct Expression *cons(struct Expression *env, struct Expression *expr) {
         });
     car = eval(env, car);
     expr = eval(env, expr);
-    expressionAssign(env, car);
-    expressionAssign(env, expr);
     return EXPRESSION_CREATE_CONS(env, car, expr);
 }
 
@@ -81,8 +79,6 @@ struct Expression *car(struct Expression *env, struct Expression *expr) {
     expr = eval(env, expr);
     if (EXPR_IS_NIL(expr)) return NIL;
     SECURE_CAR(env, expr, car, "Flawed argument list");
-    expressionAssign(env, car);
-    expressionDispose(env, expr);
     DEBUG_PRINT("Leaving car()\n");
     return car;
 }
@@ -107,8 +103,6 @@ struct Expression *cdr(struct Expression *env, struct Expression *expr) {
     expr = eval(env, expr);
     if (EXPR_IS_NIL(expr)) return NIL;
     SECURE_CDR(env, expr, cdr, "Flawed argument list");
-    expressionAssign(env, cdr);
-    expressionDispose(env, expr);
     DEBUG_PRINT("Leaving cdr\n");
     return cdr;
 }
@@ -129,7 +123,6 @@ struct Expression *setCar(struct Expression *env, struct Expression *expr) {
     consCell = eval(env, consCell);
     if (!EXPR_OF_TYPE(consCell, EXPR_CONS)) {
         ERROR(ERR_UNEXPECTED_VAL, "setCar: Expected Cons, got other");
-        expressionDispose(env, consCell);
         return NIL;
     }
 
@@ -137,8 +130,6 @@ struct Expression *setCar(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, carExpr);
 
     carExpr = eval(env, carExpr);
-    if (EXPRESSION_CAR(consCell))
-        expressionDispose(env, EXPRESSION_CAR(consCell));
     EXPRESSION_SET_CAR(consCell, carExpr);
 
     DEBUG_PRINT("\nconsCell is ");
@@ -163,7 +154,6 @@ struct Expression *setCdr(struct Expression *env, struct Expression *expr) {
     consCell = eval(env, consCell);
     if (!EXPR_OF_TYPE(consCell, EXPR_CONS)) {
         ERROR(ERR_UNEXPECTED_VAL, "setCdr: Expected Cons, got other");
-        expressionDispose(env, consCell);
         return NIL;
     }
 
@@ -171,8 +161,6 @@ struct Expression *setCdr(struct Expression *env, struct Expression *expr) {
     DEBUG_PRINT_EXPR(env, cdrExpr);
 
     cdrExpr = eval(env, cdrExpr);
-    if (EXPRESSION_CDR(consCell))
-        expressionDispose(env, EXPRESSION_CDR(consCell));
     EXPRESSION_SET_CDR(consCell, cdrExpr);
 
     DEBUG_PRINT("\nconsCell is ");

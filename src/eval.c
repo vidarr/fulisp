@@ -59,7 +59,7 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
     if (!EXPR_IS_CONS(expr)) {
         if (!EXPR_OF_TYPE(expr, EXPR_SYMBOL) || EXPR_IS_NIL(expr)) {
             DEBUG_PRINT("eval(): No symbol - evaluate to itself\n");
-            res = expressionAssign(env, expr);
+            res = expr;
         } else {
             DEBUG_PRINT("eval(): Symbol - resolving it...\n");
             res = ENVIRONMENT_SYMBOL_LOOKUP(env, expr);
@@ -83,7 +83,7 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
             /* Should be unreachable code ... */
             ERROR(ERR_UNRESOLVABLE, "Could not resolve symbol");
             first = NIL; /* ENVIRONMENT_STRING_LOOKUP(env, "NIL"); */
-            res = expressionAssign(env, first);
+            res = first;
         } else {
             switch (EXPRESSION_TYPE(first)) {
                 case EXPR_NATIVE_FUNC:
@@ -101,7 +101,6 @@ struct Expression *eval(struct Expression *env, struct Expression *expr) {
                           "eval(): First element in list is not a function!");
                     res = NIL; /* ENVIRONMENT_STRING_LOOKUP (env, "NIL"); */
             };
-            expressionDispose(env, first);
         }
     }
     environ = EXPRESSION_ENVIRONMENT(env);

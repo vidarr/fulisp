@@ -109,7 +109,6 @@ int checkFromFiles(struct Expression *env, char *inFileName, char *refFileName,
         chomp(refBuffer);
         expr = getNextExpr(reader);
         result = result ? 1 : test(checkInput(env, expr, refBuffer), refBuffer);
-        expressionDispose(env, expr);
         ERROR_RESET;
         resetReader(reader);
         resetCharReadStream(bufStream);

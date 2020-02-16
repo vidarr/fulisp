@@ -101,7 +101,6 @@ struct Expression *fuType(struct Expression *env, struct Expression *expr) {
             type = TYPE_ENVIRONMENT;
             break;
     };
-    expressionDispose(env, evaluatedExpr);
     assert(type != NULL);
     DEBUG_PRINT("fuType(): Got Expression of type :");
     DEBUG_PRINT_EXPR(env, type);
@@ -123,7 +122,7 @@ struct Expression *fuInt(struct Expression *env, struct Expression *expr) {
     switch (EXPRESSION_TYPE(evaluatedExpr)) {
         case EXPR_INTEGER:
             DEBUG_PRINT("fuInt(): Got INTEGER\n");
-            result = expressionAssign(env, evaluatedExpr);
+            result = evaluatedExpr;
             break;
         case EXPR_FLOAT:
             DEBUG_PRINT("fuInt(): Got FLOAT\n");
@@ -139,7 +138,6 @@ struct Expression *fuInt(struct Expression *env, struct Expression *expr) {
         default:
             result = NIL;
     }
-    expressionDispose(env, evaluatedExpr);
     return result;
 }
 
@@ -166,7 +164,7 @@ struct Expression *fuFloat(struct Expression *env, struct Expression *expr) {
             break;
         case EXPR_FLOAT:
             DEBUG_PRINT("fuFloat(): Got FLOAT\n");
-            result = expressionAssign(env, evaluatedExpr);
+            result = evaluatedExpr;
             break;
         case EXPR_STRING:
             DEBUG_PRINT("fuFloat(): Got STRING\n");
@@ -184,6 +182,5 @@ struct Expression *fuFloat(struct Expression *env, struct Expression *expr) {
         default:
             result = NIL;
     }
-    expressionDispose(env, evaluatedExpr);
     return result;
 }

@@ -50,15 +50,10 @@ int testExpression(struct Expression *env, struct Expression *expr) {
 
     expressionToString(env, str, MAX_STR_BUFFER, ref1);
     printf("%s\n", str);
-    expressionDispose(env, ref1);
     expressionToString(env, str, MAX_STR_BUFFER, ref2);
     printf("%s\n", str);
-    expressionDispose(env, ref2);
     expressionToString(env, str, MAX_STR_BUFFER, ref3);
     printf("%s\n", str);
-    expressionDispose(env, ref3);
-
-    expressionDispose(env, expr);
 
     /* Should fail */
     /* expressionToString(env, str, ref3);
@@ -92,8 +87,6 @@ int main(int argc, char **argv) {
     res = test(testExpression(env, cons), "Cons cell management");
     /* usually one should get rid of the cons expression, but this has happened
        within testExpression */
-    expressionDispose(env, cons);
-    expressionDispose(env, env);
 
     fuClose(env);
 

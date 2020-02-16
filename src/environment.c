@@ -134,26 +134,6 @@ struct Expression *environmentCreateStdEnv(struct Memory *mem) {
     return env;
 }
 
-void environmentDispose(struct Expression *surrEnv, struct Environment *env) {
-    /* Dispose symbol table */
-    int i = 0;
-    char **keys;
-    if (!env) {
-        DEBUG_PRINT("environmentDispose: env is NIL");
-        return;
-    }
-    keys = hashTableKeys(env->lookup);
-    DEBUG_PRINT("Disposing environment...\n");
-    while (keys[i] != 0) {
-        DEBUG_PRINT_PARAM("Key going to be disposed: %s", keys[i]);
-        expressionDispose(surrEnv, hashTableDelete(env->lookup, keys[i++]));
-    };
-    free(keys);
-    if (ENVIRONMENT_GET_PARENT(env)) expressionDispose(surrEnv, env->parent);
-    hashTableDispose(env->lookup);
-    free(env);
-}
-
 /*----------------------------------------------------------------------------*/
 
 void environmentRelease(struct Expression *surrEnv, struct Environment *env) {
@@ -165,7 +145,7 @@ void environmentRelease(struct Expression *surrEnv, struct Environment *env) {
         return;
     }
     keys = hashTableKeys(env->lookup);
-    DEBUG_PRINT("Disposing environment...\n");
+    DEBUG_PRINT("Releasing environment...\n");
     while (keys[i] != 0) {
         DEBUG_PRINT_PARAM("Key going to be disposed: %s", keys[i]);
         hashTableDelete(env->lookup, keys[i++]);
@@ -186,7 +166,7 @@ void environmentClear(struct Expression *env) {
     char **keyIter = 0;
 
     if (!env) {
-        DEBUG_PRINT("environmentDispose: env is NIL");
+        DEBUG_PRINT("env is NIL");
         return;
     }
 
@@ -200,8 +180,6 @@ void environmentClear(struct Expression *env) {
     while (0 != *keyIter) {
         expr = hashTableDelete(hash, *keyIter);
         assert(0 != expr);
-
-        expressionDispose(env, expr);
 
         ++keyIter;
     }

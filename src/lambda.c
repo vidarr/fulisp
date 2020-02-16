@@ -91,7 +91,6 @@ struct Expression *lambdaCreate(struct Expression *env,
             if (EXPR_IS_NIL(beforeLast))
                 args = NIL;
             else {
-                expressionDispose(env, intCdr(env, beforeLast));
                 EXPRESSION_SET_CDR(beforeLast, NIL);
             }
             break;
@@ -107,10 +106,10 @@ struct Expression *lambdaCreate(struct Expression *env,
     DEBUG_PRINT_EXPR(env, rest);
     DEBUG_PRINT("\n");
     lambda = (struct Lambda *)SAFE_MALLOC(sizeof(struct Lambda));
-    lambda->rest = expressionAssign(env, rest);
-    lambda->argList = expressionAssign(env, args);
-    lambda->body = expressionAssign(env, intCar(env, intCdr(env, expr)));
-    lambda->env = expressionAssign(env, env);
+    lambda->rest = rest;
+    lambda->argList = args;
+    lambda->body = intCar(env, intCdr(env, expr));
+    lambda->env = env;
     DEBUG_PRINT("Created lambda ...\n");
     return EXPRESSION_CREATE_ATOM(env, EXPR_LAMBDA, lambda);
 }
@@ -185,13 +184,11 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
     while (!EXPR_IS_NIL(sym) && !EXPR_IS_NIL(val)) {
         if (!EXPR_OF_TYPE(sym, EXPR_CONS) || !EXPR_OF_TYPE(val, EXPR_CONS)) {
             ERROR(ERR_UNEXPECTED_TYPE, "Argument list is flawed");
-            expressionDispose(lambda->env, env);
             goto ret_from_func;
         }
         /* Arguments have to be evaluated within old environment! */
         exprBuf = eval(oldEnv, intCar(env, val));
         ENVIRONMENT_ADD_SYMBOL(env, intCar(env, sym), exprBuf);
-        expressionDispose(env, exprBuf);
         sym = intCdr(env, sym);
         val = intCdr(env, val);
     }
@@ -207,10 +204,8 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
         exprBuf = evalList(oldEnv, val);
         DEBUG_PRINT_EXPR(env, exprBuf);
         ENVIRONMENT_ADD_SYMBOL(env, lambda->rest, exprBuf);
-        expressionDispose(env, exprBuf);
     } else {
         IF_SAFETY_CODE(if (!EXPR_IS_NIL(val)) {
-            expressionDispose(lambda->env, env);
             DEBUG_PRINT("Rest is   ");
             DEBUG_PRINT_EXPR(env, exprBuf);
             ERROR(ERR_UNEVEN_SYM_VAL, "too many arguments given!");
@@ -219,7 +214,6 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
     }
 
     if (!EXPR_IS_NIL(sym)) {
-        expressionDispose(lambda->env, env);
         ERROR(ERR_UNEVEN_SYM_VAL, "too few arguments given!");
         goto ret_from_func;
     }
@@ -234,20 +228,7 @@ struct Expression *lambdaInvoke(struct Expression *oldEnv,
 
 ret_from_func:
 
-    expressionDispose(lambda->env, env);
     return retval;
-}
-
-void lambdaDispose(struct Expression *env, struct Lambda *lambda) {
-    DEBUG_PRINT("lamdaDispose called");
-    if (lambda) {
-        assert(lambda->argList && lambda->env && lambda->body);
-        expressionDispose(lambda->env, lambda->argList);
-        expressionDispose(lambda->env, lambda->body);
-        expressionDispose(env, lambda->env);
-        free(lambda);
-    } else
-        DEBUG_PRINT("lambda is already NIL");
 }
 
 /*----------------------------------------------------------------------------*/
