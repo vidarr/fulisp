@@ -21,6 +21,7 @@
 #include "environment.h"
 #include "expression.h"
 #include "test.h"
+#include "fulisp.h"
 
 #define ID_STRING "Level %i: SYM %i"
 #define ID_STRING_LENGTH 40
@@ -143,9 +144,9 @@ int main(int argc, char **argv) {
     env = fuOpen();
 
     result = test(fillEnvironment0(), "not stacked environment");
-    env1 = environmentCreate(env, EXPRESSION_ENVIRONMENT(env)->mem;
+    env1 = environmentCreate(env, EXPRESSION_ENVIRONMENT(env)->memory);
     result += test(fillEnvironment1(), "stacked environment (level 2)");
-    env2 = environmentCreate(env1, mem);
+    env2 = environmentCreate(env1, EXPRESSION_ENVIRONMENT(env)->memory);
     result += test(fillEnvironment2(), "stacked environment (level 3)");
     test(testLookup(), "look ups in stacked environment");
 

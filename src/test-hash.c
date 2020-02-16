@@ -80,7 +80,7 @@ int testHashTable(int n, int m) {
     for (i = m - 2; i > 0; i -= 2) {
         str = getString(i);
         val = hashTableGet(hash, str);
-        result = result || ((val && *val == i) ? 0 : -1);
+        result = result || ((val && (*val == i)) ? 0 : -1);
         free(str);
     };
 
