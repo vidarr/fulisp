@@ -37,3 +37,6 @@
 	  * FIX: test-gc (Still memleak: Keys in global lookup table not freed)
 	  * FIX: LAMBDA  &rest treatment
 	  * FIX: Mark & Sweep Garbage Collector
+
+0.4.4
+	  * Removed Reference Counting support
